@@ -1,4 +1,4 @@
-# Last updated: 2/4/2025, 4:43:27 pm
+# Last updated: 2/4/2025, 4:50:55 pm
 class Solution:
     def maximumTripletValue(self, nums: List[int]) -> int:
         n = len(nums)
