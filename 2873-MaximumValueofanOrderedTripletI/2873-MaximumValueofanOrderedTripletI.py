@@ -1,4 +1,4 @@
-# Last updated: 2/4/2025, 11:34:12 am
+# Last updated: 2/4/2025, 11:35:58 am
 class Solution:
     def maximumTripletValue(self, nums: List[int]) -> int:
         ret = 0
@@ -6,17 +6,17 @@ class Solution:
         
         arr = [-float('inf')] * n
         stack = []
+        maxi = -float('inf')
 
         for i in range(n):
             while stack and stack[-1] < nums[i]:
                 stack.pop()
             
+            ret = max(ret, maxi * nums[i])
+
             if stack:
                 arr[i] = stack[0] - nums[i]
+                maxi = max(arr[i], maxi)
             stack.append(nums[i])
-
-        for i in range(n):
-            for j in range(i+1, n):
-                ret = max(arr[i] * nums[j], ret)
         
         return ret if ret > 0 else 0
