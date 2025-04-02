@@ -1,4 +1,4 @@
-# Last updated: 2/4/2025, 4:56:24 pm
+# Last updated: 2/4/2025, 4:56:42 pm
 class Solution:
     def maximumTripletValue(self, nums: List[int]) -> int:
         highestSeen = 0
