@@ -1,18 +1,15 @@
-# Last updated: 2/4/2025, 11:40:08 am
-inf = float('inf')
-
+# Last updated: 2/4/2025, 4:43:27 pm
 class Solution:
     def maximumTripletValue(self, nums: List[int]) -> int:
+        n = len(nums)
+
         ret = 0
-        
-        first = -float('inf')
         second = -float('inf')
+        first = -float('inf')
 
-        for i in range(len(nums)):
-            ret = max(second * nums[i], ret)
-
-            second = max(first - nums[i], second)
+        for i in range(n):
+            ret = max(ret, second * nums[i])
+            second = max(second, first - nums[i])
             first = max(first, nums[i])
-
         
-        return ret if ret > 0 else 0
+        return ret
