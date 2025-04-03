@@ -1,4 +1,4 @@
-# Last updated: 3/4/2025, 10:22:41 pm
+# Last updated: 3/4/2025, 10:24:07 pm
 class Solution:
     def maxScore(self, points: List[int], m: int) -> int:
         n = len(points)
@@ -26,7 +26,7 @@ class Solution:
             return needed <= m
         
         l = 1
-        r = 10**16
+        r = 10**15
         ans = 0
 
         while l <= r:
