@@ -1,4 +1,6 @@
-# Last updated: 3/4/2025, 10:24:07 pm
+# Last updated: 3/4/2025, 10:26:42 pm
+cmax = lambda x, y: x if x > y else y
+
 class Solution:
     def maxScore(self, points: List[int], m: int) -> int:
         n = len(points)
@@ -8,21 +10,18 @@ class Solution:
         def possible(t):
             needed = 0
             add = 0
-            skipAdd = 0
-            for p in points:
-                sub = ceil(t / p)
+            prev = -1
 
-                if add >= sub:
-                    add = 0
-                    skipAdd += 1
-                else:
-                    sub -= add
-                    x = sub * 2 - 1
-                    needed += x + skipAdd
-                    
-                    add = max(0, sub-1)
-                    skipAdd = 0
-                    if needed > m: return False
+            for p in points:
+                sub = cmax(0, ceil(t / p) - add)
+                x = cmax(0, sub * 2 - 1)
+
+                needed += x
+                if prev == 0: needed += 1
+                prev = x
+                add = cmax(0, sub-1)
+
+                if needed > m: return False
             return needed <= m
         
         l = 1
@@ -33,7 +32,7 @@ class Solution:
             mid = (l+r) // 2
             if possible(mid):
                 l = mid+1
-                ans = max(ans, mid)
+                ans = cmax(ans, mid)
             else:
                 r = mid-1
             
