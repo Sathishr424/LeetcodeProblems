@@ -1,4 +1,4 @@
-# Last updated: 3/4/2025, 10:26:42 pm
+# Last updated: 3/4/2025, 10:32:32 pm
 cmax = lambda x, y: x if x > y else y
 
 class Solution:
@@ -18,10 +18,10 @@ class Solution:
 
                 needed += x
                 if prev == 0: needed += 1
+                if needed > m: return False
                 prev = x
                 add = cmax(0, sub-1)
 
-                if needed > m: return False
             return needed <= m
         
         l = 1
