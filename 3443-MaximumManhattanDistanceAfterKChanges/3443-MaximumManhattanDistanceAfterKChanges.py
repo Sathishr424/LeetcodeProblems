@@ -1,4 +1,4 @@
-# Last updated: 4/4/2025, 2:20:31 pm
+# Last updated: 4/4/2025, 2:24:23 pm
 class Solution:
     def maxDistance(self, st: str, k: int) -> int:
         def getDirection(d):
