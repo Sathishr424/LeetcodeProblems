@@ -1,12 +1,12 @@
-# Last updated: 4/4/2025, 2:27:00 pm
+# Last updated: 4/4/2025, 2:29:01 pm
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def maxDistance(self, st: str, k: int) -> int:
-        def getDirection(d):
-            if d == 'N': return (-1, 0)
-            if d == 'S': return (1, 0)
-            if d == 'W': return (0, -1)
-            if d == 'E': return (0, 1)
+        def getDirection(d, y, x):
+            if d == 'N': return y-1, x
+            if d == 'S': return y+1, x
+            if d == 'W': return y, x-1
+            if d == 'E': return y, x+1
 
         res = 0
 
@@ -23,9 +23,7 @@ class Solution:
                         rem -= 1
                         d = t2
                 
-                curr = getDirection(d)
-                x += curr[0]
-                y += curr[1]
+                x, y = getDirection(d, x, y)
                 res = cmax(res, abs(x) + abs(y))
         
         process('S', 'N', 'W', 'E', k)
