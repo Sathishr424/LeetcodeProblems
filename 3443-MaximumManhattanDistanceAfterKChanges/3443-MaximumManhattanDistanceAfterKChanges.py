@@ -1,4 +1,5 @@
-# Last updated: 4/4/2025, 2:24:23 pm
+# Last updated: 4/4/2025, 2:27:00 pm
+cmax = lambda x, y: x if x > y else y
 class Solution:
     def maxDistance(self, st: str, k: int) -> int:
         def getDirection(d):
@@ -25,7 +26,7 @@ class Solution:
                 curr = getDirection(d)
                 x += curr[0]
                 y += curr[1]
-                res = max(res, abs(x) + abs(y))
+                res = cmax(res, abs(x) + abs(y))
         
         process('S', 'N', 'W', 'E', k)
         process('S', 'N', 'E', 'W', k)
