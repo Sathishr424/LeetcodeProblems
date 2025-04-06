@@ -1,4 +1,4 @@
-# Last updated: 6/4/2025, 9:49:33 am
+# Last updated: 6/4/2025, 9:49:57 am
 class Router:
     def __init__(self, memoryLimit: int):
         self.limit = memoryLimit
@@ -30,10 +30,8 @@ class Router:
         res = 0
         for source in self.destToSource[destination]:
             arr = self.hash[source][destination]
-            start = bisect_left(arr, startTime)
-            end = bisect_right(arr, endTime)
-            
-            res += end-start
+
+            res += bisect_right(arr, endTime)-bisect_left(arr, startTime)
 
         return res
 
