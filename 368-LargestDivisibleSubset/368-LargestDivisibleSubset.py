@@ -1,10 +1,9 @@
-# Last updated: 6/4/2025, 7:23:26 am
+# Last updated: 6/4/2025, 7:26:25 am
 class Solution:
     def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
         n = len(nums)
 
         nums.sort()
-        # print(nums)
 
         graph = defaultdict(list)
         visited = defaultdict(list)
@@ -32,8 +31,6 @@ class Solution:
 
                 if right % left == 0:
                     graph[left].append(right)
-        
-        # print(dict(graph))
 
         for num in graph:
             arr = rec(num)
