@@ -1,4 +1,4 @@
-# Last updated: 6/4/2025, 9:47:45 pm
+# Last updated: 6/4/2025, 9:48:23 pm
 class Solution:
     def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
         n = len(nums)
@@ -11,9 +11,9 @@ class Solution:
             num = nums[i]
             dp[num] = [num]
             for j in range(i+1, n):
-                if nums[j] % num  == 0:
-                    if len(dp[nums[j]]) >= len(dp[num]):
-                        dp[num] = [num] + dp[nums[j]]
+                if nums[j] % num  == 0 and len(dp[nums[j]]) >= len(dp[num]):
+                    dp[num] = [num] + dp[nums[j]]
+            
             if len(dp[num]) > len(ret):
                 ret = dp[num]
 
