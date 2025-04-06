@@ -1,9 +1,9 @@
-# Last updated: 6/4/2025, 9:51:18 pm
+# Last updated: 6/4/2025, 9:55:54 pm
 class Solution:
     def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
         n = len(nums)
 
-        dp = defaultdict(list)
+        dp = {}
         ret = []
         nums.sort()
 
