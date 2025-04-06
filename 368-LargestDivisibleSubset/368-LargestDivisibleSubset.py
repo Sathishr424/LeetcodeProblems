@@ -1,39 +1,34 @@
-# Last updated: 6/4/2025, 7:26:25 am
+# Last updated: 6/4/2025, 7:32:53 am
 class Solution:
     def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
         n = len(nums)
 
         nums.sort()
 
-        graph = defaultdict(list)
         visited = defaultdict(list)
 
         ret = [nums[0]]
-        def rec(x):
-            if visited[x]: return visited[x]
-            if x not in graph: return []
+
+        def rec(num, index):
+            if index == n: return []
+            if visited[num]: return visited[num]
 
             arr = []
-
-            for y in graph[x]:
-                if y % x == 0:
-                    tmp = rec(y)
-                    if len(tmp)+1 > len(arr):
-                        arr = [y] + tmp
+            if nums[index] % num == 0:
+                tmp = rec(nums[index], index+1)
+                if len(tmp)+1 > len(arr):
+                    arr = [nums[index]] + tmp
             
-            visited[x] = arr
+            tmp = rec(num, index+1)
+            
+            if len(tmp) > len(arr):
+                arr = tmp
+            
+            visited[num] = arr
             return arr
 
-        for i in range(n):
-            left = nums[i]
-            for j in range(i+1, n):
-                right = nums[j]
-
-                if right % left == 0:
-                    graph[left].append(right)
-
-        for num in graph:
-            arr = rec(num)
+        for i, num in enumerate(nums):
+            arr = rec(num, i+1)
             if len(arr)+1 > len(ret):
                 ret = [num] + arr
         
