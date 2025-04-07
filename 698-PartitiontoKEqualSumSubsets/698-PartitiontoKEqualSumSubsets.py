@@ -1,45 +1,35 @@
-# Last updated: 7/4/2025, 11:15:10 pm
+# Last updated: 7/4/2025, 11:17:23 pm
 class Solution:
     def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
-        tot = sum(nums)
-        part = tot // k
+        total = sum(nums)
+        target = total // k
 
-        if tot / k != part: return False
+        if total / k != target: return False
 
-        used = defaultdict(int)
+        n = len(nums)
 
-        for num in nums:
-            used[num] += 1
+        mask = 1 << n
+        full_mask = (1 << (n+1)) - 1
+        nums.sort()
 
-        dict_arr = sorted(used.keys())
-        # print(dict_arr, tot, part)
-        n = len(dict_arr)
+        def rec(index, tot, done):
+            nonlocal mask
+            if index == n: return False
 
-        def rec(index, tot, parts, arr):
-            nonlocal used
-            if index == len(arr): return False
-
-            for i in range(index, len(arr)):
-                if arr[i]+tot <= part:
-                    if used[arr[i]] == 0: continue
-                    used[arr[i]] -= 1
-                    if arr[i]+tot == part:
-                        if parts+1 == k: return True
-            
-                        new_arr = []
-                        for num in arr:
-                            if used[num] > 0:
-                                new_arr.append(num)
-                        if rec(0, 0, parts+1, new_arr): return True
-                    else:
-
-                        if rec(i+(used[arr[i]] == 0), tot+arr[i], parts, arr): return True
-                    used[arr[i]] += 1
+            for i in range(index, n):
+                if tot+nums[i] <= target:
+                    if mask & (1 << i) != 0: continue
+                    curr = tot+nums[i]
+                    tmp = mask
+                    mask |= 1 << i
+                    if curr == target:
+                        if done+1 == k: return mask == full_mask
+                        return rec(0, 0, done+1)
+                    elif rec(i+1, tot+nums[i], done): return True
+                    mask = tmp
                 else: return False
-            
+
             return False
-            
-
-        return rec(0, 0, 0, dict_arr)
-
+        
+        return rec(0, 0, 0)
 
