@@ -1,4 +1,4 @@
-# Last updated: 7/4/2025, 4:01:46 pm
+# Last updated: 7/4/2025, 4:02:51 pm
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
         total = sum(nums)
@@ -7,16 +7,17 @@ class Solution:
         half = total // 2
 
         # Bottom up
-        dp = [False] * (half+1)
+        dp = {}
         dp[0] = True
 
         for num in nums:
-            for tot in range(half-num, -1, -1):
-                if dp[tot]:
-                    dp[tot+num] = True
-                    if tot+num == half: return True
+            new_dp = {}
+            for tot in dp:
+                new_dp[tot] = True
+                new_dp[tot+num] = True
+            dp = new_dp
 
-        return dp[half]
+        return half in dp
 
         
             
