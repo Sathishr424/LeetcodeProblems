@@ -1,4 +1,4 @@
-# Last updated: 7/4/2025, 4:04:16 pm
+# Last updated: 7/4/2025, 4:07:05 pm
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
         total = sum(nums)
