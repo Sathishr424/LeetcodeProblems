@@ -1,4 +1,4 @@
-# Last updated: 7/4/2025, 11:17:23 pm
+# Last updated: 7/4/2025, 11:26:19 pm
 class Solution:
     def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
         total = sum(nums)
@@ -8,28 +8,25 @@ class Solution:
 
         n = len(nums)
 
-        mask = 1 << n
         full_mask = (1 << (n+1)) - 1
-        nums.sort()
 
-        def rec(index, tot, done):
-            nonlocal mask
-            if index == n: return False
+        dp = {}
+        
+        def rec(index, tot, mask, done):
+            if mask in dp: return False
+            if tot == target:
+                done += 1
+                if done == k: return mask == full_mask 
+                return rec(0, 0, mask, done)
+            
+            index = index % n
 
             for i in range(index, n):
-                if tot+nums[i] <= target:
-                    if mask & (1 << i) != 0: continue
-                    curr = tot+nums[i]
-                    tmp = mask
-                    mask |= 1 << i
-                    if curr == target:
-                        if done+1 == k: return mask == full_mask
-                        return rec(0, 0, done+1)
-                    elif rec(i+1, tot+nums[i], done): return True
-                    mask = tmp
-                else: return False
+                if mask & (1 << i) == 0 and nums[i]+tot <= target and rec(i+1, tot+nums[i], mask | (1 << i), done):
+                    return True
+
+            dp[mask] = True
 
             return False
-        
-        return rec(0, 0, 0)
 
+        return rec(0, 0, 1 << n, 0)
