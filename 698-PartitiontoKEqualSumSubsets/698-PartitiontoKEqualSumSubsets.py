@@ -1,11 +1,11 @@
-# Last updated: 7/4/2025, 9:52:41 pm
+# Last updated: 7/4/2025, 9:54:29 pm
 class Solution:
     def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
         total = sum(nums)
-
-        if total % k != 0: return False
-
         target = total // k
+
+        if total / k != target: return False
+
         n = len(nums)
 
         full_mask = (1 << (n+1)) - 1
