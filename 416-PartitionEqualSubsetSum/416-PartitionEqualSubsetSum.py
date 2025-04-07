@@ -1,4 +1,4 @@
-# Last updated: 7/4/2025, 3:03:55 pm
+# Last updated: 7/4/2025, 3:04:36 pm
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
         total = sum(nums)
@@ -8,7 +8,7 @@ class Solution:
 
         n = len(nums)
 
-        nums.sort()
+        # nums.sort()
         @cache
         def rec(index, tot):
             if tot == half: return True
