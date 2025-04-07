@@ -1,4 +1,4 @@
-# Last updated: 7/4/2025, 7:17:36 pm
+# Last updated: 7/4/2025, 7:20:09 pm
 class Solution:
     def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
         total = sum(nums)
@@ -22,18 +22,21 @@ class Solution:
 
         arr = dp[target]
 
-        dp = [[[False for _ in range(len(arr)+1)] for _ in range(len(arr)+1)] for _ in range(k)]
+        dp = {}
 
         def rec(j, index, rem, check):
-            if dp[rem][j][index]: return dp[rem][j][index]
+            nonlocal dp
+            if check in dp: return dp[check]
             if rem == 0:
                 return check == full_mask
             if index == len(arr): return False
 
             for i in range(index, len(arr)):
                 if arr[j] & arr[i] == mask and rec(i, i+1, rem-1, check | arr[i]):
+                    dp[check] = True
                     return True
             
+            dp[check] = False
             return False
         
         for i in range(len(arr)):
