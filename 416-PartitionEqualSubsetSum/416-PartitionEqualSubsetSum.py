@@ -1,4 +1,4 @@
-# Last updated: 7/4/2025, 3:58:13 pm
+# Last updated: 7/4/2025, 4:01:46 pm
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
         total = sum(nums)
@@ -14,21 +14,9 @@ class Solution:
             for tot in range(half-num, -1, -1):
                 if dp[tot]:
                     dp[tot+num] = True
+                    if tot+num == half: return True
 
         return dp[half]
-
-        # Top down
-        n = len(nums)
-
-        nums.sort()
-        @cache
-        def rec(index, tot):
-            if tot == half: return True
-            if tot > half or index == n: return False
-
-            return rec(index+1, tot+nums[index]) or rec(index+1, tot)
-        
-        return rec(0, 0)
 
         
             
