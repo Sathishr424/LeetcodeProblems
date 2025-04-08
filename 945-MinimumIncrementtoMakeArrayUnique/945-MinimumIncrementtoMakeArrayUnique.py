@@ -1,4 +1,6 @@
-# Last updated: 8/4/2025, 6:28:33 am
+# Last updated: 8/4/2025, 6:29:28 am
+cmax = lambda x, y: x if x > y else y
+cmin = lambda x, y: x if x < y else y
 class Solution:
     def minIncrementForUnique(self, nums: List[int]) -> int:
         n = len(nums)
@@ -8,8 +10,8 @@ class Solution:
         maxi = 0
 
         for num in nums:
-            mini = min(mini, num)
-            maxi = max(maxi, num)
+            mini = cmin(mini, num)
+            maxi = cmax(maxi, num)
             hash[num] += 1
         
         res = 0
