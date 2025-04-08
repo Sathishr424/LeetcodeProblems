@@ -1,4 +1,4 @@
-# Last updated: 9/4/2025, 3:06:31 am
+# Last updated: 9/4/2025, 3:06:54 am
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
         n = len(heights)
@@ -13,7 +13,8 @@ class Solution:
             
             stack.append((index, h))
         
-        for index, h in stack:
+        while stack:
+            index, h = stack.pop()
             ret = max(ret, (n-index) * h)
         
         return ret
