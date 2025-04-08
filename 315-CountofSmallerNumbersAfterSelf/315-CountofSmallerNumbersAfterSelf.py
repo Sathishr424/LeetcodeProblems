@@ -1,22 +1,51 @@
-# Last updated: 8/4/2025, 9:26:46 am
+# Last updated: 8/4/2025, 9:27:31 am
+def mergeSort(nums):
+    if len(nums) == 1: return
+    mid = len(nums) // 2
+
+    left = nums[:mid]
+    right = nums[mid:]
+
+    mergeSort(left)
+    mergeSort(right)
+    
+    l = 0
+    k = 0
+    r = 0
+
+    while l < len(left) and r < len(right):
+        if left[l][0] > right[r][0]:
+            nums[k] = right[r]
+            r += 1
+        else:
+            nums[k] = left[l]
+            nums[k][1] += r
+            l += 1
+        k += 1
+    
+    while l < len(left):
+        nums[k] = left[l]
+        nums[k][1] += r
+        l += 1
+        k += 1
+    
+    while r < len(right):
+        nums[k] = right[r]
+        r += 1
+        k += 1
+
 class Solution:
-    def countSmaller(self, nums):
-        def sort(enum):
-            half = len(enum) // 2
-            if half:
-                left, right = sort(enum[:half]), sort(enum[half:])
-                m, n = len(left), len(right)
-                i = j = 0
-                while i < m or j < n:
-                    if j == n or i < m and left[i][1] <= right[j][1]:
-                        enum[i+j] = left[i]
-                        smaller[left[i][0]] += j
-                        i += 1
-                    else:
-                        enum[i+j] = right[j]
-                        j += 1
-            return enum
-        smaller = [0] * len(nums)
-        sort(list(enumerate(nums)))
-        return smaller         
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+
+        arr = []
+        for i, num in enumerate(nums):
+            arr.append([num, 0, i])
+
+        mergeSort(arr)
+        ret = [0] * n
+
+        for _, cnt, index in arr:
+            ret[index] = cnt
+        return ret          
 
