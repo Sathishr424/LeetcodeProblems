@@ -1,4 +1,4 @@
-# Last updated: 8/4/2025, 9:27:31 am
+# Last updated: 8/4/2025, 9:33:07 am
 def mergeSort(nums):
     if len(nums) == 1: return
     mid = len(nums) // 2
@@ -47,5 +47,4 @@ class Solution:
 
         for _, cnt, index in arr:
             ret[index] = cnt
-        return ret          
-
+        return ret
