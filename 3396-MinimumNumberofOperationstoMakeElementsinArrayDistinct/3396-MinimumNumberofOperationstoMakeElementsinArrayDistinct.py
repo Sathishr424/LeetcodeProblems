@@ -1,13 +1,13 @@
-# Last updated: 8/4/2025, 5:55:38 am
+# Last updated: 8/4/2025, 5:56:48 am
 class Solution:
     def minimumOperations(self, nums: List[int]) -> int:
         n = len(nums)
 
-        there = {}
+        there = set()
         for i in range(n-1, -1, -1):
             if nums[i] in there:
                 return ceil((i+1) / 3)
             
-            there[nums[i]] = 1
+            there.add(nums[i])
         
         return 0
