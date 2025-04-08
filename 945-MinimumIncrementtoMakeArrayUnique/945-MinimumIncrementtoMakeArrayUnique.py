@@ -1,26 +1,21 @@
-# Last updated: 8/4/2025, 6:29:28 am
-cmax = lambda x, y: x if x > y else y
-cmin = lambda x, y: x if x < y else y
+# Last updated: 8/4/2025, 6:38:11 am
 class Solution:
     def minIncrementForUnique(self, nums: List[int]) -> int:
-        n = len(nums)
-        
-        hash = defaultdict(int)
-        mini = float('inf')
-        maxi = 0
+        res = 0
+        last = max(nums)
+
+        arr = [0] * (last+2)
 
         for num in nums:
-            mini = cmin(mini, num)
-            maxi = cmax(maxi, num)
-            hash[num] += 1
+            arr[num] += 1
         
-        res = 0
-        for num in range(mini, maxi+1):
-            if hash[num] > 1:
-                hash[num+1] += hash[num]-1
-                res += hash[num]-1
-
-        res += hash[maxi+1] * (hash[maxi+1]-1) // 2
+        for num in range(last+1):
+            if arr[num] > 1:
+                arr[num+1] += arr[num]-1
+                res += arr[num]-1
+                arr[num] = 1
+        # print(arr, arr[last+1])
+        res += arr[last+1] * (arr[last+1]-1) // 2
         return res
 
         
