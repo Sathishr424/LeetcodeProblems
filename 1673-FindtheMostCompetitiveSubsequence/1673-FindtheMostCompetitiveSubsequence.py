@@ -1,4 +1,4 @@
-# Last updated: 9/4/2025, 5:21:18 pm
+# Last updated: 9/4/2025, 5:22:00 pm
 class Solution:
     def mostCompetitive(self, nums: List[int], k: int) -> List[int]:
         stack = []
@@ -17,7 +17,6 @@ class Solution:
         
         if len(stack) > k:
             while len(stack) > k: stack.pop()
+            return stack
         else:
             return stack + nums[i+1:]
-
-        return stack
