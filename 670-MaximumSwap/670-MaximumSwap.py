@@ -1,4 +1,4 @@
-# Last updated: 9/4/2025, 11:21:17 pm
+# Last updated: 9/4/2025, 11:22:11 pm
 class Solution:
     def maximumSwap(self, num: int) -> int:
         num = str(num)
@@ -17,7 +17,5 @@ class Solution:
                 maxi_index_final = maxi_index
 
         if replace_index == -1: return int(num)
-
-        # print(replace_index, maxi_index_final)
 
         return int(num[:replace_index] + num[maxi_index_final] + num[replace_index+1:maxi_index_final] + num[replace_index] + num[maxi_index_final+1:])
