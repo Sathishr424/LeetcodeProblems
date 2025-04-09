@@ -1,4 +1,4 @@
-# Last updated: 9/4/2025, 9:57:48 pm
+# Last updated: 9/4/2025, 9:58:28 pm
 class Solution:
     def smallestSubsequence(self, s: str) -> str:
         n = len(s)
@@ -10,7 +10,6 @@ class Solution:
         seen = {}
         
         for i, char in enumerate(s):
-            char = s[i]
             if char in seen: continue
             
             while stack and stack[-1] > char:
