@@ -1,4 +1,4 @@
-# Last updated: 9/4/2025, 4:51:51 pm
+# Last updated: 9/4/2025, 4:52:11 pm
 class Solution:
     def mostCompetitive(self, nums: List[int], k: int) -> List[int]:
         stack = []
@@ -6,7 +6,7 @@ class Solution:
 
         for i, num in enumerate(nums):
             while stack and stack[-1] > num:
-                if len(stack) <= k and (n - i) + len(stack) <= k: break
+                if (n - i) + len(stack) <= k: break
                 stack.pop()
             
             stack.append(num)
