@@ -1,12 +1,12 @@
-# Last updated: 9/4/2025, 5:59:13 pm
+# Last updated: 9/4/2025, 5:59:31 pm
 class Solution:
     def removeKdigits(self, num: str, k: int) -> str:
         n = len(num)
         if k >= n: return '0'
         k = n - k
         stack = []
+        exit_ = False
         for i, char in enumerate(num):
-            exit_ = False
             while stack and ord(stack[-1]) > ord(char):
                 if len(stack) + (n-i) <= k:
                     exit_ = True
