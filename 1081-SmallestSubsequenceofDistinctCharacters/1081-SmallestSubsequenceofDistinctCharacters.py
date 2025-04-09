@@ -1,21 +1,28 @@
-# Last updated: 9/4/2025, 9:54:31 pm
+# Last updated: 9/4/2025, 9:55:21 pm
 class Solution:
     def smallestSubsequence(self, s: str) -> str:
-        hash = defaultdict(int)
-        for a in s: hash[a] += 1
-        ret = []
-        his = {}
+        n = len(s)
 
-        for a in s:
-            if a in his:
-                hash[a] -= 1
+        uniq = defaultdict(int)
+        for char in s: uniq[char] += 1
+
+        stack = []
+        there = {}
+        
+        for i in range(n):
+            char = s[i]
+            if char in there: 
+                uniq[char] -= 1
                 continue
-            j = len(ret)-1
-            while j >= 0 and ret[j] > a and hash[ret[j]] >= 1:
-                del his[ret.pop()]
-                j -= 1
-            ret.append(a)
-            his[a] = 1
-            hash[a] -= 1
+            
+            while stack and stack[-1] > char:
+                if uniq[stack[-1]] <= 0: break
+                del there[stack.pop()]
+            
+            there[char] = 1
+            stack.append(char)
+            uniq[char] -= 1
+        
+        return ''.join(stack)
 
-        return "".join(ret)
+        
