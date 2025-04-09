@@ -1,10 +1,7 @@
-# Last updated: 9/4/2025, 10:26:56 pm
+# Last updated: 9/4/2025, 10:27:50 pm
 class Solution:
     def largestMerge(self, word1: str, word2: str) -> str:
         ret = ''
-
-        l = 0
-        r = 0
 
         while word1 and word2:
             if word1 > word2:
