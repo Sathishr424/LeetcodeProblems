@@ -1,27 +1,23 @@
-# Last updated: 9/4/2025, 9:53:45 pm
+# Last updated: 9/4/2025, 9:58:42 pm
 class Solution:
     def removeDuplicateLetters(self, s: str) -> str:
         n = len(s)
 
-        uniq = defaultdict(int)
-        for char in s: uniq[char] += 1
+        indexes = {}
+        for i, char in enumerate(s): indexes[char] = i
 
         stack = []
-        there = {}
+        seen = {}
         
-        for i in range(n):
-            char = s[i]
-            if char in there: 
-                uniq[char] -= 1
-                continue
+        for i, char in enumerate(s):
+            if char in seen: continue
             
             while stack and stack[-1] > char:
-                if uniq[stack[-1]] <= 0: break
-                del there[stack.pop()]
+                if indexes[stack[-1]] < i: break
+                del seen[stack.pop()]
             
-            there[char] = 1
+            seen[char] = 1
             stack.append(char)
-            uniq[char] -= 1
         
         return ''.join(stack)
         
