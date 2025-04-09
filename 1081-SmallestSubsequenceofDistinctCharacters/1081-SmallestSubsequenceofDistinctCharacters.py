@@ -1,27 +1,24 @@
-# Last updated: 9/4/2025, 9:55:21 pm
+# Last updated: 9/4/2025, 9:57:48 pm
 class Solution:
     def smallestSubsequence(self, s: str) -> str:
         n = len(s)
 
-        uniq = defaultdict(int)
-        for char in s: uniq[char] += 1
+        indexes = {}
+        for i, char in enumerate(s): indexes[char] = i
 
         stack = []
-        there = {}
+        seen = {}
         
-        for i in range(n):
+        for i, char in enumerate(s):
             char = s[i]
-            if char in there: 
-                uniq[char] -= 1
-                continue
+            if char in seen: continue
             
             while stack and stack[-1] > char:
-                if uniq[stack[-1]] <= 0: break
-                del there[stack.pop()]
+                if indexes[stack[-1]] < i: break
+                del seen[stack.pop()]
             
-            there[char] = 1
+            seen[char] = 1
             stack.append(char)
-            uniq[char] -= 1
         
         return ''.join(stack)
 
