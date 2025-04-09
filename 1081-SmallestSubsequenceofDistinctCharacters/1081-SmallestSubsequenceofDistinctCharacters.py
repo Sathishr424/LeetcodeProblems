@@ -1,4 +1,4 @@
-# Last updated: 9/4/2025, 9:49:46 pm
+# Last updated: 9/4/2025, 9:50:41 pm
 class Solution:
     def smallestSubsequence(self, s: str) -> str:
         n = len(s)
@@ -15,7 +15,7 @@ class Solution:
                 uniq[char] -= 1
                 continue
             
-            while stack and stack[-1] >= char:
+            while stack and stack[-1] > char:
                 if uniq[stack[-1]] <= 0: break
                 del there[stack.pop()]
             
