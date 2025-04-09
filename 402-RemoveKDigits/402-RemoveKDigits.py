@@ -1,4 +1,4 @@
-# Last updated: 9/4/2025, 5:56:54 pm
+# Last updated: 9/4/2025, 5:58:42 pm
 class Solution:
     def removeKdigits(self, num: str, k: int) -> str:
         n = len(num)
@@ -6,11 +6,15 @@ class Solution:
         k = n - k
         stack = []
         for i, char in enumerate(num):
+            exit_ = False
             while stack and ord(stack[-1]) > ord(char):
-                if len(stack) + (n-i) <= k: break
+                if len(stack) + (n-i) <= k:
+                    exit_ = True
+                    break
                 stack.pop()
             
             stack.append(char)
+            if exit_: break
         
         st = ''.join(stack[:k]) + num[i+1:]
         for i in range(len(st)):
