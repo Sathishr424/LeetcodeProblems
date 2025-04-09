@@ -1,4 +1,4 @@
-# Last updated: 9/4/2025, 9:47:49 pm
+# Last updated: 9/4/2025, 9:49:46 pm
 class Solution:
     def smallestSubsequence(self, s: str) -> str:
         n = len(s)
