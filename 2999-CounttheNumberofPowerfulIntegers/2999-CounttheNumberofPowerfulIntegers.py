@@ -1,4 +1,4 @@
-# Last updated: 11/4/2025, 11:50:29 pm
+# Last updated: 11/4/2025, 11:50:53 pm
 class Solution:
     def numberOfPowerfulInt(self, start: int, finish: int, limit: int, s: str) -> int:
         if finish < int(s): return 0
@@ -14,7 +14,7 @@ class Solution:
                 left += add
             else:
                 left //= d
-            # print(val, left)
+
             l = 0
             tmp = 1
             cnt = 0
@@ -27,7 +27,6 @@ class Solution:
                         left += 1
                         rem = 0
                         l = 0
-                        # print(left)
                     else:
                         rem = limit
                         if cnt > 0: l = int(str(limit) * cnt)
@@ -41,7 +40,6 @@ class Solution:
         start = getVal(start, 1)
         finish = getVal(finish, -1)
 
-        print(start, finish)
         if start > finish: return 0
 
         orig = 1
@@ -55,7 +53,5 @@ class Solution:
             
             to_minus += (limit - rem_f + rem_s) * orig
             orig *= limit + 1
-
-            # print(orig, to_minus)
 
         return orig - to_minus
