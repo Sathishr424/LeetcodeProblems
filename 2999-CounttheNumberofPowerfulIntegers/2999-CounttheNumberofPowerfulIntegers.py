@@ -1,4 +1,4 @@
-# Last updated: 12/4/2025, 12:03:07 am
+# Last updated: 12/4/2025, 4:36:38 am
 class Solution:
     def numberOfPowerfulInt(self, start: int, finish: int, limit: int, s: str) -> int:
         if finish < int(s): return 0
