@@ -1,4 +1,4 @@
-# Last updated: 11/4/2025, 4:09:48 pm
+# Last updated: 11/4/2025, 4:11:18 pm
 class Solution:
     def countSymmetricIntegers(self, low: int, high: int) -> int:
         ret = 0
@@ -10,10 +10,9 @@ class Solution:
             tot = 0
 
             while num:
-                rem = num % 10
+                tot += num % 10
                 num //= 10
 
-                tot += rem
                 prefix.append(tot)
             
             half = prefix[n // 2 - 1]
