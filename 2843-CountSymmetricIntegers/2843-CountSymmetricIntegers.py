@@ -1,4 +1,4 @@
-# Last updated: 11/4/2025, 4:15:10 pm
+# Last updated: 11/4/2025, 4:19:15 pm
 class Solution:
     def countSymmetricIntegers(self, low: int, high: int) -> int:
         ret = 0
@@ -16,7 +16,7 @@ class Solution:
                 prefix.append(tot)
             
             half = prefix[n // 2 - 1]
-            if prefix[-1] - half == half: ret += 1
+            if tot - half == half: ret += 1
         
         return ret
 
