@@ -1,7 +1,5 @@
-# Last updated: 12/4/2025, 6:53:53 pm
-from collections import defaultdict
-from math import ceil, factorial
-       
+# Last updated: 12/4/2025, 6:54:23 pm
+
 @cache
 def fact(x):
     return factorial(x)
@@ -53,7 +51,7 @@ class Solution:
 
                 bottom = 1
                 for char in arr:
-                    bottom *= factorial(arr[char])
+                    bottom *= fact(arr[char])
                 
                 left = fact(n) / bottom
 
