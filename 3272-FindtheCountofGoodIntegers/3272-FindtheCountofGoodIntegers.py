@@ -1,6 +1,10 @@
-# Last updated: 12/4/2025, 6:53:32 pm
+# Last updated: 12/4/2025, 6:53:53 pm
 from collections import defaultdict
 from math import ceil, factorial
+       
+@cache
+def fact(x):
+    return factorial(x)
 
 class Solution:
     def countGoodIntegers(self, n: int, k: int) -> int:
@@ -24,10 +28,6 @@ class Solution:
             return rev
 
         ret = 0
-        
-        @cache
-        def fact(x):
-            return factorial(x)
         
         start = int(max(0, start))
         end = int(max(9, end))
