@@ -1,4 +1,4 @@
-# Last updated: 12/4/2025, 6:29:26 pm
+# Last updated: 12/4/2025, 6:53:32 pm
 from collections import defaultdict
 from math import ceil, factorial
 
@@ -24,6 +24,10 @@ class Solution:
             return rev
 
         ret = 0
+        
+        @cache
+        def fact(x):
+            return factorial(x)
         
         start = int(max(0, start))
         end = int(max(9, end))
@@ -51,10 +55,10 @@ class Solution:
                 for char in arr:
                     bottom *= factorial(arr[char])
                 
-                left = factorial(n) / bottom
+                left = fact(n) / bottom
 
                 if arr[0]:
-                    right = factorial(n-1) / (bottom / factorial(arr[0]) * factorial(arr[0] - 1))
+                    right = fact(n-1) / (bottom / fact(arr[0]) * fact(arr[0] - 1))
                     ret += left - right
                 else:
                     ret += left
