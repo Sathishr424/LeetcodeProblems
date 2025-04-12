@@ -1,4 +1,4 @@
-# Last updated: 12/4/2025, 6:54:23 pm
+# Last updated: 12/4/2025, 6:55:29 pm
 
 @cache
 def fact(x):
@@ -31,6 +31,9 @@ class Solution:
         end = int(max(9, end))
         to_add = 10 ** (n//2)
 
+        fact_n = fact(n)
+        fact_n_1 = fact(n-1)
+
         for num in range(start, end+1):
             
             new_num = num * to_add + reverseNum(num)
@@ -53,10 +56,10 @@ class Solution:
                 for char in arr:
                     bottom *= fact(arr[char])
                 
-                left = fact(n) / bottom
+                left = fact_n / bottom
 
                 if arr[0]:
-                    right = fact(n-1) / (bottom / fact(arr[0]) * fact(arr[0] - 1))
+                    right = fact_n_1 / (bottom / fact(arr[0]) * fact(arr[0] - 1))
                     ret += left - right
                 else:
                     ret += left
