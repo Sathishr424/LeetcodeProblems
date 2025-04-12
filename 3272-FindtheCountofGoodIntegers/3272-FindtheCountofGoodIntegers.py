@@ -1,4 +1,4 @@
-# Last updated: 12/4/2025, 6:21:56 pm
+# Last updated: 12/4/2025, 6:24:43 pm
 from collections import defaultdict
 from math import ceil, factorial
 
@@ -8,8 +8,6 @@ class Solution:
 
         start = 10 ** (half-1)
         end = 10 ** half - 1
-
-        final = 10 ** n - 1
 
         hash = defaultdict(int)
 
@@ -33,15 +31,12 @@ class Solution:
 
         for num in range(start, end+1):
             
-            if n > 1:
-                new_num = num * to_add + reverseNum(num)
-            else:
-                new_num = num
+            new_num = num * to_add + reverseNum(num)
             
             if new_num % k == 0:
                 arr = defaultdict(int)
                 arr_2 = []
-                tmp = new_num
+
                 while new_num:
                     arr_2.append(new_num % 10)
                     arr[new_num % 10] += 1
@@ -51,6 +46,7 @@ class Solution:
 
                 if st in hash: continue
                 hash[st] = 1
+
                 bottom = 1
                 cnt = 0
                 for char in arr:
@@ -58,12 +54,11 @@ class Solution:
                     bottom *= factorial(arr[char])
                 
                 left = factorial(n) / bottom
-                right = 0
-                
+
                 if arr[0]:
                     right = factorial(n-1) / (bottom / factorial(arr[0]) * factorial(arr[0] - 1))
-                
-                ans = left - right
-                ret += ans
+                    ret += left - right
+                else:
+                    ret += left
 
         return int(ret)
