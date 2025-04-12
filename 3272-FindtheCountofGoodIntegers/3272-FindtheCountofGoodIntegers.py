@@ -1,4 +1,4 @@
-# Last updated: 12/4/2025, 6:24:43 pm
+# Last updated: 12/4/2025, 6:29:26 pm
 from collections import defaultdict
 from math import ceil, factorial
 
@@ -48,9 +48,7 @@ class Solution:
                 hash[st] = 1
 
                 bottom = 1
-                cnt = 0
                 for char in arr:
-                    cnt += arr[char]
                     bottom *= factorial(arr[char])
                 
                 left = factorial(n) / bottom
