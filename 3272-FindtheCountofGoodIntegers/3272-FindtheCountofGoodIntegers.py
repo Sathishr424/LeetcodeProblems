@@ -1,4 +1,4 @@
-# Last updated: 12/4/2025, 6:55:29 pm
+# Last updated: 12/4/2025, 7:45:21 pm
 
 @cache
 def fact(x):
@@ -8,49 +8,31 @@ class Solution:
     def countGoodIntegers(self, n: int, k: int) -> int:
         half = ceil(n / 2)
 
-        start = 10 ** (half-1)
-        end = 10 ** half - 1
-
         hash = defaultdict(int)
-
-        def reverseNum(num):
-            rev = 0
-
-            if n % 2 == 1:
-                num //= 10
-            
-            while num:
-                rev = rev * 10 + (num % 10)
-                num //= 10
-            
-            return rev
-
         ret = 0
         
-        start = int(max(0, start))
-        end = int(max(9, end))
-        to_add = 10 ** (n//2)
+        start = int(max(0, 10 ** (half-1)))
+        end = int(max(9, 10 ** half - 1))
 
         fact_n = fact(n)
         fact_n_1 = fact(n-1)
 
         for num in range(start, end+1):
             
-            new_num = num * to_add + reverseNum(num)
+            if n % 2 == 0:
+                new_num = int(str(num) + str(num)[::-1])
+            else:
+                new_num = int(str(num) + str(num)[:-1][::-1])
             
             if new_num % k == 0:
                 arr = defaultdict(int)
-                arr_2 = []
-
-                while new_num:
-                    arr_2.append(new_num % 10)
-                    arr[new_num % 10] += 1
-                    new_num //= 10
-                
-                st = ''.join([str(c) for c in sorted(arr_2)])
-
+                st = ''.join(sorted(str(new_num)))
                 if st in hash: continue
                 hash[st] = 1
+
+                while new_num:
+                    arr[new_num % 10] += 1
+                    new_num //= 10
 
                 bottom = 1
                 for char in arr:
