@@ -1,4 +1,4 @@
-# Last updated: 13/4/2025, 7:56:40 am
+# Last updated: 13/4/2025, 7:58:46 am
 mod = 10 ** 9 + 7
 
 class Solution:
