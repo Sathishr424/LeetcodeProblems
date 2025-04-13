@@ -1,4 +1,4 @@
-# Last updated: 13/4/2025, 6:48:40 pm
+# Last updated: 13/4/2025, 6:53:59 pm
 class Solution:
     def myPow(self, x: float, n: int) -> float:
         if n < 0:
