@@ -1,17 +1,17 @@
-# Last updated: 13/4/2025, 8:55:54 pm
+# Last updated: 13/4/2025, 8:56:14 pm
+mod = 1337
+
+@cache
+def pow(x, n):
+    if n == 0: return 1
+
+    ans = pow(x, n//2)
+    ans = ans * ans % mod
+    
+    return ans * x % mod if n % 2 else ans
+
 class Solution:
     def superPow(self, a: int, b: List[int]) -> int:
-        mod = 1337
-
-        @cache
-        def pow(x, n):
-            if n == 0: return 1
-
-            ans = pow(x, n//2)
-            ans = ans * ans % mod
-            
-            return ans * x % mod if n % 2 else ans
-        
         ret = 1
 
         for n in b:
