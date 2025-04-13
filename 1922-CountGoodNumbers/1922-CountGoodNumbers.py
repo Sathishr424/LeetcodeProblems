@@ -1,4 +1,4 @@
-# Last updated: 13/4/2025, 7:59:52 am
+# Last updated: 13/4/2025, 9:26:58 am
 mod = 10 ** 9 + 7
 
 class Solution:
@@ -10,8 +10,7 @@ class Solution:
         ret = 20
         prev = 2
         while i <= n:
-            ret *= ret
-            ret %= mod
+            ret = ret * ret % mod
             prev = i
             i += i
         
