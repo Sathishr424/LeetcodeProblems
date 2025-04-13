@@ -1,8 +1,7 @@
-# Last updated: 13/4/2025, 7:59:15 am
+# Last updated: 13/4/2025, 7:59:52 am
 mod = 10 ** 9 + 7
 
 class Solution:
-    @cache
     def countGoodNumbers(self, n: int) -> int:
         if n == 0: return 1
         elif n == 1: return 5
