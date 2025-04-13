@@ -1,7 +1,6 @@
-# Last updated: 13/4/2025, 7:46:36 pm
+# Last updated: 13/4/2025, 7:46:50 pm
 mod = 10 ** 9 + 7
 
-@cache
 def pow(x, n):
     if n == 0: return 1
 
