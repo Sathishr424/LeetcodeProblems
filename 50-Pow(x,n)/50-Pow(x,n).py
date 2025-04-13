@@ -1,14 +1,9 @@
-# Last updated: 13/4/2025, 6:57:38 pm
+# Last updated: 13/4/2025, 7:02:20 pm
 class Solution:
     def myPow(self, x: float, n: int) -> float:
         if n < 0:
             x = 1/x
             n *= -1
-        
-        neg = 1
-        if x < 0: 
-            x *= -1
-            if n % 2 == 1: neg = -1
         
         @cache
         def helper(n):
@@ -25,4 +20,4 @@ class Solution:
                 i += i
 
             return ret * helper(n - prev)
-        return helper(n) * neg
+        return helper(n)
