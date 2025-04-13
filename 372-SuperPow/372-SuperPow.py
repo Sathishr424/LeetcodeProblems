@@ -1,4 +1,4 @@
-# Last updated: 13/4/2025, 8:53:06 pm
+# Last updated: 13/4/2025, 8:55:54 pm
 class Solution:
     def superPow(self, a: int, b: List[int]) -> int:
         mod = 1337
@@ -6,15 +6,11 @@ class Solution:
         @cache
         def pow(x, n):
             if n == 0: return 1
-            elif n == 1: return x
 
             ans = pow(x, n//2)
+            ans = ans * ans % mod
             
-            if n % 2 == 0:
-                return ans * ans % mod
-            else:
-                ans = ans * ans % mod
-                return ans * x % mod
+            return ans * x % mod if n % 2 else ans
         
         ret = 1
 
