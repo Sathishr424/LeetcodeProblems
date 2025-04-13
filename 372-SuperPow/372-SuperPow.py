@@ -1,4 +1,4 @@
-# Last updated: 13/4/2025, 7:25:34 pm
+# Last updated: 13/4/2025, 7:26:15 pm
 class Solution:
     def superPow(self, x: int, b: List[int]) -> int:
         mod = 1337
@@ -14,7 +14,8 @@ class Solution:
             if n % 2 == 0:
                 return ans * ans % mod
             else:
-                return ans * ans * x % mod
+                ans = ans * ans % mod
+                return ans * x % mod
         
         return rec(n)
 
