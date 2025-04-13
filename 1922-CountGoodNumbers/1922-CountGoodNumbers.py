@@ -1,22 +1,18 @@
-# Last updated: 13/4/2025, 7:53:19 am
+# Last updated: 13/4/2025, 7:56:40 am
 mod = 10 ** 9 + 7
 
 class Solution:
     def countGoodNumbers(self, n: int) -> int:
         if n == 0: return 1
-        if n == 1: return 5
-        elif n == 2: return 20
-        elif n == 3: return 100
+        elif n == 1: return 5
         
         i = 4
-        curr = 20
+        ret = 20
         prev = 2
         while i <= n:
-            curr *= curr
-            curr %= mod
-
+            ret *= ret
+            ret %= mod
             prev = i
             i += i
         
-        diff = n - prev
-        return (curr * self.countGoodNumbers(diff)) % mod
+        return (ret * self.countGoodNumbers(n - prev)) % mod
