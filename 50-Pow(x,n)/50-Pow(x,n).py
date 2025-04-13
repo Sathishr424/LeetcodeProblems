@@ -1,4 +1,4 @@
-# Last updated: 13/4/2025, 7:09:18 pm
+# Last updated: 13/4/2025, 7:09:52 pm
 class Solution:
     def myPow(self, x: float, n: int) -> float:
         if n < 0:
@@ -11,10 +11,8 @@ class Solution:
             elif n == 1: return x
 
             if n % 2 == 0:
-                ans = rec(n//2) * rec(n//2)
+                return rec(n//2) * rec(n//2)
             else:
-                ans = rec(n//2) * rec(n//2) * x
-            
-            return ans
+                return rec(n//2) ** 2 * x
         
         return rec(n)
