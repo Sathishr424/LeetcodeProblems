@@ -1,4 +1,4 @@
-# Last updated: 13/4/2025, 8:56:14 pm
+# Last updated: 13/4/2025, 8:59:28 pm
 mod = 1337
 
 @cache
@@ -18,6 +18,3 @@ class Solution:
             ret = pow(ret, 10) * pow(a, n) % mod
 
         return ret
-
-
-        
