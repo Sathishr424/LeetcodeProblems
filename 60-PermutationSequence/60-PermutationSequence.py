@@ -1,26 +1,22 @@
-# Last updated: 14/4/2025, 8:19:51 pm
-@cache
-def fact(x):
-    if x <= 1: return x
-    return fact(x-1) * x
-
+# Last updated: 14/4/2025, 8:48:04 pm
 class Solution:
     def getPermutation(self, n: int, k: int) -> str:
-        def arrToSt(arr):
-            return ''.join([str(i) for i in arr])
 
-        def rec(arr, k):
-            m = len(arr)
-            prev = 0
+        def fact(num):
+            if num < 3:
+                return num
+            return fact(num - 1) * num
 
-            for i in range(m):
-                x = fact(m-1) + prev
-                if x >= k:
-                    new_arr = arr[:i] + arr[i+1:]
-                    if x == k: return str(arr[i]) + arrToSt(sorted(new_arr, reverse=True))
-                    return str(arr[i]) + rec(new_arr, k-prev)
-                prev = x
-            
-            return str(arr[0])
-
-        return rec([i for i in range(1, n+1)], k)
+        s = []
+        k -= 1
+        val = [str(i) for i in range(1, n + 1)]
+        while n > 1:
+            curid = k // fact(n - 1)
+            curval = val[curid]
+            val.remove(curval)
+            s.append(curval)
+            k -= (fact(n - 1) * curid)
+            n -= 1
+        s.append(val[0])
+        return "".join(s)
+        
