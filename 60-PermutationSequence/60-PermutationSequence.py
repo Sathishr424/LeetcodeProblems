@@ -1,27 +1,35 @@
-# Last updated: 14/4/2025, 6:24:52 pm
+# Last updated: 14/4/2025, 8:18:37 pm
+@cache
+def fact(x):
+    if x <= 1: return x
+    return fact(x-1) * x
+
 class Solution:
     def getPermutation(self, n: int, k: int) -> str:
-        vis = {}
-        for i in range(1, n+1):
-            vis[i] = 1
-
-        index = 1
-        ret = []
-        def rec(p):
-            nonlocal index
-            if len(p) == n:
-                if index == k: return p
-                index += 1
-                return []
-            
-            for i in range(1, n+1):
-                if vis[i]:
-                    vis[i] = 0
-                    p.append(i)
-                    if rec(p): return p
-                    p.pop()
-                    vis[i] = 1
-
-            return []
+        def arrToSt(arr):
+            return ''.join([str(i) for i in arr])
         
-        return ''.join([str(i) for i in rec([])])
+        1, 2, 3, 4
+        
+        2, 3, 4
+        2, 4, 3
+        3, 2, 4
+        3, 4, 2
+        4, 2, 3
+        4, 3, 2
+
+        def rec(arr, k):
+            m = len(arr)
+            prev = 0
+
+            for i in range(m):
+                x = fact(m-1) + prev
+                if x >= k:
+                    new_arr = arr[:i] + arr[i+1:]
+                    if x == k: return str(arr[i]) + arrToSt(sorted(new_arr, reverse=True))
+                    return str(arr[i]) + rec(new_arr, k-prev)
+                prev = x
+            
+            return str(arr[0])
+
+        return rec([i for i in range(1, n+1)], k)
