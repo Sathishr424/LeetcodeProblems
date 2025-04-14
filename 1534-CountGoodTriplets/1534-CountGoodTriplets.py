@@ -1,4 +1,4 @@
-# Last updated: 14/4/2025, 11:45:45 am
+# Last updated: 14/4/2025, 11:46:04 am
 class Solution:
     def countGoodTriplets(self, arr: List[int], a: int, b: int, c: int) -> int:
         ret = 0
@@ -11,7 +11,7 @@ class Solution:
             for j in range(i+2, n):
                 if abs(arr[i] - arr[j]) <= c:
                     left = bisect_left(m, arr[j] - b)
-                    right = bisect_left(m, b + arr[j] + 1)
+                    right = bisect_right(m, b + arr[j])
                     ret += right-left
                 if abs(arr[i] - arr[j]) <= a:
                     m.add(arr[j])
