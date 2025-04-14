@@ -1,4 +1,4 @@
-# Last updated: 14/4/2025, 8:18:37 pm
+# Last updated: 14/4/2025, 8:19:51 pm
 @cache
 def fact(x):
     if x <= 1: return x
@@ -8,15 +8,6 @@ class Solution:
     def getPermutation(self, n: int, k: int) -> str:
         def arrToSt(arr):
             return ''.join([str(i) for i in arr])
-        
-        1, 2, 3, 4
-        
-        2, 3, 4
-        2, 4, 3
-        3, 2, 4
-        3, 4, 2
-        4, 2, 3
-        4, 3, 2
 
         def rec(arr, k):
             m = len(arr)
