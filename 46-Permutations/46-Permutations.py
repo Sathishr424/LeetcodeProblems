@@ -1,4 +1,4 @@
-# Last updated: 14/4/2025, 5:40:52 pm
+# Last updated: 14/4/2025, 6:02:20 pm
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         vis = {}
@@ -9,7 +9,6 @@ class Solution:
         n = len(nums)
         
         def rec(p):
-            nonlocal vis
             if len(p) == n:
                 ret.append(p + [])
                 return
