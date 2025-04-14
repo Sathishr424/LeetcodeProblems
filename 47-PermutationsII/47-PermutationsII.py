@@ -1,25 +1,24 @@
-# Last updated: 14/4/2025, 6:13:43 pm
+# Last updated: 14/4/2025, 6:14:50 pm
 class Solution:
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
-        ret = []
+        nums.sort()
         n = len(nums)
-    
-        hash = {}
-        for num in nums:
-            if num in hash: hash[num] += 1
-            else: hash[num] = 1
-        
-        def rec(counter, arr):
-            if len(arr) == n: return ret.append(list(arr))
-            
-            for num in counter:
-                if counter[num]:
-                    arr.append(num)
-                    counter[num] -= 1
-                    rec(counter, arr)
-                    arr.pop()
-                    counter[num] += 1
+        vis = [1] * n
 
-        rec(hash, [])
-        return ret
+        ret = []
+        def rec(p):
+            if len(p) == n:
+                return ret.append(list(p))
             
+            prev = -11
+            for i in range(n):
+                if vis[i] and nums[i] != prev:
+                    prev = nums[i]
+                    vis[i] = 0
+                    p.append(nums[i])
+                    rec(p)
+                    p.pop()
+                    vis[i] = 1
+        
+        rec([])
+        return ret
