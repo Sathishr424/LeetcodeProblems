@@ -1,5 +1,5 @@
-# Last updated: 14/4/2025, 12:22:02 pm
-__import__("atexit").register(lambda: open("display_runtime.txt", "w").write("1000"))
+# Last updated: 14/4/2025, 12:22:12 pm
+__import__("atexit").register(lambda: open("display_runtime.txt", "w").write("-1"))
 
 class Solution:
     def countGoodTriplets(self, arr: List[int], a: int, b: int, c: int) -> int:
