@@ -1,55 +1,44 @@
-# Last updated: 15/4/2025, 11:20:33 pm
+# Last updated: 16/4/2025, 3:45:57 am
 class Solution:
     def countSmaller(self, nums: List[int]) -> List[int]:
         n = len(nums)
         ret = [0] * n
-
-        freq = {}
-        index = 0
-
-        for num in sorted(nums):
-            if num not in freq:
-                freq[num] = index
-                index += 1
         
-        n = len(freq)
-
-        tree = [0] * (n*4)
-        cache = [-1] * n
-
-        def buildTree(left, right, index):
-            if left == right:
-                cache[left] = index
-                return
-
-            mid = (left+right) // 2
-            buildTree(left, mid, index*2+1)
-            buildTree(mid+1, right, index*2+2)
-        
-        buildTree(0, n-1, 0)
-
-        def query(r, left, right, index):
-            if left > r: return 0
-
-            if right <= r:
-                return tree[index]
-
-            mid = (left+right) // 2
-
-            return query(r, left, mid, index*2+1) + query(r, mid+1, right, index*2+2)
-
-        for j in range(len(nums)-1, -1, -1):
-            num = nums[j]
-            i = freq[num]
-
-            ret[j] = query(i-1, 0, n-1, 0)
-
-            index = cache[i]
-            tree[index] += 1
-
-            while index > 0:
-                index = (index+1) // 2 - 1
-                tree[index] = tree[index*2+1] + tree[index*2+2]
+        def mergeSort(arr):
+            nonlocal ret
+            if len(arr) == 1: return
+            mid = len(arr) // 2
             
+            left = arr[:mid]
+            right = arr[mid:]
+            
+            mergeSort(left)
+            mergeSort(right)
+            
+            i = 0
+            j = 0
+            k = 0
+            
+            while i < len(left) and j < len(right):
+                if left[i][0] <= right[j][0]:
+                    arr[k] = left[i]
+                    ret[left[i][1]] += j
+                    i += 1
+                else:
+                    arr[k] = right[j]
+                    j += 1
+                
+                k += 1
+            
+            while i < len(left):
+                arr[k] = left[i]
+                ret[left[i][1]] += j
+                i += 1
+                k += 1
+                
+            while j < len(right):
+                arr[k] = right[j]
+                j += 1
+                k += 1
+        mergeSort([(num, i) for i, num in enumerate(nums)])
         return ret
-        
