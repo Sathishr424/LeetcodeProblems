@@ -1,4 +1,4 @@
-# Last updated: 15/4/2025, 10:12:24 pm
+# Last updated: 15/4/2025, 10:13:10 pm
 class Solution:
     def countSmaller(self, nums: List[int]) -> List[int]:
         n = len(nums)
@@ -34,8 +34,7 @@ class Solution:
         
         arr.sort()
 
-        for j in range(n-1):
-            i = arr[j][1]
+        for _, i in arr:
             ret[i] = query(i+1, 0, n-1, 0)
 
             index = cache[i]
@@ -45,6 +44,5 @@ class Solution:
                 index = (index+1) // 2 - 1
                 tree[index] = tree[index*2+1] + tree[index*2+2]
         
-        ret[arr[n-1][1]] = query(arr[n-1][1]+1, 0, n-1, 0)
         return ret
         
