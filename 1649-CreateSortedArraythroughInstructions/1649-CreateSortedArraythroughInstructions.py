@@ -1,4 +1,4 @@
-# Last updated: 15/4/2025, 11:47:00 pm
+# Last updated: 16/4/2025, 3:02:15 am
 mod = 10**9 + 7
 class Solution:
     def createSortedArray(self, ins: List[int]) -> int:
@@ -9,7 +9,7 @@ class Solution:
             nums.append((num, i))
         
         nums.sort()
-        indexes = {}
+        indexes = {}    
 
         for i in range(n):
             indexes[nums[i][0]] = i
@@ -40,7 +40,9 @@ class Solution:
         for num in ins:
             i = indexes[num]
 
-            ret = (ret + min(query(0, i-1, 0, n-1, 0), query(i+1, n-1, 0, n-1, 0))) % mod
+            left = query(0, i-1, 0, n-1, 0)
+
+            ret = (ret + min(left, tree[0] - left - tree[cache[i]])) % mod
 
             index = cache[i]
             tree[index] += 1
