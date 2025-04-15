@@ -1,4 +1,4 @@
-# Last updated: 15/4/2025, 4:46:22 pm
+# Last updated: 15/4/2025, 4:47:48 pm
 class Solution:
     def increasingTriplet(self, nums: List[int]) -> bool:
         n = len(nums)
@@ -7,10 +7,9 @@ class Solution:
         third_max = n-1
 
         for i in range(n-2, -1, -1):
-            num = nums[i]
-            if num >= nums[third_max]:
+            if nums[i] >= nums[third_max]:
                 third_max = i
-            elif second_max == -1 or num >= nums[second_max]:
+            elif second_max == -1 or nums[i] >= nums[second_max]:
                 second_max = i
             else: return True
         
