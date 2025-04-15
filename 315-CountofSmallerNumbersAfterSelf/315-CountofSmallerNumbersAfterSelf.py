@@ -1,38 +1,50 @@
-# Last updated: 15/4/2025, 10:07:40 pm
+# Last updated: 15/4/2025, 10:12:24 pm
 class Solution:
-    def countSmaller(self, nums):
-        # Step 1: Coordinate compression
-        sorted_unique = sorted(set(nums))
-        rank = {val: idx for idx, val in enumerate(sorted_unique)}
-        n = len(rank)
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        tree = [0] * (n*4)
+        ret = [0] * n
+        cache = [-1] * n
 
-        # Segment tree
-        tree = [0] * (n * 4)
-
-        def update(index, left, right, pos):
+        def buildTree(left, right, index):
             if left == right:
-                tree[index] += 1
+                cache[left] = index
                 return
-            mid = (left + right) // 2
-            if pos <= mid:
-                update(index*2+1, left, mid, pos)
-            else:
-                update(index*2+2, mid+1, right, pos)
-            tree[index] = tree[index*2+1] + tree[index*2+2]
 
-        def query(index, left, right, ql, qr):
-            if qr < left or ql > right:
-                return 0
-            if ql <= left and right <= qr:
+            mid = (left+right) // 2
+            buildTree(left, mid, index*2+1)
+            buildTree(mid+1, right, index*2+2)
+        
+        buildTree(0, n-1, 0)
+
+        def query(l, left, right, index):
+            if right < l: return 0
+
+            if left >= l and right < n:
                 return tree[index]
-            mid = (left + right) // 2
-            return query(index*2+1, left, mid, ql, qr) + query(index*2+2, mid+1, right, ql, qr)
 
-        res = []
-        for num in reversed(nums):
-            r = rank[num]
-            count = query(0, 0, n-1, 0, r-1)  # Count smaller elements
-            res.append(count)
-            update(0, 0, n-1, r)
+            mid = (left+right) // 2
 
-        return res[::-1]
+            return query(l, left, mid, index*2+1) + query(l, mid+1, right, index*2+2)
+
+        arr = []
+
+        for i, num in enumerate(nums):
+            arr.append((num, i))
+        
+        arr.sort()
+
+        for j in range(n-1):
+            i = arr[j][1]
+            ret[i] = query(i+1, 0, n-1, 0)
+
+            index = cache[i]
+            tree[index] = 1
+
+            while index > 0:
+                index = (index+1) // 2 - 1
+                tree[index] = tree[index*2+1] + tree[index*2+2]
+        
+        ret[arr[n-1][1]] = query(arr[n-1][1]+1, 0, n-1, 0)
+        return ret
+        
