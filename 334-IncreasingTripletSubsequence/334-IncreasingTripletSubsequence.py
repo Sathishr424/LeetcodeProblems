@@ -1,4 +1,4 @@
-# Last updated: 15/4/2025, 4:47:48 pm
+# Last updated: 15/4/2025, 4:49:08 pm
 class Solution:
     def increasingTriplet(self, nums: List[int]) -> bool:
         n = len(nums)
