@@ -1,4 +1,4 @@
-# Last updated: 16/4/2025, 2:59:51 am
+# Last updated: 16/4/2025, 3:05:14 am
 class Solution:
     def goodTriplets(self, nums1: List[int], nums2: List[int]) -> int:
         n = len(nums1)
@@ -36,11 +36,11 @@ class Solution:
         
         ret = 0
 
-        for num in arr:
+        for num in arr[::-1]:
             left = query(0, num-1, 0, n-1, 0)
             right = tree[0] - left
 
-            ret += left * ((n-num-1)-right)
+            ret += (num-left) * right
 
             index = cache[num]
             tree[index] = 1
