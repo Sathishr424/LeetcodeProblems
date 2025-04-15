@@ -1,4 +1,4 @@
-# Last updated: 15/4/2025, 9:36:19 pm
+# Last updated: 15/4/2025, 9:41:06 pm
 class Solution:
     def countSmaller(self, nums: List[int]) -> List[int]:
         n = len(nums)
@@ -29,21 +29,21 @@ class Solution:
 
             while l < r:
                 mid = (l+r) // 2
+                index *= 2
                 if i > mid:
                     l = mid+1
-                    index = index * 2 + 2
+                    index += 2
                 else:
                     r = mid
-                    index = index * 2 + 1
+                    index += 1
             
             tree[index] = 1
 
-            while index:
+            while index > 0:
                 index = (index+1) // 2 - 1
                 tree[index] = tree[index*2+1] + tree[index*2+2]
             
             ret[i] = query(i, 0, n-1, 0) - 1
         
-        # print(ret)
         return ret
         
