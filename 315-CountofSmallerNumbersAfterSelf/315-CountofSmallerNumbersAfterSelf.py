@@ -1,31 +1,49 @@
-# Last updated: 15/4/2025, 9:17:21 pm
-class BIT:
-    def __init__(self, size):
-        self.tree = [0] * (size + 1)
-
-    def update(self, i, delta):
-        i += 1
-        while i < len(self.tree):
-            self.tree[i] += delta
-            i += i & -i
-
-    def query(self, i):
-        # Count of numbers <= i-1
-        res = 0
-        while i > 0:
-            res += self.tree[i]
-            i -= i & -i
-        return res
-
+# Last updated: 15/4/2025, 9:36:19 pm
 class Solution:
     def countSmaller(self, nums: List[int]) -> List[int]:
-        offset = {v: i for i, v in enumerate(sorted(set(nums)))}
-        bit = BIT(len(offset))
-        res = []
+        n = len(nums)
+        tree = [0] * (n*4)
+        ret = [0] * n
 
-        for num in reversed(nums):
-            idx = offset[num]
-            res.append(bit.query(idx))  # Count of smaller numbers
-            bit.update(idx, 1)          # Insert this number
+        def query(l, left, right, index):
+            if right < l: return 0
 
-        return res[::-1]
+            if left >= l and right < n:
+                return tree[index]
+
+            mid = (left+right) // 2
+
+            return query(l, left, mid, index*2+1) + query(l, mid+1, right, index*2+2)
+
+        arr = []
+
+        for i, num in enumerate(nums):
+            arr.append((num, i))
+        
+        arr.sort()
+
+        for num, i in arr:
+            index = 0
+            l = 0
+            r = n-1
+
+            while l < r:
+                mid = (l+r) // 2
+                if i > mid:
+                    l = mid+1
+                    index = index * 2 + 2
+                else:
+                    r = mid
+                    index = index * 2 + 1
+            
+            tree[index] = 1
+
+            while index:
+                index = (index+1) // 2 - 1
+                tree[index] = tree[index*2+1] + tree[index*2+2]
+            
+            ret[i] = query(i, 0, n-1, 0) - 1
+        
+        # print(ret)
+        return ret
+        
