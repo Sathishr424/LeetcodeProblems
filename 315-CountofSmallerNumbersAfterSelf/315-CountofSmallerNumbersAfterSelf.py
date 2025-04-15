@@ -1,50 +1,31 @@
-# Last updated: 8/4/2025, 9:33:07 am
-def mergeSort(nums):
-    if len(nums) == 1: return
-    mid = len(nums) // 2
+# Last updated: 15/4/2025, 9:17:21 pm
+class BIT:
+    def __init__(self, size):
+        self.tree = [0] * (size + 1)
 
-    left = nums[:mid]
-    right = nums[mid:]
+    def update(self, i, delta):
+        i += 1
+        while i < len(self.tree):
+            self.tree[i] += delta
+            i += i & -i
 
-    mergeSort(left)
-    mergeSort(right)
-    
-    l = 0
-    k = 0
-    r = 0
-
-    while l < len(left) and r < len(right):
-        if left[l][0] > right[r][0]:
-            nums[k] = right[r]
-            r += 1
-        else:
-            nums[k] = left[l]
-            nums[k][1] += r
-            l += 1
-        k += 1
-    
-    while l < len(left):
-        nums[k] = left[l]
-        nums[k][1] += r
-        l += 1
-        k += 1
-    
-    while r < len(right):
-        nums[k] = right[r]
-        r += 1
-        k += 1
+    def query(self, i):
+        # Count of numbers <= i-1
+        res = 0
+        while i > 0:
+            res += self.tree[i]
+            i -= i & -i
+        return res
 
 class Solution:
     def countSmaller(self, nums: List[int]) -> List[int]:
-        n = len(nums)
+        offset = {v: i for i, v in enumerate(sorted(set(nums)))}
+        bit = BIT(len(offset))
+        res = []
 
-        arr = []
-        for i, num in enumerate(nums):
-            arr.append([num, 0, i])
+        for num in reversed(nums):
+            idx = offset[num]
+            res.append(bit.query(idx))  # Count of smaller numbers
+            bit.update(idx, 1)          # Insert this number
 
-        mergeSort(arr)
-        ret = [0] * n
-
-        for _, cnt, index in arr:
-            ret[index] = cnt
-        return ret
+        return res[::-1]
