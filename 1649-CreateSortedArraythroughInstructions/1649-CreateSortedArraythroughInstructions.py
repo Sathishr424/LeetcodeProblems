@@ -1,8 +1,7 @@
-# Last updated: 15/4/2025, 11:44:06 pm
+# Last updated: 15/4/2025, 11:47:00 pm
 mod = 10**9 + 7
 class Solution:
     def createSortedArray(self, ins: List[int]) -> int:
-        # ins = [i+1 for i in range(10**5)]
         n = len(ins)
         nums = []
 
@@ -38,7 +37,7 @@ class Solution:
             return query(l, r, left, mid, index*2+1) + query(l, r, mid+1, right, index*2+2)
         
         ret = 0
-        for j, num in enumerate(ins):
+        for num in ins:
             i = indexes[num]
 
             ret = (ret + min(query(0, i-1, 0, n-1, 0), query(i+1, n-1, 0, n-1, 0))) % mod
