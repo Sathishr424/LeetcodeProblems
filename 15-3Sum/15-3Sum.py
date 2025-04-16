@@ -1,4 +1,4 @@
-# Last updated: 17/4/2025, 12:39:58 am
+# Last updated: 17/4/2025, 12:47:18 am
 class Solution:
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
         nums.sort()
@@ -22,11 +22,9 @@ class Solution:
                 masks = {}
                 for k in range(j+1, n):
                     diff = s-nums[k]
-                    if diff in sums:
-                        mask = hash((diff, nums[k]))
-                        if mask not in masks:
-                            ret.append([nums[i], nums[j], diff, nums[k]])
-                            masks[mask] = 1
+                    if diff in sums and diff not in masks:
+                        ret.append([nums[i], nums[j], diff, nums[k]])
+                        masks[diff] = 1
                     
                     sums[nums[k]] = 1
         
