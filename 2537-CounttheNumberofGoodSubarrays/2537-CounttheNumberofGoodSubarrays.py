@@ -1,4 +1,4 @@
-# Last updated: 16/4/2025, 3:11:35 pm
+# Last updated: 16/4/2025, 3:13:12 pm
 class Solution:
     def countGood(self, nums: List[int], k: int) -> int:
         n = len(nums)
@@ -10,19 +10,15 @@ class Solution:
         good = 0
 
         for i in range(n):
-            num = nums[i]
-
-            pairs[num] += 1
-            total += pairs[num]-1
+            pairs[nums[i]] += 1
+            total += pairs[nums[i]]-1
             stack.append(i)
 
             while stack and total >= k:
-                left = stack[0]
-                right = n-i
-                ret += left+right-good
+                ret += stack[0]+(n-i)-good
                 good += 1
+                
                 num = nums[stack.popleft()]
-
                 pairs[num] -= 1
                 total -= pairs[num]
             
