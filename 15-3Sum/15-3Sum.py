@@ -1,45 +1,28 @@
-# Last updated: 16/4/2025, 11:03:35 pm
+# Last updated: 16/4/2025, 11:17:51 pm
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        n = len(nums)
+        res = []
         nums.sort()
 
-        p_index = bisect_left(nums, 1)
-        if p_index == 0: return []
+        for i in range(len(nums)):
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            
+            j = i + 1
+            k = len(nums) - 1
 
-        index = 0
-        zeros = 0
-        pos = {}
-        for num in nums:
-            zeros += (num == 0)
+            while j < k:
+                total = nums[i] + nums[j] + nums[k]
+
+                if total > 0:
+                    k -= 1
+                elif total < 0:
+                    j += 1
+                else:
+                    res.append([nums[i], nums[j], nums[k]])
+                    j += 1
+
+                    while nums[j] == nums[j-1] and j < k:
+                        j += 1
         
-        ret = []
-        if zeros >= 3: ret.append([0, 0, 0])
-        added = {}
-
-        for i in range(p_index, n):
-            pos[nums[i]] = 1
-        
-        neg = {}
-        for i in range(0, p_index):
-            neg[nums[i]] = 1
-            for j in range(i+1, p_index):
-                s = -(nums[i]+nums[j])
-                if s in pos:
-                    mask = hash((nums[i], nums[j], s))
-                    if mask not in added:
-                        ret.append([nums[i], nums[j], s])
-                        added[mask] = 1
-        
-        for i in range(p_index, n):
-            for j in range(i+1, n):
-                s = -(nums[i]+nums[j])
-                if s in neg:
-                    mask = hash((s, nums[i], nums[j]))
-                    if mask not in added:
-                        ret.append([nums[i], nums[j], s])
-                        added[mask] = 1
-
-        return ret
-
-
+        return res
