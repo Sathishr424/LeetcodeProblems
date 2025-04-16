@@ -1,30 +1,50 @@
-# Last updated: 16/4/2025, 10:15:41 pm
+# Last updated: 16/4/2025, 10:44:37 pm
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        ret = []
         n = len(nums)
         nums.sort()
+        compression = {}
+        index = 0
+        zeros = 0
+        for num in nums:
+            zeros += num == 0
+            if num not in compression:
+                compression[num] = index
+                index += 1
 
-        if nums[0] > 0: return []
+        ret = []
+        if zeros >= 3: ret.append([0, 0, 0])
+        added = {}
 
-        for i in range(n):
-            if i > 0 and nums[i] == nums[i-1]: continue
+        p_index = bisect_left(nums, 1)
+        if p_index == 0: return []
+        # print(nums, nums[:p_index], nums[p_index:])
 
-            m = i+1
-            r = n-1
+        pos = {}
 
-            while m < r:
-                t = nums[i] + nums[m] + nums[r]
-
-                if t > 0:
-                    r -= 1
-                elif t < 0:
-                    m += 1
-                else:
-                    ret.append([nums[i], nums[m], nums[r]])
-                    # m += 1
-                    r -= 1
-                    # while m < r and nums[m] == nums[m-1]: m += 1
-                    while r > m and nums[r] == nums[r+1]: r -= 1
+        for i in range(p_index, n):
+            pos[nums[i]] = 1
+        
+        neg = {}
+        for i in range(0, p_index):
+            neg[nums[i]] = 1
+            for j in range(i+1, p_index):
+                s = -(nums[i]+nums[j])
+                if s in pos:
+                    mask = (1 << n) | (1 << compression[nums[i]]) | (1 << compression[s]) | (1 << compression[nums[j]])
+                    if mask not in added:
+                        ret.append([nums[i], nums[j], s])
+                        added[mask] = 1
+        
+        for i in range(p_index, n):
+            for j in range(i+1, n):
+                s = -(nums[i]+nums[j])
+                if s in neg:
+                    mask = (1 << n) | (1 << compression[nums[i]]) | (1 << compression[s]) | (1 << compression[nums[j]])
+                    if mask not in added:
+                        ret.append([nums[i], nums[j], s])
+                        added[mask] = 1
 
         return ret
+
+
