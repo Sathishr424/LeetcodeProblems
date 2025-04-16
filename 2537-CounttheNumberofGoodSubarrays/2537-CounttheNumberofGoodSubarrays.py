@@ -1,4 +1,4 @@
-# Last updated: 16/4/2025, 3:17:09 pm
+# Last updated: 16/4/2025, 6:35:27 pm
 class Solution:
     def countGood(self, nums: List[int], k: int) -> int:
         n = len(nums)
@@ -9,8 +9,8 @@ class Solution:
         ret = 0
 
         for i in range(n):
+            total += pairs[nums[i]]
             pairs[nums[i]] += 1
-            total += pairs[nums[i]]-1
 
             while total >= k:
                 ret += n-i
