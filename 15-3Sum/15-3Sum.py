@@ -1,4 +1,4 @@
-# Last updated: 16/4/2025, 10:57:54 pm
+# Last updated: 16/4/2025, 10:59:22 pm
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         n = len(nums)
@@ -30,7 +30,7 @@ class Solution:
             for j in range(i+1, p_index):
                 s = -(nums[i]+nums[j])
                 if s in pos:
-                    mask = f"{nums[i]},{nums[j]},{s}"
+                    mask = hash((nums[i], nums[j], s))
                     if mask not in added:
                         ret.append([nums[i], nums[j], s])
                         added[mask] = 1
@@ -39,7 +39,7 @@ class Solution:
             for j in range(i+1, n):
                 s = -(nums[i]+nums[j])
                 if s in neg:
-                    mask = f"{s},{nums[i]},{nums[j]}"
+                    mask = hash((s, nums[i], nums[j]))
                     if mask not in added:
                         ret.append([nums[i], nums[j], s])
                         added[mask] = 1
