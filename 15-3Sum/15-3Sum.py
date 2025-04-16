@@ -1,28 +1,43 @@
-# Last updated: 16/4/2025, 11:17:51 pm
+# Last updated: 16/4/2025, 11:31:40 pm
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        res = []
+        n = len(nums)
         nums.sort()
 
-        for i in range(len(nums)):
-            if i > 0 and nums[i] == nums[i-1]:
-                continue
-            
-            j = i + 1
-            k = len(nums) - 1
+        p_index = bisect_left(nums, 1)
+        if p_index == 0: return []
 
-            while j < k:
-                total = nums[i] + nums[j] + nums[k]
-
-                if total > 0:
-                    k -= 1
-                elif total < 0:
-                    j += 1
-                else:
-                    res.append([nums[i], nums[j], nums[k]])
-                    j += 1
-
-                    while nums[j] == nums[j-1] and j < k:
-                        j += 1
+        index = 0
+        zeros = 0
+        pos = {}
+        for num in nums:
+            zeros += (num == 0)
         
-        return res
+        ret = []
+        if zeros >= 3: ret.append([0, 0, 0])
+        added = {}
+
+        for i in range(p_index, n):
+            pos[nums[i]] = 1
+        
+        neg = {}
+        for i in range(0, p_index):
+            if i > 0 and nums[i] == nums[i-1]: continue
+            neg[nums[i]] = 1
+            for j in range(i+1, p_index):
+                if j > i+1 and nums[j] == nums[j-1]: continue
+                s = -(nums[i]+nums[j])
+                if s in pos:
+                    ret.append([nums[i], nums[j], s])
+        
+        for i in range(p_index, n):
+            if i > 0 and nums[i] == nums[i-1]: continue
+            for j in range(i+1, n):
+                if j > i+1 and nums[j] == nums[j-1]: continue
+                s = -(nums[i]+nums[j])
+                if s in neg:
+                    ret.append([nums[i], nums[j], s])
+
+        return ret
+
+
