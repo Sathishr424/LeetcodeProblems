@@ -1,11 +1,11 @@
-# Last updated: 16/4/2025, 6:10:19 pm
+# Last updated: 16/4/2025, 6:32:59 pm
 class Solution:
     def maximumSubarraySum(self, nums: List[int], k: int) -> int:
         s = 0
 
-        uniq = defaultdict(int)
+        uniq = [0] * (10**5 + 1)
         uniq_cnt = 0
-        
+
         for i in range(k):
             s += nums[i]
             uniq[nums[i]] += 1
