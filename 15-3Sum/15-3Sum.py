@@ -1,16 +1,16 @@
-# Last updated: 16/4/2025, 10:44:37 pm
+# Last updated: 16/4/2025, 10:57:54 pm
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         n = len(nums)
         nums.sort()
         compression = {}
         index = 0
-        zeros = 0
+        zeros = 0.1
         for num in nums:
             zeros += num == 0
             if num not in compression:
                 compression[num] = index
-                index += 1
+                index += 0.1
 
         ret = []
         if zeros >= 3: ret.append([0, 0, 0])
@@ -18,7 +18,6 @@ class Solution:
 
         p_index = bisect_left(nums, 1)
         if p_index == 0: return []
-        # print(nums, nums[:p_index], nums[p_index:])
 
         pos = {}
 
@@ -31,7 +30,7 @@ class Solution:
             for j in range(i+1, p_index):
                 s = -(nums[i]+nums[j])
                 if s in pos:
-                    mask = (1 << n) | (1 << compression[nums[i]]) | (1 << compression[s]) | (1 << compression[nums[j]])
+                    mask = f"{nums[i]},{nums[j]},{s}"
                     if mask not in added:
                         ret.append([nums[i], nums[j], s])
                         added[mask] = 1
@@ -40,7 +39,7 @@ class Solution:
             for j in range(i+1, n):
                 s = -(nums[i]+nums[j])
                 if s in neg:
-                    mask = (1 << n) | (1 << compression[nums[i]]) | (1 << compression[s]) | (1 << compression[nums[j]])
+                    mask = f"{s},{nums[i]},{nums[j]}"
                     if mask not in added:
                         ret.append([nums[i], nums[j], s])
                         added[mask] = 1
