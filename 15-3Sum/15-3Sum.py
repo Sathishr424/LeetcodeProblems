@@ -1,25 +1,21 @@
-# Last updated: 16/4/2025, 10:59:22 pm
+# Last updated: 16/4/2025, 11:03:35 pm
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         n = len(nums)
         nums.sort()
-        compression = {}
-        index = 0
-        zeros = 0.1
-        for num in nums:
-            zeros += num == 0
-            if num not in compression:
-                compression[num] = index
-                index += 0.1
-
-        ret = []
-        if zeros >= 3: ret.append([0, 0, 0])
-        added = {}
 
         p_index = bisect_left(nums, 1)
         if p_index == 0: return []
 
+        index = 0
+        zeros = 0
         pos = {}
+        for num in nums:
+            zeros += (num == 0)
+        
+        ret = []
+        if zeros >= 3: ret.append([0, 0, 0])
+        added = {}
 
         for i in range(p_index, n):
             pos[nums[i]] = 1
