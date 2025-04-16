@@ -1,4 +1,4 @@
-# Last updated: 16/4/2025, 11:31:40 pm
+# Last updated: 16/4/2025, 11:34:19 pm
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         n = len(nums)
@@ -8,19 +8,15 @@ class Solution:
         if p_index == 0: return []
 
         index = 0
-        zeros = 0
-        pos = {}
-        for num in nums:
-            zeros += (num == 0)
-        
-        ret = []
-        if zeros >= 3: ret.append([0, 0, 0])
-        added = {}
 
+        ret = []
+        if bisect_right(nums, 0) - bisect_left(nums, 0) >= 3: ret.append([0, 0, 0])
+
+        pos = {}
+        neg = {}
         for i in range(p_index, n):
             pos[nums[i]] = 1
         
-        neg = {}
         for i in range(0, p_index):
             if i > 0 and nums[i] == nums[i-1]: continue
             neg[nums[i]] = 1
