@@ -1,4 +1,4 @@
-# Last updated: 17/4/2025, 12:29:54 am
+# Last updated: 17/4/2025, 12:39:58 am
 class Solution:
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
         nums.sort()
@@ -13,18 +13,21 @@ class Solution:
                 compression[num] = index
                 index += 1
 
-        added = {}
         for i in range(n):
+            if i > 0 and nums[i] == nums[i-1]: continue
             for j in range(i+1, n):
+                if j > i+1 and nums[j] == nums[j-1]: continue
                 s = target - (nums[i]+nums[j])
                 sums = {}
+                masks = {}
                 for k in range(j+1, n):
                     diff = s-nums[k]
                     if diff in sums:
-                        mask = hash((compression[nums[i]], compression[nums[j]], compression[diff], compression[nums[k]]))
-                        if mask not in added:
+                        mask = hash((diff, nums[k]))
+                        if mask not in masks:
                             ret.append([nums[i], nums[j], diff, nums[k]])
-                            added[mask] = 1
+                            masks[mask] = 1
+                    
                     sums[nums[k]] = 1
         
         return ret
