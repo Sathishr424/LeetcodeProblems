@@ -1,4 +1,4 @@
-# Last updated: 16/4/2025, 3:09:13 pm
+# Last updated: 16/4/2025, 3:09:41 pm
 class Solution:
     def countGood(self, nums: List[int], k: int) -> int:
         n = len(nums)
@@ -19,8 +19,8 @@ class Solution:
 
             while stack and total >= k:
                 left = stack[0]
-                right = n-i-1
-                ret += left+right+1-good
+                right = n-i
+                ret += left+right-good
                 good += 1
                 num = nums[stack.popleft()]
 
