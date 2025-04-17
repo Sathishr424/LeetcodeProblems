@@ -1,44 +1,31 @@
-# Last updated: 16/4/2025, 3:45:57 am
+# Last updated: 17/4/2025, 6:41:03 pm
 class Solution:
     def countSmaller(self, nums: List[int]) -> List[int]:
         n = len(nums)
-        ret = [0] * n
+        compression = {}
+        index = 1
+        for num in sorted(nums):
+            if num not in compression:
+                compression[num] = index
+                index += 1
+
+        tree = [0] * (n+1)
+
+        def query(index):
+            s = 0
+            while index:
+                s += tree[index]
+                index -= index & -index
+            return s
         
-        def mergeSort(arr):
-            nonlocal ret
-            if len(arr) == 1: return
-            mid = len(arr) // 2
-            
-            left = arr[:mid]
-            right = arr[mid:]
-            
-            mergeSort(left)
-            mergeSort(right)
-            
-            i = 0
-            j = 0
-            k = 0
-            
-            while i < len(left) and j < len(right):
-                if left[i][0] <= right[j][0]:
-                    arr[k] = left[i]
-                    ret[left[i][1]] += j
-                    i += 1
-                else:
-                    arr[k] = right[j]
-                    j += 1
-                
-                k += 1
-            
-            while i < len(left):
-                arr[k] = left[i]
-                ret[left[i][1]] += j
-                i += 1
-                k += 1
-                
-            while j < len(right):
-                arr[k] = right[j]
-                j += 1
-                k += 1
-        mergeSort([(num, i) for i, num in enumerate(nums)])
+        def update(index):
+            while index <= n:
+                tree[index] += 1
+                index += index & -index
+        
+        ret = [0] * n
+        for i in range(n-1, -1, -1):
+            ret[i] = query(compression[nums[i]]-1)
+            update(compression[nums[i]])
+        
         return ret
