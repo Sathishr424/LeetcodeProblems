@@ -1,54 +1,68 @@
-# Last updated: 16/4/2025, 3:02:15 am
-mod = 10**9 + 7
+# Last updated: 17/4/2025, 11:35:04 am
+mod = 10 ** 9 + 7
 class Solution:
-    def createSortedArray(self, ins: List[int]) -> int:
-        n = len(ins)
-        nums = []
+    def createSortedArray(self, nums: List[int]) -> int:
+        n = len(nums)
+        smaller = [0] * n
+        larger = [0] * n
+        cost = 0
 
-        for i, num in enumerate(ins):
-            nums.append((num, i))
-        
-        nums.sort()
-        indexes = {}    
-
-        for i in range(n):
-            indexes[nums[i][0]] = i
-
-        tree = [0] * (n*4)
-        cache = [0] * n
-
-        def buildTree(left, right, index):
-            if left == right:
-                cache[left] = index
-                return
+        def mergeSort(arr):
+            if len(arr) == 1: return
+            mid = len(arr) // 2
             
-            mid = (left+right) // 2
-            buildTree(left, mid, index*2+1)
-            buildTree(mid+1, right, index*2+2)
+            left = arr[:mid]
+            right = arr[mid:]
+            
+            mergeSort(left)
+            mergeSort(right)
+
+            # print(left, right)
+            # print([smaller[l] for _, l in left], [smaller[l] for _, l in right])
+            # print()
+            
+            i = 0
+            j = 0
+            k = 0
+            cnt = 0
+            
+            while i < len(left) and j < len(right):
+                if left[i][0] <= right[j][0]:
+                    arr[k] = left[i]
+                    if i > 0 and left[i][0] == left[i-1][0]: cnt += 1
+                    else: cnt = 1
+                    i += 1
+                else:
+                    arr[k] = right[j]
+                    if i-1 >= 0 and left[i-1][0] == right[j][0]:
+                        smaller[right[j][1]] += i-cnt
+                    else:
+                        smaller[right[j][1]] += i
+                    larger[right[j][1]] += len(left) - i
+                    j += 1
+                
+                k += 1
+            
+            while i < len(left):
+                arr[k] = left[i]
+                i += 1
+                k += 1
+                
+            while j < len(right):
+                arr[k] = right[j]
+                if i-1 >= 0 and left[i-1][0] == right[j][0]:
+                    smaller[right[j][1]] += i-cnt
+                else:
+                    smaller[right[j][1]] += i
+                j += 1
+                k += 1
+        mergeSort([(num, i) for i, num in enumerate(nums)])
+        # print(nums)
+        # print(smaller)
+        # print(larger)
         
-        buildTree(0, n-1, 0)
-        
-        def query(l, r, left, right, index):
-            if left > r or right < l: return 0
+        for i in range(n):
+            cost = (cost + min(smaller[i], larger[i])) % mod
 
-            if left >= l and right <= r: return tree[index]
-            mid = (left+right) // 2
-
-            return query(l, r, left, mid, index*2+1) + query(l, r, mid+1, right, index*2+2)
-        
-        ret = 0
-        for num in ins:
-            i = indexes[num]
-
-            left = query(0, i-1, 0, n-1, 0)
-
-            ret = (ret + min(left, tree[0] - left - tree[cache[i]])) % mod
-
-            index = cache[i]
-            tree[index] += 1
-
-            while index > 0:
-                index = (index+1) // 2 - 1
-                tree[index] = tree[index*2+1] + tree[index*2+2]
-        
-        return ret
+        return cost
+            
