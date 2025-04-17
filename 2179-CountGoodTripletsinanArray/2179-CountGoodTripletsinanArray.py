@@ -1,4 +1,4 @@
-# Last updated: 16/4/2025, 3:05:14 am
+# Last updated: 17/4/2025, 8:35:37 am
 class Solution:
     def goodTriplets(self, nums1: List[int], nums2: List[int]) -> int:
         n = len(nums1)
@@ -15,38 +15,49 @@ class Solution:
         for num in nums1:
             arr.append(relation[num])
 
-        def buildTree(left, right, index):
-            if left == right:
-                cache[left] = index
-                return
+        smaller = [0] * n
+        larger = [0] * n
 
-            mid = (left+right) // 2
-            buildTree(left, mid, index*2+1)
-            buildTree(mid+1, right, index*2+2)
-        
-        buildTree(0, n-1, 0)
-
-        def query(l, r, left, right, index):
-            if left > r or right < l: return 0
-
-            if left >= l and right <= r: return tree[index]
-            mid = (left+right) // 2
-
-            return query(l, r, left, mid, index*2+1) + query(l, r, mid+1, right, index*2+2)
-        
+        def mergeSort(arr):
+            nonlocal smaller, larger
+            if len(arr) == 1: return
+            mid = len(arr) // 2
+            
+            left = arr[:mid]
+            right = arr[mid:]
+            
+            mergeSort(left)
+            mergeSort(right)
+            
+            i = 0
+            j = 0
+            k = 0
+            
+            while i < len(left) and j < len(right):
+                if left[i][0] < right[j][0]:
+                    arr[k] = left[i]
+                    larger[left[i][1]] += len(right) - j
+                    i += 1
+                else:
+                    arr[k] = right[j]
+                    smaller[right[j][1]] += i
+                    j += 1
+                
+                k += 1
+            
+            while i < len(left):
+                arr[k] = left[i]
+                i += 1
+                k += 1
+                
+            while j < len(right):
+                arr[k] = right[j]
+                smaller[right[j][1]] += i
+                j += 1
+                k += 1
+        mergeSort([(num, i) for i, num in enumerate(arr)])
         ret = 0
-
-        for num in arr[::-1]:
-            left = query(0, num-1, 0, n-1, 0)
-            right = tree[0] - left
-
-            ret += (num-left) * right
-
-            index = cache[num]
-            tree[index] = 1
-
-            while index > 0:
-                index = (index+1) // 2 - 1
-                tree[index] = tree[index*2+1] + tree[index*2+2]
+        for i in range(n):
+            ret += smaller[i] * larger[i]
 
         return ret
