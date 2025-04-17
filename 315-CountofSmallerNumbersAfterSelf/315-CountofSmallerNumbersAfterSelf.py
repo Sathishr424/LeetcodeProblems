@@ -1,4 +1,4 @@
-# Last updated: 17/4/2025, 6:48:33 pm
+# Last updated: 17/4/2025, 6:49:26 pm
 class Solution:
     def countSmaller(self, nums: List[int]) -> List[int]:
         n = len(nums)
@@ -7,11 +7,9 @@ class Solution:
         m = max(nums) - min(nums)
         
         tree = [0] * (m+1)
-        index = 1
         ret = [0] * n
 
         def query(index):
-            print(index)
             s = 0
             while index:
                 s += tree[index]
