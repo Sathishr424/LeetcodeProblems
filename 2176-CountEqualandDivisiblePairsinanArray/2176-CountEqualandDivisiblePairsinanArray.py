@@ -1,4 +1,4 @@
-# Last updated: 17/4/2025, 8:15:20 am
+# Last updated: 17/4/2025, 8:17:07 am
 class Solution:
     def countPairs(self, nums: List[int], k: int) -> int:
         n = len(nums)
