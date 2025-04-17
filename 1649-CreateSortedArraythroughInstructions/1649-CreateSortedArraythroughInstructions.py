@@ -1,4 +1,4 @@
-# Last updated: 17/4/2025, 11:35:04 am
+# Last updated: 17/4/2025, 11:37:23 am
 mod = 10 ** 9 + 7
 class Solution:
     def createSortedArray(self, nums: List[int]) -> int:
@@ -17,10 +17,6 @@ class Solution:
             mergeSort(left)
             mergeSort(right)
 
-            # print(left, right)
-            # print([smaller[l] for _, l in left], [smaller[l] for _, l in right])
-            # print()
-            
             i = 0
             j = 0
             k = 0
@@ -57,9 +53,6 @@ class Solution:
                 j += 1
                 k += 1
         mergeSort([(num, i) for i, num in enumerate(nums)])
-        # print(nums)
-        # print(smaller)
-        # print(larger)
         
         for i in range(n):
             cost = (cost + min(smaller[i], larger[i])) % mod
