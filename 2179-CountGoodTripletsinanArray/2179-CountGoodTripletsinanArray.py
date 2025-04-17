@@ -1,6 +1,7 @@
-# Last updated: 17/4/2025, 7:29:13 pm
+# Last updated: 17/4/2025, 7:34:48 pm
 class Solution:
     def goodTriplets(self, nums1: List[int], nums2: List[int]) -> int:
+        # FenwekTree
         n = len(nums1)
         relation = [0] * n
 
