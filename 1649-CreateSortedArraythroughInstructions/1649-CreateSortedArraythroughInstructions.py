@@ -1,19 +1,11 @@
-# Last updated: 17/4/2025, 5:38:06 pm
+# Last updated: 17/4/2025, 5:41:52 pm
 mod = 10**9 + 7
 class Solution:
     def createSortedArray(self, ins: List[int]) -> int:
-        n = len(ins)
-        m = n+1
-
-        compression = {}
-        index = 1
-        for num in sorted(ins):
-            if num not in compression:
-                compression[num] = index
-                index += 1
+        m = max(ins)
 
         def update(index):
-            while index < m:
+            while index <= m:
                 tree[index] += 1
                 index += index & (-index)
         
@@ -24,16 +16,16 @@ class Solution:
                 index -= index & (-index)
             return s
 
-        tree = [0] * (n+1)
+        tree = [0] * (m+1)
         cost = 0
         hash = defaultdict(int)
 
         for i, num in enumerate(ins):
-            left = query(compression[num]-1)
+            left = query(num-1)
             right = i - left - hash[num]
-            
+
             cost = (cost + min(left, right)) % mod
-            update(compression[num])
+            update(num)
             hash[num] += 1
         
         return cost
