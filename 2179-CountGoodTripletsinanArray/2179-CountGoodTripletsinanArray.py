@@ -1,10 +1,7 @@
-# Last updated: 17/4/2025, 8:35:37 am
+# Last updated: 17/4/2025, 8:38:24 am
 class Solution:
     def goodTriplets(self, nums1: List[int], nums2: List[int]) -> int:
         n = len(nums1)
-
-        tree = [0] * (n * 4)
-        cache = [0] * n
 
         relation = [0] * n
 
