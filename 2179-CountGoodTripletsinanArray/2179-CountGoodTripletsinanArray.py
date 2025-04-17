@@ -1,4 +1,4 @@
-# Last updated: 17/4/2025, 7:27:23 pm
+# Last updated: 17/4/2025, 7:29:13 pm
 class Solution:
     def goodTriplets(self, nums1: List[int], nums2: List[int]) -> int:
         n = len(nums1)
@@ -6,10 +6,6 @@ class Solution:
 
         for i, num in enumerate(nums2):
             relation[num] = i
-        
-        arr = []
-        for num in nums1:
-            arr.append(relation[num])
 
         m = n+1
         tree = [0] * (m+1)
@@ -27,7 +23,8 @@ class Solution:
                 tree[index] += 1
                 index += index & -index
         
-        for i, num in enumerate(arr):
+        for i in range(n):
+            num = relation[nums1[i]]
             left = query(num)
             right = (n-num-1)-(i-left)
             ret += left * right
