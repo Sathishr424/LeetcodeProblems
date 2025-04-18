@@ -1,4 +1,4 @@
-# Last updated: 18/4/2025, 11:24:36 pm
+# Last updated: 18/4/2025, 11:41:22 pm
 inf = float('inf')
 class Solution:
     def findUnsortedSubarray(self, nums: List[int]) -> int:
