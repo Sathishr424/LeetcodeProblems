@@ -1,5 +1,5 @@
-# Last updated: 18/4/2025, 8:07:38 pm
-def getMinK(nums, k, n):
+# Last updated: 18/4/2025, 8:11:03 pm
+def getMaxK(nums, k, n):
     if k >= n: return nums
     stack = []
     
@@ -14,8 +14,6 @@ def getMinK(nums, k, n):
 
 def merge(left, right, compare):
     ret = []
-    s1 = ''.join([str(i) for i in left])
-    s2 = ''.join([str(i) for i in right])
     l = 0
     r = 0
     k = 0
@@ -28,14 +26,12 @@ def merge(left, right, compare):
             elif ret[k] > compare[k]: fine = True
         return False
 
-    while s1 and s2:
-        if s1 > s2:
+    while l < len(left) and r < len(right):
+        if left[l:] > right[r:]:
             ret.append(left[l])
-            s1 = s1[1:]
             l += 1
         else:
             ret.append(right[r])
-            s2 = s2[1:]
             r += 1
         if check_valid(): return compare
         k += 1
@@ -62,11 +58,11 @@ class Solution:
         ret = [0] * k
         
         for l in range(max(0, k-n), min(m, k)+1):
-            left = getMinK(nums1, l, m)
-            right = getMinK(nums2, k-l, n)
+            left = getMaxK(nums1, l, m)
+            right = getMaxK(nums2, k-l, n)
             
             ret = merge(left, right, ret)
-                    
+        
         return ret
 
 
