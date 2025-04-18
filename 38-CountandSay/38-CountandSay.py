@@ -1,11 +1,9 @@
-# Last updated: 18/4/2025, 6:46:04 am
+# Last updated: 18/4/2025, 6:46:31 am
 class Solution:
     def countAndSay(self, n: int) -> str:
-        if n == 1: return '1'
         st = '1'
         i = 1
         while i < n:
-            # print(i, st)
             prev = st[0]
             cnt = 1
             new_st = ''
