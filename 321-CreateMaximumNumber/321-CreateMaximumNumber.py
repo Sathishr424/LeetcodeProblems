@@ -1,4 +1,4 @@
-# Last updated: 18/4/2025, 8:19:35 pm
+# Last updated: 18/4/2025, 8:25:46 pm
 def getMaxK(nums, k, n):
     if k >= n: return nums
     stack = []
@@ -71,6 +71,3 @@ class Solution:
             ret = merge(left, right, ret)
         
         return ret
-
-
-
