@@ -1,4 +1,4 @@
-# Last updated: 18/4/2025, 8:11:03 pm
+# Last updated: 18/4/2025, 8:17:03 pm
 def getMaxK(nums, k, n):
     if k >= n: return nums
     stack = []
@@ -12,39 +12,48 @@ def getMaxK(nums, k, n):
     
     return stack[:k]
 
+def greater(left, right, l, r):
+    while l < len(left) and r < len(right):
+        if left[l] > right[r]: return True
+        elif left[l] < right[r]: return False
+        l += 1
+        r += 1
+    
+    return l < len(left)
+
 def merge(left, right, compare):
     ret = []
     l = 0
     r = 0
     k = 0
-    fine = False
+    valid = False
 
     def check_valid():
-        nonlocal fine
-        if not fine: 
-            if ret[k] < compare[k]: return True
-            elif ret[k] > compare[k]: fine = True
-        return False
+        nonlocal valid
+        if not valid: 
+            if ret[k] < compare[k]: return False
+            elif ret[k] > compare[k]: valid = True
+        return True
 
     while l < len(left) and r < len(right):
-        if left[l:] > right[r:]:
+        if greater(left, right, l, r):
             ret.append(left[l])
             l += 1
         else:
             ret.append(right[r])
             r += 1
-        if check_valid(): return compare
+        if not check_valid(): return compare
         k += 1
     
     while l < len(left):
         ret.append(left[l])
-        if check_valid(): return compare
+        if not check_valid(): return compare
         l += 1
         k += 1
     
     while r < len(right):
         ret.append(right[r])
-        if check_valid(): return compare
+        if not check_valid(): return compare
         r += 1
         k += 1
     
