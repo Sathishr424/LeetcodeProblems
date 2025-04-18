@@ -1,16 +1,32 @@
-# Last updated: 18/4/2025, 10:51:42 pm
+# Last updated: 18/4/2025, 11:16:23 pm
+inf = float('inf')
 class Solution:
-    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+    def findUnsortedSubarray(self, nums: List[int]) -> int:
         n = len(nums)
-        stack = []
-        ret = [-1] * n
+        greater = [inf] * n
+        smaller = [inf] * n
 
-        for i in range(n*2 - 1):
-            i %= n
-            while stack and nums[stack[-1]] < nums[i]:
-                ret[stack.pop()] = nums[i]
+        stack = []
+        for i in range(n):
+            while stack and nums[stack[-1]] > nums[i]:
+                smaller[stack.pop()] = nums[i]
             
             stack.append(i)
-
-        return ret
+        
+        stack = []
+        for i in range(n-1, -1, -1):
+            while stack and nums[stack[-1]] < nums[i]:
+                greater[stack.pop()] = nums[i]
             
+            stack.append(i)
+        
+        ret = 0
+        for i in range(n):
+            if greater[i] != inf or smaller[i] != inf: break
+        
+        left = i
+        for i in range(n-1, -1, -1):
+            if greater[i] != inf or smaller[i] != inf: return i-left+1
+        
+        return 0
+
