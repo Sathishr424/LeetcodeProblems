@@ -1,21 +1,20 @@
-# Last updated: 18/4/2025, 6:48:11 am
+# Last updated: 18/4/2025, 6:51:19 am
 class Solution:
+    @cache
     def countAndSay(self, n: int) -> str:
-        st = '1'
-        i = 1
-        while i < n:
-            prev = st[0]
-            cnt = 1
-            new_st = ''
-            for j in range(1, len(st)):
-                if st[j] == prev:
-                    cnt += 1
-                else:
-                    new_st += f"{cnt}{prev}"
-                    cnt = 1
-                prev = st[j]
-            new_st += f"{cnt}{prev}"
-            st = new_st
-            i += 1
-        
-        return st
+        if n == 1: return '1'
+
+        before = self.countAndSay(n-1)
+        prev = before[0]
+        cnt = 1
+        ret = ''
+        for i in range(1, len(before)):
+            if before[i] == prev:
+                cnt += 1
+            else:
+                ret += f"{cnt}{prev}"
+                cnt = 1
+            prev = before[i]
+                
+        ret += f"{cnt}{prev}"
+        return ret
