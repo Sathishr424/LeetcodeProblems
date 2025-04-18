@@ -1,4 +1,4 @@
-# Last updated: 18/4/2025, 8:25:46 pm
+# Last updated: 18/4/2025, 8:36:33 pm
 def getMaxK(nums, k, n):
     if k >= n: return nums
     stack = []
