@@ -1,9 +1,9 @@
-# Last updated: 18/4/2025, 6:52:24 am
+# Last updated: 18/4/2025, 6:53:23 am
 @cache
-def rec(n):
+def countAndSayHelper(n):
     if n == 1: return '1'
 
-    before = rec(n-1)
+    before = countAndSayHelper(n-1)
     prev = before[0]
     cnt = 1
     ret = ''
@@ -20,4 +20,4 @@ def rec(n):
 
 class Solution:
     def countAndSay(self, n: int) -> str:
-        return rec(n)
+        return countAndSayHelper(n)
