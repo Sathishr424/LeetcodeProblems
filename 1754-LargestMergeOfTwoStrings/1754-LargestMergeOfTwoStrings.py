@@ -1,4 +1,4 @@
-# Last updated: 18/4/2025, 8:30:56 pm
+# Last updated: 18/4/2025, 8:31:34 pm
 class Solution:
     def largestMerge(self, word1: str, word2: str) -> str:
         m = len(word1)
