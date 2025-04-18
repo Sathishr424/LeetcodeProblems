@@ -1,4 +1,4 @@
-# Last updated: 18/4/2025, 8:17:03 pm
+# Last updated: 18/4/2025, 8:19:35 pm
 def getMaxK(nums, k, n):
     if k >= n: return nums
     stack = []
@@ -13,13 +13,11 @@ def getMaxK(nums, k, n):
     return stack[:k]
 
 def greater(left, right, l, r):
-    while l < len(left) and r < len(right):
-        if left[l] > right[r]: return True
-        elif left[l] < right[r]: return False
+    while l < len(left) and r < len(right) and left[l] == right[r]:
         l += 1
         r += 1
     
-    return l < len(left)
+    return r == len(right) or (l < len(left) and left[l] > right[r])
 
 def merge(left, right, compare):
     ret = []
