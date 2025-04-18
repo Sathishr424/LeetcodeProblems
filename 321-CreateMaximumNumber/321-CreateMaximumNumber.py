@@ -1,4 +1,4 @@
-# Last updated: 18/4/2025, 7:51:21 pm
+# Last updated: 18/4/2025, 7:54:17 pm
 def getMinK(nums, k, n):
     if k >= n: return nums
     stack = []
@@ -40,21 +40,16 @@ def merge(left, right):
 
 class Solution:
     def maxNumber(self, nums1: List[int], nums2: List[int], k: int) -> List[int]:
-        3,4,6,5
-        1,2,8,5,4,9,5
         m = len(nums1)
         n = len(nums2)
 
-        ret = merge(nums1[:k], nums2[:max(0, k-m)])
+        ret = [0] * k
         
-        # print(ret)
-        # print(max(0, k-n), min(m, k)+1)
         for l in range(max(0, k-n), min(m, k)+1):
             left = getMinK(nums1, l, m)
             right = getMinK(nums2, k-l, n)
             
             res = merge(left, right)
-            # print(l, k-l, left, right, len(res))
             for i in range(k):
                 if res[i] == ret[i]: continue
                 elif res[i] > ret[i]: ret = res
