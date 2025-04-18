@@ -1,4 +1,4 @@
-# Last updated: 18/4/2025, 8:34:11 pm
+# Last updated: 18/4/2025, 8:34:25 pm
 class Solution:
     def largestMerge(self, word1: str, word2: str) -> str:
         m = len(word1)
@@ -10,22 +10,22 @@ class Solution:
                 r += 1
             return r == len(word2) or (l < len(word1) and word1[l] > word2[r])
         
-        ret = ''
+        ret = []
         l = 0
         r = 0
         while l < m and r < n:
             if greater(l, r):
-                ret += word1[l]
+                ret.append(word1[l])
                 l += 1
             else:
-                ret += word2[r]
+                ret.append(word2[r])
                 r += 1
         
         while l < m:
-            ret += word1[l]
+            ret.append(word1[l])
             l += 1
         while r < n:
-            ret += word2[r]
+            ret.append(word2[r])
             r += 1
         
-        return ret
+        return ''.join(ret)
