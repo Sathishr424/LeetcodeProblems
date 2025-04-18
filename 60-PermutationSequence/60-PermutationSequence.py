@@ -1,22 +1,22 @@
-# Last updated: 14/4/2025, 8:48:04 pm
+# Last updated: 19/4/2025, 3:33:13 am
+@cache
+def fact(x):
+    if x <= 1: return 1
+    return fact(x-1) * x
+
 class Solution:
     def getPermutation(self, n: int, k: int) -> str:
+        def helper(arr, k):
+            n = len(arr)
+            prev = 0
+            fa = fact(n-1)
 
-        def fact(num):
-            if num < 3:
-                return num
-            return fact(num - 1) * num
-
-        s = []
-        k -= 1
-        val = [str(i) for i in range(1, n + 1)]
-        while n > 1:
-            curid = k // fact(n - 1)
-            curval = val[curid]
-            val.remove(curval)
-            s.append(curval)
-            k -= (fact(n - 1) * curid)
-            n -= 1
-        s.append(val[0])
-        return "".join(s)
+            for i in range(n):
+                f = prev+fa
+                if f >= k:
+                    return str(arr[i]) + helper(arr[:i] + arr[i+1:], k-prev)
+                prev = f
+            
+            return ''
         
+        return helper([i for i in range(1, n+1)], k)
