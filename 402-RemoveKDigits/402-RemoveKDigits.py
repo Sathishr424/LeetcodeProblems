@@ -1,4 +1,4 @@
-# Last updated: 18/4/2025, 3:33:37 pm
+# Last updated: 18/4/2025, 3:37:37 pm
 class Solution:
     def removeKdigits(self, num: str, k: int) -> str:
         n = len(num)
@@ -12,9 +12,11 @@ class Solution:
             
             stack.append(char)
 
-        ret = ''
-        for char in stack[:k]:
-            if ret or char != '0': ret += char
+        start = k
+        for i in range(k):
+            if stack[i] != '0':
+                start = i
+                break
         
-        return ret if ret else '0'
+        return ''.join(stack[start:k]) if k-start else '0'
         
