@@ -1,4 +1,4 @@
-# Last updated: 18/4/2025, 8:03:38 pm
+# Last updated: 18/4/2025, 8:06:35 pm
 def getMinK(nums, k, n):
     if k >= n: return nums
     stack = []
@@ -21,6 +21,13 @@ def merge(left, right, compare):
     k = 0
     fine = False
 
+    def check_valid():
+        nonlocal fine
+        if not fine: 
+            if ret[k] < compare[k]: return True
+            elif ret[k] > compare[k]: fine = True
+        return False
+
     while s1 and s2:
         if s1 > s2:
             ret.append(left[l])
@@ -30,24 +37,18 @@ def merge(left, right, compare):
             ret.append(right[r])
             s2 = s2[1:]
             r += 1
-        if not fine: 
-            if ret[k] < compare[k]: return compare
-            elif ret[k] > compare[k]: fine = True
+        if check_valid(): return compare
         k += 1
     
     while l < len(left):
         ret.append(left[l])
-        if not fine: 
-            if ret[k] < compare[k]: return compare
-            elif ret[k] > compare[k]: fine = True
+        if check_valid(): return compare
         l += 1
         k += 1
     
     while r < len(right):
         ret.append(right[r])
-        if not fine: 
-            if ret[k] < compare[k]: return compare
-            elif ret[k] > compare[k]: fine = True
+        if check_valid(): return compare
         r += 1
         k += 1
     
