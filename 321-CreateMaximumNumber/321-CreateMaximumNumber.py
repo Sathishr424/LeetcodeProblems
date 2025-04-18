@@ -1,4 +1,4 @@
-# Last updated: 18/4/2025, 7:54:17 pm
+# Last updated: 18/4/2025, 8:03:38 pm
 def getMinK(nums, k, n):
     if k >= n: return nums
     stack = []
@@ -12,13 +12,15 @@ def getMinK(nums, k, n):
     
     return stack[:k]
 
-def merge(left, right):
+def merge(left, right, compare):
     ret = []
     s1 = ''.join([str(i) for i in left])
     s2 = ''.join([str(i) for i in right])
-    
     l = 0
     r = 0
+    k = 0
+    fine = False
+
     while s1 and s2:
         if s1 > s2:
             ret.append(left[l])
@@ -28,13 +30,26 @@ def merge(left, right):
             ret.append(right[r])
             s2 = s2[1:]
             r += 1
+        if not fine: 
+            if ret[k] < compare[k]: return compare
+            elif ret[k] > compare[k]: fine = True
+        k += 1
     
     while l < len(left):
         ret.append(left[l])
+        if not fine: 
+            if ret[k] < compare[k]: return compare
+            elif ret[k] > compare[k]: fine = True
         l += 1
+        k += 1
+    
     while r < len(right):
         ret.append(right[r])
+        if not fine: 
+            if ret[k] < compare[k]: return compare
+            elif ret[k] > compare[k]: fine = True
         r += 1
+        k += 1
     
     return ret
 
@@ -49,11 +64,7 @@ class Solution:
             left = getMinK(nums1, l, m)
             right = getMinK(nums2, k-l, n)
             
-            res = merge(left, right)
-            for i in range(k):
-                if res[i] == ret[i]: continue
-                elif res[i] > ret[i]: ret = res
-                break
+            ret = merge(left, right, ret)
                     
         return ret
 
