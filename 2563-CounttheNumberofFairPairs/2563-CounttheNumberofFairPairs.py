@@ -1,4 +1,4 @@
-# Last updated: 19/4/2025, 5:01:25 pm
+# Last updated: 19/4/2025, 5:03:10 pm
 class Solution:
     def countFairPairs(self, nums: List[int], lower: int, upper: int) -> int:
         n = len(nums)
@@ -9,9 +9,7 @@ class Solution:
         l = 0
         r = n-1
         while l < r:
-            sum = nums[l] + nums[r]
-
-            if sum < lower:
+            if nums[l] + nums[r] < lower:
                 left += r-l
                 l += 1
             else:
@@ -20,9 +18,7 @@ class Solution:
         l = 0
         r = n-1
         while l < r:
-            sum = nums[l] + nums[r]
-
-            if sum <= upper:
+            if nums[l] + nums[r] <= upper:
                 right += r-l
                 l += 1
             else:
