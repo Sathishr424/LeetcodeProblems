@@ -1,4 +1,4 @@
-# Last updated: 20/4/2025, 1:15:09 am
+# Last updated: 20/4/2025, 1:23:12 am
 @cache
 def fact(x):
     if x <= 1: return 1
