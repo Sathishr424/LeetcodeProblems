@@ -1,4 +1,4 @@
-# Last updated: 20/4/2025, 1:39:06 am
+# Last updated: 20/4/2025, 1:43:30 am
 @cache
 def fact(x):
     if x <= 1: return 1
@@ -19,10 +19,8 @@ class Solution:
         half = len(s) // 2
         counts = {}
 
-        def getPerm(k):
-            n = sum(counts.values())
+        def getPerm(k, n):
             if n == 0: return ''
-
             c = sorted(counts.keys())
 
             f = log_fact[n]
@@ -32,22 +30,22 @@ class Solution:
             if f >= 32:
                 counts[c[0]] -= 1
                 if counts[c[0]] == 0: del counts[c[0]]
-                return c[0] + getPerm(k)
+                return c[0] + getPerm(k, n-1)
+            
+            b = 1
+            for char in counts:
+                b *= fact(counts[char])
+            f = fact(n-1)
 
             for char in c:
-                counts[char] -= 1
-                v = sorted(counts.values(), reverse=True)
-                f = 1
-                for i in range(v[0]+1, n):
-                    f *= i
-                for ch in v[1:]:
-                    f //= fact(ch)
+                x = b // fact(counts[char]) * fact(counts[char]-1)
+                x = f // x
 
-                if f >= k:
+                if x >= k:
+                    counts[char] -= 1
                     if counts[char] == 0: del counts[char]
-                    return char + getPerm(k)
-                counts[char] += 1
-                k -= f
+                    return char + getPerm(k, n-1)
+                k -= x
             
             return ''
         
@@ -57,7 +55,7 @@ class Solution:
             if uniq[char] > 1:
                 counts[char] = uniq[char] // 2
 
-        st = getPerm(k)
+        st = getPerm(k, half)
         if len(st) != half: return ''
         
         return st + odd + st[::-1]
