@@ -1,4 +1,4 @@
-# Last updated: 20/4/2025, 1:34:21 am
+# Last updated: 20/4/2025, 1:39:06 am
 @cache
 def fact(x):
     if x <= 1: return 1
@@ -11,13 +11,12 @@ for i in range(1, MAX+1):
 
 class Solution:
     def smallestPalindrome(self, s: str, k: int) -> str:
-        n = len(s)
         uniq = defaultdict(int)
         for char in s:
             uniq[char] += 1
         
         odd = ''
-        half = n//2
+        half = len(s) // 2
         counts = {}
 
         def getPerm(k):
@@ -27,7 +26,6 @@ class Solution:
             c = sorted(counts.keys())
 
             f = log_fact[n]
-
             for char in counts:
                 f -= log_fact[counts[char]]
             
@@ -37,10 +35,13 @@ class Solution:
                 return c[0] + getPerm(k)
 
             for char in c:
-                f = fact(n-1)
                 counts[char] -= 1
-                for ch in counts:
-                    f //= fact(counts[ch])
+                v = sorted(counts.values(), reverse=True)
+                f = 1
+                for i in range(v[0]+1, n):
+                    f *= i
+                for ch in v[1:]:
+                    f //= fact(ch)
 
                 if f >= k:
                     if counts[char] == 0: del counts[char]
