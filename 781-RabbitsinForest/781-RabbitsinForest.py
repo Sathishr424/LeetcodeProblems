@@ -1,4 +1,4 @@
-# Last updated: 20/4/2025, 1:15:40 pm
+# Last updated: 20/4/2025, 1:19:27 pm
 class Solution:
     def numRabbits(self, answers: List[int]) -> int:
         ret = 0
@@ -8,7 +8,6 @@ class Solution:
             cnt = freq[num]
             num += 1
 
-            ret += cnt // num * num
-            if cnt % num: ret += num
+            ret += ceil(cnt / num) * num
                 
         return ret
