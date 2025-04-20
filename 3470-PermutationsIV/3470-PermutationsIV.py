@@ -1,4 +1,4 @@
-# Last updated: 21/4/2025, 12:07:30 am
+# Last updated: 21/4/2025, 12:11:01 am
 @cache
 def fact(x, y):
     if x == 0 or y == 0: return 1
