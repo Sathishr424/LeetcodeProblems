@@ -1,33 +1,31 @@
-# Last updated: 21/4/2025, 5:57:15 pm
+# Last updated: 21/4/2025, 5:59:36 pm
 class Solution:
     def smallestNumber(self, pattern: str) -> str:
         n = len(pattern)
 
-        l = 1
-        r = n+1
-        vis = [True] * (r+1)
-        max_ans = '9' * r
+        m = n+1
+        vis = [True] * (m+1)
+        max_ans = '9' * m
 
-        def rec(index, st):
-            if index == r: return st
+        def rec(index, st, prev):
+            if index == m: return st
             ans = max_ans
             if pattern[index-1] == 'I':
-                for i in range(int(st[-1])+1, r+1):
-                    if vis[i]:
-                        vis[i] = False
-                        ans = min(ans, rec(index+1, st+str(i)))
-                        vis[i] = True
+                l = prev+1
+                r = m+1
             else:
-                for i in range(1, int(st[-1])):
-                    if vis[i]:
-                        vis[i] = False
-                        ans = min(ans, rec(index+1, st+str(i)))
-                        vis[i] = True
+                l = 1
+                r = prev
+            for i in range(l, r):
+                if vis[i]:
+                    vis[i] = False
+                    ans = min(ans, rec(index+1, st+str(i), i))
+                    vis[i] = True
             return ans
         
         ans = max_ans
-        for i in range(1, r+1):
+        for i in range(1, m+1):
             vis[i] = False
-            ans = min(ans, rec(1, str(i)))
+            ans = min(ans, rec(1, str(i), i))
             vis[i] = True
         return ans
