@@ -1,4 +1,4 @@
-# Last updated: 22/4/2025, 12:59:08 am
+# Last updated: 22/4/2025, 1:01:19 am
 class Solution:
     def isItPossible(self, word1: str, word2: str) -> bool:
         m = len(word1)
@@ -20,16 +20,15 @@ class Solution:
             x_cnt = x_uniq
             y_cnt = y_uniq
 
-            if x[x_char] == 1: x_cnt -= 1
-            if x_char not in y: y_cnt += 1
+            if x_char in y and x_cnt == y_cnt: return True
+
+            x_cnt -= x[x_char] == 1
+            y_cnt += x_char not in y
 
             for y_char in y:
+                if y_char == x_char: continue
                 y_ = y_cnt
                 x_ = x_cnt
-
-                if y_char == x_char:
-                    if y_ == x_+(x[x_char] == 1): return True
-                    continue
                 
                 if y[y_char] == 1: y_ -= 1
                 if y_char not in x: x_ += 1
