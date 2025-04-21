@@ -1,6 +1,9 @@
-# Last updated: 22/4/2025, 1:02:54 am
+# Last updated: 22/4/2025, 1:04:35 am
 class Solution:
     def isItPossible(self, word1: str, word2: str) -> bool:
+        m = len(word1)
+        n = len(word2)
+
         x = defaultdict(int)
         y = defaultdict(int)
 
@@ -10,9 +13,12 @@ class Solution:
         for char in word2:
             y[char] += 1
 
+        x_uniq = len(x)
+        y_uniq = len(y)
+
         for x_char in x:
-            x_cnt = len(x)
-            y_cnt = len(y)
+            x_cnt = x_uniq
+            y_cnt = y_uniq
 
             if x_char in y and x_cnt == y_cnt: return True
 
@@ -21,6 +27,12 @@ class Solution:
 
             for y_char in y:
                 if y_char == x_char: continue
-                if y_cnt - (y[y_char] == 1) == x_cnt + (y_char not in x): return True
+                y_ = y_cnt
+                x_ = x_cnt
+                
+                if y[y_char] == 1: y_ -= 1
+                if y_char not in x: x_ += 1
+
+                if y_ == x_: return True
 
         return False
