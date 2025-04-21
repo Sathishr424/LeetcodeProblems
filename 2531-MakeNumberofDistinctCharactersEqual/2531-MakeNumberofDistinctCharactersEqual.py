@@ -1,4 +1,4 @@
-# Last updated: 22/4/2025, 12:58:21 am
+# Last updated: 22/4/2025, 12:59:08 am
 class Solution:
     def isItPossible(self, word1: str, word2: str) -> bool:
         m = len(word1)
