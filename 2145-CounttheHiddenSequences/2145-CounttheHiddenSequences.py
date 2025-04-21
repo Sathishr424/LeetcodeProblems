@@ -1,4 +1,4 @@
-# Last updated: 21/4/2025, 1:52:39 pm
+# Last updated: 21/4/2025, 1:53:41 pm
 class Solution:
     def numberOfArrays(self, diff: List[int], lower: int, upper: int) -> int:
         prev = diff[0]
@@ -6,8 +6,8 @@ class Solution:
         maxi = prev
         for d in diff:
             curr = prev+d
-            mini = min(curr, mini)
-            maxi = max(curr, maxi)
+            if curr < mini: mini = curr
+            elif curr >= maxi: maxi = curr
             prev = curr
 
         l = lower-mini
