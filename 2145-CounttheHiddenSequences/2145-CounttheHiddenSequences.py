@@ -1,4 +1,4 @@
-# Last updated: 21/4/2025, 1:53:41 pm
+# Last updated: 21/4/2025, 2:03:22 pm
 class Solution:
     def numberOfArrays(self, diff: List[int], lower: int, upper: int) -> int:
         prev = diff[0]
@@ -14,4 +14,3 @@ class Solution:
         r = maxi+l
         
         return max(0, upper-r+1)
-            
