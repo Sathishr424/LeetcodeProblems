@@ -1,26 +1,41 @@
-# Last updated: 22/4/2025, 1:11:15 am
+# Last updated: 22/4/2025, 1:11:43 am
 class Solution:
     def isItPossible(self, word1: str, word2: str) -> bool:
-        a = Counter(word1)
-        b = Counter(word2)
-        difference = len(b) - len(a)
-        if abs(difference) > 2:
-            return False
-        for aChoice in a:
-            outerDifference = difference
-            if a[aChoice] == 1:
-                outerDifference += 1
-            for bChoice in b:
-                innerDifference = outerDifference
-                if aChoice == bChoice:
-                    innerDifference = difference
-                else:
-                    if aChoice not in b:
-                        innerDifference += 1
-                    if bChoice not in a:
-                        innerDifference -= 1
-                    if b[bChoice] == 1:
-                        innerDifference -= 1
-                if innerDifference == 0:
-                    return True
+        x = [0] * 26
+        y = [0] * 26
+
+        x_uniq = 0
+        y_uniq = 0
+
+        for char in word1:
+            x[ord(char) - 97] += 1
+        
+        for char in word2:
+            y[ord(char) - 97] += 1
+
+        for i in range(26):
+            x_uniq += x[i] > 0
+            y_uniq += y[i] > 0
+
+        for x_char in range(26):
+            if x[x_char] == 0: continue
+            x_cnt = x_uniq
+            y_cnt = y_uniq
+
+            if y[x_char] > 0 and x_cnt == y_cnt: return True
+
+            x_cnt -= x[x_char] == 1
+            y_cnt += y[x_char] == 0
+
+            for y_char in range(26):
+                if y[y_char] == 0: continue
+                if y_char == x_char: continue
+                y_ = y_cnt
+                x_ = x_cnt
+                
+                if y[y_char] == 1: y_ -= 1
+                if x[y_char] == 0: x_ += 1
+
+                if y_ == x_: return True
+
         return False
