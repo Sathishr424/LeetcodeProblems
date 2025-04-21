@@ -1,4 +1,4 @@
-# Last updated: 21/4/2025, 1:51:45 pm
+# Last updated: 21/4/2025, 1:52:39 pm
 class Solution:
     def numberOfArrays(self, diff: List[int], lower: int, upper: int) -> int:
         prev = diff[0]
