@@ -1,4 +1,4 @@
-# Last updated: 22/4/2025, 2:10:46 am
+# Last updated: 22/4/2025, 2:11:43 am
 class Solution:
     def reversePairs(self, nums: List[int]) -> int:
         compression = {}
@@ -29,14 +29,11 @@ class Solution:
                 s += tree[index]
                 index -= index & -index
             return s
-        
-        # -4, -3, -2, -1, 0, 1, 2, 3, 4
 
         ret = 0
         added = defaultdict(int)
         for num in nums[::-1]:
-            x = query(compression[num]) - added[num]
-            ret += x
+            ret += query(compression[num]) - added[num]
             
             add(compression[num * 2])
             added[num*2] += 1
