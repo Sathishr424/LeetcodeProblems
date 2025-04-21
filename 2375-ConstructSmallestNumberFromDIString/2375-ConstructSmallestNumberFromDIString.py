@@ -1,4 +1,4 @@
-# Last updated: 21/4/2025, 5:59:36 pm
+# Last updated: 21/4/2025, 7:04:03 pm
 class Solution:
     def smallestNumber(self, pattern: str) -> str:
         n = len(pattern)
