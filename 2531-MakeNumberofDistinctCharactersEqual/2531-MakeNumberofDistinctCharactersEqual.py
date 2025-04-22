@@ -1,4 +1,4 @@
-# Last updated: 22/4/2025, 1:11:43 am
+# Last updated: 23/4/2025, 12:49:20 am
 class Solution:
     def isItPossible(self, word1: str, word2: str) -> bool:
         x = [0] * 26
