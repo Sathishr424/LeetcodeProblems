@@ -1,8 +1,7 @@
-# Last updated: 23/4/2025, 8:14:26 am
+# Last updated: 23/4/2025, 8:16:44 am
 class Solution:
     def countLargestGroup(self, n: int) -> int:
-        m = str(n)
-        sizes = [0] * (min(10**4, int('9' * len(m))) + 1)
+        sizes = [0] * 37
         largest_size = 0
 
         for num in range(1, n+1):
