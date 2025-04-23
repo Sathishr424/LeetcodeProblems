@@ -1,48 +1,66 @@
-# Last updated: 23/4/2025, 4:58:07 pm
-mod = 10**9 + 7
-N = 10**4
-
-is_prime = [True] * (N+1)
-is_prime[0] = False
-is_prime[1] = False
-
-for i in range(2, int(N**0.5) + 1):
-    if not is_prime[i]: continue
-    for j in range(i*i, N+1, i):
-        is_prime[j] = False
-
-primes = []
-for i in range(2, N+1):
-    if is_prime[i]: primes.append(i)
-
-@cache
-def fact(n):
-    if n <= 1: return 1
-    return fact(n-1) * n % mod
-
-def modInverse(x):
-    return pow(x, mod-2, mod)
-
-@cache
-def getAns(cnt, n):
-    a = fact(cnt+n-1)
-    b = fact(cnt) * fact(n-1)
-    return a * modInverse(b) % mod
-
+# Last updated: 23/4/2025, 9:54:55 pm
 class Solution:
-    def idealArrays(self, n: int, maxValue: int) -> int:
-        ret = 1
-        
-        for x in range(2, maxValue+1):
-            curr = 1
-            for num in primes:
-                if num > x: break
-                cnt = 0
-                while x % num == 0:
-                    cnt += 1
-                    x //= num
-                if cnt: curr = curr * getAns(cnt, n) % mod
+    def maxFrequency(self, nums: List[int], k: int) -> int:
+        n = len(nums)
 
-            ret = (ret + curr) % mod
+        nums.sort()
+
+        # k = 10
+        # 2, 3, 4, 12, 32, 44, 66, 120
+        # 2, 1
+        
+        # 2, 3, 4, 8, 10 => prefixCnt - ((maxi - currElement) * cnt)
+        # 4, 1, 0, 4, 6
+
+        # 4, 1, 0, 0, 1, 2, 1, 2
+
+        # 2, 1
+        # 8, 7, 6, 2, 0
+
+        # 20-15 = 5, 20-2 = 18
+
+        ret = 1
+        maxi = nums[-1] + 1
+        prefix = [0]
+        for i in range(n):
+            prefix.append(prefix[-1] + (maxi - nums[i]))
+        
+        def bn_l(l, r, index, val, rem):
+            while l < r:
+                mid = (l + r) // 2
+                diff = index - mid
+                s = prefix[index] - prefix[mid]
+                s = s - (maxi - nums[index]) * diff
+
+                if s <= rem:
+                    r = mid
+                else:
+                    l = mid + 1
+            
+            return l
+        
+        def bn_r(l, r, index, val, rem):
+            while l < r:
+                mid = (l + r) // 2
+                diff = index - mid
+                s = prefix[mid] - prefix[index] + (maxi-nums[mid])
+                s = s - (maxi - nums[index]) * diff
+
+                if s >= rem:
+                    r = mid
+                else:
+                    l = mid + 1
+            
+            return l
+        # print(nums)
+        for i in range(1, n):
+            num = nums[i]
+
+            left = bn_l(0, i, i, num, k)
+            s = abs(prefix[i] - prefix[left])
+            right = bn_r(i, n-1, i, num, k-s)
+
+            ret = max(ret, right-left+1)
+            # print(i, num, (left, right), (right-left))
         
         return ret
