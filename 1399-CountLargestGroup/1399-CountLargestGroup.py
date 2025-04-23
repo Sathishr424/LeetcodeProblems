@@ -1,4 +1,4 @@
-# Last updated: 23/4/2025, 8:16:44 am
+# Last updated: 23/4/2025, 8:17:38 am
 class Solution:
     def countLargestGroup(self, n: int) -> int:
         sizes = [0] * 37
