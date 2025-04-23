@@ -1,4 +1,4 @@
-# Last updated: 23/4/2025, 6:48:32 am
+# Last updated: 23/4/2025, 6:49:54 am
 N = 10**4
 mod = 10**9 + 7
 
@@ -28,29 +28,11 @@ class Solution:
     def waysToFillArray(self, queries: List[List[int]]) -> List[int]:
         ret = []
 
-        # 4, 8
-        # ****
-        # (1, 2, 4, 8, 16, 32)
-        # 4, 8
-
-        # |||||||222
-
-        # 23||
-        # 00222
-        # 02022, 20022, 20202
-
-
-        # 20022
-
-        # 123, 132, 213, 231, 312, 321
-
-        # 23|, 2|3 3|2
-
         for n, k in queries:
             curr = 1
             for num in primes:
-                cnt = 0
                 if num > k: break
+                cnt = 0
                 while k % num == 0:
                     cnt += 1
                     k //= num
