@@ -1,7 +1,8 @@
-# Last updated: 23/4/2025, 8:10:27 am
+# Last updated: 23/4/2025, 8:14:26 am
 class Solution:
     def countLargestGroup(self, n: int) -> int:
-        sizes = defaultdict(int)
+        m = str(n)
+        sizes = [0] * (min(10**4, int('9' * len(m))) + 1)
         largest_size = 0
 
         for num in range(1, n+1):
@@ -11,11 +12,10 @@ class Solution:
                 num //= 10
             
             sizes[s] += 1
-            if sizes[s] > sizes[largest_size]:
-                largest_size = s
+            largest_size = max(sizes[s], largest_size)
 
         ret = 0
-        for num in sizes:
-            ret += sizes[num] == sizes[largest_size]
+        for size in sizes:
+            ret += size == largest_size
 
         return ret
