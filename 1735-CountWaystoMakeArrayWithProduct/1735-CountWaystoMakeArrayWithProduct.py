@@ -1,4 +1,4 @@
-# Last updated: 23/4/2025, 7:21:33 am
+# Last updated: 23/4/2025, 7:21:51 am
 N = 10**4
 mod = 10**9 + 7
 
@@ -26,7 +26,7 @@ def modInverse(x):
 @cache
 def getAns(cnt, n):
     a = fact(cnt+n)
-    b = fact(cnt) * fact(n)
+    b = fact(cnt) * fact(n) % mod
     return a * modInverse(b) % mod
 
 class Solution:
