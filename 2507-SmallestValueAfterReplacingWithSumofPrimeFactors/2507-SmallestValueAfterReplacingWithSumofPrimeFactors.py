@@ -1,4 +1,4 @@
-# Last updated: 23/4/2025, 7:57:31 am
+# Last updated: 23/4/2025, 7:58:36 am
 N = 10**5
 
 is_prime = [True] * (N+1)
@@ -14,16 +14,20 @@ primes = []
 for i in range(2, N+1):
     if is_prime[i]: primes.append(i)
 
+@cache
+def primeSum(n):
+    new_n = 0
+    for num in primes:
+        if num > n: break
+        while n % num == 0:
+            new_n += num
+            n //= num
+    return new_n
+
 class Solution:
     def smallestValue(self, n: int) -> int:
         if n == 4: return 4
         while not is_prime[n]:
-            new_n = 0
-            for num in primes:
-                if num > n: break
-                while n % num == 0:
-                    new_n += num
-                    n //= num
-            n = new_n
+            n = primeSum(n)
         
         return n
