@@ -1,42 +1,58 @@
-# Last updated: 23/4/2025, 1:59:16 am
-MOD = 10**9 + 7
-MAX_N = 10**4 + 10
-MAX_P = 15
+# Last updated: 23/4/2025, 4:54:45 pm
+mod = 10**9 + 7
+N = 10**4
 
-sieve = [0] * MAX_N
+is_prime = [True] * (N+1)
+is_prime[0] = False
+# is_prime[1] = False
 
-for i in range(2, MAX_N):
-    if sieve[i] == 0:
-        for j in range(i, MAX_N, i):
-            sieve[j] = i
+for i in range(2, int(N**0.5) + 1):
+    if not is_prime[i]: continue
+    for j in range(i*i, N+1, i):
+        is_prime[j] = False
 
-ps = [[] for _ in range(MAX_N)]
+primes = []
+for i in range(2, N+1):
+    if is_prime[i]: primes.append(i)
 
-for i in range(2, MAX_N):
-    x = i
-    while x > 1:
-        p = sieve[x]
-        cnt = 0
-        while x % p == 0:
-            x //= p
-            cnt += 1
-        ps[i].append(cnt)
+@cache
+def fact(n):
+    if n <= 1: return 1
+    return fact(n-1) * n % mod
 
-c = [[0] * (MAX_P + 1) for _ in range(MAX_N + MAX_P)]
+def modInverse(x):
+    return pow(x, -1, mod)
 
-c[0][0] = 1
-for i in range(1, MAX_N + MAX_P):
-    c[i][0] = 1
-    for j in range(1, min(i, MAX_P) + 1):
-        c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % MOD
-
+@cache
+def getAns(cnt, n):
+    a = fact(cnt+n-1)
+    b = fact(cnt) * fact(n-1)
+    return a * modInverse(b) % mod
 
 class Solution:
     def idealArrays(self, n: int, maxValue: int) -> int:
-        ans = 0
-        for x in range(1, maxValue + 1):
-            mul = 1
-            for p in ps[x]:
-                mul = mul * c[n + p - 1][p] % MOD
-            ans = (ans + mul) % MOD
-        return ans
+        ret = 0
+        (2, 4, 8)
+        
+        # 222
+        # ----
+
+        # 11---
+        # |2|22, |22|2, 2||22
+
+        ret = 0
+        
+        for y in range(1, maxValue+1):
+            x = y
+            curr = 1
+            for num in primes:
+                if num > x: break
+                cnt = 0
+                while x % num == 0:
+                    cnt += 1
+                    x //= num
+                if cnt: curr = curr * getAns(cnt, n) % mod
+
+            ret = (ret + curr) % mod
+        
+        return ret
