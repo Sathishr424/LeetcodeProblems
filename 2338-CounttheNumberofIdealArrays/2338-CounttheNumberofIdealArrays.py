@@ -1,4 +1,4 @@
-# Last updated: 23/4/2025, 4:55:48 pm
+# Last updated: 23/4/2025, 4:58:07 pm
 mod = 10**9 + 7
 N = 10**4
 
@@ -21,7 +21,7 @@ def fact(n):
     return fact(n-1) * n % mod
 
 def modInverse(x):
-    return pow(x, -1, mod)
+    return pow(x, mod-2, mod)
 
 @cache
 def getAns(cnt, n):
