@@ -1,15 +1,14 @@
-# Last updated: 23/4/2025, 10:30:16 pm
+# Last updated: 23/4/2025, 10:30:49 pm
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def maxFrequency(self, nums: List[int], k: int) -> int:
-        n = len(nums)
         nums.sort()
         # prefixCnt - ((maxi - currElement) * cnt)
 
         ret = 1
         prefix = [0]
-        for i in range(n):
-            prefix.append(prefix[-1] + nums[i])
+        for num in nums:
+            prefix.append(prefix[-1] + num)
         
         def bn_l(l, r, index):
             while l < r:
@@ -26,7 +25,7 @@ class Solution:
             
             return l
 
-        for i in range(n):
+        for i in range(len(nums)):
             left = bn_l(0, i, i)
             ret = cmax(ret, i-left+1)
         
