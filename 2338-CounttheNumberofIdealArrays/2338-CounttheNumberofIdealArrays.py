@@ -1,10 +1,10 @@
-# Last updated: 23/4/2025, 4:54:45 pm
+# Last updated: 23/4/2025, 4:55:48 pm
 mod = 10**9 + 7
 N = 10**4
 
 is_prime = [True] * (N+1)
 is_prime[0] = False
-# is_prime[1] = False
+is_prime[1] = False
 
 for i in range(2, int(N**0.5) + 1):
     if not is_prime[i]: continue
@@ -31,19 +31,9 @@ def getAns(cnt, n):
 
 class Solution:
     def idealArrays(self, n: int, maxValue: int) -> int:
-        ret = 0
-        (2, 4, 8)
+        ret = 1
         
-        # 222
-        # ----
-
-        # 11---
-        # |2|22, |22|2, 2||22
-
-        ret = 0
-        
-        for y in range(1, maxValue+1):
-            x = y
+        for x in range(2, maxValue+1):
             curr = 1
             for num in primes:
                 if num > x: break
