@@ -1,4 +1,5 @@
-# Last updated: 23/4/2025, 10:25:37 pm
+# Last updated: 23/4/2025, 10:27:16 pm
+cmax = lambda x, y: x if x > y else y
 class Solution:
     def maxFrequency(self, nums: List[int], k: int) -> int:
         n = len(nums)
@@ -40,12 +41,12 @@ class Solution:
             
             return l
 
-        for i in range(n):
+        for i in range(1, n):
             num = nums[i]
 
             left = bn_l(0, i, i, num, k)
             s = abs(prefix[i] - prefix[left])
             right = bn_r(i+1, n, i, num, k-s)
-            ret = max(ret, right-left)
+            ret = cmax(ret, right-left)
         
         return ret
