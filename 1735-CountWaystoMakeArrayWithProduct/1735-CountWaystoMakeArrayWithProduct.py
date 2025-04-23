@@ -1,4 +1,4 @@
-# Last updated: 23/4/2025, 6:56:38 am
+# Last updated: 23/4/2025, 7:21:33 am
 N = 10**4
 mod = 10**9 + 7
 
@@ -21,12 +21,12 @@ def fact(n):
     return fact(n-1) * n % mod
 
 def modInverse(x):
-    return pow(x, mod-2, mod)
+    return pow(x, -1, mod)
 
 @cache
 def getAns(cnt, n):
-    a = fact(cnt+n-1)
-    b = fact(cnt) * fact(n-1)
+    a = fact(cnt+n)
+    b = fact(cnt) * fact(n)
     return a * modInverse(b) % mod
 
 class Solution:
@@ -42,6 +42,6 @@ class Solution:
                     cnt += 1
                     k //= num
                 
-                if cnt: curr = (curr * getAns(cnt, n)) % mod
+                if cnt: curr = (curr * getAns(cnt, n-1)) % mod
             ret.append(curr)
         return ret
