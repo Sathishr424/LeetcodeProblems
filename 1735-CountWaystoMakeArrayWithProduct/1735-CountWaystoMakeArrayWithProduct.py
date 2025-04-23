@@ -1,4 +1,4 @@
-# Last updated: 23/4/2025, 6:49:54 am
+# Last updated: 23/4/2025, 6:56:38 am
 N = 10**4
 mod = 10**9 + 7
 
@@ -18,11 +18,16 @@ for i in range(2, N+1):
 @cache
 def fact(n):
     if n <= 1: return 1
-    return (fact(n-1) * n)
+    return fact(n-1) * n % mod
+
+def modInverse(x):
+    return pow(x, mod-2, mod)
 
 @cache
 def getAns(cnt, n):
-    return fact(cnt+n-1) // (fact(cnt) * fact(n-1)) % mod
+    a = fact(cnt+n-1)
+    b = fact(cnt) * fact(n-1)
+    return a * modInverse(b) % mod
 
 class Solution:
     def waysToFillArray(self, queries: List[List[int]]) -> List[int]:
@@ -40,5 +45,3 @@ class Solution:
                 if cnt: curr = (curr * getAns(cnt, n)) % mod
             ret.append(curr)
         return ret
-
-        
