@@ -1,4 +1,5 @@
-# Last updated: 23/4/2025, 8:17:38 am
+# Last updated: 23/4/2025, 8:21:08 am
+cmax = lambda x, y : x if x > y else y
 class Solution:
     def countLargestGroup(self, n: int) -> int:
         sizes = [0] * 37
@@ -11,7 +12,7 @@ class Solution:
                 num //= 10
             
             sizes[s] += 1
-            largest_size = max(sizes[s], largest_size)
+            largest_size = cmax(sizes[s], largest_size)
 
         ret = 0
         for size in sizes:
