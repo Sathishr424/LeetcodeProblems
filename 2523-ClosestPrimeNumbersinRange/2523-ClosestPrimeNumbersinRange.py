@@ -1,4 +1,4 @@
-# Last updated: 23/4/2025, 4:52:10 am
+# Last updated: 23/4/2025, 7:53:24 am
 N = 10**6
 
 is_prime = [True] * (N+1)
@@ -18,6 +18,7 @@ class Solution:
         for i in range(left, right+1):
             if is_prime[i]:
                 if prev != -1 and i - prev < mini:
+                    if prev-i == 2: return [prev, i]
                     ret = [prev, i]
                     mini = i-prev
                 prev = i
