@@ -1,4 +1,4 @@
-# Last updated: 24/4/2025, 7:22:38 pm
+# Last updated: 24/4/2025, 7:23:39 pm
 mod= 10**9 + 7
 base = 28
 inverseBase = pow(base, mod-2, mod)
@@ -29,7 +29,7 @@ class Solution:
 
         if left == right: return s
 
-        isOddTurn = n % 2 != 1
+        isOddTurn = n % 2 == 0
         
         l_pos = [0, n//2 - 1]
         r_pos = [(n+1) // 2, n-1]
