@@ -1,4 +1,4 @@
-# Last updated: 24/4/2025, 9:12:28 am
+# Last updated: 24/4/2025, 9:13:46 am
 class Solution:
     def countCompleteSubarrays(self, nums: List[int]) -> int:
         n = len(nums)
@@ -14,7 +14,7 @@ class Solution:
             uniq = {}
             for j in range(i, n):
                 uniq[nums[j]] = 1
-                if len(uniq) == cnt: ret += 1
-                elif len(uniq) > cnt: break
+                if len(uniq) <= cnt: ret += len(uniq) == cnt
+                else: break
 
         return ret
