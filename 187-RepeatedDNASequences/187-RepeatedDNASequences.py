@@ -1,4 +1,4 @@
-# Last updated: 24/4/2025, 5:37:53 pm
+# Last updated: 24/4/2025, 5:38:35 pm
 k = 10
 link = {'A': 1, 'C': 2, 'G': 3, 'T': 4}
 
@@ -27,17 +27,14 @@ class Solution:
         substrings = {}
         visited[num] += 1
         substrings[num] = s[:10]
-
+        ret = []
         for i in range(k, n):
             num = rolling_hash_delete(num, link[s[i-k]])
             num = rolling_hash_add(num, link[s[i]])
             visited[num] += 1
             if visited[num] == 1:
                 substrings[num] = s[i-k+1:i+1]
-
-        ret = []
-        for num in visited:
-            if visited[num] > 1:
+            elif visited[num] == 2:
                 ret.append(substrings[num])
         
         return ret
