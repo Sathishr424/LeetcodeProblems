@@ -1,4 +1,4 @@
-# Last updated: 24/4/2025, 11:15:31 am
+# Last updated: 24/4/2025, 11:15:40 am
 class Solution:
     def subarraysWithKDistinct(self, nums: List[int], k: int) -> int:
         return self.slidingWindowAtMost(nums, k) - self.slidingWindowAtMost(nums, k - 1)
@@ -24,5 +24,5 @@ class Solution:
 
             # Update the total count by adding the length of the current subarray.
             total_count  += right - left + 1
-        print(total_count)
+
         return total_count 
