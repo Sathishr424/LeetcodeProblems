@@ -1,4 +1,4 @@
-# Last updated: 24/4/2025, 4:04:03 pm
+# Last updated: 24/4/2025, 4:05:08 pm
 k = 10
 class Solution:
     def findRepeatedDnaSequences(self, s: str) -> List[str]:
@@ -9,13 +9,13 @@ class Solution:
 
         link = {'A': 1, 'C': 2, 'G': 3, 'T': 4}
 
-        cache = pow(base, 9, mod)
+        cache = pow(base, 9)
 
         def rolling_hash_add(num, val):
-            return ((num * base % mod) + val) % mod
+            return ((num * base) + val)
         
         def rolling_hash_delete(num, val):
-            return (num - (val * cache % mod)) % mod
+            return (num - (val * cache))
         
         num = 0
         visited = defaultdict(int)
