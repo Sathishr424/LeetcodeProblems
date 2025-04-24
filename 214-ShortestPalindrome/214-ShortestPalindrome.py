@@ -1,4 +1,4 @@
-# Last updated: 25/4/2025, 1:40:29 am
+# Last updated: 25/4/2025, 1:42:27 am
 class Solution:
     def shortestPalindrome(self, s: str) -> str:
         n = len(s)
@@ -19,7 +19,7 @@ class Solution:
         j = 0
         i = n-1
 
-        while i >= 0:
+        while i > -1:
             if s[i] == s[j]:
                 j += 1
             elif j > 0:
