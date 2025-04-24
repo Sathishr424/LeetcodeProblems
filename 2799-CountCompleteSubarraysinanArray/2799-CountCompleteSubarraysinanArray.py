@@ -1,13 +1,11 @@
-# Last updated: 24/4/2025, 10:00:35 am
+# Last updated: 24/4/2025, 10:01:51 am
 class Solution:
     def countCompleteSubarrays(self, nums: List[int]) -> int:
         n = len(nums)
         ret = 0
 
         uniq = {}
-        for num in nums:
-            uniq[num] = 1
-        
+        for num in nums: uniq[num] = 1
         cnt = len(uniq)
 
         uniq = defaultdict(int)
@@ -23,8 +21,6 @@ class Solution:
                     uniq[nums[left]] -= 1
                     if uniq[nums[left]] == 0: del uniq[nums[left]]
                     left += 1
-                ret += prev
-            else:
-                ret += prev
+            ret += prev
         
         return ret
