@@ -1,39 +1,40 @@
-# Last updated: 24/4/2025, 10:51:31 am
+# Last updated: 24/4/2025, 10:53:45 am
 class Solution:
     def subarraysWithKDistinct(self, nums: List[int], k: int) -> int:
         n = len(nums)
         ret = 0
 
-        uniq = defaultdict(int)
+        uniq = [0] * (n+1)
+        matches = 0
         left = 0
         prev = 0
-        
+
         cnts = defaultdict(int)
-        cnts_left = 0
+        cnt_left = 0
 
         for i in range(n):
             cnts[nums[i]] += 1
 
             if len(cnts) > k:
-                while cnts_left < i and len(cnts) > k:
-                    num = nums[cnts_left]
+                while cnt_left < i and len(cnts) > k:
+                    num = nums[cnt_left]
                     cnts[num] -= 1
                     if cnts[num] == 0: del cnts[num]
-                    cnts_left += 1
+                    cnt_left += 1
                 prev = 0
             
             uniq[nums[i]] += 1
+            if uniq[nums[i]] == 1: matches += 1
 
-            if len(uniq) == k:
-                while left <= i and len(uniq) == k:
-                    prev += 1
-                    uniq[nums[left]] -= 1
-                    if uniq[nums[left]] == 0: del uniq[nums[left]]
+            if matches == k:
+                while left <= i and matches == k:
+                    num = nums[left]
+                    uniq[num] -= 1
+                    if uniq[num] == 0: matches -= 1
                     left += 1
+                    prev += 1
  
             ret += prev
-
-            # print(nums[left:i+1], dict(uniq), ret, prev, dict(cnts))
         
         return ret
         
