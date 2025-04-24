@@ -1,15 +1,11 @@
-# Last updated: 24/4/2025, 4:07:33 pm
+# Last updated: 24/4/2025, 5:37:53 pm
 k = 10
-
 link = {'A': 1, 'C': 2, 'G': 3, 'T': 4}
 
 base = 5
-mod = 10**9 + 7
-
-cache = pow(base, 9)
 cache_a = {}
 for i in range(1, 5):
-    cache_a[i] = i * cache
+    cache_a[i] = i * pow(base, 9)
 
 class Solution:
     def findRepeatedDnaSequences(self, s: str) -> List[str]:
@@ -17,10 +13,10 @@ class Solution:
         if n <= k: return []
 
         def rolling_hash_add(num, val):
-            return ((num * base) + val)
+            return (num * base) + val
         
         def rolling_hash_delete(num, val):
-            return (num - cache_a[val])
+            return num - cache_a[val]
         
         num = 0
         visited = defaultdict(int)
