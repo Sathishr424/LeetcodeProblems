@@ -1,8 +1,6 @@
-# Last updated: 25/4/2025, 10:40:59 pm
+# Last updated: 25/4/2025, 10:41:13 pm
 class Solution:
     def countInterestingSubarrays(self, nums: List[int], modulo: int, k: int) -> int:
-        n = 0
-        
         prefix = defaultdict(int)
         prefix[0] = 1
         ret = 0
