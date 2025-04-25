@@ -1,4 +1,4 @@
-# Last updated: 26/4/2025, 2:31:43 am
+# Last updated: 26/4/2025, 2:32:33 am
 class Solution:
     def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
         n = len(nums)
@@ -7,7 +7,7 @@ class Solution:
         [1,0,1,0,1]
         """
         ret = 0
-        prefix = defaultdict(int)
+        prefix = [0] * (n+1)
         prefix[0] = 1
         s = 0
 
