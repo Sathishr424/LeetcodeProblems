@@ -1,4 +1,4 @@
-# Last updated: 26/4/2025, 2:34:38 am
+# Last updated: 26/4/2025, 2:35:06 am
 class Solution:
     def numberOfSubarrays(self, nums: List[int], k: int) -> int:
         n = len(nums)
@@ -6,7 +6,7 @@ class Solution:
         """
         [1,2,2,2,1,2,2,1,2,2,2]
         """
-        prefix = defaultdict(int)
+        prefix = [0] * (10 ** 5 + 1)
         prefix[0] = 1
         ret = 0
 
