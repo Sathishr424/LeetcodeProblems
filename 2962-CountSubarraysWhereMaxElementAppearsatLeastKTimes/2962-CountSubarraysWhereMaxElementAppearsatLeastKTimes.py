@@ -1,4 +1,4 @@
-# Last updated: 26/4/2025, 3:14:59 am
+# Last updated: 26/4/2025, 3:15:11 am
 class Solution:
     def countSubarrays(self, nums: List[int], k: int) -> int:
         ret = 0
@@ -9,7 +9,7 @@ class Solution:
         for i, num in enumerate(nums):
             cnt += num == maxi
 
-            while cnt == k:
+            while cnt == k and left <= i:
                 cnt -= nums[left] == maxi
                 left += 1
             
