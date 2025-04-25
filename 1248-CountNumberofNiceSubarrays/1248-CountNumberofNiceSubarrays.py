@@ -1,25 +1,20 @@
-# Last updated: 26/4/2025, 2:22:11 am
+# Last updated: 26/4/2025, 2:34:38 am
 class Solution:
     def numberOfSubarrays(self, nums: List[int], k: int) -> int:
         n = len(nums)
         odd = 0
-
         """
         [1,2,2,2,1,2,2,1,2,2,2]
         """
-        prev = 0
-        left = 0
+        prefix = defaultdict(int)
+        prefix[0] = 1
         ret = 0
-        for i, num in enumerate(nums):
+
+        for num in nums:
             odd += num % 2
 
-            if odd == k:
-                prev = 0
-                while left <= i and odd == k:
-                    prev += 1
-                    odd -= nums[left] % 2
-                    left += 1
-            
-            ret += prev
-
+            ret += prefix[odd-k]
+            prefix[odd] += 1
+        
         return ret
+
