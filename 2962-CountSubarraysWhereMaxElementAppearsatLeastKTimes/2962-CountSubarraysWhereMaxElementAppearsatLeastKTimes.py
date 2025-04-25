@@ -1,4 +1,4 @@
-# Last updated: 26/4/2025, 3:14:37 am
+# Last updated: 26/4/2025, 3:14:59 am
 class Solution:
     def countSubarrays(self, nums: List[int], k: int) -> int:
         ret = 0
