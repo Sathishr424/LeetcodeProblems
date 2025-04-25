@@ -1,9 +1,7 @@
-# Last updated: 26/4/2025, 2:46:21 am
+# Last updated: 26/4/2025, 2:46:46 am
 class Solution:
     def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
-        n = len(nums)
         ret = 0
-        
         left = 0
         p = 1
 
