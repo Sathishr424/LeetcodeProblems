@@ -1,7 +1,6 @@
-# Last updated: 26/4/2025, 2:58:45 am
+# Last updated: 26/4/2025, 2:59:10 am
 class Solution:
     def countSubarrays(self, nums: List[int], k: int) -> int:
-        n = len(nums)
         ret = 0
         maxi = max(nums)
         cnt = 0
