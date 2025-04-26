@@ -1,10 +1,10 @@
-# Last updated: 26/4/2025, 10:52:54 pm
+# Last updated: 26/4/2025, 10:53:49 pm
 class Solution:
     def findCommonResponse(self, responses: List[List[str]]) -> str:
         cnts = defaultdict(int)
 
         ret = responses[0][0]
-        for i, res in enumerate(responses):
+        for res in responses:
             uniq = {}
             for s in res:
                 if s not in uniq:
@@ -12,9 +12,7 @@ class Solution:
                     uniq[s] = 1
 
         for s in cnts.keys():
-            if cnts[s] > cnts[ret]:
-                ret = s
-            elif cnts[s] == cnts[ret] and s < ret:
+            if cnts[s] > cnts[ret] or (cnts[s] == cnts[ret] and s < ret):
                 ret = s
 
         return ret
