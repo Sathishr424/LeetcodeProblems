@@ -1,7 +1,6 @@
-# Last updated: 26/4/2025, 9:09:02 am
+# Last updated: 26/4/2025, 9:10:27 am
 class Solution:
     def countSubarrays(self, nums: List[int], minK: int, maxK: int) -> int:
-        n = len(nums)
         """
         [1,3,5,2,7,5]
         [5,3,5,1,2,1,5,8,7,1,2,5,2]
@@ -21,12 +20,12 @@ class Solution:
                 mxk = 0
                 continue
 
-            mnk += num == minK
-            mxk += num == maxK
+            if num == minK: mnk += 1
+            if num == maxK: mxk += 1
 
             while mnk > 0 and mxk > 0:
-                mnk -= nums[left] == minK
-                mxk -= nums[left] == maxK
+                if nums[left] == minK: mnk -= 1
+                if nums[left] == maxK: mxk -= 1
                 
                 left += 1
                 prev += 1
