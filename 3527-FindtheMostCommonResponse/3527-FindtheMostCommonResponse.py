@@ -1,16 +1,15 @@
-# Last updated: 26/4/2025, 10:52:32 pm
+# Last updated: 26/4/2025, 10:52:54 pm
 class Solution:
     def findCommonResponse(self, responses: List[List[str]]) -> str:
         cnts = defaultdict(int)
 
-        ret = ''
+        ret = responses[0][0]
         for i, res in enumerate(responses):
             uniq = {}
             for s in res:
                 if s not in uniq:
                     cnts[s] += 1
                     uniq[s] = 1
-                    ret = s
 
         for s in cnts.keys():
             if cnts[s] > cnts[ret]:
