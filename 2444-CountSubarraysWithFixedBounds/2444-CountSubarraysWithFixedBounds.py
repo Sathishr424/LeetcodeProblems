@@ -1,4 +1,4 @@
-# Last updated: 26/4/2025, 9:07:50 am
+# Last updated: 26/4/2025, 9:09:02 am
 class Solution:
     def countSubarrays(self, nums: List[int], minK: int, maxK: int) -> int:
         n = len(nums)
@@ -14,13 +14,6 @@ class Solution:
         mxk = 0
 
         for i, num in enumerate(nums):
-
-            if num == minK:
-                mnk += 1
-
-            if num == maxK:
-                mxk += 1
-
             if num < minK or num > maxK:
                 prev = 0
                 left = i+1
@@ -28,12 +21,12 @@ class Solution:
                 mxk = 0
                 continue
 
+            mnk += num == minK
+            mxk += num == maxK
+
             while mnk > 0 and mxk > 0:
-                num = nums[left]
-                if num == minK:
-                    mnk -= 1
-                if num == maxK:
-                    mxk -= 1
+                mnk -= nums[left] == minK
+                mxk -= nums[left] == maxK
                 
                 left += 1
                 prev += 1
