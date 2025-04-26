@@ -1,4 +1,4 @@
-# Last updated: 26/4/2025, 10:26:12 pm
+# Last updated: 26/4/2025, 10:49:11 pm
 class Solution:
     def countCells(self, grid: List[List[str]], pattern: str) -> int:
         # grid = [[0] * 1000 for _ in range(1000)]
@@ -76,17 +76,12 @@ class Solution:
         visited_h = [0] * tot
         visited_v = [0] * tot
 
-        for val in sorted(h_cells):
+        for val in h_cells:
             for i in range(val, val-k, -1):
                 if visited_h[i] == 1: break
                 visited_h[i] = 1
 
-        def sort_key(pos):
-            y = pos % m
-            x = pos // m
-            return y * n + x
-
-        for val in sorted(v_cells):
+        for val in v_cells:
             for i in range(val, val-k, -1):
                 y = i % m
                 x = i // m
