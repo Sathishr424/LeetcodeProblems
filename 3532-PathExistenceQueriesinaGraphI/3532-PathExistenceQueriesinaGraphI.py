@@ -1,11 +1,9 @@
-# Last updated: 27/4/2025, 5:28:16 pm
+# Last updated: 27/4/2025, 5:28:42 pm
 class Solution:
     def pathExistenceQueries(self, n: int, nums: List[int], maxDiff: int, queries: List[List[int]]) -> List[bool]:
         parents = [i for i in range(n)]
 
         def find(x):
-            if x != parents[x]:
-                parents[x] = find(parents[x])
             return parents[x]
         
         def union(x, y):
