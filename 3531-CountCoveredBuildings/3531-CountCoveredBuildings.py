@@ -1,22 +1,24 @@
-# Last updated: 27/4/2025, 5:11:55 pm
+# Last updated: 27/4/2025, 5:14:20 pm
 cmin = lambda x, y: x if x < y else y
 cmax = lambda x, y: x if x > y else y
 
 class Solution:
     def countCoveredBuildings(self, n: int, buildings: List[List[int]]) -> int:
-        horizontal = [[float('inf'), -float('inf')] for _ in range(n+1)]
-        vertical = [[float('inf'), -float('inf')] for _ in range(n+1)]
+        horizontal_min = [float('inf') for _ in range(n+1)]
+        horizontal_max = [-float('inf') for _ in range(n+1)]
+        vertical_min = [float('inf') for _ in range(n+1)]
+        vertical_max = [-float('inf') for _ in range(n+1)]
 
         for i, j in buildings:
-            vertical[j][0] = cmin(vertical[j][0], i)
-            vertical[j][1] = cmax(vertical[j][1], i)
+            vertical_min[j] = cmin(vertical_min[j], i)
+            vertical_max[j] = cmax(vertical_max[j], i)
 
-            horizontal[i][0] = cmin(horizontal[i][0], j)
-            horizontal[i][1] = cmax(horizontal[i][1], j)
+            horizontal_min[i] = cmin(horizontal_min[i], j)
+            horizontal_max[i] = cmax(horizontal_max[i], j)
         
         ret = 0
         for i, j in buildings:
-            if j > horizontal[i][0] and j < horizontal[i][1] and i > vertical[j][0] and i < vertical[j][1]: ret += 1
+            if j > horizontal_min[i] and j < horizontal_max[i] and i > vertical_min[j] and i < vertical_max[j]: ret += 1
 
         return ret
             
