@@ -1,10 +1,10 @@
-# Last updated: 27/4/2025, 4:54:22 pm
+# Last updated: 27/4/2025, 4:54:48 pm
 class Solution:
     def countCoveredBuildings(self, n: int, buildings: List[List[int]]) -> int:
         horizontal = [[float('inf'), -float('inf')] for _ in range(n+1)]
         vertical = [[float('inf'), -float('inf')] for _ in range(n+1)]
 
-        for i, j in sorted(buildings):
+        for i, j in buildings:
             vertical[j][0] = min(vertical[j][0], i)
             vertical[j][1] = max(vertical[j][1], i)
 
