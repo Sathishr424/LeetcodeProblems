@@ -1,21 +1,24 @@
-# Last updated: 27/4/2025, 4:50:56 pm
+# Last updated: 27/4/2025, 4:54:22 pm
 class Solution:
     def countCoveredBuildings(self, n: int, buildings: List[List[int]]) -> int:
-        horizontal = [[] for _ in range(n+1)]
-        vertical = [[] for _ in range(n+1)]
+        horizontal = [[float('inf'), -float('inf')] for _ in range(n+1)]
+        vertical = [[float('inf'), -float('inf')] for _ in range(n+1)]
 
         for i, j in sorted(buildings):
-            vertical[j].append(i)
-        
-        for i, j in sorted(buildings, key=lambda x: x[1]):
-            horizontal[i].append(j)
+            vertical[j][0] = min(vertical[j][0], i)
+            vertical[j][1] = max(vertical[j][1], i)
+
+            horizontal[i][0] = min(horizontal[i][0], j)
+            horizontal[i][1] = max(horizontal[i][1], j)
         
         ret = 0
         for i, j in buildings:
-            cnt = bisect_left(horizontal[i], j) != 0
-            cnt += bisect_left(horizontal[i], j+1) != len(horizontal[i])
-            cnt += bisect_left(vertical[j], i) != 0
-            cnt += bisect_left(vertical[j], i+1) != len(vertical[j])
+            cnt = horizontal[i][0] < j
+            cnt += horizontal[i][1] > j
+
+            cnt += vertical[j][0] < i
+            cnt += vertical[j][1] > i
+
 
             if cnt == 4: ret += 1
 
