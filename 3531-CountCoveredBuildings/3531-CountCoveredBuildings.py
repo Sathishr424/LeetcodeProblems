@@ -1,4 +1,4 @@
-# Last updated: 27/4/2025, 4:54:48 pm
+# Last updated: 27/4/2025, 4:57:11 pm
 class Solution:
     def countCoveredBuildings(self, n: int, buildings: List[List[int]]) -> int:
         horizontal = [[float('inf'), -float('inf')] for _ in range(n+1)]
@@ -13,14 +13,7 @@ class Solution:
         
         ret = 0
         for i, j in buildings:
-            cnt = horizontal[i][0] < j
-            cnt += horizontal[i][1] > j
-
-            cnt += vertical[j][0] < i
-            cnt += vertical[j][1] > i
-
-
-            if cnt == 4: ret += 1
+            if j > horizontal[i][0] and j < horizontal[i][1] and i > vertical[j][0] and i < vertical[j][1]: ret += 1
 
         return ret
             
