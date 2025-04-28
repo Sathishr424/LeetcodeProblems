@@ -1,4 +1,4 @@
-# Last updated: 28/4/2025, 7:01:14 pm
+# Last updated: 28/4/2025, 7:02:32 pm
 m = 16
 class TreeAncestor:
     def __init__(self, n: int, parent: List[int]):
@@ -15,10 +15,10 @@ class TreeAncestor:
     def getKthAncestor(self, node: int, k: int) -> int:
         p = 0
         while k:
-            if k % 2:
+            if k & 1:
                 node = self.logs[p][node]
                 if node == -1: return -1
-            k //= 2
+            k >>= 1
             p += 1
         
         return node
