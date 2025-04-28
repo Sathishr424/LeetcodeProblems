@@ -1,7 +1,7 @@
-# Last updated: 28/4/2025, 6:55:31 pm
+# Last updated: 28/4/2025, 7:01:14 pm
+m = 16
 class TreeAncestor:
     def __init__(self, n: int, parent: List[int]):
-        m = len(bin(n)) - 2
         self.logs = [[-1] * n for _ in range(m)]
 
         for node in range(1, n):
