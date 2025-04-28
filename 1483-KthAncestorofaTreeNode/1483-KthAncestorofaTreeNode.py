@@ -1,4 +1,4 @@
-# Last updated: 28/4/2025, 6:38:08 pm
+# Last updated: 28/4/2025, 6:52:36 pm
 class TreeAncestor:
 
     def __init__(self, n: int, parent: List[int]):
