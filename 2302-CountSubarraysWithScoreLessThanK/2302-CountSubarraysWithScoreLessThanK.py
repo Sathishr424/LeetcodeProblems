@@ -1,4 +1,4 @@
-# Last updated: 28/4/2025, 4:15:29 pm
+# Last updated: 28/4/2025, 4:21:17 pm
 class Solution:
     def countSubarrays(self, nums: List[int], k: int) -> int:
         """
@@ -8,6 +8,7 @@ class Solution:
         left = 0
         cnt = 0
         s = 0
+        prev = 0
         for i, num in enumerate(nums):
             cnt += 1
             s += num
@@ -16,7 +17,9 @@ class Solution:
                 cnt -= 1
                 s -= nums[left]
                 left += 1
+                prev -= 1
             
-            ret += i-left+1
+            prev += 1
+            ret += prev
         
         return ret
