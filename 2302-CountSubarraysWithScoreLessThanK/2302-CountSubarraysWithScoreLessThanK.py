@@ -1,4 +1,4 @@
-# Last updated: 28/4/2025, 4:21:17 pm
+# Last updated: 28/4/2025, 4:23:03 pm
 class Solution:
     def countSubarrays(self, nums: List[int], k: int) -> int:
         """
@@ -9,11 +9,11 @@ class Solution:
         cnt = 0
         s = 0
         prev = 0
-        for i, num in enumerate(nums):
+        for num in nums:
             cnt += 1
             s += num
 
-            while s * cnt >= k and left <= i:
+            while s * cnt >= k:
                 cnt -= 1
                 s -= nums[left]
                 left += 1
