@@ -1,11 +1,8 @@
-# Last updated: 28/4/2025, 4:15:14 pm
+# Last updated: 28/4/2025, 4:15:29 pm
 class Solution:
     def countSubarrays(self, nums: List[int], k: int) -> int:
-        n = len(nums)
-
         """
         [2,1,4,3,5]
-
         """
         ret = 0
         left = 0
