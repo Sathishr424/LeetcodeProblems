@@ -1,4 +1,4 @@
-# Last updated: 28/4/2025, 4:42:00 pm
+# Last updated: 28/4/2025, 4:43:22 pm
 class Solution:
     def countSubarrays(self, nums: List[int], k: int) -> int:
         """
@@ -15,14 +15,12 @@ class Solution:
         for i in range(n):
             l = 0
             r = i+1
-
+            p = prefix[i+1]
+            
             while l < r:
                 mid = (l+r) // 2
 
-                cnt = i-mid+1
-                s = prefix[i+1] - prefix[mid]
-
-                if s*cnt < k:
+                if (p - prefix[mid])*(i-mid+1) < k:
                     r = mid
                 else:
                     l = mid+1
