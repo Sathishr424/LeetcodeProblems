@@ -1,4 +1,4 @@
-# Last updated: 29/4/2025, 1:27:21 pm
+# Last updated: 29/4/2025, 1:30:47 pm
 m = 19
 class Solution:
     def pathExistenceQueries(self, n: int, nums: List[int], maxDiff: int, queries: List[List[int]]) -> List[int]:
@@ -46,16 +46,13 @@ class Solution:
             
             while True:
                 if logs[p][node] >= y or logs[p][node] == -1:
-                    if p == 0:
-                        cnt += 1
-                        node = logs[p][node]
-                        break
-                    p -= 1
+                    if p == 0: break
+                    else: p -= 1
                 else:
                     node = logs[p][node]
                     cnt += 2 ** p
                     p += 1
             
-            ret.append(cnt if node >= y else -1)
+            ret.append(cnt+1 if logs[p][node] >= y else -1)
 
         return ret
