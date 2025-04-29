@@ -1,4 +1,4 @@
-# Last updated: 29/4/2025, 1:48:26 pm
+# Last updated: 29/4/2025, 1:50:27 pm
 m = 19
 class Solution:
     def pathExistenceQueries(self, n: int, nums: List[int], maxDiff: int, queries: List[List[int]]) -> List[int]:
@@ -29,6 +29,16 @@ class Solution:
                 if logs[i-1][j] == -1: continue
                 logs[i][j] = logs[i-1][logs[i-1][j]]
 
+        @cache
+        def getDistance(x, y):
+            cnt = 0
+            for i in range(m-1, -1, -1):
+                if logs[i][x] < y and logs[i][x] != -1:
+                    x = logs[i][x]
+                    cnt += 1 << i
+            
+            return cnt+1 if logs[0][x] >= y else -1
+
         for x, y in queries:
             if x == y: 
                 ret.append(0)
@@ -39,16 +49,7 @@ class Solution:
 
             if x > y:
                 x, y = y, x
-            
-            cnt = 0
-            p = 0
-            node = x
-            
-            for i in range(m-1, -1, -1):
-                if logs[i][node] < y and logs[i][node] != -1:
-                    node = logs[i][node]
-                    cnt += 1 << i
-                    
-            ret.append(cnt+1 if logs[p][node] >= y else -1)
+               
+            ret.append(getDistance(x, y))
 
         return ret
