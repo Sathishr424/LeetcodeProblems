@@ -1,4 +1,4 @@
-# Last updated: 29/4/2025, 1:22:57 pm
+# Last updated: 29/4/2025, 1:27:21 pm
 m = 19
 class Solution:
     def pathExistenceQueries(self, n: int, nums: List[int], maxDiff: int, queries: List[List[int]]) -> List[int]:
@@ -50,7 +50,7 @@ class Solution:
                         cnt += 1
                         node = logs[p][node]
                         break
-                    p = 0
+                    p -= 1
                 else:
                     node = logs[p][node]
                     cnt += 2 ** p
