@@ -1,4 +1,4 @@
-# Last updated: 30/4/2025, 8:23:53 am
+# Last updated: 30/4/2025, 8:24:15 am
 class Node:
     def __init__(self, maxSeats=0, totalSeats=0):
         self.totalSeats = totalSeats
@@ -92,10 +92,10 @@ class BookMyShow:
 
             while index:
                 index = (index - 1) // 2
-                left = index*2+1
-                right = index*2+2
-                self.tree[index].totalSeats = self.tree[left].totalSeats + self.tree[right].totalSeats
-                self.tree[index].maxSeats = max(self.tree[left].maxSeats, self.tree[right].maxSeats)
+                left = self.tree[index*2+1]
+                right = self.tree[index*2+2]
+                self.tree[index].totalSeats = left.totalSeats + right.totalSeats
+                self.tree[index].maxSeats = max(left.maxSeats, right.maxSeats)
             
             return ret
         return []
