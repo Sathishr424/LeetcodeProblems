@@ -1,9 +1,8 @@
-# Last updated: 30/4/2025, 8:17:01 am
+# Last updated: 30/4/2025, 8:23:53 am
 class Node:
-    def __init__(self, totalSeats=0, maxSeats=0, start=-1):
+    def __init__(self, maxSeats=0, totalSeats=0):
         self.totalSeats = totalSeats
         self.maxSeats = maxSeats
-        self.start = start
 
 class BookMyShow:
     def __init__(self, n: int, m: int):
@@ -15,22 +14,22 @@ class BookMyShow:
         self.n = n
         self.m = m
 
-        self.tree = [Node() for _ in range(n*4)]
+        self.tree = [Node(m) for _ in range(n*4)]
         self.cache = [0] * n
 
         def buildTree(l, r, index):
             if l == r:
                 self.cache[l] = index
                 self.tree[index].totalSeats = m
-                self.tree[index].maxSeats = m
-                self.tree[index].start = 0
                 return self.tree[index]
             
             mid = (l+r) // 2
 
             left = buildTree(l, mid, index*2+1)
             right = buildTree(mid+1, r, index*2+2)
-            self.tree[index] = Node(left.totalSeats + right.totalSeats, max(left.maxSeats, right.maxSeats))
+
+            self.tree[index].totalSeats = left.totalSeats + right.totalSeats
+
             return self.tree[index]
         
         buildTree(0, n-1, 0)
@@ -41,7 +40,6 @@ class BookMyShow:
 
         if l == r:
             available = min(s, self.tree[index].totalSeats)
-            self.tree[index].start += available
             self.tree[index].totalSeats -= available
             self.tree[index].maxSeats -= available
             return s - available
@@ -53,7 +51,8 @@ class BookMyShow:
         s = self.scatter_query(l, mid, maxRow, left, s)
         s = self.scatter_query(mid + 1, r, maxRow, right, s)
 
-        self.tree[index] = Node(self.tree[left].totalSeats + self.tree[right].totalSeats, max(self.tree[left].maxSeats, self.tree[right].maxSeats))
+        self.tree[index].totalSeats = self.tree[left].totalSeats + self.tree[right].totalSeats
+        self.tree[index].maxSeats = max(self.tree[left].maxSeats, self.tree[right].maxSeats)
 
         return s
     
@@ -69,8 +68,7 @@ class BookMyShow:
     def query(self, l, r, start, end, index, s):
         if self.tree[index].maxSeats < s or l > end: return self.n
 
-        if l == r:
-            return l
+        if l == r: return l
 
         mid = (l+r) // 2
 
@@ -86,17 +84,19 @@ class BookMyShow:
         index = self.query(0, self.n-1, 0, maxRow, 0, k)
 
         if index < self.n:
-            self.tree[self.cache[index]].start += k
+            ret = [index, self.m - self.tree[self.cache[index]].maxSeats]
             self.tree[self.cache[index]].maxSeats -= k
             self.tree[self.cache[index]].totalSeats -= k
 
-            ret = [index, self.tree[self.cache[index]].start-k]
             index = self.cache[index]
+
             while index:
                 index = (index - 1) // 2
-                left = self.tree[index*2+1]
-                right = self.tree[index*2+2]
-                self.tree[index] = Node(left.totalSeats + right.totalSeats, max(left.maxSeats, right.maxSeats))
+                left = index*2+1
+                right = index*2+2
+                self.tree[index].totalSeats = self.tree[left].totalSeats + self.tree[right].totalSeats
+                self.tree[index].maxSeats = max(self.tree[left].maxSeats, self.tree[right].maxSeats)
+            
             return ret
         return []
 
