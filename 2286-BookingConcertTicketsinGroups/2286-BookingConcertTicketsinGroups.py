@@ -1,8 +1,8 @@
-# Last updated: 30/4/2025, 8:35:58 am
+# Last updated: 30/4/2025, 8:40:58 am
 class Node:
-    def __init__(self, maxSeats=0, totalSeats=0):
+    def __init__(self, topMostMaxSeatsAvilable=0, totalSeats=0):
         self.totalSeats = totalSeats
-        self.maxSeats = maxSeats
+        self.topMostMaxSeatsAvilable = topMostMaxSeatsAvilable
 
 class BookMyShow:
     def __init__(self, n: int, m: int):
@@ -41,7 +41,7 @@ class BookMyShow:
         if l == r:
             available = min(s, self.tree[index].totalSeats)
             self.tree[index].totalSeats -= available
-            self.tree[index].maxSeats -= available
+            self.tree[index].topMostMaxSeatsAvilable -= available
             return s - available
 
         mid = (l + r) // 2
@@ -52,7 +52,7 @@ class BookMyShow:
         s = self.scatter_query(mid + 1, r, maxRow, right, s)
 
         self.tree[index].totalSeats = self.tree[left].totalSeats + self.tree[right].totalSeats
-        self.tree[index].maxSeats = max(self.tree[left].maxSeats, self.tree[right].maxSeats)
+        self.tree[index].topMostMaxSeatsAvilable = max(self.tree[left].topMostMaxSeatsAvilable, self.tree[right].topMostMaxSeatsAvilable)
 
         return s
     
@@ -66,7 +66,7 @@ class BookMyShow:
         return self.getAvailableSeats(l, mid, end, index*2+1) + self.getAvailableSeats(mid+1, r, end, index*2+2)
     
     def getTopMostRowAvaiableWithKSeats(self, l, r, end, index, k):
-        if self.tree[index].maxSeats < k or l > end: return self.n
+        if self.tree[index].topMostMaxSeatsAvilable < k or l > end: return self.n
 
         if l == r: return l
 
@@ -82,8 +82,8 @@ class BookMyShow:
         index = self.getTopMostRowAvaiableWithKSeats(0, self.n-1, maxRow, 0, k)
 
         if index < self.n:
-            ret = [index, self.m - self.tree[self.cache[index]].maxSeats]
-            self.tree[self.cache[index]].maxSeats -= k
+            ret = [index, self.m - self.tree[self.cache[index]].topMostMaxSeatsAvilable]
+            self.tree[self.cache[index]].topMostMaxSeatsAvilable -= k
             self.tree[self.cache[index]].totalSeats -= k
 
             index = self.cache[index]
@@ -93,7 +93,7 @@ class BookMyShow:
                 left = index*2+1
                 right = index*2+2
                 self.tree[index].totalSeats = self.tree[left].totalSeats + self.tree[right].totalSeats
-                self.tree[index].maxSeats = max(self.tree[left].maxSeats, self.tree[right].maxSeats)
+                self.tree[index].topMostMaxSeatsAvilable = max(self.tree[left].topMostMaxSeatsAvilable, self.tree[right].topMostMaxSeatsAvilable)
             
             return ret
         return []
