@@ -1,4 +1,4 @@
-# Last updated: 1/5/2025, 4:23:45 am
+# Last updated: 1/5/2025, 4:52:22 am
 def getAlp(a):
     return ord(a) - 96
 
@@ -25,15 +25,21 @@ def getSt(st, s):
     return st + s[match_:]
 
 def overlap_append(a: str, b: str) -> str:
-    for i in range(max(1, len(a) - len(b)), len(a)):
-        match = True
-        for j in range(i, len(a)):
-            if a[j] != b[j - i]:
-                match = False
+    m = len(a)
+    n = len(b)
+
+    left = max(0, m-n)
+    for i in range(left, m):
+        start = i
+        for j in range(0, m-i):
+            if a[start] != b[j]:
                 break
-        if match:
-            return a[:i] + b
+            start += 1
+        
+        if start == m: return a[:i] + b
+        
     return a + b
+        
 
 class Solution:
     def shortestSuperstring(self, words: List[str]) -> str:
