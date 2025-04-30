@@ -1,4 +1,4 @@
-# Last updated: 1/5/2025, 4:20:33 am
+# Last updated: 1/5/2025, 4:22:39 am
 def getAlp(a):
     return ord(a) - 96
 
@@ -12,22 +12,23 @@ for i in range(12):
 base = 27
 mod = 10**9 + 7
 
-def getSt(st, s):
-    right = 0
-    left = 0
+base_powers = [1] * (20 + 1)
+for i in range(1, 20 + 1):
+    base_powers[i] = base_powers[i - 1] * base % mod
 
-    l = len(st)-1
-    r = 0
+def getSt(st, s):
+    max_len = min(len(st), len(s))
 
     match_ = 0
+    hash_st = 0
+    hash_s = 0
 
-    for i in range(min(len(st), len(s))):
-        left = (left + (pow(base, r, mod) * getAlp(st[l]) % mod)) % mod
-        right = ((right * base % mod) + getAlp(s[r])) % mod
-        if left == right:
-            match_ = r+1
-        l -= 1
-        r += 1
+    for i in range(1, max_len + 1):
+        hash_st = (getAlp(st[-i]) * base_powers[i - 1] + hash_st) % mod
+        hash_s = (hash_s * base + getAlp(s[i - 1])) % mod
+        if hash_st == hash_s:
+            match_ = i
+
     return st + s[match_:]
 
 def compare(x, y):
@@ -68,8 +69,8 @@ class Solution:
             for i in range(n):
                 if (1 << i) & mask == 0:
                     s = dfs(mask | (1 << i), words[i])
-                    # new_st = getSt(st, s)
-                    new_st = overlap_append(st, s)
+                    new_st = getSt(st, s)
+                    # new_st = overlap_append(st, s)
                     if len(new_st) < len(ret):
                         ret = new_st
 
