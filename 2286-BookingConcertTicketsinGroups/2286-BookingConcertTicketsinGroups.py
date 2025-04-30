@@ -1,4 +1,4 @@
-# Last updated: 30/4/2025, 8:31:39 am
+# Last updated: 30/4/2025, 8:35:58 am
 class Node:
     def __init__(self, maxSeats=0, totalSeats=0):
         self.totalSeats = totalSeats
@@ -56,30 +56,30 @@ class BookMyShow:
 
         return s
     
-    def queryRange(self, l, r, end, index):
-        if l > end or r < 0: return 0
+    def getAvailableSeats(self, l, r, end, index):
+        if l > end: return 0
 
         mid = (l+r) // 2
 
         if r <= end:
             return self.tree[index].totalSeats
-        return self.queryRange(l, mid, end, index*2+1) + self.queryRange(mid+1, r, end, index*2+2)
+        return self.getAvailableSeats(l, mid, end, index*2+1) + self.getAvailableSeats(mid+1, r, end, index*2+2)
     
-    def query(self, l, r, end, index, s):
-        if self.tree[index].maxSeats < s or l > end: return self.n
+    def getTopMostRowAvaiableWithKSeats(self, l, r, end, index, k):
+        if self.tree[index].maxSeats < k or l > end: return self.n
 
         if l == r: return l
 
         mid = (l+r) // 2
 
-        ans = self.query(l, mid, end, index*2+1, s)
+        ans = self.getTopMostRowAvaiableWithKSeats(l, mid, end, index*2+1, k)
         if ans == self.n:
-            return self.query(mid+1, r, end, index*2+2, s)
+            return self.getTopMostRowAvaiableWithKSeats(mid+1, r, end, index*2+2, k)
         
         return ans
 
     def gather(self, k: int, maxRow: int) -> List[int]:
-        index = self.query(0, self.n-1, maxRow, 0, k)
+        index = self.getTopMostRowAvaiableWithKSeats(0, self.n-1, maxRow, 0, k)
 
         if index < self.n:
             ret = [index, self.m - self.tree[self.cache[index]].maxSeats]
@@ -99,7 +99,7 @@ class BookMyShow:
         return []
 
     def scatter(self, k: int, maxRow: int) -> bool:
-        if self.queryRange(0, self.n-1, maxRow, 0) < k: return False
+        if self.getAvailableSeats(0, self.n-1, maxRow, 0) < k: return False
         return self.scatter_query(0, self.n-1, maxRow, 0, k) == 0
 
 
