@@ -1,4 +1,4 @@
-# Last updated: 30/4/2025, 8:40:58 am
+# Last updated: 30/4/2025, 8:42:12 am
 class Node:
     def __init__(self, topMostMaxSeatsAvilable=0, totalSeats=0):
         self.totalSeats = totalSeats
