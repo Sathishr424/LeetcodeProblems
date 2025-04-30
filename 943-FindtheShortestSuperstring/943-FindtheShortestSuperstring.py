@@ -1,13 +1,6 @@
-# Last updated: 1/5/2025, 4:22:39 am
+# Last updated: 1/5/2025, 4:23:12 am
 def getAlp(a):
     return ord(a) - 96
-
-test_words = []
-for i in range(12):
-    word = ''
-    for j in range(20):
-        word += chr(random.randrange(0, 26) + 97)
-    test_words.append(word)
 
 base = 27
 mod = 10**9 + 7
@@ -30,10 +23,6 @@ def getSt(st, s):
             match_ = i
 
     return st + s[match_:]
-
-def compare(x, y):
-    if len(x) < len(y): return x
-    return y
 
 def overlap_append(a: str, b: str) -> str:
     for i in range(max(1, len(a) - len(b)), len(a)):
