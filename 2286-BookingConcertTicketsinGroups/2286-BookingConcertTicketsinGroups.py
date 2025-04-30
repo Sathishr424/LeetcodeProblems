@@ -1,4 +1,4 @@
-# Last updated: 30/4/2025, 8:29:47 am
+# Last updated: 30/4/2025, 8:31:39 am
 class Node:
     def __init__(self, maxSeats=0, totalSeats=0):
         self.totalSeats = totalSeats
@@ -57,7 +57,7 @@ class BookMyShow:
         return s
     
     def queryRange(self, l, r, end, index):
-        if l > end: return 0
+        if l > end or r < 0: return 0
 
         mid = (l+r) // 2
 
