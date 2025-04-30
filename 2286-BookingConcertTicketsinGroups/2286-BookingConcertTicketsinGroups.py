@@ -1,4 +1,4 @@
-# Last updated: 30/4/2025, 8:24:15 am
+# Last updated: 30/4/2025, 8:26:10 am
 class Node:
     def __init__(self, maxSeats=0, totalSeats=0):
         self.totalSeats = totalSeats
@@ -79,8 +79,6 @@ class BookMyShow:
         return ans
 
     def gather(self, k: int, maxRow: int) -> List[int]:
-        if self.queryRange(0, self.n-1, 0, maxRow, 0) < k: return []
-
         index = self.query(0, self.n-1, 0, maxRow, 0, k)
 
         if index < self.n:
@@ -92,10 +90,10 @@ class BookMyShow:
 
             while index:
                 index = (index - 1) // 2
-                left = self.tree[index*2+1]
-                right = self.tree[index*2+2]
-                self.tree[index].totalSeats = left.totalSeats + right.totalSeats
-                self.tree[index].maxSeats = max(left.maxSeats, right.maxSeats)
+                left = index*2+1
+                right = index*2+2
+                self.tree[index].totalSeats = self.tree[left].totalSeats + self.tree[right].totalSeats
+                self.tree[index].maxSeats = max(self.tree[left].maxSeats, self.tree[right].maxSeats)
             
             return ret
         return []
