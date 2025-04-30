@@ -1,4 +1,4 @@
-# Last updated: 1/5/2025, 4:23:12 am
+# Last updated: 1/5/2025, 4:23:45 am
 def getAlp(a):
     return ord(a) - 96
 
@@ -58,8 +58,8 @@ class Solution:
             for i in range(n):
                 if (1 << i) & mask == 0:
                     s = dfs(mask | (1 << i), words[i])
-                    new_st = getSt(st, s)
-                    # new_st = overlap_append(st, s)
+                    # new_st = getSt(st, s)
+                    new_st = overlap_append(st, s)
                     if len(new_st) < len(ret):
                         ret = new_st
 
