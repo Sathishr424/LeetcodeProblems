@@ -1,4 +1,4 @@
-# Last updated: 1/5/2025, 4:53:47 am
+# Last updated: 1/5/2025, 4:54:42 am
 def getAlp(a):
     return ord(a) - 96
 
@@ -28,14 +28,14 @@ def overlap_append(a: str, b: str) -> str:
     m = len(a)
     n = len(b)
 
-    left = max(0, m-n)
-    for i in range(left, m):
-        match = True
+    for i in range(max(0, m-n), m):
+        start = i
         for j in range(0, m-i):
-            if a[i+j] != b[j]:
-                match = False
+            if a[start] != b[j]:
                 break
-        if match: return a[:i] + b
+            start += 1
+        
+        if start == m: return a[:i] + b
         
     return a + b
         
