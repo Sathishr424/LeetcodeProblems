@@ -1,41 +1,39 @@
-# Last updated: 2/5/2025, 12:23:57 am
-from sortedcontainers import SortedList
-
-
+# Last updated: 2/5/2025, 12:25:12 am
 class Solution:
-    def maxTaskAssign(
-        self, tasks: List[int], workers: List[int], pills: int, strength: int
-    ) -> int:
-        n, m = len(tasks), len(workers)
-        tasks.sort()
-        workers.sort()
+    def maxTaskAssign(self, tasks: List[int], workers: List[int], pills: int, strength: int) -> int:
+        n = len(tasks)
+        m = len(workers)
 
-        def check(mid: int) -> bool:
+        tasks.sort()
+        workers.sort(reverse=True)
+
+        left = 0
+        right = n
+
+        def getCnt(mid):
             p = pills
-            # Ordered set of workers
-            ws = SortedList(workers[m - mid :])
-            # Enumerate each task from largest to smallest
-            for i in range(mid - 1, -1, -1):
-                # If the largest element in the ordered set is greater than or equal to tasks[i]
-                if ws[-1] >= tasks[i]:
-                    ws.pop()
-                else:
-                    if p == 0:
-                        return False
-                    rep = ws.bisect_left(tasks[i] - strength)
-                    if rep == len(ws):
-                        return False
+            sl = SortedList(workers[:mid+1])
+
+            for i in range(mid+1):
+                if not sl: return False
+                task = tasks[mid-i]
+                if sl[-1] < task:
+                    if p == 0: return False
+                    index = sl.bisect_left(task-strength)
+                    if index == len(sl): return False
                     p -= 1
-                    ws.pop(rep)
+                    sl.remove(sl[index])
+                else:
+                    sl.remove(sl[-1])
+            
             return True
 
-        left, right, ans = 1, min(m, n), 0
-        while left <= right:
-            mid = (left + right) // 2
-            if check(mid):
-                ans = mid
+        while left < right:
+            mid = (left+right) // 2
+
+            if getCnt(mid):
                 left = mid + 1
             else:
-                right = mid - 1
-
-        return ans
+                right = mid
+            
+        return left
