@@ -1,4 +1,4 @@
-# Last updated: 2/5/2025, 12:19:56 am
+# Last updated: 2/5/2025, 12:21:44 am
 class Solution:
     def maxTaskAssign(self, tasks: List[int], workers: List[int], pills: int, strength: int) -> int:
         n = len(tasks)
@@ -31,8 +31,7 @@ class Solution:
 
             for i in range(mid+1):
                 task = tasks[mid-i]
-                index = sl.bisect_left(task)
-                if index == len(sl):
+                if sl[-1] < task:
                     if curr > 0:
                         index = sl.bisect_left(task-strength)
                         if index < len(sl):
@@ -42,8 +41,9 @@ class Solution:
                         else: break
                     else: break
                 else:
+                    sl.remove(sl[-1])
                     cnt += 1
-                    sl.remove(sl[index])
+                if not sl: break
             
             return cnt
 
