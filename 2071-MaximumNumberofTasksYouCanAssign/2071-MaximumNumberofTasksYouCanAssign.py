@@ -1,4 +1,4 @@
-# Last updated: 2/5/2025, 12:21:44 am
+# Last updated: 2/5/2025, 12:23:42 am
 class Solution:
     def maxTaskAssign(self, tasks: List[int], workers: List[int], pills: int, strength: int) -> int:
         n = len(tasks)
@@ -24,33 +24,27 @@ class Solution:
         ret = 0
 
         def getCnt(mid):
-            curr = pills
-            cnt = 0
-            
+            p = pills
             sl = SortedList(workers[:mid+1])
 
             for i in range(mid+1):
+                if not sl: return False
                 task = tasks[mid-i]
                 if sl[-1] < task:
-                    if curr > 0:
-                        index = sl.bisect_left(task-strength)
-                        if index < len(sl):
-                            curr -= 1
-                            cnt += 1
-                            sl.remove(sl[index])
-                        else: break
-                    else: break
+                    if p == 0: return False
+                    index = sl.bisect_left(task-strength)
+                    if index == len(sl): return False
+                    p -= 1
+                    sl.remove(sl[index])
                 else:
                     sl.remove(sl[-1])
-                    cnt += 1
-                if not sl: break
             
-            return cnt
+            return True
 
         while left < right:
             mid = (left+right) // 2
 
-            if getCnt(mid) > mid:
+            if getCnt(mid):
                 left = mid + 1
             else:
                 right = mid
