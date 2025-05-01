@@ -1,4 +1,4 @@
-# Last updated: 2/5/2025, 12:25:12 am
+# Last updated: 2/5/2025, 12:25:58 am
 class Solution:
     def maxTaskAssign(self, tasks: List[int], workers: List[int], pills: int, strength: int) -> int:
         n = len(tasks)
