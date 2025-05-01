@@ -1,55 +1,41 @@
-# Last updated: 2/5/2025, 12:23:42 am
+# Last updated: 2/5/2025, 12:23:57 am
+from sortedcontainers import SortedList
+
+
 class Solution:
-    def maxTaskAssign(self, tasks: List[int], workers: List[int], pills: int, strength: int) -> int:
-        n = len(tasks)
-        m = len(workers)
-
-        """
-        tasks = [10,15,30]
-        workers = [0,10,10,10,10]
-        p = 3
-        s = 10
-        """
+    def maxTaskAssign(
+        self, tasks: List[int], workers: List[int], pills: int, strength: int
+    ) -> int:
+        n, m = len(tasks), len(workers)
         tasks.sort()
-        workers.sort(reverse=True)
+        workers.sort()
 
-        # print(tasks, workers)
-
-        # 5, 6, 8, 9 => tasks
-        # 4, 6, 8, 9 => workers
-        ret = 0
-
-        left = 0
-        right = n
-        ret = 0
-
-        def getCnt(mid):
+        def check(mid: int) -> bool:
             p = pills
-            sl = SortedList(workers[:mid+1])
-
-            for i in range(mid+1):
-                if not sl: return False
-                task = tasks[mid-i]
-                if sl[-1] < task:
-                    if p == 0: return False
-                    index = sl.bisect_left(task-strength)
-                    if index == len(sl): return False
-                    p -= 1
-                    sl.remove(sl[index])
+            # Ordered set of workers
+            ws = SortedList(workers[m - mid :])
+            # Enumerate each task from largest to smallest
+            for i in range(mid - 1, -1, -1):
+                # If the largest element in the ordered set is greater than or equal to tasks[i]
+                if ws[-1] >= tasks[i]:
+                    ws.pop()
                 else:
-                    sl.remove(sl[-1])
-            
+                    if p == 0:
+                        return False
+                    rep = ws.bisect_left(tasks[i] - strength)
+                    if rep == len(ws):
+                        return False
+                    p -= 1
+                    ws.pop(rep)
             return True
 
-        while left < right:
-            mid = (left+right) // 2
-
-            if getCnt(mid):
+        left, right, ans = 1, min(m, n), 0
+        while left <= right:
+            mid = (left + right) // 2
+            if check(mid):
+                ans = mid
                 left = mid + 1
             else:
-                right = mid
-            
-        return left
+                right = mid - 1
 
-
-        
+        return ans
