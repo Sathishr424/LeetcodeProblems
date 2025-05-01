@@ -1,4 +1,4 @@
-# Last updated: 2/5/2025, 12:25:58 am
+# Last updated: 2/5/2025, 1:09:18 am
 class Solution:
     def maxTaskAssign(self, tasks: List[int], workers: List[int], pills: int, strength: int) -> int:
         n = len(tasks)
@@ -10,7 +10,7 @@ class Solution:
         left = 0
         right = n
 
-        def getCnt(mid):
+        def isGood(mid):
             p = pills
             sl = SortedList(workers[:mid+1])
 
@@ -31,7 +31,7 @@ class Solution:
         while left < right:
             mid = (left+right) // 2
 
-            if getCnt(mid):
+            if isGood(mid):
                 left = mid + 1
             else:
                 right = mid
