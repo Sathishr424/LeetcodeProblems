@@ -1,14 +1,10 @@
-# Last updated: 2/5/2025, 2:57:06 pm
+# Last updated: 2/5/2025, 2:57:26 pm
 class Solution:
     def pushDominoes(self, dom: str) -> str:
         n = len(dom)
-
-        """
-        RR..LL
-        """
         dom = list(dom)
+        
         def simulate(l, r):
-            print(dom[l:r+1], (l, r))
             leftForce = 0
             rightForce = 0
             if l-1 >= 0:
