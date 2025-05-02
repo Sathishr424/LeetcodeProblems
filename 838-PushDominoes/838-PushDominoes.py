@@ -1,9 +1,9 @@
-# Last updated: 2/5/2025, 4:39:52 pm
+# Last updated: 2/5/2025, 4:40:33 pm
 class Solution:
     def pushDominoes(self, dom: str) -> str:
         n = len(dom)
         dom = list(dom)
-        
+
         def simulate(l, r):
             leftForce = 0
             rightForce = 0
@@ -20,8 +20,8 @@ class Solution:
                     l += 1
                     r -= 1
             else:
-                for i in range(l, r+1):
-                    dom[i] = 'L' if leftForce + rightForce < 0 else 'R'
+                a = 'L' if leftForce + rightForce < 0 else 'R'
+                for i in range(l, r+1): dom[i] = a
 
         start = -1
         for i in range(n):
