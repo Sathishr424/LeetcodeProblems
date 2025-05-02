@@ -1,5 +1,5 @@
-# Last updated: 2/5/2025, 4:34:15 pm
-inf = float('inf')
+# Last updated: 2/5/2025, 4:37:14 pm
+inf = 10**5 + 1
 class Solution:
     def pushDominoes(self, dom: str) -> str:
         n = len(dom)
@@ -14,7 +14,7 @@ class Solution:
             elif dom[i] == 'L':
                 f = inf
             else:
-                f += 1
+                f = min(inf, f + 1)
             
             dp[i] = f
         
@@ -26,7 +26,7 @@ class Solution:
             elif dom[i] == 'R':
                 f = inf
             else: 
-                f += 1
+                f = min(inf, f + 1)
                 
                 if f < dp[i]:
                     dom[i] = 'L'
