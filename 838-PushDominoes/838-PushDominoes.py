@@ -1,5 +1,6 @@
-# Last updated: 2/5/2025, 4:37:14 pm
+# Last updated: 2/5/2025, 4:37:48 pm
 inf = 10**5 + 1
+cmin = lambda x, y: x if x < y else y
 class Solution:
     def pushDominoes(self, dom: str) -> str:
         n = len(dom)
@@ -14,7 +15,7 @@ class Solution:
             elif dom[i] == 'L':
                 f = inf
             else:
-                f = min(inf, f + 1)
+                f = cmin(inf, f + 1)
             
             dp[i] = f
         
@@ -26,7 +27,7 @@ class Solution:
             elif dom[i] == 'R':
                 f = inf
             else: 
-                f = min(inf, f + 1)
+                f = cmin(inf, f + 1)
                 
                 if f < dp[i]:
                     dom[i] = 'L'
