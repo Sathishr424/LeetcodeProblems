@@ -1,38 +1,36 @@
-# Last updated: 2/5/2025, 4:30:21 pm
+# Last updated: 2/5/2025, 4:34:15 pm
+inf = float('inf')
 class Solution:
     def pushDominoes(self, dom: str) -> str:
         n = len(dom)
         dom = list(dom)
 
-        dp = [float('inf')] * n
-        f = -float('inf')
+        dp = [inf] * n
+        f = inf
+
         for i in range(n):
             if dom[i] == 'R':
                 f = 1
             elif dom[i] == 'L':
-                f = -1
+                f = inf
             else:
-                if f > 0:
-                    f += 1
-                else:
-                    f = -float('inf')
+                f += 1
             
             dp[i] = f
-        f = float('inf')
+        
+        f = inf
+        
         for i in range(n-1, -1, -1):
-            if dom[i] == 'L':
-                f = -1
-            elif dom[i] == 'R':
+            if dom[i] == 'L': 
                 f = 1
-            else:
-                if f < 0:
-                    f -= 1
-                else:
-                    f = float('inf')
-
-                if abs(f) < abs(dp[i]):
+            elif dom[i] == 'R':
+                f = inf
+            else: 
+                f += 1
+                
+                if f < dp[i]:
                     dom[i] = 'L'
-                elif abs(f) > abs(dp[i]):
+                elif f > dp[i]:
                     dom[i] = 'R'
         
         return ''.join(dom)
