@@ -1,37 +1,39 @@
-# Last updated: 2/5/2025, 3:03:48 pm
+# Last updated: 2/5/2025, 4:30:21 pm
 class Solution:
     def pushDominoes(self, dom: str) -> str:
         n = len(dom)
         dom = list(dom)
 
-        def simulate(l, r):
-            leftForce = 0
-            rightForce = 0
-            if l-1 >= 0:
-                leftForce = -1 if dom[l-1] == 'L' else 1
-            if r+1 < n:
-                rightForce = -1 if dom[r+1] == 'L' else 1
-            
-            if leftForce <= 0 and rightForce >= 0: return
-            elif leftForce > 0 and rightForce < 0:
-                while l < r:
-                    dom[l] = 'R'
-                    dom[r] = 'L'
-                    l += 1
-                    r -= 1
-            else:
-                a = 'L' if leftForce + rightForce < 0 else 'R'
-                for i in range(l, r+1): dom[i] = a
-
-        start = -1
+        dp = [float('inf')] * n
+        f = -float('inf')
         for i in range(n):
-            if dom[i] == '.':
-                if start == -1: start = i
+            if dom[i] == 'R':
+                f = 1
+            elif dom[i] == 'L':
+                f = -1
             else:
-                if start != -1:
-                    simulate(start, i-1)
-                    start = -1
-        
-        if start != -1: simulate(start, n-1)
+                if f > 0:
+                    f += 1
+                else:
+                    f = -float('inf')
+            
+            dp[i] = f
+        f = float('inf')
+        for i in range(n-1, -1, -1):
+            if dom[i] == 'L':
+                f = -1
+            elif dom[i] == 'R':
+                f = 1
+            else:
+                if f < 0:
+                    f -= 1
+                else:
+                    f = float('inf')
 
+                if abs(f) < abs(dp[i]):
+                    dom[i] = 'L'
+                elif abs(f) > abs(dp[i]):
+                    dom[i] = 'R'
+        
         return ''.join(dom)
+        
