@@ -1,34 +1,46 @@
-# Last updated: 3/5/2025, 8:36:39 pm
+# Last updated: 3/5/2025, 8:37:10 pm
 class Solution:
-    def smallestSufficientTeam(self, req_skills: List[str],
-                               people: List[List[str]]) -> List[int]:
+    def smallestSufficientTeam(self, req_skills: List[str], people: List[List[str]]) -> List[int]:
         n = len(people)
-        m = len(req_skills)
-        skill_id = dict()
-        for i, skill in enumerate(req_skills):
-            skill_id[skill] = i
-        skills_mask_of_person = [0] * n
-        for i in range(n):
-            for skill in people[i]:
-                skills_mask_of_person[i] |= 1 << skill_id[skill]
-        dp = [-1] * (1 << m)
-        dp[0] = 0
 
-        def f(skills_mask):
-            if dp[skills_mask] != -1:
-                return dp[skills_mask]
-            for i in range(n):
-                new_skills_mask = skills_mask & ~skills_mask_of_person[i]
-                if new_skills_mask != skills_mask:
-                    people_mask = f(new_skills_mask) | (1 << i)
-                    if (dp[skills_mask] == -1 or
-                        people_mask.bit_count()
-                       < dp[skills_mask].bit_count()):
-                        dp[skills_mask] = people_mask
-            return dp[skills_mask]
-        answer_mask = f((1 << m) - 1)
-        ans = []
+        skills_map = {}
+        index = 0
+        for skill in req_skills:
+            skills_map[skill] = index
+            index += 1
+        
+        people_skills = []
+
         for i in range(n):
-            if (answer_mask >> i) & 1:
-                ans.append(i)
-        return ans
+            mask = 0
+            for skill in people[i]:
+                mask |= 1 << skills_map[skill]
+            people_skills.append(mask)
+
+        m = index
+        start_mask = 1 << m
+        full_mask = (1 << (m+1)) - 1
+
+        ret = [i for i in range(n)]
+        memo = [n] * (full_mask + 1)
+
+        def rec(mask, team):
+            nonlocal ret
+            if mask == full_mask:
+                if len(team) < len(ret):
+                    ret = team + []
+                return 0
+            
+            if memo[mask] <= len(team): return 0
+            memo[mask] = len(team)
+
+            for i in range(n):
+                if mask | people_skills[i] != mask:
+                    team.append(i)
+                    rec(mask | people_skills[i], team)
+                    team.pop()
+            
+            return 0
+
+        rec(start_mask, [])
+        return ret
