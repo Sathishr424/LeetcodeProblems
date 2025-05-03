@@ -1,4 +1,4 @@
-# Last updated: 3/5/2025, 5:55:47 pm
+# Last updated: 3/5/2025, 6:00:19 pm
 class Solution:
     def smallestSufficientTeam(self, req_skills: List[str], people: List[List[str]]) -> List[int]:
         n = len(people)
@@ -16,11 +16,11 @@ class Solution:
             for skill in people[i]:
                 mask |= 1 << skills_map[skill]
             people_skills.append(mask)
-        # print([format(mask, '010b') for mask in people_skills])
+
         m = index
         start_mask = 1 << m
         full_mask = (1 << (m+1)) - 1
-        visited = [0] * n
+        # visited = [0] * n
 
         ret = [i for i in range(n)]
         memo = [n] * (full_mask + 1)
@@ -36,13 +36,13 @@ class Solution:
             memo[mask] = len(team)
 
             for i in range(n):
-                if visited[i] == 1: continue
+                # if visited[i] == 1: continue
                 if mask | people_skills[i] != mask:
-                    visited[i] = 1
+                    # visited[i] = 1
                     team.append(i)
                     rec(mask | people_skills[i], team)
                     team.pop()
-                    visited[i] = 0
+                    # visited[i] = 0
             
             return 0
 
