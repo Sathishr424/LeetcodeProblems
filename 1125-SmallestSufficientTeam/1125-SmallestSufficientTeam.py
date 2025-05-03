@@ -1,4 +1,4 @@
-# Last updated: 3/5/2025, 6:01:06 pm
+# Last updated: 3/5/2025, 6:20:27 pm
 class Solution:
     def smallestSufficientTeam(self, req_skills: List[str], people: List[List[str]]) -> List[int]:
         n = len(people)
@@ -20,26 +20,14 @@ class Solution:
         start_mask = 1 << m
         full_mask = (1 << (m+1)) - 1
 
-        ret = [i for i in range(n)]
-        memo = [n] * (full_mask + 1)
+        dp = [[i for i in range(n)] for _ in range(full_mask + 1)]
+        dp[start_mask] = []
 
-        def rec(mask, team):
-            nonlocal ret
-            if mask == full_mask:
-                if len(team) < len(ret):
-                    ret = team + []
-                return 0
-            
-            if memo[mask] <= len(team): return 0
-            memo[mask] = len(team)
-
+        for mask in range(start_mask, full_mask):
             for i in range(n):
-                if mask | people_skills[i] != mask:
-                    team.append(i)
-                    rec(mask | people_skills[i], team)
-                    team.pop()
-            
-            return 0
-
-        rec(start_mask, [])
-        return ret
+                new_mask = mask | people_skills[i]
+                if new_mask != mask:
+                    if len(dp[mask]) + 1 < len(dp[new_mask]):
+                        dp[new_mask] = dp[mask] + [i]
+        # print(dp)
+        return dp[full_mask]
