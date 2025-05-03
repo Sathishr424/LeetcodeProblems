@@ -1,11 +1,13 @@
-# Last updated: 3/5/2025, 5:13:57 pm
+# Last updated: 3/5/2025, 5:16:25 pm
+cmin = lambda x, y: x if x < y else y
+inf = 15
 class Solution:
     def minSessions(self, tasks: List[int], sTime: int) -> int:
         n = len(tasks)
         full_mask = (1 << (n+1)) - 1
         start_mask = 1 << n
 
-        dp = [[float('inf')] * (sTime+1) for _ in range(full_mask+1)]
+        dp = [[inf] * (sTime+1) for _ in range(full_mask+1)]
 
         dp[start_mask][0] = 0
     
@@ -15,10 +17,9 @@ class Solution:
                     if mask & (1 << i) == 0:
                         new_mask = mask | (1 << i)
                         if time >= tasks[i]:
-                            dp[new_mask][time-tasks[i]] = min(dp[new_mask][time-tasks[i]], dp[mask][time])
+                            dp[new_mask][time-tasks[i]] = cmin(dp[new_mask][time-tasks[i]], dp[mask][time])
                         else:
-                            dp[new_mask][sTime-tasks[i]] = min(dp[new_mask][sTime-tasks[i]], dp[mask][time] + 1)
+                            dp[new_mask][sTime-tasks[i]] = cmin(dp[new_mask][sTime-tasks[i]], dp[mask][time] + 1)
         
-        # print(dp[full_mask])
         return min(dp[full_mask])
 
