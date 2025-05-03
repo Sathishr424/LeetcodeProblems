@@ -1,4 +1,4 @@
-# Last updated: 3/5/2025, 11:36:17 am
+# Last updated: 3/5/2025, 11:41:34 am
 class Solution:
     def minDominoRotations(self, tops: List[int], bottoms: List[int]) -> int:
         n = len(tops)
