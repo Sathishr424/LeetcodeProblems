@@ -1,22 +1,7 @@
-# Last updated: 3/5/2025, 11:32:58 am
+# Last updated: 3/5/2025, 11:36:17 am
 class Solution:
     def minDominoRotations(self, tops: List[int], bottoms: List[int]) -> int:
         n = len(tops)
-
-        top_freq = [0] * 7
-        max_top_freq = 1
-        for num in tops:
-            top_freq[num] += 1
-            if top_freq[num] > top_freq[max_top_freq]:
-                max_top_freq = num
-        
-        bottom_freq = [0] * 7
-        max_bottom_freq = 1
-        for num in bottoms:
-            bottom_freq[num] += 1
-            if bottom_freq[num] > bottom_freq[max_bottom_freq]:
-                max_bottom_freq = num
-
         def checkRotation(x, y, z):
             rotation = 0
             for i in range(n):
@@ -26,7 +11,7 @@ class Solution:
 
             return rotation
 
-        ret = min(checkRotation(tops, bottoms, max_top_freq), checkRotation(bottoms, tops, max_bottom_freq))
+        ret = min(checkRotation(tops, bottoms, tops[0]), checkRotation(bottoms, tops, bottoms[0]), checkRotation(tops, bottoms, bottoms[0]), checkRotation(bottoms, tops, tops[0]))
 
         return ret if ret != float('inf') else -1
         
