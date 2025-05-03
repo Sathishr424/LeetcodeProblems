@@ -1,49 +1,38 @@
-# Last updated: 3/5/2025, 5:47:12 pm
+# Last updated: 3/5/2025, 5:51:32 pm
 class Solution:
     def smallestSufficientTeam(self, req_skills: List[str], people: List[List[str]]) -> List[int]:
         n = len(people)
+        skill_index = {skill: i for i, skill in enumerate(req_skills)}
+        m = len(req_skills)
+        full_mask = (1 << m) - 1
 
-        skills_map = {}
-        index = 0
-        for skill in req_skills:
-            skills_map[skill] = index
-            index += 1
-        
-        m = index
-        start_mask = 1 << m
-        full_mask = (1 << (m+1)) - 1
-        visited = [0] * n
+        # Convert each person's skills to a bitmask
+        people_masks = []
+        for person in people:
+            mask = 0
+            for skill in person:
+                if skill in skill_index:
+                    mask |= 1 << skill_index[skill]
+            people_masks.append(mask)
 
-        ret = [i for i in range(n)]
-        memo = [n] * (full_mask + 1)
+        memo = {}
+        best_team = list(range(n))  # worst case: everyone
 
-        def rec(mask, team):
-            nonlocal ret
+        def dfs(mask, team):
+            nonlocal best_team
             if mask == full_mask:
-                if len(team) < len(ret):
-                    ret = team + []
-                return 0
-            
-            if memo[mask] <= len(team): return 0
-            memo[mask] = len(team)
+                if len(team) < len(best_team):
+                    best_team = team[:]
+                return
+
+            if mask in memo and len(memo[mask]) <= len(team):
+                return
+            memo[mask] = team[:]
 
             for i in range(n):
-                if visited[i] == 0:
-                    
-                    new_mask = mask
-                    for skill in people[i]:
-                        index = skills_map[skill]
-                        if mask & (1 << index) == 0:
-                            new_mask |= 1 << index
-                    
-                    if new_mask != mask:
-                        visited[i] = 1
-                        team.append(i)
-                        rec(new_mask, team)
-                        team.pop()
-                        visited[i] = 0
-            
-            return 0
+                new_mask = mask | people_masks[i]
+                if new_mask != mask:  # this person adds new skill(s)
+                    dfs(new_mask, team + [i])
 
-        rec(start_mask, [])
-        return ret
+        dfs(0, [])
+        return best_team
