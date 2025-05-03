@@ -1,33 +1,29 @@
-# Last updated: 3/5/2025, 6:20:27 pm
+# Last updated: 3/5/2025, 8:36:13 pm
 class Solution:
-    def smallestSufficientTeam(self, req_skills: List[str], people: List[List[str]]) -> List[int]:
+    def smallestSufficientTeam(self, req_skills: List[str],
+                               people: List[List[str]]) -> List[int]:
         n = len(people)
-
-        skills_map = {}
-        index = 0
-        for skill in req_skills:
-            skills_map[skill] = index
-            index += 1
-        
-        people_skills = []
+        m = len(req_skills)
+        skill_id = dict()
+        for i, skill in enumerate(req_skills):
+            skill_id[skill] = i
+        skills_mask_of_person = [0] * n
         for i in range(n):
-            mask = 0
             for skill in people[i]:
-                mask |= 1 << skills_map[skill]
-            people_skills.append(mask)
-
-        m = index
-        start_mask = 1 << m
-        full_mask = (1 << (m+1)) - 1
-
-        dp = [[i for i in range(n)] for _ in range(full_mask + 1)]
-        dp[start_mask] = []
-
-        for mask in range(start_mask, full_mask):
+                skills_mask_of_person[i] |= 1 << skill_id[skill]
+        dp = [(1 << n) - 1] * (1 << m)
+        dp[0] = 0
+        for skills_mask in range(1, 1 << m):
             for i in range(n):
-                new_mask = mask | people_skills[i]
-                if new_mask != mask:
-                    if len(dp[mask]) + 1 < len(dp[new_mask]):
-                        dp[new_mask] = dp[mask] + [i]
-        # print(dp)
-        return dp[full_mask]
+                smaller_skills_mask = skills_mask & ~skills_mask_of_person[i]
+                if smaller_skills_mask != skills_mask:
+                    people_mask = dp[smaller_skills_mask] | (1 << i)
+                    if people_mask.bit_count() < dp[skills_mask].bit_count():
+                        dp[skills_mask] = people_mask
+
+        answer_mask = dp[(1 << m) - 1]
+        ans = []
+        for i in range(n):
+            if (answer_mask >> i) & 1:
+                ans.append(i)
+        return ans
