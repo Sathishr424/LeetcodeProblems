@@ -1,19 +1,24 @@
-# Last updated: 3/5/2025, 4:54:38 pm
+# Last updated: 3/5/2025, 5:13:57 pm
 class Solution:
-    def minSessions(self, tasks: List[int], sessionTime: int) -> int:
+    def minSessions(self, tasks: List[int], sTime: int) -> int:
         n = len(tasks)
         full_mask = (1 << (n+1)) - 1
-        @cache
-        def rec(mask, remTime):
-            if mask == full_mask: return 0
-            ans = float('inf')
-            for i in range(n):
-                if mask & (1 << i) == 0:
-                    if tasks[i] <= remTime:
-                        ans = min(ans, rec(mask | (1 << i), remTime - tasks[i]))
-                    else:
-                        ans = min(ans, rec(mask | (1 << i), sessionTime - tasks[i]) + 1)
-            return ans
+        start_mask = 1 << n
+
+        dp = [[float('inf')] * (sTime+1) for _ in range(full_mask+1)]
+
+        dp[start_mask][0] = 0
+    
+        for mask in range(start_mask, full_mask):
+            for time in range(sTime+1):
+                for i in range(n):
+                    if mask & (1 << i) == 0:
+                        new_mask = mask | (1 << i)
+                        if time >= tasks[i]:
+                            dp[new_mask][time-tasks[i]] = min(dp[new_mask][time-tasks[i]], dp[mask][time])
+                        else:
+                            dp[new_mask][sTime-tasks[i]] = min(dp[new_mask][sTime-tasks[i]], dp[mask][time] + 1)
         
-        return rec(1 << n, 0)
+        # print(dp[full_mask])
+        return min(dp[full_mask])
 
