@@ -1,24 +1,24 @@
-# Last updated: 4/5/2025, 10:49:36 am
-inf = 15
+# Last updated: 4/5/2025, 10:53:24 am
 class Solution:
     def minSessions(self, tasks: List[int], sessionTime: int) -> int:
         n = len(tasks)
 
-        full_mask = (1 << (n+1)) - 1
-        dp = [[inf] * sessionTime for _ in range(full_mask)]
+        def clearBit(x, k):
+            return ~(1 << k) & x
 
-        def rec(mask, remTime):
-            if mask == full_mask: return 0
-            if dp[mask][remTime] != inf: return dp[mask][remTime] 
-            ans = inf
+        @lru_cache(None)
+        def dp(mask, remainTime):
+            if mask == 0: return 0
+
+            ans = n  # There is up to N work sessions
             for i in range(n):
-                if mask & (1 << i) == 0:
-                    if tasks[i] <= remTime:
-                        ans = min(ans, rec(mask | (1 << i), remTime - tasks[i]))
+                if (mask >> i) & 1:
+                    newMask = clearBit(mask, i)
+                    if tasks[i] <= remainTime:
+                        ans = min(ans, dp(newMask, remainTime - tasks[i]))  # Consume current session
                     else:
-                        ans = min(ans, rec(mask | (1 << i), sessionTime - tasks[i]) + 1)
-            dp[mask][remTime]  = ans
-            return ans
-        
-        return rec(1 << n, 0)
+                        ans = min(ans, dp(newMask, sessionTime - tasks[i]) + 1)  # Create new session
 
+            return ans
+
+        return dp((1 << n) - 1, 0)
