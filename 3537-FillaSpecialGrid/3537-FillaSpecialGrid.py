@@ -1,4 +1,4 @@
-# Last updated: 4/5/2025, 9:53:25 am
+# Last updated: 4/5/2025, 9:53:45 am
 class Solution:
     def specialGrid(self, N: int) -> List[List[int]]:
         m = 1 << N
@@ -7,7 +7,7 @@ class Solution:
         def fill(i, j, n, val):
             if n == 1:
                 ret[i][j] = val
-                return ret[i][j]-1
+                return val-1
             
             half = n//2
 
