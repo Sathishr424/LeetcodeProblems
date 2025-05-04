@@ -1,4 +1,4 @@
-# Last updated: 4/5/2025, 9:34:52 am
+# Last updated: 4/5/2025, 9:35:31 am
 class Solution:
     def specialGrid(self, N: int) -> List[List[int]]:
         if N == 0: return [[0]]
@@ -28,13 +28,12 @@ class Solution:
             if rows == 2:
                 return fill(i, rows, j, rows, val)
             else:
-                tmp = i
                 half = rows//2
                 for k in range(0, rows, rows//2):
                     val = processFill(i, j, half, val)
                     i += half
                 j += k
-                i = i-half
+                i -= half
                 for k in range(0, rows, rows//2):
                     val = processFill(i, j, half, val)
                     i -= half
