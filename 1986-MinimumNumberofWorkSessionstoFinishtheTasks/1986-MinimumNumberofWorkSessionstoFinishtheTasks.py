@@ -1,4 +1,4 @@
-# Last updated: 4/5/2025, 10:48:07 am
+# Last updated: 4/5/2025, 10:49:11 am
 inf = 15
 class Solution:
     def minSessions(self, tasks: List[int], sessionTime: int) -> int:
