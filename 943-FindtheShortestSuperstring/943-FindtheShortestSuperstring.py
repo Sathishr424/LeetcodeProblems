@@ -1,4 +1,4 @@
-# Last updated: 5/5/2025, 6:18:22 pm
+# Last updated: 5/5/2025, 6:22:18 pm
 def overlap_append(a: str, b: str) -> str:
     m = len(a)
     n = len(b)
@@ -30,13 +30,13 @@ class Solution:
         dp = {}
         
         for i in range(n):
-            key = f'{start_mask | (1 << i)},{words[i]}'
-            dp[key] = [start_mask | (1 << i), words[i], i]
+            dp[(start_mask | (1 << i), words[i])] = [words[i], i]
         
         for i in range(n-1):
             new_dp = {}
             for key in dp:
-                mask, st, index = dp[key]
+                st, index = dp[key]
+                mask, _ = key
 
                 for k in range(n):
                     if mask & (1 << k) == 0:
@@ -44,15 +44,14 @@ class Solution:
                         new_mask = mask | (1 << k)
                         new_merge = st + overlaps[index][k]
 
-                        key = f'{new_mask},{words[k]}'
-                        if key not in new_dp or len(new_merge) < len(new_dp[key][1]):
-                            new_dp[key] = [new_mask, new_merge, k]
+                        if (new_mask, words[k]) not in new_dp or len(new_merge) < len(new_dp[(new_mask, words[k])][0]):
+                            new_dp[(new_mask, words[k])] = [new_merge, k]
             
             dp = new_dp
 
         ret = None
         for mask in dp:
-            if ret == None or len(dp[mask][1]) < len(ret):
-                ret = dp[mask][1]
+            if ret == None or len(dp[mask][0]) < len(ret):
+                ret = dp[mask][0]
 
         return ret
