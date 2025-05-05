@@ -1,4 +1,4 @@
-# Last updated: 5/5/2025, 6:15:11 pm
+# Last updated: 5/5/2025, 6:18:22 pm
 def overlap_append(a: str, b: str) -> str:
     m = len(a)
     n = len(b)
@@ -12,9 +12,7 @@ def overlap_append(a: str, b: str) -> str:
         
         if start == m: return b[j+1:]
         
-    return b 
-        
-d = 'z' * 241
+    return b
 
 class Solution:
     def shortestSuperstring(self, words: List[str]) -> str:
@@ -52,9 +50,9 @@ class Solution:
             
             dp = new_dp
 
-        ret = d
+        ret = None
         for mask in dp:
-            if len(dp[mask][1]) < len(ret):
+            if ret == None or len(dp[mask][1]) < len(ret):
                 ret = dp[mask][1]
 
         return ret
