@@ -1,59 +1,60 @@
-# Last updated: 5/5/2025, 5:47:57 pm
-class Solution(object):
-    def shortestSuperstring(self, A):
-        N = len(A)
+# Last updated: 5/5/2025, 6:13:45 pm
+def overlap_append(a: str, b: str) -> str:
+    m = len(a)
+    n = len(b)
 
-        # Populate overlaps
-        overlaps = [[0] * N for _ in xrange(N)]
-        for i, x in enumerate(A):
-            for j, y in enumerate(A):
-                if i != j:
-                    for ans in xrange(min(len(x), len(y)), -1, -1):
-                        if x.endswith(y[:ans]):
-                            overlaps[i][j] = ans
-                            break
+    for i in range(max(0, m-n), m):
+        start = i
+        for j in range(0, m-i):
+            if a[start] != b[j]:
+                break
+            start += 1
+        
+        if start == m: return b[j+1:]
+        
+    return b 
+        
+d = 'z' * 241
 
-        # dp[mask][i] = most overlap with mask, ending with ith element
-        dp = [[0] * N for _ in xrange(1<<N)]
-        parent = [[None] * N for _ in xrange(1<<N)]
-        for mask in xrange(1, 1 << N):
-            for bit in xrange(N):
-                if (mask >> bit) & 1:
-                    # Let's try to find dp[mask][bit].  Previously, we had
-                    # a collection of items represented by pmask.
-                    pmask = mask ^ (1 << bit)
-                    if pmask == 0: continue
-                    for i in xrange(N):
-                        if (pmask >> i) & 1:
-                            # For each bit i in pmask, calculate the value
-                            # if we ended with word i, then added word 'bit'.
-                            value = dp[pmask][i] + overlaps[i][bit]
-                            if value > dp[mask][bit]:
-                                dp[mask][bit] = value
-                                parent[mask][bit] = i
+class Solution:
+    def shortestSuperstring(self, words: List[str]) -> str:
+        n = len(words)
+        start_mask = 1 << n
+        full_mask = (1 << (n+1)) - 1
 
-        # Answer will have length sum(len(A[i]) for i) - max(dp[-1])
-        # Reconstruct answer:
+        overlaps = [[''] * n for _ in range(n)]
 
-        # Follow parents down backwards path that retains maximum overlap
-        perm = []
-        mask = (1<<N) - 1
-        i = max(xrange(N), key = dp[-1].__getitem__)
-        while i is not None:
-            perm.append(i)
-            mask, i = mask ^ (1<<i), parent[mask][i]
+        for i in range(n):
+            for j in range(n):
+                if i == j: continue
+                overlaps[i][j] = overlap_append(words[i], words[j])
 
-        # Reverse path to get forwards direction; add all remaining words
-        perm = perm[::-1]
-        seen = [False] * N
-        for x in perm:
-            seen[x] = True
-        perm.extend([i for i in xrange(N) if not seen[i]])
+        dp = {}
+        
+        for i in range(n):
+            key = f'{start_mask | (1 << i)},{words[i]}'
+            dp[key] = [start_mask | (1 << i), words[i], i]
+        
+        for i in range(n-1):
+            new_dp = {}
+            for key in dp:
+                mask, st, index = dp[key]
 
-        # Reconstruct answer given perm = word indices in left to right order
-        ans = [A[perm[0]]]
-        for i in xrange(1, len(perm)):
-            overlap = overlaps[perm[i-1]][perm[i]]
-            ans.append(A[perm[i]][overlap:])
+                for k in range(n):
+                    if mask & (1 << k) == 0:
+                        
+                        new_mask = mask | (1 << k)
+                        new_merge = st + overlaps[index][k]
 
-        return "".join(ans)
+                        key = f'{new_mask},{words[k]}'
+                        if key not in new_dp or len(new_merge) < len(new_dp[key][1]):
+                            new_dp[key] = [new_mask, new_merge, k]
+            
+            dp = new_dp
+
+        ret = d
+        for mask in dp:
+            if len(dp[mask][1]) < len(ret):
+                ret = dp[mask][1]
+
+        return ret
