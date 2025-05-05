@@ -1,4 +1,4 @@
-# Last updated: 5/5/2025, 12:01:06 pm
+# Last updated: 5/5/2025, 12:01:28 pm
 mod = 10**9 + 7
 ways = [1, 2, 3, 3, 4, 4]
 
@@ -10,7 +10,6 @@ class Solution:
         
         @cache
         def rec(n):
-            print(n)
             if n <= 1: return 1
             elif n == 2: return 2
             
