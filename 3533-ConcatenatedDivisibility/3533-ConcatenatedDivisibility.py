@@ -1,0 +1,47 @@
+# Last updated: 6/5/2025, 1:54:36 pm
+class Solution:
+    def concatenatedDivisibility(self, nums: List[int], k: int) -> List[int]:
+        n = len(nums)
+        nums.sort()
+        digits = []
+
+        total = 0
+        for i, num in enumerate(nums):
+            l = len(str(num))
+
+            total += l
+            digits.append(l)
+
+        full_mask = (1 << (n+1)) - 1
+
+        ret = []
+        memo = {}
+
+        def rec(mask, num, rem, need, prev):
+            nonlocal ret
+            # print(format(mask, '010b'), num, rem, need, whole_num)
+            if mask == full_mask:
+                return num, []
+            
+            key = f'{mask},{num},{need}'
+            if key in memo: return memo[key]
+
+            ans = float('inf')
+            ret_arr = []
+            for i in range(n):
+                if mask & (1 << i) == 0:
+                    new_mask = mask | (1 << i)
+
+                    num2 = nums[i] * pow(10, rem - digits[i])
+
+                    new_num, arr = rec(new_mask, num2, rem - digits[i], (need + (num % k)) % k, num)
+
+                    if ans == float('inf') and (need + ((num + new_num) % k)) % k == 0:
+                        ans = num + new_num
+                        ret_arr = [nums[i]] + arr
+                        break
+            
+            memo[key] = [ans, ret_arr]
+            return ans, ret_arr
+        
+        return rec(1 << n, 0, total, 0, 0)[1]
