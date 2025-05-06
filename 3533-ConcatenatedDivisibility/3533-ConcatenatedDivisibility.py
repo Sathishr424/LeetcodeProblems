@@ -1,4 +1,4 @@
-# Last updated: 6/5/2025, 7:21:19 pm
+# Last updated: 6/5/2025, 7:21:41 pm
 class Solution:
     def concatenatedDivisibility(self, nums: List[int], k: int) -> List[int]:
         n = len(nums)
@@ -24,9 +24,6 @@ class Solution:
 
             dp[new_mask][num % k] = ([nums[i]], total - digits[i])
 
-        def compare(x, y):
-            return x < y
-
         for mask in range(start_mask, 0, -1):
             for whole_num in range(k):
                 if dp[mask][whole_num] == None: continue
@@ -40,7 +37,7 @@ class Solution:
                     l = digits[i]
                     r = ((nums[i] * pows[rem - l] % k) + whole_num) % k
 
-                    if dp[new_mask][r] == None or compare(arr, dp[new_mask][r][0]):
+                    if dp[new_mask][r] == None or arr < dp[new_mask][r][0]:
                         dp[new_mask][r] = (arr + [nums[i]], rem - l)
 
         return dp[0][0][0] if dp[0][0] != None else []
