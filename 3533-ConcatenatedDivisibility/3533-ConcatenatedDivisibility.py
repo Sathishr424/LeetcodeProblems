@@ -1,4 +1,4 @@
-# Last updated: 6/5/2025, 1:54:36 pm
+# Last updated: 6/5/2025, 1:58:46 pm
 class Solution:
     def concatenatedDivisibility(self, nums: List[int], k: int) -> List[int]:
         n = len(nums)
@@ -17,9 +17,8 @@ class Solution:
         ret = []
         memo = {}
 
-        def rec(mask, num, rem, need, prev):
+        def rec(mask, num, rem, need):
             nonlocal ret
-            # print(format(mask, '010b'), num, rem, need, whole_num)
             if mask == full_mask:
                 return num, []
             
@@ -28,20 +27,21 @@ class Solution:
 
             ans = float('inf')
             ret_arr = []
+
             for i in range(n):
                 if mask & (1 << i) == 0:
                     new_mask = mask | (1 << i)
 
-                    num2 = nums[i] * pow(10, rem - digits[i])
+                    num2 = nums[i] * pow(10, rem - digits[i], k) % k
 
-                    new_num, arr = rec(new_mask, num2, rem - digits[i], (need + (num % k)) % k, num)
+                    new_num, arr = rec(new_mask, num2, rem - digits[i], (need + num) % k)
 
-                    if ans == float('inf') and (need + ((num + new_num) % k)) % k == 0:
-                        ans = num + new_num
+                    if ans == float('inf') and (need + num + new_num) % k == 0:
+                        ans = (num + new_num) % k
                         ret_arr = [nums[i]] + arr
                         break
             
             memo[key] = [ans, ret_arr]
             return ans, ret_arr
         
-        return rec(1 << n, 0, total, 0, 0)[1]
+        return rec(1 << n, 0, total, 0)[1]
