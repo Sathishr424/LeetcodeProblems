@@ -1,4 +1,4 @@
-# Last updated: 6/5/2025, 1:17:36 pm
+# Last updated: 6/5/2025, 1:18:56 pm
 class Solution:
     def buildArray(self, nums: List[int]) -> List[int]:
         n = len(nums)
