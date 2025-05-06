@@ -1,4 +1,4 @@
-# Last updated: 6/5/2025, 6:15:07 pm
+# Last updated: 6/5/2025, 6:17:00 pm
 class Solution:
     def concatenatedDivisibility(self, nums: List[int], k: int) -> List[int]:
         n = len(nums)
@@ -47,6 +47,7 @@ class Solution:
 
                     if dp[new_mask][r][1] == total or compare(arr, dp[new_mask][r][0]):
                         dp[new_mask][r] = [arr + [nums[i]], rem - l]
+                        if new_mask == 0 and r == 0: break
 
         return dp[0][0][0]
 
