@@ -1,4 +1,4 @@
-# Last updated: 6/5/2025, 1:58:46 pm
+# Last updated: 6/5/2025, 2:01:33 pm
 class Solution:
     def concatenatedDivisibility(self, nums: List[int], k: int) -> List[int]:
         n = len(nums)
@@ -36,7 +36,7 @@ class Solution:
 
                     new_num, arr = rec(new_mask, num2, rem - digits[i], (need + num) % k)
 
-                    if ans == float('inf') and (need + num + new_num) % k == 0:
+                    if (need + num + new_num) % k == 0:
                         ans = (num + new_num) % k
                         ret_arr = [nums[i]] + arr
                         break
