@@ -1,4 +1,4 @@
-# Last updated: 6/5/2025, 7:14:47 pm
+# Last updated: 6/5/2025, 7:15:59 pm
 def compare(x, y):
     for i in range(len(x)):
         if x[i] < y[i]: return True
