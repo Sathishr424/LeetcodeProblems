@@ -1,4 +1,4 @@
-# Last updated: 6/5/2025, 2:19:37 pm
+# Last updated: 6/5/2025, 2:20:53 pm
 class Solution:
     def concatenatedDivisibility(self, nums: List[int], k: int) -> List[int]:
         n = len(nums)
@@ -8,21 +8,16 @@ class Solution:
         total = 0
         for i, num in enumerate(nums):
             l = len(str(num))
-
-            total += l
             digits.append(l)
+            total += l
 
-        full_mask = (1 << (n+1)) - 1
-
-        ret = []
         memo = {}
 
         def rec(mask, num, rem, need):
-            nonlocal ret
             if mask == 0:
                 return num, []
             
-            key = f'{mask},{num},{need}'
+            key = (mask, num, need)
             if key in memo: return memo[key]
 
             ans = float('inf')
