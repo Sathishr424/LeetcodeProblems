@@ -1,17 +1,14 @@
-# Last updated: 6/5/2025, 6:02:11 pm
+# Last updated: 6/5/2025, 6:04:22 pm
 class Solution:
     def concatenatedDivisibility(self, nums: List[int], k: int) -> List[int]:
         n = len(nums)
         nums.sort()
-        digits = []
 
+        digits = []
         total = 0
         for i, num in enumerate(nums):
-            l = len(str(num))
-            digits.append(l)
-            total += l
-
-        memo = {}
+            digits.append(len(str(num)))
+            total += digits[-1]
 
         pows = [0] * total
         for i in range(total):
@@ -36,8 +33,9 @@ class Solution:
 
         for mask in range(start_mask, 0, -1):
             for whole_num in range(k):
+                if dp[mask][whole_num][1] == total: continue
+                
                 arr, rem = dp[mask][whole_num]
-                if rem == total: continue
                 for i in range(n):
                     if (mask >> i) & 1 == 0: continue
 
@@ -47,12 +45,9 @@ class Solution:
                     num = nums[i] * pows[rem - l] % k
                     r = (num + whole_num) % k
 
-                    if dp[new_mask][r][1] == total:
-                        dp[new_mask][r] = [arr + [nums[i]], rem - l]
-                    elif compare(arr, dp[new_mask][r][0]):
+                    if dp[new_mask][r][1] == total or compare(arr, dp[new_mask][r][0]):
                         dp[new_mask][r] = [arr + [nums[i]], rem - l]
 
-        # print(dp[0])
         return dp[0][0][0]
 
 
