@@ -1,53 +1,51 @@
-# Last updated: 6/5/2025, 7:21:05 pm
+# Last updated: 6/5/2025, 7:21:19 pm
 class Solution:
     def concatenatedDivisibility(self, nums: List[int], k: int) -> List[int]:
         n = len(nums)
         nums.sort()
 
-        # Precompute digit lengths
-        digits = [len(str(num)) for num in nums]
-        total_digits = sum(digits)
+        digits = []
+        total = 0
+        for i, num in enumerate(nums):
+            digits.append(len(str(num)))
+            total += digits[-1]
 
-        # Precompute 10^i % k
-        pow10 = [1] * (total_digits + 1)
-        for i in range(1, total_digits + 1):
-            pow10[i] = pow(10, i, k)
+        pows = [0] * total
+        for i in range(total):
+            pows[i] = pow(10, i, k)
 
-        # Initialize DP table
-        dp = [[None for _ in range(k)] for _ in range(1 << n)]
+        start_mask = (1 << n) - 1
 
-        # Base case: each starting number
+        dp = [[None for _ in range(k)] for _ in range(start_mask+1)]
+
         for i in range(n):
-            mask = (1 << i)
-            rem_digits = total_digits - digits[i]
-            mod = nums[i] * pow10[rem_digits] % k
-            dp[mask][mod] = ([nums[i]], rem_digits)
+            new_mask = start_mask & ~(1 << i)
+            num = nums[i] * pows[total - digits[i]] % k
 
-        # Lex compare
-        def is_better(x, y):
-            return x < y  # Python list comparison is lexicographic
+            dp[new_mask][num % k] = ([nums[i]], total - digits[i])
 
-        # Fill DP
-        for mask in range(1 << n):
-            for rem in range(k):
-                if dp[mask][rem] is None:
-                    continue
-                seq, rem_digits = dp[mask][rem]
+        def compare(x, y):
+            return x < y
 
+        for mask in range(start_mask, 0, -1):
+            for whole_num in range(k):
+                if dp[mask][whole_num] == None: continue
+                
+                arr, rem = dp[mask][whole_num]
                 for i in range(n):
-                    if not (mask & (1 << i)):
-                        next_mask = mask | (1 << i)
-                        new_rem_digits = rem_digits - digits[i]
-                        add = nums[i] * pow10[new_rem_digits] % k
-                        new_rem = (rem + add) % k
-                        new_seq = seq + [nums[i]]
+                    if (mask >> i) & 1 == 0: continue
 
-                        if (
-                            dp[next_mask][new_rem] is None or
-                            is_better(new_seq, dp[next_mask][new_rem][0])
-                        ):
-                            dp[next_mask][new_rem] = (new_seq, new_rem_digits)
+                    new_mask = mask & ~(1 << i)
+                    
+                    l = digits[i]
+                    r = ((nums[i] * pows[rem - l] % k) + whole_num) % k
 
-        # Final answer
-        full_mask = (1 << n) - 1
-        return dp[full_mask][0][0] if dp[full_mask][0] else []
+                    if dp[new_mask][r] == None or compare(arr, dp[new_mask][r][0]):
+                        dp[new_mask][r] = (arr + [nums[i]], rem - l)
+
+        return dp[0][0][0] if dp[0][0] != None else []
+
+
+
+
+                        
