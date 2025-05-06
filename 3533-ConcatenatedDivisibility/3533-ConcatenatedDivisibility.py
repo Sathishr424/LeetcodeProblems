@@ -1,4 +1,4 @@
-# Last updated: 6/5/2025, 2:27:47 pm
+# Last updated: 6/5/2025, 2:28:22 pm
 class Solution:
     def concatenatedDivisibility(self, nums: List[int], k: int) -> List[int]:
         n = len(nums)
@@ -13,11 +13,11 @@ class Solution:
 
         memo = {}
 
-        def rec(mask, num, rem, need, whole_num, so_far):
+        def rec(mask, num, rem, need, whole_num):
             if mask == 0:
                 return num, []
             
-            key = (mask, so_far)
+            key = (mask, whole_num % k)
             if key in memo: return memo[key]
 
             ans = float('inf')
@@ -27,7 +27,7 @@ class Solution:
                 if (mask >> i) & 1:
                     num2 = nums[i] * pow(10, rem - digits[i], k) % k
 
-                    new_num, arr = rec(mask & ~(1 << i), num2, rem - digits[i], (need + num) % k, whole_num+num2, (whole_num+num2) % k)
+                    new_num, arr = rec(mask & ~(1 << i), num2, rem - digits[i], (need + num) % k, whole_num+num2)
 
                     if (need + num + new_num) % k == 0:
                         ans = (num + new_num) % k
@@ -37,4 +37,4 @@ class Solution:
             memo[key] = [ans, ret_arr]
             return ans, ret_arr
         
-        return rec((1 << n) - 1, 0, total, 0, 0, 0)[1]
+        return rec((1 << n) - 1, 0, total, 0, 0)[1]
