@@ -1,11 +1,12 @@
-# Last updated: 7/5/2025, 11:40:54 am
+# Last updated: 7/5/2025, 11:56:25 am
+DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+
 class Solution:
     def minTimeToReach(self, moveTime: List[List[int]]) -> int:
         m = len(moveTime)
         n = len(moveTime[0])
 
         stack = [(0, 0, 0)]
-        DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
         while stack:
             time, i, j = heapq.heappop(stack)
