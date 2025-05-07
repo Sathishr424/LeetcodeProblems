@@ -1,4 +1,4 @@
-# Last updated: 7/5/2025, 7:17:26 pm
+# Last updated: 7/5/2025, 7:19:00 pm
 DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
 class Solution:
@@ -8,9 +8,6 @@ class Solution:
 
         if grid[0][1] > 1 and grid[1][0] > 1: return -1
         
-        dist = [[float('inf')] * n for _ in range(m)]
-        dist[0][0] = 0
-
         stack = [(0, 0, 0)]
 
         while stack:
@@ -24,14 +21,16 @@ class Solution:
                 nj += j
 
                 if 0 <= ni < m and 0 <= nj < n:
+                    if grid[ni][nj] == -1: continue
+                    
                     if new_time < grid[ni][nj]:
                         diff = grid[ni][nj] - new_time
                         new_time_larger = time + diff + (2 if diff % 2 else 1)
                         
-                        dist[ni][nj] = new_time_larger
                         heapq.heappush(stack, (new_time_larger, ni, nj))
-                    elif new_time >= grid[ni][nj] and new_time < dist[ni][nj]:
-                        dist[ni][nj] = new_time
+                    elif new_time >= grid[ni][nj]:
                         heapq.heappush(stack, (new_time, ni, nj))
+                    
+                    grid[ni][nj] = -1
             
         return -1
