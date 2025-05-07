@@ -1,4 +1,4 @@
-# Last updated: 7/5/2025, 11:25:21 pm
+# Last updated: 7/5/2025, 11:26:46 pm
 class Solution:
     def findMaximumElegance(self, items: List[List[int]], k: int) -> int:
         n = len(items)
