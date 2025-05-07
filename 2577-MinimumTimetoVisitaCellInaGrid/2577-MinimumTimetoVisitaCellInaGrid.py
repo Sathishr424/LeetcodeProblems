@@ -1,4 +1,4 @@
-# Last updated: 7/5/2025, 7:25:17 pm
+# Last updated: 7/5/2025, 7:27:13 pm
 DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
 class Solution:
@@ -20,11 +20,9 @@ class Solution:
                 ni += i
                 nj += j
 
-                if 0 <= ni < m and 0 <= nj < n:
-                    if grid[ni][nj] == -1: continue
-
-                    heapq.heappush(stack, (max(new_time, grid[ni][nj] + ((grid[ni][nj] - new_time) % 2)), ni, nj))
-                    
+                if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] != -1:
+                    to_add = (grid[ni][nj] - new_time) % 2
+                    heapq.heappush(stack, (max(new_time, grid[ni][nj] + to_add), ni, nj))
                     grid[ni][nj] = -1
             
         return -1
