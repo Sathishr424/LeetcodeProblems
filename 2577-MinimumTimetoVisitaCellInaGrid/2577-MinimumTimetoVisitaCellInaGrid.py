@@ -1,4 +1,4 @@
-# Last updated: 7/5/2025, 7:22:05 pm
+# Last updated: 7/5/2025, 7:25:17 pm
 DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
 class Solution:
@@ -23,13 +23,7 @@ class Solution:
                 if 0 <= ni < m and 0 <= nj < n:
                     if grid[ni][nj] == -1: continue
 
-                    if new_time < grid[ni][nj]:
-                        diff = grid[ni][nj] - new_time
-                        new_time_larger = new_time + diff + (diff % 2)
-                        
-                        heapq.heappush(stack, (new_time_larger, ni, nj))
-                    elif new_time >= grid[ni][nj]:
-                        heapq.heappush(stack, (new_time, ni, nj))
+                    heapq.heappush(stack, (max(new_time, grid[ni][nj] + ((grid[ni][nj] - new_time) % 2)), ni, nj))
                     
                     grid[ni][nj] = -1
             
