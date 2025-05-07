@@ -1,14 +1,15 @@
-# Last updated: 7/5/2025, 11:49:38 am
+# Last updated: 7/5/2025, 11:56:08 am
+DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+
 class Solution:
     def swimInWater(self, grid: List[List[int]]) -> int:
         n = len(grid)
 
         stack = [(grid[0][0], 0, 0)]
-        DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
         
         while stack:
             depth, i, j = heapq.heappop(stack)
-            if i == n-1 and j == n-1: return depth
+            if i == n-1 and i == j: return depth
 
             for ni, nj in DIR:
                 ni += i
