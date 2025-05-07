@@ -1,4 +1,4 @@
-# Last updated: 7/5/2025, 7:16:50 pm
+# Last updated: 7/5/2025, 7:17:26 pm
 DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
 class Solution:
@@ -6,8 +6,7 @@ class Solution:
         m = len(grid)
         n = len(grid[0])
 
-        path_exist_from_start = grid[0][1] <= 1 or grid[1][0] <= 1
-        if not path_exist_from_start: return -1
+        if grid[0][1] > 1 and grid[1][0] > 1: return -1
         
         dist = [[float('inf')] * n for _ in range(m)]
         dist[0][0] = 0
