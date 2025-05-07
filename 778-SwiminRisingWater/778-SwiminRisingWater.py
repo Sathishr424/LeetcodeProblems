@@ -1,4 +1,4 @@
-# Last updated: 7/5/2025, 12:42:45 pm
+# Last updated: 7/5/2025, 12:44:45 pm
 DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
 class Solution:
@@ -15,11 +15,11 @@ class Solution:
 
         def isGood(mid):
             if grid[0][0] > mid: return False
-            stack = [(0, 0)]
+            stack = deque([(0, 0)])
             visited = {(0,0): 1}
 
             while stack:
-                i, j = stack.pop()
+                i, j = stack.popleft()
                 if i == n-1 and j == n-1: return True
 
                 for ni, nj in DIR:
