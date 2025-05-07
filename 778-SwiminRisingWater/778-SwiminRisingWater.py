@@ -1,4 +1,4 @@
-# Last updated: 7/5/2025, 11:56:08 am
+# Last updated: 7/5/2025, 11:56:48 am
 DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
 class Solution:
@@ -9,7 +9,7 @@ class Solution:
         
         while stack:
             depth, i, j = heapq.heappop(stack)
-            if i == n-1 and i == j: return depth
+            if i == n-1 and j == n-1: return depth
 
             for ni, nj in DIR:
                 ni += i
