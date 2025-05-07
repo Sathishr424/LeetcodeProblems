@@ -1,4 +1,4 @@
-# Last updated: 7/5/2025, 11:21:29 pm
+# Last updated: 7/5/2025, 11:25:21 pm
 class Solution:
     def findMaximumElegance(self, items: List[List[int]], k: int) -> int:
         n = len(items)
@@ -6,25 +6,25 @@ class Solution:
 
         uniq = defaultdict(int)
         total = 0
-        heap = []
+        stack = []
 
         for i in range(k):
             total += items[i][0]
             uniq[items[i][1]] += 1
 
             if uniq[items[i][1]] > 1:
-                heapq.heappush(heap, items[i])
-        
+                stack.append(items[i])
+
         ret = total + (len(uniq) ** 2)
 
         for i in range(k, n):
             if items[i][1] not in uniq:
-                while heap and uniq[ heap[0][1] ] == 1:
-                    heapq.heappop(heap)
+                while stack and uniq[ stack[-1][1] ] == 1:
+                    stack.pop()
                 
-                if not heap: break
+                if not stack: break
 
-                profit, cat = heapq.heappop(heap)
+                profit, cat = stack.pop()
 
                 uniq[ cat ] -= 1
 
