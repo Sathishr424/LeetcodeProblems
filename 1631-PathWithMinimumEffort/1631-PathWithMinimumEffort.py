@@ -1,33 +1,52 @@
-# Last updated: 8/5/2025, 11:28:13 am
-DIR = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+# Last updated: 8/5/2025, 11:33:16 am
+DIR = [(0, 1), (1, 0)]
+
+class Union:
+    def __init__(self, n):
+        self.parents = [i for i in range(n)]
+        self.sizes = [1] * n
+    
+    def find(self, x):
+        if self.parents[x] != x:
+            self.parents[x] = self.find(self.parents[x])
+        return self.parents[x]
+    
+    def union(self, x, y):
+        x = self.find(x)
+        y = self.find(y)
+
+        if x == y: return True
+
+        if self.sizes[y] > self.sizes[x]:
+            x, y = y, x
+
+        self.sizes[x] += self.sizes[y]
+        self.parents[y] = self.parents[x]
+        return False
 
 class Solution:
     def minimumEffortPath(self, heights: List[List[int]]) -> int:
         m = len(heights)
         n = len(heights[0])
-        
-        maxi = 10**6
-        visited = [[maxi] * n for _ in range(m)]
+        endPos = m*n
 
         def isGood(diff):
-            q = [(0, 0)]
-            visited[0][0] = diff
-            while q:
-                i, j = q.pop()
-                if i == m-1 and j == n-1: return True
-
-                for ni, nj in DIR:
-                    ni += i
-                    nj += j
-                    
-                    if 0 <= ni < m and 0 <= nj < n and visited[ni][nj] != diff and abs(heights[i][j] - heights[ni][nj]) <= diff:
-                        visited[ni][nj] = diff
-                        q.append((ni, nj))
+            uf = Union(endPos)
             
-            return False
+            for i in range(m):
+                for j in range(n):
+                    pos = i*n + j
+                    for ni, nj in DIR:
+                        ni += i
+                        nj += j
+
+                        if 0 <= ni < m and 0 <= nj < n and abs(heights[ni][nj] - heights[i][j]) <= diff:
+                            uf.union(pos, ni*n + nj)
+            
+            return uf.find(0) == uf.find(endPos-1)
         
         l = 0
-        r = maxi
+        r = 10**6
 
         while l < r:
             mid = (l+r) // 2
