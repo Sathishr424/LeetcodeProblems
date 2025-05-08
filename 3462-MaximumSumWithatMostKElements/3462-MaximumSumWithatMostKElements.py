@@ -1,18 +1,21 @@
-# Last updated: 9/5/2025, 2:31:57 am
+# Last updated: 9/5/2025, 2:35:34 am
 class Solution:
     def maxSum(self, grid: List[List[int]], limits: List[int], k: int) -> int:
         m = len(grid)
+        n = len(grid[0])
 
         heap = []
 
         for i in range(m):
-            for num in sorted(grid[i], reverse=True)[:limits[i]]:
-                heapq.heappush(heap, -num)
+            curr = []
+            for j in range(n):
+                heapq.heappush(curr, grid[i][j])
+                if len(curr) > limits[i]:
+                    heapq.heappop(curr)
+            
+            for num in curr:
+                heapq.heappush(heap, num)
+                if len(heap) > k:
+                    heapq.heappop(heap)
         
-        ret = 0
-    
-        for i in range(k):
-            if not heap: break
-            ret += -heapq.heappop(heap)
-        
-        return ret
+        return sum(heap)
