@@ -1,4 +1,4 @@
-# Last updated: 8/5/2025, 11:15:54 am
+# Last updated: 8/5/2025, 11:25:39 am
 DIR = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
 class Solution:
@@ -14,21 +14,16 @@ class Solution:
                 mini = min(heights[i][j], mini)
                 maxi = max(heights[i][j], maxi)
         
-        def isGood(diff):
-            q = deque([(0, 0)])
-            visited = [[False] * n for _ in range(m)]
+        def isGood(diff, i, j, vis):
+            if i == m-1 and j == n-1: return True
 
-            while q:
-                i, j = q.popleft()
-                if i == m-1 and j == n-1: return True
-
-                for ni, nj in DIR:
-                    ni += i
-                    nj += j
-                    
-                    if 0 <= ni < m and 0 <= nj < n and not visited[ni][nj] and abs(heights[i][j] - heights[ni][nj]) <= diff:
-                        visited[ni][nj] = True
-                        q.append((ni, nj))
+            for ni, nj in DIR:
+                ni += i
+                nj += j
+                
+                if 0 <= ni < m and 0 <= nj < n and (ni,nj) not in vis and abs(heights[i][j] - heights[ni][nj]) <= diff:
+                    vis[(ni,nj)] = 1
+                    if isGood(diff, ni, nj, vis): return True
             
             return False
         
@@ -38,7 +33,7 @@ class Solution:
         while l < r:
             mid = (l+r) // 2
 
-            if isGood(mid):
+            if isGood(mid, 0, 0, {(0,0): 1}):
                 r = mid
             else:
                 l = mid + 1
