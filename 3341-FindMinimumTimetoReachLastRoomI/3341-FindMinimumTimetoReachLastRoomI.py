@@ -1,4 +1,4 @@
-# Last updated: 8/5/2025, 11:53:17 am
+# Last updated: 8/5/2025, 11:54:03 am
 DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
 class Solution:
