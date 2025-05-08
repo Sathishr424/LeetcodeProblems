@@ -1,4 +1,4 @@
-# Last updated: 8/5/2025, 11:45:54 am
+# Last updated: 8/5/2025, 11:46:29 am
 DIR = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
 class Solution:
@@ -14,8 +14,6 @@ class Solution:
         while stack:
             diff, i, j = heapq.heappop(stack)
             if i == m-1 and j == n-1: return diff
-
-            if dist[i][j] < diff: continue
 
             h = heights[i][j]
 
