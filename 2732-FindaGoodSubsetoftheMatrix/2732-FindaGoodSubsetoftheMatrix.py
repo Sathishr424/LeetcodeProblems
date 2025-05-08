@@ -1,4 +1,4 @@
-# Last updated: 9/5/2025, 1:55:28 am
+# Last updated: 9/5/2025, 1:58:02 am
 class Node:
     def __init__(self):
         self.one = None
@@ -46,24 +46,19 @@ class Solution:
         n = len(grid[0])
 
         trie = Trie()
-        seen = {}
-
         start_mask = 1 << n
+
         for i in range(m):
             mask = start_mask
-            for j in range(n):
-                if grid[i][j]:
-                    mask += 1 << (n-j-1)
-            if mask == start_mask: return [i]
-            trie.insert(mask, i)
-            seen[mask] = i
-            # print(format(mask, '010b'), mask)
-        
-        # 0 1 1 0 1 0
-        # 000, 010, 011, 111, 101, 100, 110
 
-        for mask in seen:
+            for j in range(n):
+                mask += grid[i][j] << (n-j-1)
+            
+            if mask == start_mask: return [i]
+
             index = trie.check(mask, trie.node)
-            if index != -1: return sorted([seen[mask], index])
+            if index != -1: return [index, i]
+
+            trie.insert(mask, i)
         
         return []
