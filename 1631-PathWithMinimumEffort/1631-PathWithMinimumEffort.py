@@ -1,20 +1,14 @@
-# Last updated: 8/5/2025, 11:27:09 am
+# Last updated: 8/5/2025, 11:28:13 am
 DIR = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
 class Solution:
     def minimumEffortPath(self, heights: List[List[int]]) -> int:
         m = len(heights)
         n = len(heights[0])
-
-        mini = heights[0][0]
-        maxi = heights[0][0]
-
-        for i in range(m):
-            for j in range(n):
-                mini = min(heights[i][j], mini)
-                maxi = max(heights[i][j], maxi)
         
+        maxi = 10**6
         visited = [[maxi] * n for _ in range(m)]
+
         def isGood(diff):
             q = [(0, 0)]
             visited[0][0] = diff
@@ -33,7 +27,7 @@ class Solution:
             return False
         
         l = 0
-        r = maxi-mini
+        r = maxi
 
         while l < r:
             mid = (l+r) // 2
