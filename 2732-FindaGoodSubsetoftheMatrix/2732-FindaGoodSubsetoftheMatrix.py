@@ -1,4 +1,4 @@
-# Last updated: 9/5/2025, 1:58:02 am
+# Last updated: 9/5/2025, 1:59:05 am
 class Node:
     def __init__(self):
         self.one = None
@@ -16,13 +16,13 @@ class Trie:
             if num & 1:
                 if not node.zero: return -1
                 node = node.zero
+                num >>= 1
             else:
                 num >>= 1
                 index = self.check(num, node.one)
                 if index != -1: return index
 
                 return self.check(num, node.zero)
-            num >>= 1
         
         return node.index
 
