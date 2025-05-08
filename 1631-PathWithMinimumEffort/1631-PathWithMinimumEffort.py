@@ -1,4 +1,4 @@
-# Last updated: 8/5/2025, 11:15:31 am
+# Last updated: 8/5/2025, 11:15:54 am
 DIR = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
 class Solution:
@@ -15,11 +15,11 @@ class Solution:
                 maxi = max(heights[i][j], maxi)
         
         def isGood(diff):
-            q = [(0, 0)]
+            q = deque([(0, 0)])
             visited = [[False] * n for _ in range(m)]
 
             while q:
-                i, j = q.pop()
+                i, j = q.popleft()
                 if i == m-1 and j == n-1: return True
 
                 for ni, nj in DIR:
