@@ -1,4 +1,4 @@
-# Last updated: 8/5/2025, 10:43:37 am
+# Last updated: 8/5/2025, 10:45:54 am
 DIR = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 class Solution:
     def minTimeToReach(self, moveTime: List[List[int]]) -> int:
@@ -10,7 +10,6 @@ class Solution:
 
         while stack:
             time, i, j, alt = heapq.heappop(stack)
-            if (i, j) == (m-1, n-1): return time
 
             for ni, nj in DIR:
                 ni += i
@@ -18,6 +17,7 @@ class Solution:
 
                 if 0 <= ni < m and 0 <= nj < n and moveTime[ni][nj] != -1:
                     newTime = max(moveTime[ni][nj], time) + alt
+                    if ni == m-1 and nj == n-1: return newTime
                     heapq.heappush(stack, (newTime, ni, nj, 2 if alt == 1 else 1))
                     moveTime[ni][nj] = -1
         
