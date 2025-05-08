@@ -1,4 +1,4 @@
-# Last updated: 8/5/2025, 11:54:15 am
+# Last updated: 8/5/2025, 11:54:28 am
 DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
 class Solution:
@@ -10,14 +10,15 @@ class Solution:
 
         while stack:
             time, i, j = heapq.heappop(stack)
-            if i == m-1 and j == n-1: return time
 
             for ni, nj in DIR:
                 ni += i
                 nj += j
 
                 if 0 <= ni < m and 0 <= nj < n and moveTime[ni][nj] != -1:
-                    heapq.heappush(stack, (max(time, moveTime[ni][nj])+1, ni, nj))
+                    newTime = max(time, moveTime[ni][nj])+1
+                    if ni == m-1 and nj == n-1: return newTime
+                    heapq.heappush(stack, (newTime, ni, nj))
                     moveTime[ni][nj] = -1
         
         return -1
