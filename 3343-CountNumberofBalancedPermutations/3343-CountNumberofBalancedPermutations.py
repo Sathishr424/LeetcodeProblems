@@ -1,4 +1,4 @@
-# Last updated: 10/5/2025, 3:44:17 am
+# Last updated: 10/5/2025, 3:45:59 am
 mod = 10**9 + 7
 
 fact = [0] * 81
@@ -43,10 +43,8 @@ class Solution:
             
             for l in range(freq[index] + 1):
                 if need < 0 or cnt > half: break
-                curr = (dfs(index+1, need, cnt+l) * inverses[l] % mod) * inverses[r] % mod
 
-                ans = (ans + curr) % mod
-                r -= 1
+                ans = (ans + ((dfs(index+1, need, cnt+l) * inverses[l] % mod) * inverses[r-l] % mod)) % mod
                 need -= index
             
             return ans
