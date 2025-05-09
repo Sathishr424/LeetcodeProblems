@@ -1,8 +1,7 @@
-# Last updated: 10/5/2025, 3:45:59 am
+# Last updated: 10/5/2025, 3:47:10 am
 mod = 10**9 + 7
 
-fact = [0] * 81
-fact[0] = 1
+fact = [1] * 81
 inverses = [1] * 81
 
 def inverse(num):
@@ -43,7 +42,6 @@ class Solution:
             
             for l in range(freq[index] + 1):
                 if need < 0 or cnt > half: break
-
                 ans = (ans + ((dfs(index+1, need, cnt+l) * inverses[l] % mod) * inverses[r-l] % mod)) % mod
                 need -= index
             
