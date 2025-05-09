@@ -1,4 +1,4 @@
-# Last updated: 10/5/2025, 4:26:32 am
+# Last updated: 10/5/2025, 4:27:06 am
 mod = 10**9 + 7
 
 fact = [1] * 81
@@ -34,8 +34,6 @@ class Solution:
                 if need == 0 and cnt == half:
                     return combined
                 return 0
-            
-            if index == 10: return 0
 
             ans = 0
             r = freq[index]
