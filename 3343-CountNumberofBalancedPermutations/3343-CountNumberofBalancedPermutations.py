@@ -1,16 +1,16 @@
-# Last updated: 10/5/2025, 3:37:50 am
+# Last updated: 10/5/2025, 3:43:36 am
 mod = 10**9 + 7
 
 fact = [0] * 81
 fact[0] = 1
-inverses = {0: 0}
+inverses = [1] * 81
 
 def inverse(num):
     return pow(num, mod-2, mod)
 
 for i in range(1, 81):
     fact[i] = i * fact[i-1] % mod
-    inverses[fact[i]] = inverse(fact[i])
+    inverses[i] = inverse(fact[i])
 
 class Solution:
     def countBalancedPermutations(self, num: str) -> int:
@@ -44,8 +44,8 @@ class Solution:
             for l in range(freq[index] + 1):
                 if need < 0 or cnt > half: break
                 curr = dfs(index+1, need, cnt+l)
-                curr = curr * inverses[fact[l]] % mod
-                curr = curr * inverses[fact[r]] % mod
+                curr = curr * inverses[l] % mod
+                curr = curr * inverses[r] % mod
 
                 ans = (ans + curr) % mod
                 r -= 1
