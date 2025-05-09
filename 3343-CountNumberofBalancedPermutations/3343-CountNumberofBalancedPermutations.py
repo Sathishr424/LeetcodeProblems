@@ -1,4 +1,4 @@
-# Last updated: 10/5/2025, 3:28:50 am
+# Last updated: 10/5/2025, 3:33:35 am
 mod = 10**9 + 7
 
 fact = [0] * 81
@@ -15,26 +15,19 @@ for i in range(1, 81):
 class Solution:
     def countBalancedPermutations(self, num: str) -> int:
         n = len(num)
-        half = n // 2
 
         total = 0
         freq = [0] * 10
-        nums = []
 
         for i in range(n):
-            nums.append(int(num[i]))
-            total += nums[-1]
-            freq[nums[-1]] += 1
+            num_ = int(num[i])
+            total += num_
+            freq[num_] += 1
         
         if total % 2: return 0
-        nums.sort()
-        
-        target = total // 2
 
-        f1 = fact[half]
-        f2 = fact[n-half]
-
-        combined = f1 * f2 % mod
+        half = n // 2
+        combined = fact[half] * fact[n-half] % mod
         
         @cache
         def dfs(index, need, cnt):
@@ -56,4 +49,4 @@ class Solution:
                 ans = (ans + curr) % mod
             return ans
         
-        return dfs(0, target, 0)
+        return dfs(0, total // 2, 0)
