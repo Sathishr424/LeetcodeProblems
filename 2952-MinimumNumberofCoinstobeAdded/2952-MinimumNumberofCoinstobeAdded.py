@@ -1,10 +1,10 @@
-# Last updated: 9/5/2025, 3:38:17 pm
+# Last updated: 9/5/2025, 3:38:42 pm
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def lengthOfLongestSubsequence(self, nums: List[int], target: int) -> int:
         nums.sort()
 
-        dp = [-float('inf') for _ in range(target+1)]
+        dp = [-1001 for _ in range(target+1)]
         dp[0] = 0
 
         for i, num in enumerate(nums):
