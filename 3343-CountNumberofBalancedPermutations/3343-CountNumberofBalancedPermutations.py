@@ -1,4 +1,4 @@
-# Last updated: 10/5/2025, 3:33:35 am
+# Last updated: 10/5/2025, 3:37:50 am
 mod = 10**9 + 7
 
 fact = [0] * 81
@@ -36,17 +36,21 @@ class Solution:
                     return combined
                 return 0
             
-            if need < 0 or cnt > half or index == 10: return 0
+            if index == 10: return 0
 
             ans = 0
             r = freq[index]
-
+            
             for l in range(freq[index] + 1):
-                curr = dfs(index+1, need - (l * index), cnt+l)
+                if need < 0 or cnt > half: break
+                curr = dfs(index+1, need, cnt+l)
                 curr = curr * inverses[fact[l]] % mod
-                curr = curr * inverses[fact[r-l]] % mod
+                curr = curr * inverses[fact[r]] % mod
 
                 ans = (ans + curr) % mod
+                r -= 1
+                need -= index
+            
             return ans
         
         return dfs(0, total // 2, 0)
