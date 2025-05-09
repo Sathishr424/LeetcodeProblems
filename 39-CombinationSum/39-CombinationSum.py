@@ -1,22 +1,36 @@
-# Last updated: 9/5/2025, 9:00:41 pm
+# Last updated: 9/5/2025, 9:01:38 pm
+from typing import List
 class Solution:
-    def combinationSum2(self, cand: List[int], target: int) -> List[List[int]]:
-        n = len(cand)
-        cand.sort()
-        ret = []
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        ans = []
+        ds = []
+        candidates.sort()
 
-        def dfs(index, tot, arr):
-            nonlocal ret
-            if tot == target:
-                ret.append(arr + [])
+
+        def findCombination(ind: int, target: int):
+            if target == 0:
+                ans.append(ds[:])
                 return
-            
-            for i in range(index, n):
-                if tot + cand[i] > target: break
-                if i-1 >= index and cand[i] == cand[i-1]: continue
-                arr.append(cand[i])
-                dfs(i+1, tot+cand[i], arr)
-                arr.pop()
+            for i in range(ind, len(candidates)):
+                if i > ind and candidates[i] == candidates[i - 1]:
+                    continue
+                if candidates[i] > target:
+                    break
+                ds.append(candidates[i])
+                findCombination(i + 1, target - candidates[i])
+                ds.pop()
+
+
+        findCombination(0, target)
+        return ans
+
+
+
+
+if __name__ == "__main__":
+    v = [10, 1, 2, 7, 6, 1, 5]
+    solution = Solution()
+    comb = solution.combinationSum2(v, 8)
+    print(*comb)
+
         
-        dfs(0, 0, [])
-        return ret
