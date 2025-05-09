@@ -1,15 +1,13 @@
-# Last updated: 9/5/2025, 7:39:18 pm
+# Last updated: 9/5/2025, 7:40:32 pm
 class Solution:
     def combinationSum4(self, nums: List[int], target: int) -> int:
         nums.sort()
-        @cache
-        def rec(tot):
-            if tot == target: return 1
-            ans = 0
+        dp = [0] * (target+1) 
+        dp[0] = 1
+
+        for i in range(target):
             for num in nums:
-                if num+tot > target: break
-                ans += rec(tot+num)
-            
-            return ans
+                if num+i > target: break
+                dp[num+i] += dp[i]
         
-        return rec(0)
+        return dp[target]
