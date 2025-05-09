@@ -1,4 +1,4 @@
-# Last updated: 9/5/2025, 3:24:55 pm
+# Last updated: 9/5/2025, 3:26:13 pm
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def lengthOfLongestSubsequence(self, nums: List[int], target: int) -> int:
@@ -16,8 +16,6 @@ class Solution:
                 if t+num > target: break
 
                 dp[t] = cmax(dp[t], prev[t])
-                dp[t+num] = cmax(prev[t+num], prev[t] + 1)
-        
-        dp[target] = cmax(dp[target], prev[target])    
-         
-        return dp[target] if dp[target] != -float('inf') else -1
+                dp[t+num] = cmax(prev[t+num], prev[t] + 1) 
+
+        return cmax(-1, cmax(dp[target], prev[target]))
