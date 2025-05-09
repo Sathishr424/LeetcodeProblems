@@ -1,47 +1,59 @@
-# Last updated: 10/5/2025, 12:16:59 am
+# Last updated: 10/5/2025, 3:28:50 am
+mod = 10**9 + 7
+
+fact = [0] * 81
+fact[0] = 1
+inverses = {0: 0}
+
+def inverse(num):
+    return pow(num, mod-2, mod)
+
+for i in range(1, 81):
+    fact[i] = i * fact[i-1] % mod
+    inverses[fact[i]] = inverse(fact[i])
+
 class Solution:
     def countBalancedPermutations(self, num: str) -> int:
-        MOD = 10**9 + 7
-        tot, n = 0, len(num)
-        cnt = [0] * 10
-        for ch in num:
-            d = int(ch)
-            cnt[d] += 1
-            tot += d
-        if tot % 2 != 0:
-            return 0
+        n = len(num)
+        half = n // 2
 
-        target = tot // 2
-        max_odd = (n + 1) // 2
-        f = [[0] * (max_odd + 1) for _ in range(target + 1)]
-        f[0][0] = 1
-        psum = tot_sum = 0
-        for i in range(10):
-            # Sum of the number of the first i digits
-            psum += cnt[i]
-            # Sum of the first i numbers
-            tot_sum += i * cnt[i]
-            for odd_cnt in range(
-                min(psum, max_odd), max(0, psum - (n - max_odd)) - 1, -1
-            ):
-                # The number of bits that need to be filled in even numbered positions
-                even_cnt = psum - odd_cnt
-                for curr in range(
-                    min(tot_sum, target), max(0, tot_sum - target) - 1, -1
-                ):
-                    res = 0
-                    for j in range(
-                        max(0, cnt[i] - even_cnt), min(cnt[i], odd_cnt) + 1
-                    ):
-                        if i * j > curr:
-                            break
-                        # The current digit is filled with j positions at odd positions, and cnt[i] - j positions at even positions
-                        ways = (
-                            comb(odd_cnt, j) * comb(even_cnt, cnt[i] - j) % MOD
-                        )
-                        res = (
-                            res + ways * f[curr - i * j][odd_cnt - j] % MOD
-                        ) % MOD
-                    f[curr][odd_cnt] = res % MOD
+        total = 0
+        freq = [0] * 10
+        nums = []
 
-        return f[target][max_odd]
+        for i in range(n):
+            nums.append(int(num[i]))
+            total += nums[-1]
+            freq[nums[-1]] += 1
+        
+        if total % 2: return 0
+        nums.sort()
+        
+        target = total // 2
+
+        f1 = fact[half]
+        f2 = fact[n-half]
+
+        combined = f1 * f2 % mod
+        
+        @cache
+        def dfs(index, need, cnt):
+            if index == 10:
+                if need == 0 and cnt == half:
+                    return combined
+                return 0
+            
+            if need < 0 or cnt > half or index == 10: return 0
+
+            ans = 0
+            r = freq[index]
+
+            for l in range(freq[index] + 1):
+                curr = dfs(index+1, need - (l * index), cnt+l)
+                curr = curr * inverses[fact[l]] % mod
+                curr = curr * inverses[fact[r-l]] % mod
+
+                ans = (ans + curr) % mod
+            return ans
+        
+        return dfs(0, target, 0)
