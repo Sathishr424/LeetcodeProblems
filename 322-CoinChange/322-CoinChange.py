@@ -1,12 +1,14 @@
-# Last updated: 9/5/2025, 2:28:16 pm
+# Last updated: 9/5/2025, 2:28:55 pm
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
         dp = [float('inf')] * (amount+1)
         dp[0] = 0
 
+        coins.sort()
+
         for i in range(amount):
             for coin in coins:
-                if coin+i <= amount:
-                    dp[coin+i] = min(dp[coin+i], dp[i] + 1)
+                if coin+i > amount: break
+                dp[coin+i] = min(dp[coin+i], dp[i] + 1)
 
         return dp[amount] if dp[amount] != float('inf') else -1
