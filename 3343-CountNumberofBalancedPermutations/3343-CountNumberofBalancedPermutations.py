@@ -1,4 +1,4 @@
-# Last updated: 10/5/2025, 4:35:59 am
+# Last updated: 10/5/2025, 4:39:30 am
 mod = 10**9 + 7
 
 fact = [1] * 81
@@ -31,21 +31,23 @@ class Solution:
         @cache
         def dfs(index, need, cnt):
             if index == 10:
-                if need == 0 and cnt == half:
+                if need == 0 and cnt == 0:
                     return combined
                 return 0
 
             ans = 0
             r = freq[index]
             
-            for l in range(freq[index] + 1):
-                if need - (l * index) < 0 or cnt + l > half: break
+            for l in range(r + 1):
+                if need < 0 or cnt < 0: break
                 ans = (
                     ans
-                    + dfs(index+1, need - (l * index), cnt+l) * inverses[l] % mod 
+                    + dfs(index+1, need, cnt) * inverses[l] % mod
                     * inverses[r-l] % mod
                 ) % mod
+                cnt -= 1
+                need -= index
             
             return ans
         
-        return dfs(0, total // 2, 0)
+        return dfs(0, total // 2, half)
