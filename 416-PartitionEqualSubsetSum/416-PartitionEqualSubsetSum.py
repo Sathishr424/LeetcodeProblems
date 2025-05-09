@@ -1,21 +1,17 @@
-# Last updated: 7/4/2025, 4:07:05 pm
+# Last updated: 9/5/2025, 8:20:11 pm
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
         total = sum(nums)
-        if total % 2 != 0: return False
-
+        if total % 2: return False
         half = total // 2
-        dp = [False] * (half+1)
-        dp[0] = True
+        n = len(nums)
+        nums.sort()
 
-        for num in nums:
-            for tot in range(half-num, -1, -1):
-                if dp[tot]:
-                    if tot+num == half: return True
-                    dp[tot+num] = True
+        @cache
+        def rec(index, tot):
+            if index == n: return False
+            if tot == half: return True
 
-        return dp[half]
-
+            return rec(index+1, tot+nums[index]) or rec(index+1, tot)
         
-            
-            
+        return rec(0, 0)
