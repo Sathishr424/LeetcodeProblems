@@ -1,8 +1,17 @@
-# Last updated: 10/5/2025, 7:29:43 pm
+# Last updated: 10/5/2025, 7:32:48 pm
 fact = [1] * 6
 
 for i in range(1, 6):
     fact[i] = i * fact[i-1]
+
+pre = [[0] * 10 for _ in range(10)]
+
+for i in range(10):
+    for j in range(10):
+        for k in range(10):
+            if k % 2 == i and k % 5 == j:
+                pre[i][j] = k
+                break
 
 class Solution:
     def hasSameDigits(self, s: str) -> bool:
@@ -32,8 +41,7 @@ class Solution:
             l2 = lucasMod(r, c, 2)
             l5 = lucasMod(r, c, 5)
 
-            for i in range(10):
-                if i % 2 == l2 and i % 5 == l5: return i
+            return pre[l2][l5]
 
         for col in range(1, row):
             coeff = getCoeff(row, col)
