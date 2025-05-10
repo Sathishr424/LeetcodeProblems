@@ -1,4 +1,4 @@
-# Last updated: 10/5/2025, 7:32:48 pm
+# Last updated: 10/5/2025, 10:47:18 pm
 fact = [1] * 6
 
 for i in range(1, 6):
@@ -12,6 +12,13 @@ for i in range(10):
             if k % 2 == i and k % 5 == j:
                 pre[i][j] = k
                 break
+
+memo = [[[0] * 6 for _ in range(6)] for _ in range(6)]
+
+for x in range(6):
+    for y in range(6):
+        for z in range(6):
+            memo[x][y][z] = fact[x] // (fact[y] * fact[x-y])
 
 class Solution:
     def hasSameDigits(self, s: str) -> bool:
@@ -29,8 +36,7 @@ class Solution:
                 rem_x = x % mod
                 rem_y = y % mod
 
-                b = fact[rem_x] // (fact[rem_y] * fact[rem_x - rem_y])
-                a = a * b
+                a = a * memo[rem_x][rem_y][rem_x - rem_y]
 
                 x //= mod
                 y //= mod
