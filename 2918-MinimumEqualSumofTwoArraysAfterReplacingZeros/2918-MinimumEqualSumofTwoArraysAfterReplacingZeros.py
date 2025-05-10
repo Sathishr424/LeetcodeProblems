@@ -1,4 +1,4 @@
-# Last updated: 10/5/2025, 12:36:56 pm
+# Last updated: 10/5/2025, 12:41:18 pm
 class Solution:
     def minSum(self, nums1: List[int], nums2: List[int]) -> int:
         sum_1 = 0
