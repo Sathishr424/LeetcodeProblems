@@ -1,4 +1,4 @@
-# Last updated: 10/5/2025, 7:20:29 pm
+# Last updated: 10/5/2025, 7:21:10 pm
 fact = [1] * 6
 
 for i in range(1, 6):
@@ -20,13 +20,13 @@ class Solution:
                 rem_x = x % mod
                 rem_y = y % mod
 
-                b = fact[rem_x] // (fact[rem_y] * fact[rem_x - rem_y])
-                a = a * b
+                b = fact[rem_x] // (fact[rem_y] * fact[rem_x - rem_y]) % mod
+                a = a * b % mod
 
                 x //= mod
                 y //= mod
 
-            return a % mod
+            return a
         
         def helper(r, c):
             l2 = lucasMod(r, c, 2)
