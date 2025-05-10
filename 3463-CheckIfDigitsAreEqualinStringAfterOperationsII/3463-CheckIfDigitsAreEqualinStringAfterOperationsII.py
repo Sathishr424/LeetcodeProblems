@@ -1,4 +1,4 @@
-# Last updated: 10/5/2025, 7:21:10 pm
+# Last updated: 10/5/2025, 7:22:12 pm
 fact = [1] * 6
 
 for i in range(1, 6):
@@ -20,7 +20,7 @@ class Solution:
                 rem_x = x % mod
                 rem_y = y % mod
 
-                b = fact[rem_x] // (fact[rem_y] * fact[rem_x - rem_y]) % mod
+                b = fact[rem_x] // (fact[rem_y] * fact[rem_x - rem_y])
                 a = a * b % mod
 
                 x //= mod
