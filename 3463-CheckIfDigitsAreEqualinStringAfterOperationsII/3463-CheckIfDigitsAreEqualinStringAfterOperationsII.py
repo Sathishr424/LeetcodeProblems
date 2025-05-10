@@ -1,4 +1,4 @@
-# Last updated: 10/5/2025, 7:23:51 pm
+# Last updated: 10/5/2025, 7:29:43 pm
 fact = [1] * 6
 
 for i in range(1, 6):
@@ -21,12 +21,12 @@ class Solution:
                 rem_y = y % mod
 
                 b = fact[rem_x] // (fact[rem_y] * fact[rem_x - rem_y])
-                a = a * b % mod
+                a = a * b
 
                 x //= mod
                 y //= mod
 
-            return a
+            return a % mod
         
         def getCoeff(r, c):
             l2 = lucasMod(r, c, 2)
