@@ -1,4 +1,4 @@
-# Last updated: 10/5/2025, 7:22:12 pm
+# Last updated: 10/5/2025, 7:23:51 pm
 fact = [1] * 6
 
 for i in range(1, 6):
@@ -28,7 +28,7 @@ class Solution:
 
             return a
         
-        def helper(r, c):
+        def getCoeff(r, c):
             l2 = lucasMod(r, c, 2)
             l5 = lucasMod(r, c, 5)
 
@@ -36,7 +36,7 @@ class Solution:
                 if i % 2 == l2 and i % 5 == l5: return i
 
         for col in range(1, row):
-            coeff = helper(row, col)
+            coeff = getCoeff(row, col)
 
             left = (left + dp[col] * coeff) % 10
             right = (right + dp[n-col-1] * coeff) % 10
