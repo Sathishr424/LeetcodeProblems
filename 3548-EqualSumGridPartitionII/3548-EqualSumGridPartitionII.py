@@ -1,4 +1,4 @@
-# Last updated: 11/5/2025, 12:17:31 pm
+# Last updated: 11/5/2025, 12:20:07 pm
 N = 10**5
 class Solution:
     def canPartitionGrid(self, grid: List[List[int]]) -> bool:
@@ -15,8 +15,8 @@ class Solution:
                 total += grid[i][j]
                 exist_freq[grid[i][j]] += 1
         
-        def check(grid):
-            exist = exist_freq + []
+        def check(grid, freq):
+            exist = freq + []
             curr = 0
             for i in range(m-1):
                 for j in range(n):
@@ -38,7 +38,7 @@ class Solution:
                     return True
             
             curr = 0
-            exist = exist_freq + []
+            exist = freq
             for j in range(n-1):
                 for i in range(m):
                     val = grid[i][j]
@@ -60,4 +60,4 @@ class Solution:
             
             return False
 
-        return check(grid) or check([row[::-1] for row in grid][::-1])
+        return check(grid, exist_freq + []) or check([row[::-1] for row in grid][::-1], exist_freq + [])
