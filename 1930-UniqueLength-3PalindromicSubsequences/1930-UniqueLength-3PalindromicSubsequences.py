@@ -1,4 +1,4 @@
-# Last updated: 11/5/2025, 6:08:03 pm
+# Last updated: 11/5/2025, 6:17:46 pm
 class Solution:
     def countPalindromicSubsequence(self, s: str) -> int:
         n = len(s)
@@ -17,15 +17,17 @@ class Solution:
         left[arr[0]] += 1
 
         visited = [[1] * 26 for _ in range(26)]
-        for i in range(1, n-1):
-            right[arr[i]] -= 1
+        
+        for i in range(1, n):
+            a = arr[i]
+            right[a] -= 1
 
             for num in range(26):
-                if visited[num][arr[i]] and left[num] * right[num]:
+                if visited[num][a] and left[num] and right[num]:
                     ret += 1
-                    visited[num][arr[i]] = 0
+                    visited[num][a] = 0
             
-            left[arr[i]] += 1
+            left[a] += 1
         
         return ret
             
