@@ -1,5 +1,4 @@
-# Last updated: 11/5/2025, 4:30:37 pm
-big_s = ''.join([str(random.randrange(0, 10)) for _ in range(10**4)])
+# Last updated: 11/5/2025, 4:31:11 pm
 index = 0
 relation = {}
 index_to_relation = [''] * 100
@@ -34,7 +33,6 @@ for i in range(10):
 
 class Solution:
     def countPalindromes(self, s: str) -> int:
-        # s = big_s
         n = len(s)
         ret = 0
         freq = [0] * 10
@@ -55,6 +53,7 @@ class Solution:
 
         freq = [0] * 10
         right_dp = [0] * 100
+
         for i in range(n-1, 1, -1):
             
             if i < n-2:
