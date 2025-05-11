@@ -1,4 +1,4 @@
-# Last updated: 11/5/2025, 4:27:18 pm
+# Last updated: 11/5/2025, 4:30:37 pm
 big_s = ''.join([str(random.randrange(0, 10)) for _ in range(10**4)])
 index = 0
 relation = {}
@@ -24,11 +24,18 @@ for i in range(10, 100):
 for num in relation:
     opp_relation_index[relation[num]] = relation[num[::-1]]
 
+mod = 10**9 + 7
+
+pre = [[''] * 10 for _ in range(10)]
+
+for i in range(10):
+    for j in range(10):
+        pre[i][j] = str(i) + str(j)
+
 class Solution:
     def countPalindromes(self, s: str) -> int:
         # s = big_s
         n = len(s)
-        mod = 10**9 + 7
         ret = 0
         freq = [0] * 10
         arr = [int(i) for i in s]
@@ -41,7 +48,7 @@ class Solution:
             val = arr[i]
             for num in range(10):
                 if freq[num] > 0:
-                    y = str(num) + s[i]
+                    y = pre[num][val]
                     dp[i][relation[y]] += freq[num]
 
             freq[val] += 1
@@ -60,7 +67,7 @@ class Solution:
             val = arr[i]
             for num in range(10):
                 if freq[num] > 0:
-                    y = s[i] + str(num)
+                    y = pre[val][num]
                     right_dp[relation[y]] += freq[num]
         
             freq[val] += 1
