@@ -1,4 +1,4 @@
-# Last updated: 11/5/2025, 10:28:40 am
+# Last updated: 11/5/2025, 10:32:08 am
 class Solution:
     def minimumLength(self, s: str) -> int:
         freq = [0] * 26
@@ -8,9 +8,8 @@ class Solution:
         
         ret = 0
         for i in range(26):
-            cnt = freq[i]
-            while cnt >= 3:
-                cnt -= 2
-            ret += cnt
+            if freq[i] == 0: continue
+            if freq[i] % 2: ret += 1
+            else: ret += 2
         
         return ret
