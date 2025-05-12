@@ -1,4 +1,4 @@
-# Last updated: 12/5/2025, 4:28:26 pm
+# Last updated: 12/5/2025, 4:29:00 pm
 N = 10**5 + 1
 is_prime = [True] * N
 is_prime[0] = False
@@ -18,10 +18,10 @@ def getPrimeScore(num):
 
     score = 0
     for x in primes:
-        if num % x == 0:
-            while num % x == 0:
-                num //= x
-            score += 1
+        if num % x: continue
+        while num % x == 0:
+            num //= x
+        score += 1
         if num == 1: return score
         elif is_prime[num]: return score + 1
 
