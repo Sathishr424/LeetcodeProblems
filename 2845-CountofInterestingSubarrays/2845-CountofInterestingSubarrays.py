@@ -1,17 +1,20 @@
-# Last updated: 25/4/2025, 10:41:13 pm
+# Last updated: 13/5/2025, 3:52:24 am
 class Solution:
     def countInterestingSubarrays(self, nums: List[int], modulo: int, k: int) -> int:
-        prefix = defaultdict(int)
-        prefix[0] = 1
+        n = len(nums)
+        exist = defaultdict(int)
+        exist[0] += 1
+
         ret = 0
         cnt = 0
-
         for i, num in enumerate(nums):
-            cnt += num % modulo == k
+            if num % modulo == k: 
+                cnt += 1
+                cnt %= modulo
+            
+            rem = cnt - k
+            ret += exist[rem % modulo]
 
-            ret += prefix[(cnt - k) % modulo]
-            prefix[cnt % modulo] += 1
+            exist[cnt] += 1
         
         return ret
-        
-            
