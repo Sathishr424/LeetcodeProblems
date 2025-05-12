@@ -1,7 +1,6 @@
-# Last updated: 13/5/2025, 3:52:24 am
+# Last updated: 13/5/2025, 3:57:04 am
 class Solution:
     def countInterestingSubarrays(self, nums: List[int], modulo: int, k: int) -> int:
-        n = len(nums)
         exist = defaultdict(int)
         exist[0] += 1
 
@@ -12,9 +11,7 @@ class Solution:
                 cnt += 1
                 cnt %= modulo
             
-            rem = cnt - k
-            ret += exist[rem % modulo]
-
+            ret += exist[(cnt - k) % modulo]
             exist[cnt] += 1
         
         return ret
