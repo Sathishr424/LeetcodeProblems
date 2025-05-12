@@ -1,13 +1,13 @@
-# Last updated: 12/5/2025, 11:58:17 pm
+# Last updated: 12/5/2025, 11:59:56 pm
 # big_s = ''.join([chr(random.randrange(26) + 97) for _ in range(10**5 * 2)])
 mod = 10**9 + 7
-# N = 10 ** 5 * 2 + 1
+N = 10 ** 5 * 2 + 1
 
-# fact = [1] * N
-# inverses = [1] * N
-# for i in range(1, N):
-#     fact[i] = i * fact[i-1] % mod
-#     inverses[i] = pow(fact[i], -1, mod)
+fact = [1] * N
+inverses = [1] * N
+for i in range(1, N):
+    fact[i] = i * fact[i-1] % mod
+    inverses[i] = pow(fact[i], -1, mod)
 
 
 class Solution:
@@ -18,12 +18,10 @@ class Solution:
         
         if len(uniq) < k: return 0
 
-        n = len(s)
-        nums = [ord(char) - 97 for char in s]
-
         freq = [0] * 26
-        for num in nums:
-            freq[num] += 1
+
+        for char in s:
+            freq[ord(char) - 97] += 1
         
         arr = []
         for num in range(26):
@@ -41,7 +39,7 @@ class Solution:
             extras[arr[i][0]] += 1
 
         ret = 1
-        for num, index in arr[:k]:
+        for _, index in arr[:k]:
             ret = ret * freq[index] % mod
 
         if k < 26 and arr[k][0] == arr[k-1][0]:
@@ -49,7 +47,7 @@ class Solution:
             cnt = values[arr[k][0]] + rem
             rem = cnt - rem
 
-            ans = comb(cnt, rem)
+            ans = fact[cnt] * inverses[rem] * inverses[cnt-rem]
             ret = ret * ans % mod
 
         return ret
