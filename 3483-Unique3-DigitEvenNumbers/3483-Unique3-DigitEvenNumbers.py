@@ -1,4 +1,4 @@
-# Last updated: 12/5/2025, 1:26:59 pm
+# Last updated: 12/5/2025, 1:30:19 pm
 class Solution:
     def totalNumbers(self, digits: List[int]) -> int:
         freq = [0] * 10
