@@ -1,5 +1,4 @@
-# Last updated: 12/5/2025, 11:59:56 pm
-# big_s = ''.join([chr(random.randrange(26) + 97) for _ in range(10**5 * 2)])
+# Last updated: 13/5/2025, 12:06:43 am
 mod = 10**9 + 7
 N = 10 ** 5 * 2 + 1
 
@@ -8,7 +7,6 @@ inverses = [1] * N
 for i in range(1, N):
     fact[i] = i * fact[i-1] % mod
     inverses[i] = pow(fact[i], -1, mod)
-
 
 class Solution:
     def countKSubsequencesWithMaxBeauty(self, s: str, k: int) -> int:
