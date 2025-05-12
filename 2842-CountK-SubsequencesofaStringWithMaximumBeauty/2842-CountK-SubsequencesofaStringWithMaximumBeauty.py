@@ -1,4 +1,4 @@
-# Last updated: 12/5/2025, 11:52:29 pm
+# Last updated: 12/5/2025, 11:54:43 pm
 # big_s = ''.join([chr(random.randrange(26) + 97) for _ in range(10**5 * 2)])
 mod = 10**9 + 7
 N = 10 ** 5 * 2 + 1
@@ -30,12 +30,13 @@ class Solution:
             arr.append((freq[num], num))
         
         arr.sort(reverse=True)
-        values = defaultdict(int)
 
-        for cnt, _ in arr:
-            values[cnt] += 1
-        
+        values = defaultdict(int)
         extras = defaultdict(int)
+
+        for i in range(k):
+            values[arr[i][0]] += 1
+        
         for i in range(k, 26):
             extras[arr[i][0]] += 1
 
@@ -44,8 +45,9 @@ class Solution:
             ret = ret * freq[index] % mod
 
         if k < 26 and arr[k][0] == arr[k-1][0]:
-            cnt = values[arr[k][0]]
-            rem = cnt - extras[arr[k][0]]
+            rem = extras[arr[k][0]]
+            cnt = values[arr[k][0]] + rem
+            rem = cnt - rem
 
             ans = fact[cnt] * inverses[rem] * inverses[cnt-rem]
             ret = ret * ans % mod
