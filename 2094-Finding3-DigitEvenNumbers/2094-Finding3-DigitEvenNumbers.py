@@ -1,22 +1,18 @@
-# Last updated: 12/5/2025, 1:38:02 pm
+# Last updated: 12/5/2025, 1:40:47 pm
 class Solution:
     def findEvenNumbers(self, digits: List[int]) -> List[int]:
-        freq = [0] * 10
-        for num in digits:
-            freq[num] += 1
-        
-        ret = []
-
-        for i in range(1, 10):
-            if freq[i] == 0: continue
-            freq[i] -= 1
-            for j in range(10):
-                if freq[j] == 0: continue
-                freq[j] -= 1
-                for k in range(0, 10, 2):
-                    if freq[k]:
-                        ret.append((i * 100) + (j * 10) + k)
-                freq[j] += 1
-            freq[i] += 1
-
-        return ret
+        nums = set()  # Target even set
+        n = len(digits)
+        # Traverse the indices of three digits
+        for i in range(n):
+            for j in range(n):
+                for k in range(n):
+                    # Determine whether it meets the condition of the target even number
+                    if i == j or j == k or i == k:
+                        continue
+                    num = digits[i] * 100 + digits[j] * 10 + digits[k]
+                    if num >= 100 and num % 2 == 0:
+                        nums.add(num)
+        # Converted to an array sorted in ascending order
+        res = sorted(list(nums))
+        return res
