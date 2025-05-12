@@ -1,4 +1,4 @@
-# Last updated: 12/5/2025, 4:35:04 pm
+# Last updated: 12/5/2025, 4:35:47 pm
 N = 10**5 + 1
 is_prime = [True] * N
 is_prime[0] = False
@@ -12,7 +12,6 @@ primes = []
 for num in range(2, N):
     if is_prime[num]: primes.append(num)
 
-@cache
 def getPrimeScore(num):
     if num == 1: return 0
     elif is_prime[num]: return 1
