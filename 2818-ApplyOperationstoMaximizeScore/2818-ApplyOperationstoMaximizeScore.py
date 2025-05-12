@@ -1,4 +1,4 @@
-# Last updated: 12/5/2025, 4:29:00 pm
+# Last updated: 12/5/2025, 4:30:58 pm
 N = 10**5 + 1
 is_prime = [True] * N
 is_prime[0] = False
