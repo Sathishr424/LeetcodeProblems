@@ -1,13 +1,13 @@
-# Last updated: 12/5/2025, 11:54:43 pm
+# Last updated: 12/5/2025, 11:58:17 pm
 # big_s = ''.join([chr(random.randrange(26) + 97) for _ in range(10**5 * 2)])
 mod = 10**9 + 7
-N = 10 ** 5 * 2 + 1
+# N = 10 ** 5 * 2 + 1
 
-fact = [1] * N
-inverses = [1] * N
-for i in range(1, N):
-    fact[i] = i * fact[i-1] % mod
-    inverses[i] = pow(fact[i], -1, mod)
+# fact = [1] * N
+# inverses = [1] * N
+# for i in range(1, N):
+#     fact[i] = i * fact[i-1] % mod
+#     inverses[i] = pow(fact[i], -1, mod)
 
 
 class Solution:
@@ -49,7 +49,7 @@ class Solution:
             cnt = values[arr[k][0]] + rem
             rem = cnt - rem
 
-            ans = fact[cnt] * inverses[rem] * inverses[cnt-rem]
+            ans = comb(cnt, rem)
             ret = ret * ans % mod
 
         return ret
