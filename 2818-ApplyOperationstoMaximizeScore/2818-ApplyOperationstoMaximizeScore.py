@@ -1,4 +1,4 @@
-# Last updated: 12/5/2025, 4:20:25 pm
+# Last updated: 12/5/2025, 4:28:26 pm
 N = 10**5 + 1
 is_prime = [True] * N
 is_prime[0] = False
@@ -14,7 +14,8 @@ for num in range(2, N):
 
 def getPrimeScore(num):
     if num == 1: return 0
-    if is_prime[num]: return 1
+    elif is_prime[num]: return 1
+
     score = 0
     for x in primes:
         if num % x == 0:
@@ -22,16 +23,21 @@ def getPrimeScore(num):
                 num //= x
             score += 1
         if num == 1: return score
+        elif is_prime[num]: return score + 1
+
 mod = 10**9 + 7
+
 class Solution:
     def maximumScore(self, nums: List[int], k: int) -> int:
         n = len(nums)
         ret = 1
+
         scores = [getPrimeScore(num) for num in nums]
-        # print(scores)
         arr = []
+
         for i, num in enumerate(nums):
             arr.append((num, i))
+        
         arr.sort(reverse=True)
 
         left = [-1] * n
@@ -52,22 +58,14 @@ class Solution:
                 right[stack.pop()[0]] = i
             
             stack.append((i, score))
-        # print(left)
-        # print(right)
-
-        # [1, 2, 3, 4, 5]
 
         for num, i in arr:
             l = i - left[i]
             r = right[i] - i
-
             possible = min(k, l * r)
-            # print(num, (l, r), possible)
 
             ret = ret * pow(num, possible, mod) % mod
-
             k -= possible
-            
             if k == 0: break
 
         return ret
