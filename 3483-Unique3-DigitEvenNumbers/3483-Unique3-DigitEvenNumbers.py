@@ -1,4 +1,4 @@
-# Last updated: 12/5/2025, 1:37:54 pm
+# Last updated: 12/5/2025, 2:09:56 pm
 class Solution:
     def totalNumbers(self, digits: List[int]) -> int:
         freq = [0] * 10
@@ -9,14 +9,18 @@ class Solution:
 
         for i in range(1, 10):
             if freq[i] == 0: continue
-            freq[i] -= 1
             for j in range(10):
                 if freq[j] == 0: continue
-                freq[j] -= 1
                 for k in range(0, 10, 2):
-                    if freq[k]: ret += 1
-                freq[j] += 1
-            freq[i] += 1
-
+                    if freq[k] == 0: continue
+                    
+                    if i == j and j == k:
+                        if freq[i] < 3: continue
+                    elif i == j or i == k:
+                        if freq[i] < 2: continue
+                    elif j == k:
+                        if freq[j] < 2: continue
+                    
+                    ret += 1
         return ret
         
