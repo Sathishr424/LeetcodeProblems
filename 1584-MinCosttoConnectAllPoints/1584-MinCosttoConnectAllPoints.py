@@ -1,25 +1,22 @@
-# Last updated: 14/5/2025, 1:35:20 am
+# Last updated: 14/5/2025, 1:37:54 am
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         n = len(points)
         visited = [False] * n
-        visited[0] = True
-        heap = []
 
         def mas(i, j):
             return abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1])
 
-        def dfs(x):
+        heap = [(0, 0)]
+        ret = 0
+        while heap:
+            cost, x = heapq.heappop(heap)
+            if visited[x]: continue
+            ret += cost
+            visited[x] = True
+
             for y in range(n):
                 if visited[y]: continue
                 heapq.heappush(heap, (mas(x, y), y))
             
-            while heap and visited[heap[0][1]]:
-                heapq.heappop(heap)
-            
-            if not heap: return 0
-            cost, y = heapq.heappop(heap)
-            visited[y] = True
-            return dfs(y) + cost
-        
-        return dfs(0)
+        return ret
