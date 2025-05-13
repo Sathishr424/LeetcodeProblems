@@ -1,4 +1,4 @@
-# Last updated: 14/5/2025, 1:41:02 am
+# Last updated: 14/5/2025, 1:41:22 am
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         n = len(points)
@@ -18,6 +18,7 @@ class Solution:
             visited[x] = True
 
             for y in edges:
+                if visited[y]: continue
                 heapq.heappush(heap, (mas(x, y), y))
             
         return ret
