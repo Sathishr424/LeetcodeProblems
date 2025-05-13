@@ -1,4 +1,4 @@
-# Last updated: 14/5/2025, 2:03:19 am
+# Last updated: 14/5/2025, 2:03:46 am
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         n = len(points)       
