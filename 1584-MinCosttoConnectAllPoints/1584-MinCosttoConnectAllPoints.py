@@ -1,4 +1,4 @@
-# Last updated: 14/5/2025, 2:09:35 am
+# Last updated: 14/5/2025, 2:10:42 am
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         n = len(points)
@@ -9,7 +9,7 @@ class Solution:
         heap = [(0, 0)]
         ret = 0
         visited = [False] * n
-        dis = [float('inf')] * n
+        dis = [10000000] * n
         edges = 0
 
         while True:
@@ -19,7 +19,7 @@ class Solution:
             visited[x] = True
             ret += cost
             edges += 1
-            
+
             if edges == n: break
 
             for y in range(n):
