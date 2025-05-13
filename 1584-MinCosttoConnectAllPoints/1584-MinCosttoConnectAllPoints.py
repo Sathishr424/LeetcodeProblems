@@ -1,50 +1,29 @@
-# Last updated: 14/5/2025, 1:19:53 am
-class Union:
-    def __init__(self, n):
-        self.parents = [i for i in range(n)]
-        self.sizes = [1] * n
-    
-    def find(self, x):
-        if x != self.parents[x]:
-            self.parents[x] = self.find(self.parents[x])
-        return self.parents[x]
-    
-    def union(self, x, y):
-        x = self.find(x)
-        y = self.find(y)
-
-        if x == y: return True
-
-        if self.sizes[y] > self.sizes[x]:
-            x, y = y, x
-        
-        self.sizes[x] += self.sizes[y]
-        self.parents[y] = self.parents[x]
-
-        return False
-
+# Last updated: 14/5/2025, 1:34:22 am
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         n = len(points)
-        uf = Union(n)
-        graph = []
-
-        for i in range(n):
-            x1, y1 = points[i]
-            for j in range(i+1, n):
-                x2, y2 = points[j]
-
-                graph.append((abs(x1-x2) + abs(y1-y2), (i, j)))
-        
-        graph.sort(key=lambda x: x[0])
-
-        n -= 1
         ret = 0
-        edges = 0
-        for cost, (x, y) in graph:
-            if uf.union(x, y): continue
+        visited = [False] * n
+        visited[0] = True
+        heap = []
+
+        def mas(i, j):
+            return abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1])
+
+        def dfs(x):
+            nonlocal ret
+            for y in range(n):
+                if visited[y]: continue
+                heapq.heappush(heap, (mas(x, y), y))
+            
+            while heap and visited[heap[0][1]]:
+                heapq.heappop(heap)
+            
+            if not heap: return
+            cost, y = heapq.heappop(heap)
+            visited[y] = True
             ret += cost
-            edges += 1
-            if edges == n: break
+            return dfs(y)
         
+        dfs(0)
         return ret
