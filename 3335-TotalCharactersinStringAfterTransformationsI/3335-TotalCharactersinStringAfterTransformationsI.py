@@ -1,4 +1,4 @@
-# Last updated: 13/5/2025, 12:30:45 pm
+# Last updated: 13/5/2025, 12:31:42 pm
 class Solution:
     def lengthAfterTransformations(self, s: str, t: int) -> int:
         mod = 10**9 + 7
@@ -14,9 +14,8 @@ class Solution:
                 freq[num+1] = freq[num]
                 freq[num] = 0
             
-            if z:
-                freq[0] = (freq[0] + z) % mod
-                freq[1] = (freq[1] + z) % mod
+            freq[0] = (freq[0] + z) % mod
+            freq[1] = (freq[1] + z) % mod
         
         return sum(freq) % mod
                 
