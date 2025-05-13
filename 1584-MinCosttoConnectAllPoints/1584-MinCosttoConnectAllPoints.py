@@ -1,4 +1,4 @@
-# Last updated: 14/5/2025, 1:12:30 am
+# Last updated: 14/5/2025, 1:13:35 am
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -31,8 +31,7 @@ class Solution:
 
         for i in range(n):
             x1, y1 = points[i]
-            for j in range(n):
-                if i == j: continue
+            for j in range(i+1, n):
                 x2, y2 = points[j]
 
                 graph.append((abs(x1-x2) + abs(y1-y2), (i, j)))
