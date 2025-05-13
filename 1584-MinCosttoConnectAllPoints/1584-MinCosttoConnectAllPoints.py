@@ -1,4 +1,4 @@
-# Last updated: 14/5/2025, 1:11:13 am
+# Last updated: 14/5/2025, 1:12:30 am
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -40,8 +40,11 @@ class Solution:
         graph.sort(key=lambda x: x[0])
     
         ret = 0
+        edges = 0
         for cost, (x, y) in graph:
             if uf.union(x, y): continue
             ret += cost
+            edges += 1
+            if edges == n-1: break
         
         return ret
