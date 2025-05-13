@@ -1,30 +1,35 @@
-# Last updated: 14/5/2025, 2:02:28 am
+# Last updated: 14/5/2025, 2:03:19 am
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
-        n = len(points)
+        n = len(points)       
 
-        def mas(i, j):
-            return abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1])
-
-        heap = [(0, 0)]
-        ret = 0
         visited = [False] * n
-        dis = [float('inf')] * n
-        edges = 0
+        v_count = 0
 
-        while heap:
-            cost, x = heapq.heappop(heap)
-            if visited[x]: continue
-            visited[x] = True
-            ret += cost
-            edges += 1
-            if edges == n: break
+        min_edge = [10_000_000] * n
+        min_edge[0] = 0
+        heap = [(0, 0)]
+        total_cost = 0
+        
+        while v_count < n:
+            w, curr = heapq.heappop(heap)
+            if visited[curr]:
+                continue
+    
+            visited[curr] = True
+            v_count += 1
+            total_cost += w
 
-            for y in range(n):
-                if not visited[y]:
-                    cost = mas(x, y)
-                    if cost < dis[y]:
-                        dis[y] = cost
-                        heapq.heappush(heap, (cost, y))
-            
-        return ret
+            x, y = points[curr]
+            for neighbor in range(n):
+                if not visited[neighbor]:
+                    n_x, n_y = points[neighbor]
+                    cost = abs(x - n_x) + abs(y - n_y)
+
+                    if cost < min_edge[neighbor]:
+                        min_edge[neighbor] = cost
+                        heapq.heappush(heap, (cost, neighbor))
+
+        return total_cost
+        
+        
