@@ -1,65 +1,38 @@
-# Last updated: 14/5/2025, 10:28:20 pm
-MOD = 10**9 + 7
-L = 26
+# Last updated: 14/5/2025, 10:28:32 pm
+mod = 10**9 + 7
 
+def matrix_multiplication(matrix_x, matrix_y):
+    m = len(matrix_x)
+    n = len(matrix_y[0])
+    new_matrix = [[0] * n for _ in range(m)]
+    for i in range(m):
+        for j in range(n):
+            curr = 0
+            for k in range(n):
+                curr = (curr + matrix_x[i][k] * matrix_y[k][j] % mod) % mod
+            new_matrix[i][j] = curr
+    return new_matrix
 
-class Mat:
-    def __init__(self, copy_from: "Mat" = None) -> None:
-        self.a: List[List[int]] = [[0] * L for _ in range(L)]
-        if copy_from:
-            for i in range(L):
-                for j in range(L):
-                    self.a[i][j] = copy_from.a[i][j]
-
-    def __mul__(self, other: "Mat") -> "Mat":
-        result = Mat()
-        for i in range(L):
-            for j in range(L):
-                for k in range(L):
-                    result.a[i][j] = (
-                        result.a[i][j] + self.a[i][k] * other.a[k][j]
-                    ) % MOD
-        return result
-
-
-# identity matrix
-def I() -> Mat:
-    m = Mat()
-    for i in range(L):
-        m.a[i][i] = 1
-    return m
-
-
-# matrix exponentiation by squaring
-def quickmul(x: Mat, y: int) -> Mat:
-    ans = I()
-    cur = x
-    while y:
-        if y & 1:
-            ans = ans * cur
-        cur = cur * cur
-        y >>= 1
+def matrix_pow(matrix, power):
+    if power == 1: return matrix
+    ans = matrix_pow(matrix, power // 2)
+    ans = matrix_multiplication(ans, ans)
+    if power % 2:
+        ans = matrix_multiplication(ans, matrix)
     return ans
 
-
 class Solution:
-    def lengthAfterTransformations(
-        self, s: str, t: int, nums: List[int]
-    ) -> int:
-        T = Mat()
+    def lengthAfterTransformations(self, s: str, t: int, nums: List[int]) -> int:
+        matrix = [[0] * 26 for _ in range(26)]
+
         for i in range(26):
-            for j in range(1, nums[i] + 1):
-                T.a[(i + j) % 26][i] = 1
+            for j in range(nums[i]):
+                matrix[i][(i+j+1) % 26] = 1
 
-        res = quickmul(T, t)
+        matrix = matrix_pow(matrix, t)
 
-        f = [0] * 26
-        for ch in s:
-            f[ord(ch) - ord("a")] += 1
+        freq = [[0] * 26]
+        for char in s:
+            freq[0][ord(char) - 97] += 1
 
-        ans = 0
-        for i in range(26):
-            for j in range(26):
-                ans = (ans + res.a[i][j] * f[j]) % MOD
-
-        return ans
+        return sum(matrix_multiplication(freq, matrix)[0]) % mod
