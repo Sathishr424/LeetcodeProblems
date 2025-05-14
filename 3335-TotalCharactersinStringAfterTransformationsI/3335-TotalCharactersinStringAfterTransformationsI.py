@@ -1,4 +1,4 @@
-# Last updated: 14/5/2025, 5:04:10 pm
+# Last updated: 14/5/2025, 5:05:34 pm
 N = 10**5 + 1
 mod = 10**9 + 7
 
@@ -14,6 +14,7 @@ class Solution:
 
         ret = 0
         for char in s:
-            ret = (ret + dp[t][ord(char) - 97]) % mod
+            ret += dp[t][ord(char) - 97]
+            ret %= mod
 
         return ret
