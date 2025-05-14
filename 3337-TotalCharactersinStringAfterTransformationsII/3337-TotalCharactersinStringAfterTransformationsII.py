@@ -1,4 +1,4 @@
-# Last updated: 14/5/2025, 10:26:29 pm
+# Last updated: 14/5/2025, 10:27:00 pm
 mod = 10**9 + 7
 
 def matrix_multiplication(matrix_x, matrix_y):
@@ -35,5 +35,4 @@ class Solution:
         for char in s:
             freq[0][ord(char) - 97] += 1
 
-        ans = matrix_multiplication(freq, matrix)
-        return sum([ans[0][i] for i in range(26)]) % mod
+        return sum(matrix_multiplication(freq, matrix)[0]) % mod
