@@ -1,18 +1,13 @@
-# Last updated: 15/5/2025, 1:39:12 am
+# Last updated: 15/5/2025, 1:42:04 am
 class Solution:
     def lenLongestFibSubseq(self, arr: List[int]) -> int:
         n = len(arr)
 
-        @cache
         def process(curr, prev):
             num = curr - prev
-            cnt = 2
-            while prev > num and num in added:
-                cnt += 1
-                curr = prev
-                prev = arr[added[num]]
-                num = curr - prev
-            return cnt
+            if prev > num and num in added:
+                return process(prev, arr[added[num]]) + 1
+            return 0
         
         ret = 0
         added = {}
@@ -21,8 +16,8 @@ class Solution:
                 curr = arr[j]
                 prev = arr[i]
                 ans = process(curr, prev)
-                if ans > 2:
-                    ret = max(ret, ans)
+                if ans > 0:
+                    ret = max(ret, ans + 2)
                         
             added[arr[i]] = i
         
