@@ -1,6 +1,7 @@
-# Last updated: 14/5/2025, 8:41:08 pm
+# Last updated: 14/5/2025, 8:42:20 pm
 mod = 1337
 
+@cache
 def pow(x, n):
     if n == 1: return x
     ans = pow(x, n//2)
