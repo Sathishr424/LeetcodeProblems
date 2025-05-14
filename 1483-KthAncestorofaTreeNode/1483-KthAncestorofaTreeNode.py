@@ -1,9 +1,8 @@
-# Last updated: 14/5/2025, 2:14:43 pm
-N = 17
+# Last updated: 14/5/2025, 2:16:32 pm
+N = 16
 class TreeAncestor:
     def __init__(self, n: int, parent: List[int]):
         self.parent = parent
-
         self.logs = [[-1] * n for _ in range(N)]
 
         for i in range(n):
@@ -13,7 +12,7 @@ class TreeAncestor:
             for j in range(n):
                 if self.logs[i-1][j] == -1: continue
                 self.logs[i][j] = self.logs[i-1][self.logs[i-1][j]]
-        
+    
     def getKthAncestor(self, node: int, k: int) -> int:
         for i in range(N-1, -1, -1):
             if (1 << i) <= k:
