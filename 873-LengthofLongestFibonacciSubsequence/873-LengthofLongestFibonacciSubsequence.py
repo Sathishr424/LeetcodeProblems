@@ -1,4 +1,4 @@
-# Last updated: 15/5/2025, 3:37:30 am
+# Last updated: 15/5/2025, 3:39:43 am
 N = 10**5
 mod = 10**9 + 7
 dp = [[[0] * 2 for _ in range(3)] for _ in range(N+1)]
@@ -23,15 +23,13 @@ dp[0][2][1] = 0
 for i in range(N):
     for l in range(3):
         for a in range(2):
-            dp[i+1][0][a] += dp[i][l][a]
-            dp[i+1][0][a] %= mod
+            dp[i+1][0][a] = (dp[i+1][0][a] + dp[i][l][a]) % mod
 
             if l < 2:
-                dp[i+1][l+1][a] += dp[i][l][a]
-                dp[i+1][l+1][a] %= mod
+                dp[i+1][l+1][a] += (dp[i+1][l+1][a] + dp[i][l][a]) % mod
+            
             if a == 0:
-                dp[i+1][0][a+1] += dp[i][l][a]
-                dp[i+1][0][a+1] %= mod
+                dp[i+1][0][a+1] = (dp[i+1][0][a+1] + dp[i][l][a]) % mod
 
 class Solution:
     def checkRecord(self, n: int) -> int:
