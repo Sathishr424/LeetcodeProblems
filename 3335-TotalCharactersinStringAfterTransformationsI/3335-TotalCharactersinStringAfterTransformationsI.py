@@ -1,4 +1,4 @@
-# Last updated: 14/5/2025, 1:26:01 pm
+# Last updated: 14/5/2025, 5:04:10 pm
 N = 10**5 + 1
 mod = 10**9 + 7
 
