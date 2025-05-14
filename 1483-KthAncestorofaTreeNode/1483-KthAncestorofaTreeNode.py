@@ -1,29 +1,26 @@
-# Last updated: 28/4/2025, 7:02:32 pm
-m = 16
+# Last updated: 14/5/2025, 2:14:43 pm
+N = 17
 class TreeAncestor:
     def __init__(self, n: int, parent: List[int]):
-        self.logs = [[-1] * n for _ in range(m)]
+        self.parent = parent
 
-        for node in range(1, n):
-            self.logs[0][node] = parent[node]
+        self.logs = [[-1] * n for _ in range(N)]
 
-        for k in range(1, m):
-            for node in range(1, n):
-                if self.logs[k-1][node] == -1: continue
-                self.logs[k][node] = self.logs[k-1][self.logs[k-1][node]]
-
-    def getKthAncestor(self, node: int, k: int) -> int:
-        p = 0
-        while k:
-            if k & 1:
-                node = self.logs[p][node]
-                if node == -1: return -1
-            k >>= 1
-            p += 1
+        for i in range(n):
+            self.logs[0][i] = parent[i]
         
+        for i in range(1, N):
+            for j in range(n):
+                if self.logs[i-1][j] == -1: continue
+                self.logs[i][j] = self.logs[i-1][self.logs[i-1][j]]
+        
+    def getKthAncestor(self, node: int, k: int) -> int:
+        for i in range(N-1, -1, -1):
+            if (1 << i) <= k:
+                if self.logs[i][node] == -1: return -1
+                k -= (1 << i)
+                node = self.logs[i][node]
         return node
-
-
 
 # Your TreeAncestor object will be instantiated and called as such:
 # obj = TreeAncestor(n, parent)
