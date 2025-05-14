@@ -1,24 +1,20 @@
-# Last updated: 15/5/2025, 1:47:03 am
-class Solution:
-    def lenLongestFibSubseq(self, arr: List[int]) -> int:
-        n = len(arr)
+# Last updated: 15/5/2025, 2:07:20 am
+N = 10**5
+dp = [[[-1] * 2 for _ in range(3)] for _ in range(N+1)]
 
-        ret = 0
-        added = {}
-        for i in range(n):
-            for j in range(i+1, n):
-                curr = arr[j]
-                prev = arr[i]
-                num = curr - prev
-                cnt = 2
-                while prev > num and num in added:
-                    cnt += 1
-                    curr = prev
-                    prev = arr[added[num]]
-                    num = curr - prev
-                if cnt > 2:
-                    ret = max(ret, cnt)
-                        
-            added[arr[i]] = i
+class Solution:
+    def checkRecord(self, n: int) -> int:
+        mod = 10**9 + 7
+
+        def dfs(x, l, a):
+            if dp[x][l][a] != -1: return dp[x][l][a]
+            if x == 0: return 1
+            ans = 0
+            if l < 2: ans = (ans + dfs(x-1, l+1, a)) % mod
+            if a == 0: ans = (ans + dfs(x-1, 0, a+1)) % mod
+
+            ans = (ans + dfs(x-1, 0, a)) % mod
+            dp[x][l][a] = ans
+            return ans
         
-        return ret
+        return dfs(n, 0, 0)
