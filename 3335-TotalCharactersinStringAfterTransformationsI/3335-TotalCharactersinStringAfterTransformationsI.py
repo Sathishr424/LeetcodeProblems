@@ -1,4 +1,4 @@
-# Last updated: 14/5/2025, 10:34:15 pm
+# Last updated: 14/5/2025, 10:36:11 pm
 mod = 10**9 + 7
 
 def matrix_multiplication(matrix_x, matrix_y):
