@@ -1,12 +1,14 @@
-# Last updated: 14/5/2025, 10:20:30 pm
+# Last updated: 14/5/2025, 10:26:29 pm
 mod = 10**9 + 7
 
 def matrix_multiplication(matrix_x, matrix_y):
-    new_matrix = [[0] * 26 for _ in range(26)]
-    for i in range(26):
-        for j in range(26):
+    m = len(matrix_x)
+    n = len(matrix_y[0])
+    new_matrix = [[0] * n for _ in range(m)]
+    for i in range(m):
+        for j in range(n):
             curr = 0
-            for k in range(26):
+            for k in range(n):
                 curr = (curr + matrix_x[i][k] * matrix_y[k][j] % mod) % mod
             new_matrix[i][j] = curr
     return new_matrix
@@ -29,15 +31,9 @@ class Solution:
 
         matrix = matrix_pow(matrix, t)
 
-        freq = [0] * 26
+        freq = [[0] * 26]
         for char in s:
-            freq[ord(char) - 97] += 1
+            freq[0][ord(char) - 97] += 1
 
-        ans = 0
-        for j in range(26):
-            curr = 0
-            for k in range(26):
-                curr = (curr + freq[k] * matrix[k][j] % mod) % mod
-            ans = (ans + curr) % mod
-     
-        return ans
+        ans = matrix_multiplication(freq, matrix)
+        return sum([ans[0][i] for i in range(26)]) % mod
