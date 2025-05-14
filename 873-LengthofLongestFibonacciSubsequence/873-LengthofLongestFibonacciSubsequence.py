@@ -1,4 +1,4 @@
-# Last updated: 15/5/2025, 3:40:50 am
+# Last updated: 15/5/2025, 3:51:23 am
 N = 10**5
 mod = 10**9 + 7
 dp = [[[0] * 2 for _ in range(3)] for _ in range(N)]
@@ -26,7 +26,7 @@ for i in range(N-1):
             dp[i+1][0][a] = (dp[i+1][0][a] + dp[i][l][a]) % mod
 
             if l < 2:
-                dp[i+1][l+1][a] += (dp[i+1][l+1][a] + dp[i][l][a]) % mod
+                dp[i+1][l+1][a] = (dp[i+1][l+1][a] + dp[i][l][a]) % mod
             
             if a == 0:
                 dp[i+1][0][a+1] = (dp[i+1][0][a+1] + dp[i][l][a]) % mod
