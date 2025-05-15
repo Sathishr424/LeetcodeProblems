@@ -1,40 +1,40 @@
-# Last updated: 15/5/2025, 3:53:44 pm
+# Last updated: 15/5/2025, 4:00:40 pm
 class Solution:
-    def getWordsInLongestSubsequence(
-        self, words: List[str], groups: List[int]
-    ) -> List[str]:
-        n = len(groups)
-        dp = [1] * n
-        prev_ = [-1] * n
-        max_index = 0
+    def getWordsInLongestSubsequence(self, words: List[str], groups: List[int]) -> List[str]:
+        n = len(words)
 
-        for i in range(1, n):
-            for j in range(i):
-                if (
-                    self.check(words[i], words[j])
-                    and dp[j] + 1 > dp[i]
-                    and groups[i] != groups[j]
-                ):
-                    dp[i] = dp[j] + 1
-                    prev_[i] = j
-            if dp[i] > dp[max_index]:
-                max_index = i
+        def checkDistance(i, j):
+            if len(words[i]) != len(words[j]): return False
+            diff = 0
+            
+            for k in range(len(words[i])):
+                if words[i][k] != words[j][k]: 
+                    diff += 1
+            
+            return diff == 1
 
-        ans = []
-        i = max_index
-        while i >= 0:
-            ans.append(words[i])
-            i = prev_[i]
-        ans.reverse()
-        return ans
+        dp = [1 for i in range(n)]
+        ret = 0
+        
+        for i in range(n-1, -1, -1):
+            new_dp = dp[i]
+            for j in range(i+1, n):
+                if checkDistance(i, j) and groups[i] != groups[j]:
+                    if dp[j] + dp[i] > new_dp:
+                        new_dp = dp[i] + dp[j]
+            
+            dp[i] = new_dp
+            if dp[i] > dp[ret]:
+                ret = i
+        
+        arr = [words[ret]]
+        rem = dp[ret] - 1
+        prev = ret
+        
+        for i in range(ret+1, n):
+            if dp[i] == rem and checkDistance(prev, i) and groups[prev] != groups[i]:
+                prev = i
+                rem -= 1
+                arr.append(words[i])
 
-    def check(self, s1: str, s2: str) -> bool:
-        if len(s1) != len(s2):
-            return False
-        diff = 0
-        for c1, c2 in zip(s1, s2):
-            if c1 != c2:
-                diff += 1
-                if diff > 1:
-                    return False
-        return diff == 1
+        return arr
