@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 1:50:25 am
+# Last updated: 16/5/2025, 1:58:43 am
 mod = 10**9 + 7
 
 class Node:
@@ -39,8 +39,6 @@ class Trie:
             comb //= 3
 class Solution:
     def colorTheGrid(self, m: int, n: int) -> int:
-        if m == 1: return 3 * (2 ** (n-1)) % mod
-        if n == 1: return 3 * (2 ** (m-1)) % mod
         trie = Trie()
 
         @cache
