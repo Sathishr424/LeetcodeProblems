@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 1:45:58 am
+# Last updated: 16/5/2025, 1:49:27 am
 mod = 10**9 + 7
 
 class Node:
@@ -65,14 +65,15 @@ class Solution:
             graphs_cache[comb] = new_graphs
             counts[comb] = len(new_graphs)
 
-        ret = 0
         for i in range(1, n):
-            ret = 0
             new_curr = defaultdict(int)
             for comb in curr:
-                ret = (ret + curr[comb] * counts[comb] % mod) % mod
                 for c in graphs_cache[comb]:
                     new_curr[c] += curr[comb]
             curr = new_curr
         
+        ret = 0
+        for comb in curr:
+            ret = (ret + curr[comb]) % mod
+
         return ret
