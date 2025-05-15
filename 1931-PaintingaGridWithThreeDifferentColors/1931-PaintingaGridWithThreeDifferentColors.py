@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 1:49:27 am
+# Last updated: 16/5/2025, 1:50:25 am
 mod = 10**9 + 7
 
 class Node:
@@ -11,7 +11,7 @@ class Trie:
         self.memo = {}
     
     def query(self, node, comb, st):
-        key = (node, comb)
+        key = (id(node), comb)
         if key in self.memo: return self.memo[key]
         if comb == 1:
             return [st]
