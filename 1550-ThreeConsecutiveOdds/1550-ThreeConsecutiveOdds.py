@@ -1,4 +1,4 @@
-# Last updated: 15/5/2025, 10:31:18 pm
+# Last updated: 15/5/2025, 10:31:38 pm
 N = 37
 cmax = lambda x, y: x if x > y else y
 class Solution:
@@ -17,7 +17,6 @@ class Solution:
         
         ret = 0
         for num in range(1, N):
-            if groups[num] == max_group:
-                ret += 1
+            ret += groups[num] == max_group
         
         return ret
