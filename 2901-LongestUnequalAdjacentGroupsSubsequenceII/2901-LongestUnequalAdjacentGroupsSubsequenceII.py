@@ -1,30 +1,40 @@
-# Last updated: 15/5/2025, 3:52:33 pm
+# Last updated: 15/5/2025, 3:53:44 pm
 class Solution:
-    def getWordsInLongestSubsequence(self, words: List[str], groups: List[int]) -> List[str]:
-        n = len(words)
+    def getWordsInLongestSubsequence(
+        self, words: List[str], groups: List[int]
+    ) -> List[str]:
+        n = len(groups)
+        dp = [1] * n
+        prev_ = [-1] * n
+        max_index = 0
 
-        def checkDistance(i, j):
-            if len(words[i]) != len(words[j]): return False
-            diff = 0
-            
-            for k in range(len(words[i])):
-                if words[i][k] != words[j][k]: 
-                    diff += 1
-            
-            return diff == 1
+        for i in range(1, n):
+            for j in range(i):
+                if (
+                    self.check(words[i], words[j])
+                    and dp[j] + 1 > dp[i]
+                    and groups[i] != groups[j]
+                ):
+                    dp[i] = dp[j] + 1
+                    prev_[i] = j
+            if dp[i] > dp[max_index]:
+                max_index = i
 
-        dp = [[words[i]] for i in range(n)]
-        ret = dp[0]
-        
-        for i in range(n-1, -1, -1):
-            new_dp = dp[i]
-            for j in range(i+1, n):
-                if len(words[i]) == len(words[j]) and groups[i] != groups[j] and checkDistance(i, j):
-                    if len(dp[j]) + len(dp[i]) > len(new_dp):
-                        new_dp = dp[i] + dp[j]
-            
-            dp[i] = new_dp
-            if len(new_dp) > len(ret):
-                ret = new_dp
+        ans = []
+        i = max_index
+        while i >= 0:
+            ans.append(words[i])
+            i = prev_[i]
+        ans.reverse()
+        return ans
 
-        return ret
+    def check(self, s1: str, s2: str) -> bool:
+        if len(s1) != len(s2):
+            return False
+        diff = 0
+        for c1, c2 in zip(s1, s2):
+            if c1 != c2:
+                diff += 1
+                if diff > 1:
+                    return False
+        return diff == 1
