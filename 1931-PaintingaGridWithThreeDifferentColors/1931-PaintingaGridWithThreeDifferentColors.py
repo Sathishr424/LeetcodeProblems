@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 1:40:55 am
+# Last updated: 16/5/2025, 1:45:58 am
 mod = 10**9 + 7
 
 class Node:
@@ -17,12 +17,12 @@ class Trie:
             return [st]
 
         ans = []
-        rem = comb % 10
+        rem = comb % 3
 
         for color in range(3):
             if color == rem: continue
             if node.colors[color] != None:
-                ans += self.query(node.colors[color], comb // 10, st * 10 + color)
+                ans += self.query(node.colors[color], comb // 3, st * 3 + color)
         self.memo[key] = ans
         return ans
     
@@ -30,13 +30,13 @@ class Trie:
         node = self.node
 
         while comb > 1:
-            rem = comb % 10
+            rem = comb % 3
 
             if node.colors[rem] == None:
                 node.colors[rem] = Node()
             node = node.colors[rem]
             
-            comb //= 10
+            comb //= 3
 class Solution:
     def colorTheGrid(self, m: int, n: int) -> int:
         if m == 1: return 3 * (2 ** (n-1)) % mod
@@ -52,7 +52,7 @@ class Solution:
             
             for color in range(3):
                 if prev == color: continue
-                dfs(row+1, comb * 10 + color, color)
+                dfs(row+1, comb * 3 + color, color)
         
         counts = {}
         curr = {}
