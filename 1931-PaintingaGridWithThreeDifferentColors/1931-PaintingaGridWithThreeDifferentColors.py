@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 1:39:40 am
+# Last updated: 16/5/2025, 1:40:55 am
 mod = 10**9 + 7
 
 class Node:
@@ -54,10 +54,11 @@ class Solution:
                 if prev == color: continue
                 dfs(row+1, comb * 10 + color, color)
         
-        counts = defaultdict(int)
-        curr = defaultdict(int)
+        counts = {}
+        curr = {}
+        graphs_cache = {}
+
         dfs(0, 1, -1)
-        graphs_cache = defaultdict(list)
 
         for comb in curr:
             new_graphs = trie.query(trie.node, comb, 1)
