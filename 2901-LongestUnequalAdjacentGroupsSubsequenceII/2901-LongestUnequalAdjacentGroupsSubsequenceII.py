@@ -1,4 +1,4 @@
-# Last updated: 15/5/2025, 3:24:22 pm
+# Last updated: 15/5/2025, 3:27:15 pm
 class Solution:
     def getWordsInLongestSubsequence(self, words: List[str], groups: List[int]) -> List[str]:
         n = len(words)
@@ -26,8 +26,7 @@ class Solution:
             ans = []
             for i in range(index-1, -1, -1):
                 if groups[index] != groups[i] and len(words[index]) == len(words[i]) and distance[i][index] == 1:
-                    curr = dfs(i)
-                    if len(curr) >= len(ans):
+                    if len(curr := dfs(i)) >= len(ans):
                         ans = curr + [words[i]]
             
             memo[index] = ans
@@ -35,8 +34,7 @@ class Solution:
             return ans
         
         for i in range(n-1, -1, -1):
-            ans = dfs(i)
-            if len(ans) >= len(ret):
+            if len(ans := dfs(i)) >= len(ret):
                 ans.append(words[i])
                 ret = ans
 
