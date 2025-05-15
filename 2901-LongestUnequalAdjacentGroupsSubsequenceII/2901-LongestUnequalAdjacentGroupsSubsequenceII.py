@@ -1,4 +1,4 @@
-# Last updated: 15/5/2025, 4:07:17 pm
+# Last updated: 15/5/2025, 4:08:32 pm
 class Solution:
     def getWordsInLongestSubsequence(self, words: List[str], groups: List[int]) -> List[str]:
         n = len(words)
@@ -23,13 +23,13 @@ class Solution:
         ret = 0
         
         for i in range(n-1, -1, -1):
-            new_dp = dp[i]
+            new_l = dp[i]
             for j in range(i+1, n):
-                if checkValid(i, j) and dp[j] + dp[i] > new_dp:
-                    new_dp = dp[i] + dp[j]
+                if checkValid(i, j) and dp[j] + dp[i] > new_l:
+                    new_l = dp[i] + dp[j]
             
-            dp[i] = new_dp
-            if dp[i] > dp[ret]:
+            dp[i] = new_l
+            if new_l > dp[ret]:
                 ret = i
         
         arr = [words[ret]]
