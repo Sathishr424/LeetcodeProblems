@@ -1,14 +1,28 @@
-# Last updated: 15/5/2025, 9:49:13 pm
+# Last updated: 15/5/2025, 10:12:38 pm
 class Solution:
-    def threeConsecutiveOdds(self, arr: List[int]) -> bool:
-        n = len(arr)
-        if n < 3: return False
-        x = 0
-        for i in range(n):
-            if arr[i] % 2 == 1:
-                x += 1
-                if x == 3: return True
-            else:
-                x = 0
+    def countLargestGroup(self, n: int) -> int:
+        # 0 0 0 0 0 
+        # 0 0 0 0 0
+        # 0 0 0 0 0
+
+        groups = defaultdict(int)
+        max_group = 0
+
+        for num in range(1, n+1):
+            tmp = num
+            s = 0
+            while num:
+                s += num % 10
+                num //= 10
+
+            groups[s] += 1
+            max_group = max(max_group, groups[s])
+        ret = 0
+
+        for num in groups:
+            if groups[num] == max_group:
+                ret += 1
         
-        return False
+        return ret
+
+
