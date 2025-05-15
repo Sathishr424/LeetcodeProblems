@@ -1,4 +1,4 @@
-# Last updated: 15/5/2025, 4:03:20 pm
+# Last updated: 15/5/2025, 4:04:38 pm
 class Solution:
     def getWordsInLongestSubsequence(self, words: List[str], groups: List[int]) -> List[str]:
         n = len(words)
@@ -6,13 +6,14 @@ class Solution:
         @cache
         def checkValid(i, j):
             if len(words[i]) != len(words[j]) or groups[i] == groups[j]: return False
-            diff = 0
+            change = False
             
             for k in range(len(words[i])):
-                if words[i][k] != words[j][k]: 
-                    diff += 1
+                if words[i][k] != words[j][k]:
+                    if change: return False
+                    change = True
             
-            return diff == 1
+            return change
 
         dp = [1 for i in range(n)]
         ret = 0
