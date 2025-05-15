@@ -1,10 +1,13 @@
-# Last updated: 15/5/2025, 4:04:38 pm
+# Last updated: 15/5/2025, 4:07:17 pm
 class Solution:
     def getWordsInLongestSubsequence(self, words: List[str], groups: List[int]) -> List[str]:
         n = len(words)
 
-        @cache
+        memo = [[None] * n for _ in range(n)]
+
         def checkValid(i, j):
+            if memo[i][j] != None: return memo[i][j]
+            memo[i][j] = False
             if len(words[i]) != len(words[j]) or groups[i] == groups[j]: return False
             change = False
             
@@ -13,6 +16,7 @@ class Solution:
                     if change: return False
                     change = True
             
+            memo[i][j] = change
             return change
 
         dp = [1 for i in range(n)]
