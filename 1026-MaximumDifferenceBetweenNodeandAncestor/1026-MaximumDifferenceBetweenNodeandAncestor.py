@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 8:21:10 am
+# Last updated: 16/5/2025, 8:22:42 am
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -8,14 +8,13 @@
 N = 10**5
 class Solution:
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
-        ans = 0
         def traverse(node, maxi, mini):
-            nonlocal ans
-            if node == None: return 
+            if node == None: return 0
 
-            ans = max(ans, abs(maxi - node.val), abs(mini - node.val))
-            traverse(node.left, max(maxi, node.val), min(mini, node.val))
-            traverse(node.right, max(maxi, node.val), min(mini, node.val))
+            ans = max(abs(maxi - node.val), abs(mini - node.val))
+            left = traverse(node.left, max(maxi, node.val), min(mini, node.val))
+            right = traverse(node.right, max(maxi, node.val), min(mini, node.val))
+
+            return max(ans, left, right)
         
-        traverse(root, root.val, root.val)
-        return ans
+        return traverse(root, root.val, root.val)
