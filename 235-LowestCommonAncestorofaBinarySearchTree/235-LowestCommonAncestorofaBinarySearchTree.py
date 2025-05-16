@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 9:59:56 am
+# Last updated: 16/5/2025, 10:01:02 am
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
@@ -18,9 +18,7 @@ class Solution:
             right = dfs(node.right)
 
             if left and right: return node
-            elif left: return left
-            elif right: return right
-            return None
+            return left or right or None
         
         return dfs(root)
 
