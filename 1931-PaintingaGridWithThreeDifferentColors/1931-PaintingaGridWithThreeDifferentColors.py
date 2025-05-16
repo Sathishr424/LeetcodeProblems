@@ -1,48 +1,68 @@
-# Last updated: 16/5/2025, 5:42:14 am
+# Last updated: 16/5/2025, 6:15:00 am
 mod = 10**9 + 7
+
+def matrixMulti(matrix_1, matrix_2):
+    m = len(matrix_1)
+    n = len(matrix_2[0])
+    result = [[0] * n for _ in range(m)]
+
+    for i in range(m):
+        for j in range(n):
+            for k in range(n):
+                result[i][j] += matrix_1[i][k] * matrix_2[k][j]
+                result[i][j] %= mod
+    return result
+
+def matrixPow(matrix, power):
+    if power == 1: return matrix
+    
+    ans = matrixPow(matrix, power // 2)
+    ans = matrixMulti(ans, ans)
+    if power % 2:
+        ans = matrixMulti(ans, matrix)
+    return ans
+
 class Solution:
     def colorTheGrid(self, m: int, n: int) -> int:
-        N = 2
-        for i in range(1, m):
-            N = N * 3 + (1 if N % 3 == 2 else 2)
-        N += 1
-    
-        dp = [[0] * N for _ in range(n)]
+        size = 0
+        relation = {}
 
-        def neightborsCnt(comb, index, st):
-            if index == 0: return [st]
-            ans = []
-            c = comb % 3
-
-            for color in range(3):
-                if color == c or (index != m and st % 3 == color): continue
-                ans += neightborsCnt(comb // 3, index-1, st * 3 + color)
+        def findNeighbors(full_comb, comb, index, neighbor, prev):
+            if index == 0:
+                matrix[relation[full_comb]][relation[neighbor]] = 1
+                return
             
-            return ans
-        
-        graphs_cache = [[] for _ in range(N)]
+            rem = comb % 3
+            for color in range(3):
+                if color == rem or color == prev: continue
+                findNeighbors(full_comb, comb // 3, index-1, neighbor * 3 + color, color)
 
-        def generateIntial(comb, index):
+        combs = []
+
+        def generate(comb, index):
+            nonlocal size
             if index == m:
-                graphs_cache[comb] = neightborsCnt(comb, m, 0)
-                dp[0][comb] = 1
+                relation[comb] = size
+                size += 1
+                combs.append(comb)
                 return
             
             prev = comb % 3
             for color in range(3):
                 if color == prev and index > 0: continue
-                generateIntial(comb * 3 + color, index+1)
-
-        generateIntial(0, 0)
-
-        for i in range(1, n):
-            for j in range(N):
-                for comb in graphs_cache[j]:
-                    dp[i][comb] = (dp[i][comb] + dp[i-1][j]) % mod
+                generate(comb * 3 + color, index+1)
         
-        ret = 0
-        for j in range(N):
-            ret = (ret + dp[n-1][j]) % mod
-
-        return ret
+        generate(0, 0)
+        if n == 1: return len(combs)
         
+        matrix = [[0] * size for _ in range(size)]
+        for comb in combs:
+            findNeighbors(comb, comb, m, 0, -1)
+
+        if n > 1:
+            matrix = matrixPow(matrix, n-1)
+
+        curr = [[1] * len(combs)]
+        ret = matrixMulti(curr, matrix)
+        return sum(ret[0]) % mod
+            
