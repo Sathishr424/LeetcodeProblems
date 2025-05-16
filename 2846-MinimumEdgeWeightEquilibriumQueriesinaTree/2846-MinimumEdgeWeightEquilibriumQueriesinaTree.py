@@ -1,5 +1,4 @@
-# Last updated: 17/5/2025, 4:19:41 am
-N = 14
+# Last updated: 17/5/2025, 4:20:50 am
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def minOperationsQueries(self, n: int, edges: List[List[int]], queries: List[List[int]]) -> List[int]:
@@ -20,11 +19,12 @@ class Solution:
         root = 0
         visited = [False] * n
         visited[root] = True
+
         def dfs(x, depth):
             depths[x] = depth
 
             for y in graph[x]:
-                if visited[y] == False:
+                if not visited[y]:
                     visited[y] = True
                     parents[y] = x
                     for i in range(1, max_w):
