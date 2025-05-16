@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 8:47:21 am
+# Last updated: 16/5/2025, 8:49:11 am
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -9,30 +9,19 @@ class Solution:
     def lcaDeepestLeaves(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         deapest_level = 0
         deapest_node = root
+
         def traverse(node, level):
             nonlocal deapest_level, deapest_node
+            if node == None: return level
             level += 1
-            if node.left and node.right:
-                left = traverse(node.left, level)
-                right = traverse(node.right, level)
-                if left == right and left >= deapest_level:
-                    deapest_node = node
-                    deapest_level = left
-                    return left
-                else:
-                    return max(left, right)
-            elif node.left:
-                if level > deapest_level:
-                    deapest_node = node.left
-                    deapest_level = level
-                return traverse(node.left, level)
-            elif node.right:
-                if level > deapest_level:
-                    deapest_node = node.right
-                    deapest_level = level
-                return traverse(node.right, level)
+            left = traverse(node.left, level)
+            right = traverse(node.right, level)
+            if left >= deapest_level and left == right:
+                deapest_node = node
+                deapest_level = left
+                return left
             else:
-                return level-1
+                return max(left, right)
             
 
         traverse(root, 0)
