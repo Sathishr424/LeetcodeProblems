@@ -1,11 +1,13 @@
-# Last updated: 16/5/2025, 5:31:05 am
+# Last updated: 16/5/2025, 5:36:42 am
 mod = 10**9 + 7
-N = 213
 class Solution:
     def colorTheGrid(self, m: int, n: int) -> int:
-        combCounts = defaultdict(int)
+        N = 2
+        for i in range(1, m):
+            N = N * 3 + (1 if N % 3 == 2 else 2)
+        N += 1
+    
         dp = [[0] * N for _ in range(n)]
-
         @cache
         def neightborsCnt(comb, index, st):
             if index == 0: return [st]
@@ -18,12 +20,11 @@ class Solution:
             
             return ans
         
-        graphs_cache = [[]] * 360
+        graphs_cache = [[]] * N
 
         def generateIntial(comb, index):
             if index == m:
                 graphs_cache[comb] = neightborsCnt(comb, m, 0)
-                combCounts[comb] = len(graphs_cache[comb])
                 dp[0][comb] = 1
                 return
             
