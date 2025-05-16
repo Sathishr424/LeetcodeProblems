@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 10:22:39 am
+# Last updated: 16/5/2025, 10:23:35 am
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
@@ -22,8 +22,10 @@ class Solution:
         
         def helper(node):
             if p.val <= node.val and q.val >= node.val:
-                if (left := dfs(node, p.val)) and (right := dfs(node, q.val)): return node
-                return left or right
+                left = dfs(node, p.val)
+                right = dfs(node, q.val)
+
+                return left and right and node or left or right
             elif p.val > node.val:
                 return helper(node.right)
             else:
