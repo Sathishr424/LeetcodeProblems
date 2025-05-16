@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 11:01:06 pm
+# Last updated: 16/5/2025, 11:09:12 pm
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
         # abasdsadsdcsacdeeeff a.*cdeeeff
