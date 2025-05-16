@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 5:39:08 am
+# Last updated: 16/5/2025, 5:42:14 am
 mod = 10**9 + 7
 class Solution:
     def colorTheGrid(self, m: int, n: int) -> int:
@@ -8,7 +8,7 @@ class Solution:
         N += 1
     
         dp = [[0] * N for _ in range(n)]
-        @cache
+
         def neightborsCnt(comb, index, st):
             if index == 0: return [st]
             ans = []
