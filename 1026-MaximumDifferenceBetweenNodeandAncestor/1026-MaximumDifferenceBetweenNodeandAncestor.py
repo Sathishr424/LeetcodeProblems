@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 8:24:59 am
+# Last updated: 16/5/2025, 8:26:34 am
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -12,6 +12,10 @@ class Solution:
         def traverse(node, maxi, mini):
             if node == None: return 0
 
-            return cmax(cmax(abs(maxi - node.val), abs(mini - node.val)), cmax(traverse(node.left, cmax(maxi, node.val), cmin(mini, node.val)), traverse(node.right, cmax(maxi, node.val), cmin(mini, node.val))))
+            ans = cmax(abs(maxi - node.val), abs(mini - node.val))
+            left = traverse(node.left, cmax(maxi, node.val), cmin(mini, node.val))
+            right = traverse(node.right, cmax(maxi, node.val), cmin(mini, node.val))
+
+            return cmax(ans, cmax(left, right))
         
         return traverse(root, root.val, root.val)
