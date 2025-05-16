@@ -1,4 +1,4 @@
-# Last updated: 17/5/2025, 4:20:50 am
+# Last updated: 17/5/2025, 4:25:35 am
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def minOperationsQueries(self, n: int, edges: List[List[int]], queries: List[List[int]]) -> List[int]:
@@ -46,6 +46,7 @@ class Solution:
                 logs[i][j] = logs[i-1][logs[i-1][j]]
 
         def kthNode(x, k):
+            if k == 0: return x
             for i in range(N-1, -1, -1):
                 if k >= (1 << i):
                     k -= (1 << i)
@@ -71,7 +72,7 @@ class Solution:
             
             diff = depth_y - depth_x
 
-            new_y = kthNode(y, diff) if diff > 0 else y
+            new_y = kthNode(y, diff)
             
             maxi = 0
             total = 0
