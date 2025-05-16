@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 6:15:53 am
+# Last updated: 16/5/2025, 6:17:02 am
 mod = 10**9 + 7
 
 def matrixMulti(matrix_1, matrix_2):
@@ -25,7 +25,7 @@ def matrixPow(matrix, power):
 class Solution:
     def colorTheGrid(self, m: int, n: int) -> int:
         size = 0
-        relation = {}
+        relation = [0] * 213
 
         def findNeighbors(full_comb, comb, index, neighbor, prev):
             if index == 0:
