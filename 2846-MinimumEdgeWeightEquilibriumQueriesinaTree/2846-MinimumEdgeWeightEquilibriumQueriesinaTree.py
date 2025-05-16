@@ -1,5 +1,6 @@
-# Last updated: 17/5/2025, 4:10:44 am
+# Last updated: 17/5/2025, 4:13:56 am
 N = 14
+cmax = lambda x, y: x if x > y else y
 class Solution:
     def minOperationsQueries(self, n: int, edges: List[List[int]], queries: List[List[int]]) -> List[int]:
         graph = defaultdict(dict)
@@ -29,13 +30,6 @@ class Solution:
 
         dfs(root, 0)
 
-        
-
-        # print(root)
-        # [print(row) for row in freq]
-        # print(depths)
-
-        # print(parents)
         logs = [[-1] * n for _ in range(N)]
 
         for i in range(n):
@@ -54,12 +48,10 @@ class Solution:
             return x
 
         def lca(x, y):
-            # print('LCA', x, y)
             for i in range(N-1, -1, -1):
                 if logs[i][x] != logs[i][y]:
                     x = logs[i][x]
                     y = logs[i][y]
-            # print(x, y)
             return logs[0][y]
         
         ret = []
@@ -75,29 +67,17 @@ class Solution:
 
             new_y = kthNode(y, diff) if diff > 0 else y
             
-            new_freq = [0] * 27
             maxi = 0
             total = 0
-            if x == new_y:
-                ancestor = x
-            else:
-                ancestor = lca(x, new_y)
+            
+            if x == new_y: ancestor = x
+            else: ancestor = lca(x, new_y)
             
             for i in range(27):
-                new_freq[i] = abs(freq[x][i] + freq[y][i]) - (freq[ancestor][i] * 2)
-                maxi = max(maxi, new_freq[i])
-                total += new_freq[i]
-            
-            # print('---')
-            # print(freq[x], x)
-            # print(freq[y], y)
-            # print(freq[ancestor], ancestor)
-            # print(new_freq)
-            # print('---')
+                curr = (freq[x][i] + freq[y][i]) - (freq[ancestor][i] * 2)
+                maxi = cmax(maxi, curr)
+                total += curr
 
             ret.append(total - maxi)
-
-            # print((x, y), diff, (x, new_y), ancestor)
-            # print(new_freq)
 
         return ret
