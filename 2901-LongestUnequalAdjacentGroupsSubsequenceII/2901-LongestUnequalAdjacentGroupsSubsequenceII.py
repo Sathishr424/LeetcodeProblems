@@ -1,4 +1,4 @@
-# Last updated: 15/5/2025, 4:18:33 pm
+# Last updated: 16/5/2025, 5:42:55 am
 class Solution:
     def getWordsInLongestSubsequence(self, words: List[str], groups: List[int]) -> List[str]:
         n = len(words)
