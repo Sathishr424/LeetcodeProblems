@@ -1,77 +1,49 @@
-# Last updated: 16/5/2025, 1:58:43 am
+# Last updated: 16/5/2025, 5:31:05 am
 mod = 10**9 + 7
-
-class Node:
-    def __init__(self):
-        self.colors = [None, None, None]
-
-class Trie:
-    def __init__(self):
-        self.node = Node()
-        self.memo = {}
-    
-    def query(self, node, comb, st):
-        key = (id(node), comb)
-        if key in self.memo: return self.memo[key]
-        if comb == 1:
-            return [st]
-
-        ans = []
-        rem = comb % 3
-
-        for color in range(3):
-            if color == rem: continue
-            if node.colors[color] != None:
-                ans += self.query(node.colors[color], comb // 3, st * 3 + color)
-        self.memo[key] = ans
-        return ans
-    
-    def insert(self, comb):
-        node = self.node
-
-        while comb > 1:
-            rem = comb % 3
-
-            if node.colors[rem] == None:
-                node.colors[rem] = Node()
-            node = node.colors[rem]
-            
-            comb //= 3
+N = 213
 class Solution:
     def colorTheGrid(self, m: int, n: int) -> int:
-        trie = Trie()
+        combCounts = defaultdict(int)
+        dp = [[0] * N for _ in range(n)]
 
         @cache
-        def dfs(row, comb, prev):
-            if row == m:
-                curr[comb] = 1
-                trie.insert(comb)
+        def neightborsCnt(comb, index, st):
+            if index == 0: return [st]
+            ans = []
+            c = comb % 3
+
+            for color in range(3):
+                if color == c or (index != m and st % 3 == color): continue
+                ans += neightborsCnt(comb // 3, index-1, st * 3 + color)
+            
+            return ans
+        
+        graphs_cache = [[]] * 360
+
+        def generateIntial(comb, index):
+            if index == m:
+                graphs_cache[comb] = neightborsCnt(comb, m, 0)
+                combCounts[comb] = len(graphs_cache[comb])
+                dp[0][comb] = 1
                 return
             
+            prev = comb % 3
             for color in range(3):
-                if prev == color: continue
-                dfs(row+1, comb * 3 + color, color)
-        
-        counts = {}
-        curr = {}
-        graphs_cache = {}
+                if color == prev: continue
+                generateIntial(comb * 3 + color, index+1)
 
-        dfs(0, 1, -1)
-
-        for comb in curr:
-            new_graphs = trie.query(trie.node, comb, 1)
-            graphs_cache[comb] = new_graphs
-            counts[comb] = len(new_graphs)
+        generateIntial(0, 1)
+        generateIntial(1, 1)
+        generateIntial(2, 1)
 
         for i in range(1, n):
-            new_curr = defaultdict(int)
-            for comb in curr:
-                for c in graphs_cache[comb]:
-                    new_curr[c] += curr[comb]
-            curr = new_curr
+            for j in range(N):
+                for comb in graphs_cache[j]:
+                    dp[i][comb] = (dp[i][comb] + dp[i-1][j]) % mod
         
         ret = 0
-        for comb in curr:
-            ret = (ret + curr[comb]) % mod
+        for j in range(N):
+            ret = (ret + dp[n-1][j]) % mod
 
         return ret
+        
