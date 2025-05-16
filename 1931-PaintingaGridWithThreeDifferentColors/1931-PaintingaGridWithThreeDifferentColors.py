@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 5:36:42 am
+# Last updated: 16/5/2025, 5:39:08 am
 mod = 10**9 + 7
 class Solution:
     def colorTheGrid(self, m: int, n: int) -> int:
@@ -20,7 +20,7 @@ class Solution:
             
             return ans
         
-        graphs_cache = [[]] * N
+        graphs_cache = [[] for _ in range(N)]
 
         def generateIntial(comb, index):
             if index == m:
@@ -30,12 +30,10 @@ class Solution:
             
             prev = comb % 3
             for color in range(3):
-                if color == prev: continue
+                if color == prev and index > 0: continue
                 generateIntial(comb * 3 + color, index+1)
 
-        generateIntial(0, 1)
-        generateIntial(1, 1)
-        generateIntial(2, 1)
+        generateIntial(0, 0)
 
         for i in range(1, n):
             for j in range(N):
