@@ -1,4 +1,4 @@
-# Last updated: 16/5/2025, 7:27:36 am
+# Last updated: 16/5/2025, 7:28:33 am
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         n = len(points)
@@ -9,6 +9,7 @@ class Solution:
         stack = [(0, 0)]
         edges = 0
         visited = [False] * n
+        dis = [float('inf')] * n
         total_cost = 0
 
         while stack:
@@ -23,6 +24,8 @@ class Solution:
             for y in range(n):
                 if visited[y]: continue
                 d = getDistance(x, y)
-                heapq.heappush(stack, (d, y))
+                if dis[y] > d:
+                    dis[y] = d
+                    heapq.heappush(stack, (d, y))
         
         return total_cost
