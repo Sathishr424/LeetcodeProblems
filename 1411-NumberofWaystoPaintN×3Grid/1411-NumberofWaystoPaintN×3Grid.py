@@ -1,78 +1,69 @@
-# Last updated: 16/5/2025, 1:59:57 am
+# Last updated: 16/5/2025, 6:21:56 am
 mod = 10**9 + 7
 
-class Node:
-    def __init__(self):
-        self.colors = [None, None, None]
+def matrixMulti(matrix_1, matrix_2):
+    m = len(matrix_1)
+    n = len(matrix_2[0])
+    p = len(matrix_2)
+    result = [[0] * n for _ in range(m)]
 
-class Trie:
-    def __init__(self):
-        self.node = Node()
-        self.memo = {}
+    for i in range(m):
+        for j in range(n):
+            for k in range(p):
+                result[i][j] += matrix_1[i][k] * matrix_2[k][j]
+                result[i][j] %= mod
+    return result
+
+def matrixPow(matrix, power):
+    if power == 1: return matrix
     
-    def query(self, node, comb, st):
-        key = (id(node), comb)
-        if key in self.memo: return self.memo[key]
-        if comb == 1:
-            return [st]
+    ans = matrixPow(matrix, power // 2)
+    ans = matrixMulti(ans, ans)
+    if power % 2:
+        ans = matrixMulti(ans, matrix)
+    return ans
 
-        ans = []
-        rem = comb % 3
-
-        for color in range(3):
-            if color == rem: continue
-            if node.colors[color] != None:
-                ans += self.query(node.colors[color], comb // 3, st * 3 + color)
-        self.memo[key] = ans
-        return ans
-    
-    def insert(self, comb):
-        node = self.node
-
-        while comb > 1:
-            rem = comb % 3
-
-            if node.colors[rem] == None:
-                node.colors[rem] = Node()
-            node = node.colors[rem]
-            
-            comb //= 3
 class Solution:
     def numOfWays(self, n: int) -> int:
         m = 3
-        trie = Trie()
+        size = 0
+        relation = [0] * 213
 
-        @cache
-        def dfs(row, comb, prev):
-            if row == m:
-                curr[comb] = 1
-                trie.insert(comb)
+        def findNeighbors(full_comb, comb, index, neighbor, prev):
+            if index == 0:
+                matrix[relation[full_comb]][relation[neighbor]] = 1
                 return
             
+            rem = comb % 3
             for color in range(3):
-                if prev == color: continue
-                dfs(row+1, comb * 3 + color, color)
+                if color == rem or color == prev: continue
+                findNeighbors(full_comb, comb // 3, index-1, neighbor * 3 + color, color)
+
+        combs = []
+
+        def generate(comb, index):
+            nonlocal size
+            if index == m:
+                relation[comb] = size
+                size += 1
+                combs.append(comb)
+                return
+            
+            prev = comb % 3
+            for color in range(3):
+                if color == prev and index > 0: continue
+                generate(comb * 3 + color, index+1)
         
-        counts = {}
-        curr = {}
-        graphs_cache = {}
-
-        dfs(0, 1, -1)
-
-        for comb in curr:
-            new_graphs = trie.query(trie.node, comb, 1)
-            graphs_cache[comb] = new_graphs
-            counts[comb] = len(new_graphs)
-
-        for i in range(1, n):
-            new_curr = defaultdict(int)
-            for comb in curr:
-                for c in graphs_cache[comb]:
-                    new_curr[c] += curr[comb]
-            curr = new_curr
+        generate(0, 0)
+        if n == 1: return len(combs)
         
-        ret = 0
-        for comb in curr:
-            ret = (ret + curr[comb]) % mod
+        matrix = [[0] * size for _ in range(size)]
+        for comb in combs:
+            findNeighbors(comb, comb, m, 0, -1)
 
-        return ret
+        if n > 1:
+            matrix = matrixPow(matrix, n-1)
+
+        curr = [[1] * len(combs)]
+        ret = matrixMulti(curr, matrix)
+        return sum(ret[0]) % mod
