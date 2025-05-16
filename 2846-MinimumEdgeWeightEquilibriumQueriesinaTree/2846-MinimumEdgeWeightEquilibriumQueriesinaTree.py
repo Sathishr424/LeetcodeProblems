@@ -1,15 +1,19 @@
-# Last updated: 17/5/2025, 4:13:56 am
+# Last updated: 17/5/2025, 4:19:41 am
 N = 14
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def minOperationsQueries(self, n: int, edges: List[List[int]], queries: List[List[int]]) -> List[int]:
         graph = defaultdict(dict)
+        max_w = 0
 
         for x, y, w in edges:
             graph[x][y] = w
             graph[y][x] = w
+            max_w = cmax(max_w, w)
         
-        freq = [[0] * 27 for _ in range(n)]
+        max_w += 1
+        
+        freq = [[0] * max_w for _ in range(n)]
         depths = [0] * n
         parents = [-1] * n
 
@@ -23,12 +27,13 @@ class Solution:
                 if visited[y] == False:
                     visited[y] = True
                     parents[y] = x
-                    for i in range(27):
+                    for i in range(1, max_w):
                         freq[y][i] += freq[x][i]
                     freq[y][graph[x][y]] += 1
                     dfs(y, depth+1)
 
         dfs(root, 0)
+        N = int(log2(max(depths) + 1)) + 1
 
         logs = [[-1] * n for _ in range(N)]
 
@@ -48,6 +53,7 @@ class Solution:
             return x
 
         def lca(x, y):
+            if x == y: return x
             for i in range(N-1, -1, -1):
                 if logs[i][x] != logs[i][y]:
                     x = logs[i][x]
@@ -69,11 +75,10 @@ class Solution:
             
             maxi = 0
             total = 0
+
+            ancestor = lca(x, new_y)
             
-            if x == new_y: ancestor = x
-            else: ancestor = lca(x, new_y)
-            
-            for i in range(27):
+            for i in range(1, max_w):
                 curr = (freq[x][i] + freq[y][i]) - (freq[ancestor][i] * 2)
                 maxi = cmax(maxi, curr)
                 total += curr
