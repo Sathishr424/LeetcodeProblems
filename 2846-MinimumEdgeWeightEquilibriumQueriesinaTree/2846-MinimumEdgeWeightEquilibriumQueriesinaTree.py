@@ -1,4 +1,4 @@
-# Last updated: 17/5/2025, 4:25:35 am
+# Last updated: 17/5/2025, 4:26:23 am
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def minOperationsQueries(self, n: int, edges: List[List[int]], queries: List[List[int]]) -> List[int]:
@@ -71,14 +71,12 @@ class Solution:
                 depth_x, depth_y = depth_y, depth_x
             
             diff = depth_y - depth_x
-
             new_y = kthNode(y, diff)
+            
+            ancestor = lca(x, new_y)
             
             maxi = 0
             total = 0
-
-            ancestor = lca(x, new_y)
-            
             for i in range(1, max_w):
                 curr = (freq[x][i] + freq[y][i]) - (freq[ancestor][i] * 2)
                 maxi = cmax(maxi, curr)
