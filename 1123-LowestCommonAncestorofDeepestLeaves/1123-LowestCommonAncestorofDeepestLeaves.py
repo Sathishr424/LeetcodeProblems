@@ -1,4 +1,4 @@
-# Last updated: 4/4/2025, 2:11:32 pm
+# Last updated: 16/5/2025, 8:47:21 am
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -7,26 +7,33 @@
 #         self.right = right
 class Solution:
     def lcaDeepestLeaves(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        def rec(node, level):
-            if node == None: return level-1
-            return max(rec(node.left, level+1), rec(node.right, level+1))
-        
-        max_level = rec(root, 0)
-        
-        def rec2(node, level):
-            if node == None: return None
-
-            if level == max_level: return node
-
-            left = rec2(node.left, level+1)
-            right = rec2(node.right, level+1)
+        deapest_level = 0
+        deapest_node = root
+        def traverse(node, level):
+            nonlocal deapest_level, deapest_node
+            level += 1
+            if node.left and node.right:
+                left = traverse(node.left, level)
+                right = traverse(node.right, level)
+                if left == right and left >= deapest_level:
+                    deapest_node = node
+                    deapest_level = left
+                    return left
+                else:
+                    return max(left, right)
+            elif node.left:
+                if level > deapest_level:
+                    deapest_node = node.left
+                    deapest_level = level
+                return traverse(node.left, level)
+            elif node.right:
+                if level > deapest_level:
+                    deapest_node = node.right
+                    deapest_level = level
+                return traverse(node.right, level)
+            else:
+                return level-1
             
-            if left and right: return node
-            elif left: return left
-            elif right: return right
-            
-            return None
-        
-        return rec2(root, 0)
-        
 
+        traverse(root, 0)
+        return deapest_node
