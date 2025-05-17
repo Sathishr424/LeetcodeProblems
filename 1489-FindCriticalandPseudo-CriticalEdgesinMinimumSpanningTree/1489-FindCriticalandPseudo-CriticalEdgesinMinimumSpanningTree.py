@@ -1,4 +1,4 @@
-# Last updated: 18/5/2025, 3:28:36 am
+# Last updated: 18/5/2025, 3:29:07 am
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -35,12 +35,15 @@ class Solution:
             dis = [float('inf')] * n
             visited = [False] * n
             mst = 0
+            e = 0
             
             while stack:
                 w, x = heapq.heappop(stack)
                 if visited[x]: continue
                 visited[x] = True
                 mst += w
+                e += 1
+                if e == n: break
                 for y in graph[x]:
                     if not visited[y]:
                         if graph[x][y] < dis[y]:
