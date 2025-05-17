@@ -1,4 +1,4 @@
-# Last updated: 18/5/2025, 3:29:07 am
+# Last updated: 18/5/2025, 3:31:18 am
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -69,9 +69,12 @@ class Solution:
                 uf = Union(n)
                 uf.union(x, y)
                 new_mst = w
+                e = 1
                 for x2, y2, w2 in sorted_edges:
                     if uf.union(x2, y2): continue
                     new_mst += w2
+                    e += 1
+                    if e == n: break
                 if new_mst == min_mst: right.append(i)
 
         return [left, right]
