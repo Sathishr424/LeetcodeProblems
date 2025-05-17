@@ -1,4 +1,4 @@
-# Last updated: 17/5/2025, 3:34:03 pm
+# Last updated: 17/5/2025, 3:36:40 pm
 class Solution:
     def maxSubstringLength(self, st: str, k: int) -> bool:
         if k == 0: return True
