@@ -1,23 +1,20 @@
-# Last updated: 17/5/2025, 1:32:08 pm
+# Last updated: 17/5/2025, 1:32:45 pm
 class Solution:
     def maxWeight(self, pizzas: List[int]) -> int:
         n = len(pizzas)
         m = n // 4
 
         pizzas.sort()
-        
-        oddDay = ceil(m / 2)
-        evenDay = m // 2
+        evens = m // 2
+        odds = (m + 1) // 2
         ret = 0
 
-        # print(m, oddDay, evenDay)
-
-        for i in range(oddDay):
+        for i in range(odds):
             ret += pizzas.pop()
 
         pizzas.pop()
 
-        for i in range(evenDay):
+        for i in range(evens):
             ret += pizzas.pop()
             pizzas.pop()
         
