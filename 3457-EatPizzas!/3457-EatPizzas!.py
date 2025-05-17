@@ -1,4 +1,4 @@
-# Last updated: 17/5/2025, 1:30:17 pm
+# Last updated: 17/5/2025, 1:32:08 pm
 class Solution:
     def maxWeight(self, pizzas: List[int]) -> int:
         n = len(pizzas)
