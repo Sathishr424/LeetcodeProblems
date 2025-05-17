@@ -1,4 +1,4 @@
-# Last updated: 17/5/2025, 3:36:40 pm
+# Last updated: 17/5/2025, 3:37:47 pm
 class Solution:
     def maxSubstringLength(self, st: str, k: int) -> bool:
         if k == 0: return True
@@ -29,8 +29,8 @@ class Solution:
 
             for i in range(s+1, e):
                 e = max(e, end[ord(st[i]) - 97])
-
-            if e - s + 1 == n: continue
+                if e - s + 1 == n: continue
+            
             heapq.heappush(stack, (e-s, s, e, char))
         
         visited = SortedList()
