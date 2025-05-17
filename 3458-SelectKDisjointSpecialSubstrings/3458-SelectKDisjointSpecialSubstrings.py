@@ -1,16 +1,16 @@
-# Last updated: 17/5/2025, 3:37:47 pm
+# Last updated: 17/5/2025, 3:39:07 pm
 class Solution:
     def maxSubstringLength(self, st: str, k: int) -> bool:
         if k == 0: return True
         n = len(st)
 
+        alp_to_index = [ord(a) - 97 for a in st]
         start = [n] * 26
         end = [-1] * 26
 
         prefix = [[0] * 26 for _ in range(n+1)]
         
-        for i, char in enumerate(st):
-            char = ord(char) - 97
+        for i, char in enumerate(alp_to_index):
             if start[char] == n:
                 start[char] = i
             end[char] = i
@@ -28,9 +28,9 @@ class Solution:
             e = end[char]
 
             for i in range(s+1, e):
-                e = max(e, end[ord(st[i]) - 97])
-                if e - s + 1 == n: continue
-            
+                e = max(e, end[alp_to_index[i]])
+
+            if e - s + 1 == n: continue
             heapq.heappush(stack, (e-s, s, e, char))
         
         visited = SortedList()
