@@ -1,4 +1,4 @@
-# Last updated: 18/5/2025, 3:31:18 am
+# Last updated: 18/5/2025, 3:34:07 am
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -25,47 +25,32 @@ class Union:
 class Solution:
     def findCriticalAndPseudoCriticalEdges(self, n: int, edges: List[List[int]]) -> List[List[int]]:
         graph = defaultdict(dict)
+        sorted_edges = sorted(edges, key=lambda x: x[2])
 
         for x, y, w in edges:
             graph[x][y] = w
             graph[y][x] = w
 
-        def processMst():
-            stack = [(0, 0)]
-            dis = [float('inf')] * n
-            visited = [False] * n
+        def processMst(f, t):
+            uf = Union(n)
             mst = 0
-            e = 0
-            
-            while stack:
-                w, x = heapq.heappop(stack)
-                if visited[x]: continue
-                visited[x] = True
+            e = 1
+            for x, y, w in sorted_edges:
+                if (x == f and y == t) or uf.union(x, y): continue
                 mst += w
                 e += 1
                 if e == n: break
-                for y in graph[x]:
-                    if not visited[y]:
-                        if graph[x][y] < dis[y]:
-                            dis[y] = graph[x][y]
-                            heapq.heappush(stack, (graph[x][y], y))
             return mst
         
         left = []
         right = []
-        min_mst = processMst()
-        sorted_edges = sorted(edges, key=lambda x: x[2])
+        min_mst = processMst(-1, -1)
 
         for i, (x, y, w) in enumerate(edges):
-            del graph[x][y]
-            del graph[y][x]
-            mst = processMst()
+            mst = processMst(x, y)
             if mst != min_mst:
                 left.append(i)
-            graph[x][y] = w
-            graph[y][x] = w
-
-            if mst == min_mst:
+            else:
                 uf = Union(n)
                 uf.union(x, y)
                 new_mst = w
