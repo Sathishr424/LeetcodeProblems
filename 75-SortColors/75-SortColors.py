@@ -1,4 +1,4 @@
-# Last updated: 17/5/2025, 11:41:18 am
+# Last updated: 17/5/2025, 11:42:55 am
 class Solution:
     def sortColors(self, nums: List[int]) -> None:
         """
@@ -12,7 +12,7 @@ class Solution:
                 nums[i], nums[left] = nums[left], nums[i]
                 left += 1
         
-        for i in range(n):
+        for i in range(left, n):
             if nums[i] == 1:
                 nums[i], nums[left] = nums[left], nums[i]
                 left += 1
