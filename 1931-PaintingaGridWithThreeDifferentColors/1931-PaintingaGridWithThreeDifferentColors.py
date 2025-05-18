@@ -1,10 +1,7 @@
-# Last updated: 18/5/2025, 1:12:21 pm
+# Last updated: 18/5/2025, 1:18:55 pm
 mod = 10**9 + 7
 colors = [0, 1, 2]
-N = 0
-for i in range(1, 6):
-    N = N * 3 + (i % 2 + 1)
-N += 1
+N = 213
 dp = [[[0] * N for _ in range(1000)] for _ in range(6)]
 
 def processM(m):
