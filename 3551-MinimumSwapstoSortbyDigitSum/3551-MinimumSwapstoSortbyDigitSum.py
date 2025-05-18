@@ -1,4 +1,4 @@
-# Last updated: 18/5/2025, 5:42:23 pm
+# Last updated: 18/5/2025, 5:47:37 pm
 class Solution:
     def minSwaps(self, nums: List[int]) -> int:
         n = len(nums)
