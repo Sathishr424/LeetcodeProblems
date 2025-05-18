@@ -1,68 +1,49 @@
-# Last updated: 16/5/2025, 6:17:02 am
+# Last updated: 18/5/2025, 12:55:59 pm
 mod = 10**9 + 7
-
-def matrixMulti(matrix_1, matrix_2):
-    m = len(matrix_1)
-    n = len(matrix_2[0])
-    result = [[0] * n for _ in range(m)]
-
-    for i in range(m):
-        for j in range(n):
-            for k in range(n):
-                result[i][j] += matrix_1[i][k] * matrix_2[k][j]
-                result[i][j] %= mod
-    return result
-
-def matrixPow(matrix, power):
-    if power == 1: return matrix
-    
-    ans = matrixPow(matrix, power // 2)
-    ans = matrixMulti(ans, ans)
-    if power % 2:
-        ans = matrixMulti(ans, matrix)
-    return ans
 
 class Solution:
     def colorTheGrid(self, m: int, n: int) -> int:
-        size = 0
-        relation = [0] * 213
+        colors = [0, 1, 2]
+        graph = defaultdict(int)
 
-        def findNeighbors(full_comb, comb, index, neighbor, prev):
-            if index == 0:
-                matrix[relation[full_comb]][relation[neighbor]] = 1
-                return
-            
-            rem = comb % 3
-            for color in range(3):
-                if color == rem or color == prev: continue
-                findNeighbors(full_comb, comb // 3, index-1, neighbor * 3 + color, color)
-
-        combs = []
-
-        def generate(comb, index):
-            nonlocal size
+        def generatePaths(comb, index):
             if index == m:
-                relation[comb] = size
-                size += 1
-                combs.append(comb)
+                graph[comb] = 1
                 return
             
             prev = comb % 3
-            for color in range(3):
-                if color == prev and index > 0: continue
-                generate(comb * 3 + color, index+1)
+            for color in colors:
+                if index > 0 and color == prev: continue
+                generatePaths(comb * 3 + color, index+1)
         
-        generate(0, 0)
-        if n == 1: return len(combs)
+        @cache
+        def possiblePaths(comb, index, st):
+            if index == 0:
+                return [st]
+            ans = []
+            prev = comb % 3
+            for color in colors:
+                if color == prev or (color == st % 3 and index < m): continue
+                ans += possiblePaths(comb // 3, index-1, st * 3 + color)
+            return ans
+
+        generatePaths(0, 0)
+        fromTo = {}
+        for path in graph:
+            fromTo[path] = possiblePaths(path, m, 0)
+
+        curr = graph
+        for i in range(1, n):
+            new_graph = defaultdict(int)
+            for from_path in curr:
+                for to_path in fromTo[from_path]:
+                    new_graph[to_path] += curr[from_path]
+                    new_graph[to_path] %= mod
+            curr = new_graph
         
-        matrix = [[0] * size for _ in range(size)]
-        for comb in combs:
-            findNeighbors(comb, comb, m, 0, -1)
+        ret = 0
+        for path in curr:
+            ret += curr[path]
+            ret %= mod
 
-        if n > 1:
-            matrix = matrixPow(matrix, n-1)
-
-        curr = [[1] * len(combs)]
-        ret = matrixMulti(curr, matrix)
-        return sum(ret[0]) % mod
-            
+        return ret
