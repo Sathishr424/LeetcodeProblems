@@ -1,14 +1,20 @@
-# Last updated: 18/5/2025, 12:55:59 pm
+# Last updated: 18/5/2025, 1:08:05 pm
 mod = 10**9 + 7
 
 class Solution:
     def colorTheGrid(self, m: int, n: int) -> int:
         colors = [0, 1, 2]
-        graph = defaultdict(int)
+
+        N = 0
+        for i in range(1, m+1):
+            N = N * 3 + (i % 2 + 1)
+        N += 1
+
+        dp = [[0] * N for _ in range(n)]
 
         def generatePaths(comb, index):
             if index == m:
-                graph[comb] = 1
+                dp[0][comb] = 1
                 return
             
             prev = comb % 3
@@ -28,22 +34,20 @@ class Solution:
             return ans
 
         generatePaths(0, 0)
-        fromTo = {}
-        for path in graph:
-            fromTo[path] = possiblePaths(path, m, 0)
+        fromTo = defaultdict(list)
+        for path in range(N):
+            if dp[0][path]:
+                fromTo[path] = possiblePaths(path, m, 0)
 
-        curr = graph
         for i in range(1, n):
-            new_graph = defaultdict(int)
-            for from_path in curr:
+            for from_path in range(N):
                 for to_path in fromTo[from_path]:
-                    new_graph[to_path] += curr[from_path]
-                    new_graph[to_path] %= mod
-            curr = new_graph
+                    dp[i][to_path] += dp[i-1][from_path]
+                    dp[i][to_path] %= mod
         
         ret = 0
-        for path in curr:
-            ret += curr[path]
+        for path in range(N):
+            ret += dp[-1][path]
             ret %= mod
 
         return ret
