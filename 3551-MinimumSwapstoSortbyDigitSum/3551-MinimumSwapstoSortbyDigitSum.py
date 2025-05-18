@@ -1,4 +1,4 @@
-# Last updated: 18/5/2025, 5:37:27 pm
+# Last updated: 18/5/2025, 5:42:23 pm
 class Solution:
     def minSwaps(self, nums: List[int]) -> int:
         n = len(nums)
@@ -18,13 +18,14 @@ class Solution:
             indexes[new_sums[i][2]] = i
         
         swap = 0
-        while True:
-            curr = swap
-            for i, (_, _, index) in enumerate(sums):
-                if indexes[index] != i:
-                    sums[i], sums[indexes[index]] = sums[indexes[index]], sums[i]
-                    swap += 1
-            if swap == curr: break
+        i = 0
+        while i < n:
+            index = sums[i][2]
+            if indexes[index] != i:
+                sums[i], sums[indexes[index]] = sums[indexes[index]], sums[i]
+                swap += 1
+            else:
+                i += 1
         
         return swap
         
