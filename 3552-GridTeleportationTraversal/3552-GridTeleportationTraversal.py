@@ -1,47 +1,77 @@
-# Last updated: 18/5/2025, 9:12:40 pm
-DIR = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-
+# Last updated: 18/5/2025, 10:55:10 pm
 class Solution:
-    def minMoves(self, matrix: List[str]) -> int:
-        m = len(matrix)
-        n = len(matrix[0])
+    def minimumWeight(self, edges: List[List[int]], queries: List[List[int]]) -> List[int]:
+        n = len(edges) + 1
+        weights = [0] * n
+        depths = [0] * n
+        parents = [-1] * n
+        graph = defaultdict(dict)
 
-        matrix = [[a for a in matrix[i]] for i in range(m)]
+        for x, y, w in edges:
+            graph[x][y] = w
+            graph[y][x] = w
 
-        letters = [[] for _ in range(26)]
-
-        for i in range(m):
-            for j in range(n):
-                if matrix[i][j] != '.' and matrix[i][j] != '#':
-                    l = ord(matrix[i][j]) - 65
-                    letters[l].append((i, j))
+        visited = [False] * n
+        visited[0] = True
+        def dfs(x, w, depth):
+            weights[x] = w
+            depths[x] = depth
+            for y in graph[x]:
+                if not visited[y]:
+                    parents[y] = x
+                    visited[y] = True
+                    dfs(y, w + graph[x][y], depth + 1)
         
-        stack = deque([])
-        if matrix[0][0] != '.':
-            for i2, j2 in letters[ord(matrix[0][0]) - 65]:
-                matrix[i2][j2] = '#'
-                stack.append((i2, j2, 0))
-        else:
-            stack.append((0, 0, 0))
-            matrix[0][0] = '#'
+        dfs(0, 0, 0)
+        N = int(log2(max(depths))) + 1
+        logs = [[-1] * n for _ in range(N)]
 
-        while stack:
-            i, j, move = stack.popleft()
-            if i == m-1 and j == n-1: return move
+        for i in range(n):
+            logs[0][i] = parents[i]
+        
+        for i in range(1, N):
+            for x in range(n):
+                if logs[i-1][x] == -1: continue
+                logs[i][x] = logs[i-1][logs[i-1][x]]
+        
+        def kthNode(x, k):
+            if k == 0: return x
+            for i in range(N-1, -1, -1):
+                if k >= 1 << i:
+                    k -= 1 << i
+                    x = logs[i][x]
+            return x
+        
+        def lca(x, y):
+            if x == y: return x
+            for i in range(N-1, -1, -1):
+                if logs[i][x] != logs[i][y]:
+                    x = logs[i][x]
+                    y = logs[i][y]
+            
+            return logs[0][x]
 
-            for i2, j2 in DIR:
-                i2 += i
-                j2 += j
+        def getAncestor(x, y):
+            d_x = depths[x]
+            d_y = depths[y]
+            if d_x > d_y:
+                x, y = y, x
+                d_x, d_y = d_y, d_x
+            
+            diff = d_y - d_x
+            new_y = kthNode(y, diff)
+            return lca(x, new_y)
 
-                if 0 <= i2 < m and 0 <= j2 < n and matrix[i2][j2] != '#':
-                    cell = matrix[i2][j2]
-                    matrix[i2][j2] = '#'
-                    if cell == '.':
-                        stack.append((i2, j2, move+1))
-                    else:
-                        for i2, j2 in letters[ord(cell) - 65]:
-                            matrix[i2][j2] = '#'
-                            stack.append((i2, j2, move+1))
-        return -1
+        ret = []
+        for x, y, z in queries:
+            ab = getAncestor(x, y)
+            w = weights[x] + weights[y] - weights[ab] * 2
+            bc = getAncestor(y, z)
+            w += weights[y] + weights[z] - weights[bc] * 2
+            ca = getAncestor(z, x)
+            w += weights[z] + weights[x] - weights[ca] * 2
 
+            ret.append(w//2)
+        
+        return ret
 
