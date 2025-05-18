@@ -1,4 +1,4 @@
-# Last updated: 18/5/2025, 10:55:10 pm
+# Last updated: 18/5/2025, 10:59:32 pm
 class Solution:
     def minimumWeight(self, edges: List[List[int]], queries: List[List[int]]) -> List[int]:
         n = len(edges) + 1
@@ -62,16 +62,18 @@ class Solution:
             new_y = kthNode(y, diff)
             return lca(x, new_y)
 
-        ret = []
-        for x, y, z in queries:
+        def getMinDistance(x, y, z):
             ab = getAncestor(x, y)
             w = weights[x] + weights[y] - weights[ab] * 2
             bc = getAncestor(y, z)
             w += weights[y] + weights[z] - weights[bc] * 2
             ca = getAncestor(z, x)
-            w += weights[z] + weights[x] - weights[ca] * 2
 
-            ret.append(w//2)
+            return w + weights[z] + weights[x] - weights[ca] * 2
+
+        ret = []
+        for x, y, z in queries:
+            ret.append(getMinDistance(x, y, z) // 2)
         
         return ret
 
