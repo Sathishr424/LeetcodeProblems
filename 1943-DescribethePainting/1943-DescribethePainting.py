@@ -1,4 +1,4 @@
-# Last updated: 19/5/2025, 5:14:27 pm
+# Last updated: 19/5/2025, 5:17:04 pm
 cmin = lambda x, y: x if x < y else y
 cmax = lambda x, y: x if x > y else y
 
@@ -26,9 +26,11 @@ class Solution:
                 ret.append([prev, index, mix])
                 mix -= end[index]
                 prev = index
+            elif start[index] and mix > 0 and prev != index:
+                ret.append([prev, index, mix])
+                prev = index
+            
             if start[index]:
-                if prev != index and mix > 0:
-                    ret.append([prev, index, mix])
                 mix += start[index]
                 prev = index
 
