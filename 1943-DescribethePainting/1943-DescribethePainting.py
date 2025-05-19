@@ -1,20 +1,18 @@
-# Last updated: 19/5/2025, 5:17:04 pm
+# Last updated: 19/5/2025, 5:18:01 pm
 cmin = lambda x, y: x if x < y else y
 cmax = lambda x, y: x if x > y else y
-
+N = 10**5 + 1
 class Solution:
     def splitPainting(self, segments: List[List[int]]) -> List[List[int]]:
         first = segments[0][0]
         last = segments[0][0]
 
+        start = [0] * N
+        end = [0] * N
+
         for x, y, color in segments:
             first = cmin(first, x)
             last = cmax(last, y)
-        
-        start = [0] * (last+1)
-        end = [0] * (last+1)
-
-        for x, y, color in segments:
             start[x] += color
             end[y] += color
         
