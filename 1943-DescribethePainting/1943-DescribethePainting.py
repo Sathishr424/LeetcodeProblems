@@ -1,12 +1,15 @@
-# Last updated: 19/5/2025, 5:10:34 pm
+# Last updated: 19/5/2025, 5:14:27 pm
+cmin = lambda x, y: x if x < y else y
+cmax = lambda x, y: x if x > y else y
+
 class Solution:
     def splitPainting(self, segments: List[List[int]]) -> List[List[int]]:
         first = segments[0][0]
         last = segments[0][0]
 
         for x, y, color in segments:
-            first = min(first, x)
-            last = max(last, y)
+            first = cmin(first, x)
+            last = cmax(last, y)
         
         start = [0] * (last+1)
         end = [0] * (last+1)
