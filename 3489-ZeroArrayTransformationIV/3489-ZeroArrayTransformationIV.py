@@ -1,4 +1,4 @@
-# Last updated: 20/5/2025, 4:18:03 pm
+# Last updated: 20/5/2025, 4:21:51 pm
 class Solution:
     def minZeroArray(self, nums: List[int], queries: List[List[int]]) -> int:
         n = len(nums)
@@ -9,7 +9,7 @@ class Solution:
             sums[0] = 0
 
             for i, (x, y, val) in enumerate(queries):
-                if x <= index and y >= index and need-val >= 0:
+                if x <= index and y >= index:
                     for j in range(need-val, -1, -1):
                         if sums[j] < m:
                             if j+val == need: return i
