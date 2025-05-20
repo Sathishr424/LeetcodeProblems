@@ -1,4 +1,5 @@
-# Last updated: 20/5/2025, 4:21:51 pm
+# Last updated: 20/5/2025, 4:26:18 pm
+cmin = lambda x, y: x if x < y else y
 class Solution:
     def minZeroArray(self, nums: List[int], queries: List[List[int]]) -> int:
         n = len(nums)
@@ -13,7 +14,7 @@ class Solution:
                     for j in range(need-val, -1, -1):
                         if sums[j] < m:
                             if j+val == need: return i
-                            sums[j+val] = min(sums[j+val], i)
+                            sums[j+val] = cmin(sums[j+val], i)
             return sums[need]
         
         ret = -1
