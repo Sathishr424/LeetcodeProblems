@@ -1,19 +1,25 @@
-# Last updated: 20/5/2025, 1:31:34 pm
+# Last updated: 20/5/2025, 1:38:44 pm
 class Solution:
     def isZeroArray(self, nums: List[int], queries: List[List[int]]) -> bool:
         n = len(nums)
-
-        line = [0] * (n+1)
+        start = defaultdict(int)
+        end = defaultdict(int)
+        first = queries[0][0]
+        last = queries[0][1]
 
         for x, y in queries:
-            line[x] += 1
-            line[y+1] -= 1
+            start[x] += 1
+            end[y] += 1
         
         s = 0
-        zero = True
+
         for i in range(n):
-            s += line[i]
-            if nums[i] - s > 0: return False
+            s += start[i]
+
+            nums[i] -= s
+            if nums[i] > 0: return False
+
+            s -= end[i]
 
         return True
             
