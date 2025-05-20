@@ -1,8 +1,8 @@
-# Last updated: 21/5/2025, 5:05:27 am
+# Last updated: 21/5/2025, 5:07:19 am
 class Solution:
     def countArrays(self, orig: List[int], bounds: List[List[int]]) -> int:
         n = len(bounds)
-        ret = -1
+        ret = float('inf')
         for i in range(1, n):
             need = orig[i] - orig[i-1]
             prev = bounds[i-1]
@@ -25,9 +25,7 @@ class Solution:
                 prev[1] += y
 
             can = curr[1] - curr[0] + 1
-            if ret == -1 or can < ret:
-                ret = can
-            
-            if ret <= 0: return 0  
+            if can <= 0: return 0
+            ret = min(ret, can)
         
         return ret
