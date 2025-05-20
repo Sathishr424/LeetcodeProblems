@@ -1,36 +1,31 @@
-# Last updated: 20/5/2025, 2:04:04 pm
+# Last updated: 20/5/2025, 3:22:10 pm
 class Solution:
     def minZeroArray(self, nums: List[int], queries: List[List[int]]) -> int:
-        zero = True
-        for num in nums:
-            if num != 0:
-                zero = False
-                break
-            
-        if zero: return 0
-    
+        
         n = len(nums)
-        def isGood(mid):
-            line = [0] * (n + 1)
-            for x, y, val in queries[:mid]:
-                line[x] += val
-                line[y+1] -= val
-            s = 0
-            for i in range(n):
-                s += line[i]
-                if nums[i] - s > 0: return False
+        m = len(queries)
+        maxi = max(nums)
+
+        dp = [[[-1] * n for _ in range(maxi+1)] for _ in range(m)]
+        
+        def rec(index, need, k):
+            if need == 0: return k-1
+            if k == m: return m
+            if dp[k][need][index] != -1: return dp[k][need][index]
+
+            ans = rec(index, need, k+1)
+            x, y, val = queries[k]
+            if x <= index and y >= index and need - val >= 0:
+                ans = min(ans, rec(index, need-val, k+1))
+            dp[k][need][index] = ans
+            return ans
+        
+        ret = -1
+        for i, num in enumerate(nums):
+            if num == 0: continue
+            ret = max(ret, rec(i, num, 0))
+        
+        return -1 if ret >= m else ret+1
             
-            return True
-        
-        l = 0
-        r = len(queries)
 
-        while l < r:
-            mid = (l + r) // 2
 
-            if isGood(mid+1):
-                r = mid
-            else:
-                l = mid + 1
-        
-        return l+1 if l < len(queries) else -1
