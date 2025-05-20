@@ -1,21 +1,20 @@
-# Last updated: 20/5/2025, 4:26:18 pm
-cmin = lambda x, y: x if x < y else y
+# Last updated: 20/5/2025, 4:40:05 pm
 class Solution:
     def minZeroArray(self, nums: List[int], queries: List[List[int]]) -> int:
         n = len(nums)
         m = len(queries)
         
         def rec(index, need):
-            sums = [m] * (need+1)
-            sums[0] = 0
+            sums = [False] * (need+1)
+            sums[0] = True
 
             for i, (x, y, val) in enumerate(queries):
                 if x <= index and y >= index:
-                    for j in range(need-val, -1, -1):
-                        if sums[j] < m:
-                            if j+val == need: return i
-                            sums[j+val] = cmin(sums[j+val], i)
-            return sums[need]
+                    for s in range(need-val, -1, -1):
+                        if sums[s]:
+                            if s+val == need: return i
+                            sums[s+val] = True
+            return m
         
         ret = -1
         for i, num in enumerate(nums):
