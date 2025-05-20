@@ -1,13 +1,7 @@
-# Last updated: 20/5/2025, 2:02:10 pm
+# Last updated: 20/5/2025, 2:03:06 pm
 class Solution:
     def minZeroArray(self, nums: List[int], queries: List[List[int]]) -> int:
-        zero = True
-        for num in nums:
-            if num != 0:
-                zero = False
-                break
-            
-        if zero: return 0
+        if len([0 for num in nums if num != 0]) == 0: return 0
     
         n = len(nums)
         def isGood(mid):
