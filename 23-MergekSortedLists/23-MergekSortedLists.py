@@ -1,4 +1,4 @@
-# Last updated: 21/5/2025, 10:01:45 pm
+# Last updated: 21/5/2025, 10:12:28 pm
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
@@ -23,14 +23,16 @@ class Solution:
         return head.next
 
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        if len(lists) == 0: return None
-        elif len(lists) == 1: return lists[0]
-
         n = len(lists)
-        if n % 2: lists.append(None)
+        if n == 0: return None
+        elif n == 1: return lists[0]
+
+        while len(lists) > 1:
+            right = lists.pop()
+            lists[-1] = self.mergeSort(lists[-1], right)
+            index = random.randrange(0, len(lists))
+            lists[index], lists[-1] = lists[-1], lists[index]
         
-        new_lists = []
-        for i in range(0, n, 2):
-            new_lists.append(self.mergeSort(lists[i], lists[i+1]))
+        return lists[0]
         
-        return self.mergeKLists(new_lists)
+        
