@@ -1,13 +1,22 @@
-# Last updated: 22/5/2025, 12:54:08 am
+# Last updated: 22/5/2025, 12:55:36 am
 class Solution:
     def rangeSum(self, nums: List[int], n: int, left: int, right: int) -> int:
         mod = 10**9 + 7
-        sums = []
-        for i in range(n):
-            s = 0
-            for j in range(i, n):
-                s += nums[j]
-                sums.append(s)
-        sums.sort()
+        heap = []
 
-        return sum(sums[left-1:right]) % mod
+        for i, num in enumerate(nums):
+            heapq.heappush(heap, (num, i))
+
+        index = 0
+        ret = 0
+        while heap:
+            num, i = heapq.heappop(heap)
+            index += 1
+            if index >= left:
+                ret += num
+                ret %= mod
+                if index == right: break
+            if i+1 < n:
+                heapq.heappush(heap, (num+nums[i+1], i+1))
+        
+        return ret
