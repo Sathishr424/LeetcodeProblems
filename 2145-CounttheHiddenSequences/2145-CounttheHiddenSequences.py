@@ -1,13 +1,15 @@
-# Last updated: 21/5/2025, 6:04:38 am
+# Last updated: 21/5/2025, 6:06:10 am
 class Solution:
     def numberOfArrays(self, diff: List[int], lower: int, upper: int) -> int:
-        ret = 0
-        arr = [lower]
+        mini = lower
+        maxi = lower
+        prev = lower
         for num in diff:
-            arr.append(arr[-1]+num)
+            curr = prev+num
+            mini = min(mini, curr)
+            maxi = max(maxi, curr)
+            prev = curr
         
-        mini = min(arr)
-        maxi = max(arr)
         diff = lower-mini
         maxi += diff
         
