@@ -1,4 +1,4 @@
-# Last updated: 21/5/2025, 9:54:56 pm
+# Last updated: 21/5/2025, 9:58:57 pm
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
@@ -6,7 +6,14 @@
 #         self.next = next
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        new_lists = []
+        for l in lists:
+            if l: new_lists.append(l)
+        
+        new_lists.sort(key=lambda x: x.val)
+        lists = new_lists
         if len(lists) == 0: return None
+
         def mergeSort(left, right):
             new_list = ListNode()
             head = new_list
