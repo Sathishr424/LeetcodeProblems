@@ -1,27 +1,20 @@
-# Last updated: 19/4/2025, 5:03:10 pm
+# Last updated: 21/5/2025, 5:39:44 pm
 class Solution:
     def countFairPairs(self, nums: List[int], lower: int, upper: int) -> int:
-        n = len(nums)
         nums.sort()
-        left = 0
-        right = 0
 
-        l = 0
-        r = n-1
-        while l < r:
-            if nums[l] + nums[r] < lower:
-                left += r-l
-                l += 1
-            else:
-                r -= 1
-    
-        l = 0
-        r = n-1
-        while l < r:
-            if nums[l] + nums[r] <= upper:
-                right += r-l
-                l += 1
-            else:
-                r -= 1
+        sl = SortedList()
+        ret = 0
+
+        for num in nums:
+            left = lower-num
+            right = upper-num
+
+            l = sl.bisect_left(left)
+            r = sl.bisect_right(right)
+
+            ret += r - l
+
+            sl.add(num)
         
-        return right-left
+        return ret
