@@ -1,22 +1,31 @@
-# Last updated: 22/5/2025, 1:01:16 am
+# Last updated: 22/5/2025, 1:25:23 am
 class Solution:
-    def rangeSum(self, nums: List[int], n: int, left: int, right: int) -> int:
-        mod = 10**9 + 7
+    def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
+        m = len(nums1)
+        n = len(nums2)
+
+        # [1, 4, 11], [2, 6, 7]
         heap = []
 
-        for i, num in enumerate(nums):
-            heapq.heappush(heap, (num, i))
+        heapq.heappush(heap, (nums1[0] + nums2[0], 0, 0))
+        visited = {}
+        ret = []
 
-        for _ in range(left-1):
-            num, i = heapq.heappop(heap)
-            if i+1 < n:
-                heapq.heappush(heap, (num+nums[i+1], i+1))
+        while k:
+            s, l, r = heapq.heappop(heap)
+            if (l, r) in visited: continue
+            ret.append([nums1[l], nums2[r]])
+            visited[(l,r)] = 1
+            if r+1 < n:
+                heapq.heappush(heap, (nums1[l] + nums2[r+1], l, r+1))
+            elif l+1 < m:
+                heapq.heappush(heap, (nums1[l+1] + nums2[r], l+1, r))
+            
+            if l+1 < m:
+                heapq.heappush(heap, (nums1[l+1] + nums2[r], l+1, r))
+            elif r+1 < n:
+                heapq.heappush(heap, (nums1[l] + nums2[r+1], l, r+1))
+            
+            k -= 1
         
-        ret = 0
-        for _ in range(right-left+1):
-            num, i = heapq.heappop(heap)
-            ret += num
-            if i+1 < n:
-                heapq.heappush(heap, (num+nums[i+1], i+1))
-
-        return ret % mod
+        return ret
