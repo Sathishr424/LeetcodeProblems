@@ -1,4 +1,4 @@
-# Last updated: 22/5/2025, 1:33:49 am
+# Last updated: 22/5/2025, 1:34:23 am
 class Solution:
     def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
         m = len(nums1)
@@ -13,11 +13,10 @@ class Solution:
 
         while k:
             s, l, r = heapq.heappop(heap)
-            key = l*n + r
-            if key in visited: continue
+            if (l, r) in visited: continue
             ret.append([nums1[l], nums2[r]])
-            visited[key] = 1
-            
+            visited[(l, r)] = 1
+
             if r+1 < n:
                 heapq.heappush(heap, (nums1[l] + nums2[r+1], l, r+1))
             if l+1 < m:
