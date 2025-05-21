@@ -1,4 +1,4 @@
-# Last updated: 21/5/2025, 9:27:46 pm
+# Last updated: 22/5/2025, 12:54:08 am
 class Solution:
     def rangeSum(self, nums: List[int], n: int, left: int, right: int) -> int:
         mod = 10**9 + 7
