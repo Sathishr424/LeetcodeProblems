@@ -1,8 +1,6 @@
-# Last updated: 21/5/2025, 5:39:44 pm
+# Last updated: 21/5/2025, 5:39:59 pm
 class Solution:
     def countFairPairs(self, nums: List[int], lower: int, upper: int) -> int:
-        nums.sort()
-
         sl = SortedList()
         ret = 0
 
