@@ -1,8 +1,6 @@
-# Last updated: 22/5/2025, 2:56:04 am
+# Last updated: 22/5/2025, 3:00:36 am
 class Solution:
     def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
-        # [1, 2, 3, 4, -2, 4, 9, 0, -1] => 7, 9
-        # [-2, 4, 9, 0, -1]
         n = len(nums)
 
         prefixes = [0] * n
@@ -10,9 +8,7 @@ class Solution:
         for i in range(n-1, -1, -1):
             s += nums[i]
             prefixes[i] = s
-        # print(prefixes)
 
-        prefix = 0
         sl = SortedList()
         ret = 0
 
@@ -24,7 +20,6 @@ class Solution:
             r = sl.bisect_right(curr+upper)
 
             ret += r - l
-            # print(list(sl), nums[i], curr, (l, r), ret)
         
         return ret
             
