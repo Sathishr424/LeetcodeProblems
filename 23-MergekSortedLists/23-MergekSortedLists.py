@@ -1,0 +1,36 @@
+# Last updated: 21/5/2025, 9:54:56 pm
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        if len(lists) == 0: return None
+        def mergeSort(left, right):
+            new_list = ListNode()
+            head = new_list
+
+            while left and right:
+                if left.val < right.val:
+                    new_list.next = ListNode(left.val)
+                    left = left.next
+                else:
+                    new_list.next = ListNode(right.val)
+                    right = right.next
+                new_list = new_list.next
+            
+            if left: new_list.next = left
+            else: new_list.next = right
+            return head.next
+        
+        while len(lists) > 1:
+            n = len(lists)
+            new_lists = []
+            for i in range(0, n - (n % 2), 2):
+                new_lists.append(mergeSort(lists[i], lists[i+1]))
+            if n % 2:
+                new_lists.append(lists[-1])
+            lists = new_lists
+        
+        return lists[0]
