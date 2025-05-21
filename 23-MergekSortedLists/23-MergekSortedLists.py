@@ -1,44 +1,32 @@
-# Last updated: 21/5/2025, 10:23:14 pm
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        new_lists = []
-        for l in lists:
-            if l: new_lists.append(l)
-        
-        new_lists.sort(key=lambda x: x.val)
-        lists = new_lists
-        if len(lists) == 0: return None
-
-        def mergeSort(left, right):
-            new_list = ListNode()
-            head = new_list
-
-            while left and right:
-                if left.val < right.val:
-                    new_list.next = ListNode(left.val)
-                    left = left.next
-                else:
-                    new_list.next = ListNode(right.val)
-                    right = right.next
-                new_list = new_list.next
-            
-            if left: new_list.next = left
-            else: new_list.next = right
-            return head.next
-        
-        while len(lists) > 1:
-            new_lists = []
-
-            while len(lists) > 1:
-                new_lists.append(mergeSort(lists.pop(), lists.pop()))
-            if lists:
-                new_lists.append(lists[0])
-            
-            lists = new_lists
-        
-        return lists[0]
+# Last updated: 21/5/2025, 10:25:57 pm
+class Solution(object):
+    def mergeKLists(self, lists):
+        if not lists:
+            return None
+        if len(lists) == 1:
+            return lists[0]
+        mid = len(lists) // 2
+        l, r = self.mergeKLists(lists[:mid]), self.mergeKLists(lists[mid:])
+        return self.merge(l, r)
+    
+    def merge(self, l, r):
+        dummy = p = ListNode()
+        while l and r:
+            if l.val < r.val:
+                p.next = l
+                l = l.next
+            else:
+                p.next = r
+                r = r.next
+            p = p.next
+        p.next = l or r
+        return dummy.next
+    
+    def merge1(self, l, r):
+        if not l or not r:
+            return l or r
+        if l.val< r.val:
+            l.next = self.merge(l.next, r)
+            return l
+        r.next = self.merge(l, r.next)
+        return r
