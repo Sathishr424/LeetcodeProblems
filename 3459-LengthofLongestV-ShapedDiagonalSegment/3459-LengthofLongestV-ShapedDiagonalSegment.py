@@ -1,10 +1,10 @@
-# Last updated: 22/5/2025, 11:28:07 pm
+# Last updated: 22/5/2025, 11:28:41 pm
 class Solution:
     def lenOfVDiagonal(self, grid: List[List[int]]) -> int:
         m = len(grid)
         n = len(grid[0])
 
-        visited = [[[[-1] * 2 for _ in range(4)] for _ in range(n)] for _ in range(m)]
+        # visited = [[[[-1] * 2 for _ in range(4)] for _ in range(n)] for _ in range(m)]
 
         DIR_hash = {
             (1, 1): 3, # top-left to bottom-right
