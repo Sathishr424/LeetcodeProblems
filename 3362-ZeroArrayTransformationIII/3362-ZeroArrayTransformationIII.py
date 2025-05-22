@@ -1,4 +1,4 @@
-# Last updated: 22/5/2025, 5:49:39 pm
+# Last updated: 22/5/2025, 5:49:55 pm
 class Solution:
     def maxRemoval(self, nums: List[int], queries: List[List[int]]) -> int:
         n = len(nums)
@@ -12,9 +12,9 @@ class Solution:
 
         for index, num in enumerate(nums):
             prefix += lines[index]
-            need = max(0, num - prefix)
+            need = num - prefix
 
-            # if need <= 0: continue
+            if need <= 0: continue
 
             while q and q[0][1] < index:
                 q.popleft()
