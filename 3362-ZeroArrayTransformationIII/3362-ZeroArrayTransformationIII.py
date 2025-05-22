@@ -1,4 +1,4 @@
-# Last updated: 22/5/2025, 4:51:51 pm
+# Last updated: 22/5/2025, 4:53:34 pm
 class Solution:
     def maxRemoval(self, nums: List[int], queries: List[List[int]]) -> int:
         n = len(nums)
@@ -14,10 +14,11 @@ class Solution:
             need = num - prefix
 
             if need <= 0: continue
-            # print(index, q)
+
             while q and q[0][1] < index:
                 q.popleft()
                 extra += 1
+            
             h = []
             while q and q[0][0] <= index:
                 curr = q.popleft()
@@ -26,14 +27,12 @@ class Solution:
                 else:
                     extra += 1
 
-            # print(index, h)
             if len(h) < need: return -1
 
             while need:
                 y, x = heapq.heappop(h)
-                y *= -1
 
-                lines[y + 1] -= 1
+                lines[(-y) + 1] -= 1
                 prefix += 1
                 need -= 1
             
