@@ -1,10 +1,10 @@
-# Last updated: 22/5/2025, 11:55:59 pm
+# Last updated: 23/5/2025, 12:00:26 am
 class Solution:
     def lenOfVDiagonal(self, grid: List[List[int]]) -> int:
         m = len(grid)
         n = len(grid[0])
 
-        visited = [[[[0] * 2 for _ in range(4)] for _ in range(n)] for _ in range(m)]
+        visited = [[[0] * 8 for _ in range(n)] for _ in range(m)]
 
         DIR_hash = {
             (1, 1): 3, # top-left to bottom-right
@@ -15,8 +15,11 @@ class Solution:
 
         DIR = [(1, 1), (-1, 1), (-1, -1), (1, -1)]
 
-        def dfs(i, j, d, t):
-            if visited[i][j][d][t]: return visited[i][j][d][t]
+        def dfs(i, j, z):
+            if visited[i][j][z]: return visited[i][j][z]
+            d = z // 2
+            t = z % 2
+
             ans = 1
 
             i2, j2 = DIR[d]
@@ -26,15 +29,16 @@ class Solution:
             next_ = 0 if grid[i][j] == 2 else 2
 
             if 0 <= i2 < m and 0 <= j2 < n and grid[i2][j2] == next_:
-                ans = max(ans, dfs(i2, j2, d, t) + 1)
+                ans = max(ans, dfs(i2, j2, d * 2 + t) + 1)
             if t == 0:
                 i2, j2 = DIR[DIR_hash[DIR[d]]]
                 i2 += i
                 j2 += j
                 if 0 <= i2 < m and 0 <= j2 < n and grid[i2][j2] == next_:
-                    ans = max(ans, dfs(i2, j2, DIR_hash[DIR[d]], t+1) + 1)
+                    new_d = DIR_hash[DIR[d]]
+                    ans = max(ans, dfs(i2, j2, new_d * 2 + 1) + 1)
             
-            visited[i][j][d][t] = ans
+            visited[i][j][z] = ans
             return ans
         
         ret = 0
@@ -47,6 +51,6 @@ class Solution:
                     j2 += j
 
                     if 0 <= i2 < m and 0 <= j2 < n and grid[i2][j2] == 2:
-                        ret = max(ret, dfs(i2, j2, d, 0) + 1)
+                        ret = max(ret, dfs(i2, j2, d * 2) + 1)
 
         return ret
