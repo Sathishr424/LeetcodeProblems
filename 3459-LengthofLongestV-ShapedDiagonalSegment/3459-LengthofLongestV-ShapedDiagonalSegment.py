@@ -1,10 +1,10 @@
-# Last updated: 23/5/2025, 12:00:26 am
+# Last updated: 23/5/2025, 12:00:53 am
 class Solution:
     def lenOfVDiagonal(self, grid: List[List[int]]) -> int:
         m = len(grid)
         n = len(grid[0])
 
-        visited = [[[0] * 8 for _ in range(n)] for _ in range(m)]
+        # visited = [[[0] * 8 for _ in range(n)] for _ in range(m)]
 
         DIR_hash = {
             (1, 1): 3, # top-left to bottom-right
@@ -15,8 +15,9 @@ class Solution:
 
         DIR = [(1, 1), (-1, 1), (-1, -1), (1, -1)]
 
+        @cache
         def dfs(i, j, z):
-            if visited[i][j][z]: return visited[i][j][z]
+            # if visited[i][j][z]: return visited[i][j][z]
             d = z // 2
             t = z % 2
 
@@ -38,7 +39,7 @@ class Solution:
                     new_d = DIR_hash[DIR[d]]
                     ans = max(ans, dfs(i2, j2, new_d * 2 + 1) + 1)
             
-            visited[i][j][z] = ans
+            # visited[i][j][z] = ans
             return ans
         
         ret = 0
