@@ -1,19 +1,43 @@
-# Last updated: 22/5/2025, 8:59:46 am
+# Last updated: 22/5/2025, 4:51:51 pm
 class Solution:
     def maxRemoval(self, nums: List[int], queries: List[List[int]]) -> int:
-        queries.sort(key=lambda x: x[0])
-        heap = []
-        deltaArray = [0] * (len(nums) + 1)
-        operations = 0
-        j = 0
-        for i, num in enumerate(nums):
-            operations += deltaArray[i]
-            while j < len(queries) and queries[j][0] == i:
-                heappush(heap, -queries[j][1])
-                j += 1
-            while operations < num and heap and -heap[0] >= i:
-                operations += 1
-                deltaArray[-heappop(heap) + 1] -= 1
-            if operations < num:
-                return -1
-        return len(heap)
+        n = len(nums)
+
+        q = deque(sorted(queries))
+        
+        lines = [0] * (n+1)
+        prefix = 0
+        extra = 0
+
+        for index, num in enumerate(nums):
+            prefix += lines[index]
+            need = num - prefix
+
+            if need <= 0: continue
+            # print(index, q)
+            while q and q[0][1] < index:
+                q.popleft()
+                extra += 1
+            h = []
+            while q and q[0][0] <= index:
+                curr = q.popleft()
+                if curr[1] >= index:
+                    heapq.heappush(h, (-curr[1], curr[0]))
+                else:
+                    extra += 1
+
+            # print(index, h)
+            if len(h) < need: return -1
+
+            while need:
+                y, x = heapq.heappop(h)
+                y *= -1
+
+                lines[y + 1] -= 1
+                prefix += 1
+                need -= 1
+            
+            for y, x in sorted(h, key=lambda x: x[1]):
+                q.appendleft([x, -y])
+            
+        return extra + len(q)
