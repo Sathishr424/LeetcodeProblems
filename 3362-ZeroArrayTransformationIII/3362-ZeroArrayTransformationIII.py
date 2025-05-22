@@ -1,11 +1,10 @@
-# Last updated: 22/5/2025, 5:32:14 pm
+# Last updated: 22/5/2025, 5:34:55 pm
 class Solution:
     def maxRemoval(self, nums: List[int], queries: List[List[int]]) -> int:
         n = len(nums)
 
-        q = []
-        for x, y in queries:
-            heapq.heappush(q, (x, y))
+        q = deque(sorted(queries))
+        h = []
         
         lines = [0] * (n+1)
         prefix = 0
@@ -18,28 +17,26 @@ class Solution:
             if need <= 0: continue
 
             while q and q[0][1] < index:
-                heapq.heappop(q)
+                q.popleft()
                 extra += 1
             
-            h = []
             while q and q[0][0] <= index:
-                curr = heapq.heappop(q)
+                curr = q.popleft()
                 if curr[1] >= index:
                     heapq.heappush(h, (-curr[1], curr[0]))
                 else:
                     extra += 1
 
-            if len(h) < need: return -1
-
-            while need:
+            while h and need:
                 y, x = heapq.heappop(h)
-
+                if -y < index:
+                    extra += 1
+                    continue
+                
                 lines[(-y) + 1] -= 1
                 prefix += 1
                 need -= 1
             
-            while h:
-                y, x = heapq.heappop(h)
-                heapq.heappush(q, (x, -y))
+            if need > 0: return -1
             
-        return extra + len(q)
+        return extra + len(q) + len(h)
