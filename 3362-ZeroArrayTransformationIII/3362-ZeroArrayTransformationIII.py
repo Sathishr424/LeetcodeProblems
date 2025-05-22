@@ -1,16 +1,14 @@
-# Last updated: 22/5/2025, 5:48:20 pm
+# Last updated: 22/5/2025, 5:49:01 pm
 class Solution:
     def maxRemoval(self, nums: List[int], queries: List[List[int]]) -> int:
         n = len(nums)
 
         q = deque(sorted(queries))
-        m = len(q)
         h = []
         
         lines = [0] * (n+1)
         prefix = 0
         extra = 0
-        left = 0
 
         for index, num in enumerate(nums):
             prefix += lines[index]
@@ -18,16 +16,16 @@ class Solution:
 
             if need <= 0: continue
 
-            while left < m and q[left][1] < index:
-                left += 1
+            while q and q[0][1] < index:
+                q.popleft()
                 extra += 1
             
-            while left < m and q[left][0] <= index:
-                if q[left][1] >= index:
-                    heapq.heappush(h, -q[left][1])
+            while q and q[0][0] <= index:
+                curr = q.popleft()
+                if curr[1] >= index:
+                    heapq.heappush(h, -curr[1])
                 else:
                     extra += 1
-                left += 1
 
             while h and need:
                 y = heapq.heappop(h)
@@ -41,4 +39,4 @@ class Solution:
             
             if need > 0: return -1
             
-        return extra + (m - left) + len(h)
+        return extra + len(q) + len(h)
