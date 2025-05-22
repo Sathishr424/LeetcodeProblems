@@ -1,4 +1,4 @@
-# Last updated: 22/5/2025, 11:26:04 pm
+# Last updated: 22/5/2025, 11:28:07 pm
 class Solution:
     def lenOfVDiagonal(self, grid: List[List[int]]) -> int:
         m = len(grid)
@@ -15,9 +15,9 @@ class Solution:
 
         DIR = [(1, 1), (-1, 1), (-1, -1), (1, -1)]
 
+        @cache
         def dfs(i, j, d, t):
-            if visited[i][j][d][t] != -1: return visited[i][j][d][t]
-            # print((i, j), d, t)
+            # if visited[i][j][d][t] != -1: return visited[i][j][d][t]
             ans = 1
 
             i2, j2 = DIR[d]
@@ -33,8 +33,7 @@ class Solution:
                 if 0 <= i2 < m and 0 <= j2 < n and (grid[i2][j2] != grid[i][j] and grid[i2][j2] != 1):
                     ans = max(ans, dfs(i2, j2, DIR_hash[DIR[d]], t+1) + 1)
             
-            visited[i][j][d][t] = ans
-            # print(((i, j), d, t), ans)
+            # visited[i][j][d][t] = ans
             return ans
         
         ret = 0
@@ -42,7 +41,6 @@ class Solution:
             for j in range(n):
                 if grid[i][j] != 1: continue
                 ret = max(ret, 1)
-                # print(i, j)
                 for d, (i2, j2) in enumerate(DIR):
                     i2 += i
                     j2 += j
