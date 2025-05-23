@@ -1,4 +1,8 @@
-# Last updated: 23/5/2025, 7:46:45 pm
+# Last updated: 23/5/2025, 7:57:55 pm
+fact = [1] * 5
+for i in range(1, 5):
+    fact[i] = fact[i-1] * i
+
 class Solution:
     def hasSameDigits(self, s: str) -> bool:
         n = len(s)
@@ -13,26 +17,15 @@ class Solution:
 
         def getCoeff(row, col, mod):
             ans = 1
-            left = []
-            right = []
-            while row:
-                left.append(row % mod)
-                row //= mod
-            while col:
-                right.append(col % mod)
-                col //= mod
-            i = 0
-            m = min(len(left), len(right))
-            while i < m:
-                r = left[i]
-                c = right[i]
+            while row and col:
+                r = row % mod
+                c = col % mod
                 if r < c: return 0
-                ans *= factorial(r) // (factorial(c) * factorial(r - c))
+                ans *= fact[r] // (fact[c] * fact[r - c])
      
                 ans %= mod
                 row //= mod
                 col //= mod
-                i += 1
             
             return ans
 
