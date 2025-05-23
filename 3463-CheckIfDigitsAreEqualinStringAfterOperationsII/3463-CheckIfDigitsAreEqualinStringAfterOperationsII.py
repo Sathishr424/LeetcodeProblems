@@ -1,4 +1,4 @@
-# Last updated: 23/5/2025, 8:08:38 pm
+# Last updated: 23/5/2025, 8:12:10 pm
 fact = [1] * 5
 for i in range(1, 5):
     fact[i] = fact[i-1] * i
@@ -38,6 +38,6 @@ class Solution:
         for col in range(n-1):
             e = lucas(row, col)
             left = (left + int(s[col]) * e % 10) % 10
-            right = (right + int(s[n - col - 1]) * e % 10) % 10
+            right = (right + int(s[col+1]) * e % 10) % 10
 
         return left == right
