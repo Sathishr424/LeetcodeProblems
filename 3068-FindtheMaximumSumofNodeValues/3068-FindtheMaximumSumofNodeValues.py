@@ -1,8 +1,8 @@
-# Last updated: 23/5/2025, 11:05:06 am
+# Last updated: 23/5/2025, 11:06:42 am
 class Solution:
     def maximumValueSum(self, nums: List[int], k: int, edges: List[List[int]], second=0) -> int:
         n = len(nums)
-
+        
         right = []
         ret = 0
         mini = -1
@@ -31,5 +31,7 @@ class Solution:
                 new_ret += mini ^ k
 
                 new_ret += right[0] ^ k
+            else:
+                new_ret += right[0]
         
         return max(new_ret, ret)
