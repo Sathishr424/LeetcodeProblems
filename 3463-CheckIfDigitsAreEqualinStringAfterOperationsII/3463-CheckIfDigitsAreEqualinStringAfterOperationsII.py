@@ -1,7 +1,11 @@
-# Last updated: 23/5/2025, 7:57:55 pm
+# Last updated: 23/5/2025, 8:08:38 pm
 fact = [1] * 5
 for i in range(1, 5):
     fact[i] = fact[i-1] * i
+
+pre = [[0] * 10 for _ in range(10)]
+for i in range(10):
+    pre[i % 5][i % 2] = i
 
 class Solution:
     def hasSameDigits(self, s: str) -> bool:
@@ -11,9 +15,7 @@ class Solution:
             p_5 = getCoeff(row, col, 5)
             p_2 = getCoeff(row, col, 2)
 
-            for i in range(10):
-                if i % 5 == p_5 and i % 2 == p_2:
-                    return i
+            return pre[p_5][p_2]
 
         def getCoeff(row, col, mod):
             ans = 1
@@ -30,10 +32,10 @@ class Solution:
             return ans
 
         row = n-2
-        left = int(s[0])
-        right = int(s[-1])
+        left = 0
+        right = 0
 
-        for col in range(1, n-1):
+        for col in range(n-1):
             e = lucas(row, col)
             left = (left + int(s[col]) * e % 10) % 10
             right = (right + int(s[n - col - 1]) * e % 10) % 10
