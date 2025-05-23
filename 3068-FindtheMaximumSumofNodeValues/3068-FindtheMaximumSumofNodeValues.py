@@ -1,24 +1,24 @@
-# Last updated: 23/5/2025, 11:01:24 am
+# Last updated: 23/5/2025, 11:03:32 am
 class Solution:
     def maximumValueSum(self, nums: List[int], k: int, edges: List[List[int]], second=0) -> int:
         n = len(nums)
         
         left = []
         right = []
+        ret = 0
+        mini = -1
 
         for num in nums:
             xnum = num ^ k
             if xnum > num:
                 right.append(num)
             else:
-                left.append(num)
+                ret += num
+                diff = num - (num ^ k)
+                if mini == -1 or mini - (mini ^ k) > diff:
+                    mini = num
         
-        left.sort(key=lambda x: x - (x ^ k))
         right.sort(key=lambda x: (x ^ k) - x)
-
-        ret = 0
-        for x in left:
-            ret += x
         
         while len(right) > 1:
             ret += right.pop() ^ k
@@ -27,9 +27,9 @@ class Solution:
         new_ret = ret
         if right:
             ret += right[0]
-            if left:
-                new_ret -= left[0]
-                new_ret += left[0] ^ k
+            if mini != -1:
+                new_ret -= mini
+                new_ret += mini ^ k
 
                 new_ret += right[0] ^ k
             else:
