@@ -1,60 +1,38 @@
-# Last updated: 10/5/2025, 10:48:15 pm
-fact = [1] * 6
-
-for i in range(1, 6):
-    fact[i] = i * fact[i-1]
-
-pre = [[0] * 10 for _ in range(10)]
-
-for i in range(10):
-    for j in range(10):
-        for k in range(10):
-            if k % 2 == i and k % 5 == j:
-                pre[i][j] = k
-                break
-
-memo = [[[0] * 6 for _ in range(6)] for _ in range(6)]
-
-for x in range(6):
-    for y in range(6):
-        for z in range(6):
-            memo[x][y][z] = fact[x] // (fact[y] * fact[x-y])
-
-@cache
-def lucasMod(x, y, mod):
-    a = 1
-    while x and y:
-        rem_x = x % mod
-        rem_y = y % mod
-
-        a = a * memo[rem_x][rem_y][rem_x - rem_y]
-
-        x //= mod
-        y //= mod
-
-    return a % mod
-
-@cache
-def getCoeff(r, c):
-    l2 = lucasMod(r, c, 2)
-    l5 = lucasMod(r, c, 5)
-
-    return pre[l2][l5]
-
+# Last updated: 23/5/2025, 6:35:56 pm
 class Solution:
     def hasSameDigits(self, s: str) -> bool:
         n = len(s)
-        dp = [int(i) for i in s]
+        def lucas(row, col):
+            print(row, col)
+            p_5 = getCoeff(row, col, 5)
+            p_2 = getCoeff(row, col, 2)
 
-        left = dp[0] + dp[-2]
-        right = dp[1] + dp[-1]
+            for i in range(10):
+                if i % 5 == p_5 and i % 2 == p_2:
+                    return i
+
+        def getCoeff(row, col, mod):
+            ans = 1
+            while row and col:
+                r = row % mod
+                c = col % mod
+                if r >= c:
+                    ans *= factorial(r) // (factorial(c) * factorial(r - c))
+                else:
+                    return 0
+     
+                ans %= mod
+                row //= mod
+                col //= mod
+            
+            return ans
 
         row = n-2
-
-        for col in range(1, row):
-            coeff = getCoeff(row, col)
-
-            left = (left + dp[col] * coeff) % 10
-            right = (right + dp[n-col-1] * coeff) % 10
+        left = int(s[0])
+        right = int(s[-1])
+        for col in range(1, n-1):
+            e = lucas(row, col)
+            left = (left + int(s[col]) * e % 10) % 10
+            right = (right + int(s[n - col - 1]) * e % 10) % 10
 
         return left == right
