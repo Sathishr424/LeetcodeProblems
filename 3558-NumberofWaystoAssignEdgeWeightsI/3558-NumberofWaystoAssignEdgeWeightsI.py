@@ -1,4 +1,4 @@
-# Last updated: 24/5/2025, 10:33:42 pm
+# Last updated: 24/5/2025, 11:49:31 pm
 N = 10**5
 mod = 10**9 + 7
 dp = [[-1, -1] for _ in range(N + 1)]
