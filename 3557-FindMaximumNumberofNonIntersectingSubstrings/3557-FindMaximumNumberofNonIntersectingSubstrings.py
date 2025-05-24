@@ -1,8 +1,7 @@
-# Last updated: 24/5/2025, 10:31:15 pm
+# Last updated: 24/5/2025, 10:31:42 pm
 class Solution:
     def maxSubstrings(self, word: str) -> int:
         n = len(word)
-        alp = [ord(char) - 97 for char in word]
         indexes = [[] for _ in range(26)]
         for i, char in enumerate(word):
             indexes[ord(char) - 97].append(i)
@@ -11,7 +10,7 @@ class Solution:
         def rec(index):
             if n-index < 4: return 0
             
-            char = alp[index]
+            char = ord(word[index]) - 97
             right = bisect_left(indexes[char], index+3)
             ans = rec(index+1)
             if right < len(indexes[char]):
