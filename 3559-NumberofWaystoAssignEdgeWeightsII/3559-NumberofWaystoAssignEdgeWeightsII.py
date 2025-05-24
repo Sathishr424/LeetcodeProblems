@@ -1,4 +1,4 @@
-# Last updated: 24/5/2025, 10:13:28 pm
+# Last updated: 24/5/2025, 10:16:15 pm
 mod = 10**9 + 7
 class Solution:
     def assignEdgeWeights(self, edges: List[List[int]], queries: List[List[int]]) -> List[int]:
@@ -70,7 +70,8 @@ class Solution:
             parent = lca(x-1, new_y) + 1
 
             depth = depths[x] + depths[y] - depths[parent] * 2
-            ret.append(pow(2, depth) // 2 % mod)
+            if depth == 0: ret.append(0)
+            else: ret.append(pow(2, depth, mod) * pow(2, mod-2, mod) % mod)
 
         return ret
             
