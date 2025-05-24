@@ -1,0 +1,39 @@
+# Last updated: 24/5/2025, 9:54:54 pm
+N = 10**5
+mod = 10**9 + 7
+dp = [[-1, -1] for _ in range(N + 1)]
+def rec(index, t):
+    if dp[index][t] != -1: return dp[index][t]
+    if index == N:
+        return t % 2
+
+    ans = (rec(index+1, (t + 1) % 2) + rec(index+1, (t + 2) % 2)) % mod
+    dp[index][t] = ans
+    return ans
+
+rec(0, 0)
+class Solution:
+    def assignEdgeWeights(self, edges: List[List[int]]) -> int:
+        n = len(edges)
+
+        graph = defaultdict(list)
+        for x, y in edges:
+            graph[x].append(y)
+            graph[y].append(x)
+
+        visited = {}
+        visited[1] = 1
+        max_depth = 0
+        def dfs(x, depth):
+            nonlocal max_depth
+            max_depth = max(max_depth, depth)
+            for y in graph[x]:
+                if y not in visited:
+                    visited[y] = 1
+                    dfs(y, depth+1)
+            
+        dfs(1, 0)
+
+        return dp[N - max_depth][0]
+
+        
