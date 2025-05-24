@@ -1,18 +1,5 @@
-# Last updated: 24/5/2025, 10:08:33 pm
-DP_N = 10**5
+# Last updated: 24/5/2025, 10:13:28 pm
 mod = 10**9 + 7
-dp = [[-1, -1] for _ in range(DP_N + 1)]
-def rec(index, t):
-    if dp[index][t] != -1: return dp[index][t]
-    if index == DP_N:
-        return t % 2
-
-    ans = (rec(index+1, (t + 1) % 2) + rec(index+1, (t + 2) % 2)) % mod
-    dp[index][t] = ans
-    return ans
-
-rec(0, 0)
-
 class Solution:
     def assignEdgeWeights(self, edges: List[List[int]], queries: List[List[int]]) -> List[int]:
         n = len(edges) + 1
@@ -22,26 +9,30 @@ class Solution:
             graph[x].append(y)
             graph[y].append(x)
 
-        N = int(log2(n)) + 1
-        logs = [[-1] * n for _ in range(N)]
-
-        visited = [False] * (n+1)
-        visited[1] = True
-        depths = [0] * (n+1)
+        visited = {}
+        visited[1] = 1
+        parents = [-1] * n
+        depths = defaultdict(int)
         max_depth = 0
-
         def dfs(x, depth):
             nonlocal max_depth
             depths[x] = depth
             max_depth = max(max_depth, depth)
             for y in graph[x]:
-                if not visited[y]:
-                    logs[0][y-1] = x-1
-                    visited[y] = True
+                if y not in visited:
+                    parents[y-1] = x-1
+                    visited[y] = 1
                     dfs(y, depth+1)
             
         dfs(1, 0)
+        ret = 0
 
+        N = int(log2(n)) + 1
+        logs = [[-1] * n for _ in range(N)]
+
+        for i in range(n):
+            logs[0][i] = parents[i]
+        
         for i in range(1, N):
             for x in range(n):
                 if logs[i-1][x] == -1: continue
@@ -79,7 +70,7 @@ class Solution:
             parent = lca(x-1, new_y) + 1
 
             depth = depths[x] + depths[y] - depths[parent] * 2
-            ret.append(rec(DP_N - depth, 0))
+            ret.append(pow(2, depth) // 2 % mod)
 
         return ret
             
