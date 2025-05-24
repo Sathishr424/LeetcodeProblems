@@ -1,12 +1,11 @@
-# Last updated: 24/5/2025, 10:16:48 pm
+# Last updated: 24/5/2025, 10:17:03 pm
 DP_N = 10**5
 mod = 10**9 + 7
-dp = [[-1, -1] for _ in range(DP_N)]
+dp = [[-1, -1] for _ in range(DP_N + 1)]
 def rec(index, t):
+    if dp[index][t] != -1: return dp[index][t]
     if index == DP_N:
         return t % 2
-
-    if dp[index][t] != -1: return dp[index][t]
 
     ans = (rec(index+1, (t + 1) % 2) + rec(index+1, (t + 2) % 2)) % mod
     dp[index][t] = ans
