@@ -1,5 +1,4 @@
-# Last updated: 24/5/2025, 10:23:35 pm
-@cache
+# Last updated: 24/5/2025, 10:24:08 pm
 def isPrime(num):
     if num == 1: return False
     if num == 2: return True
@@ -14,17 +13,13 @@ def isPrime(num):
 class Solution:
     def sumOfLargestPrimes(self, s: str) -> int:
         n = len(s)
-        primes = []
-        there = {}
+        primes = {}
         for i in range(n):
             for j in range(i, n):
                 num = int(s[i:j+1])
-                if num in there: continue
                 if isPrime(num):
-                    there[num] = 1
-                    heapq.heappush(primes, num)
-                    if len(primes) > 3:
-                        heapq.heappop(primes)
-        
-        return sum(primes)
+                    primes[num] = 1
+        primes = sorted(primes.keys(), reverse=True)
+
+        return sum(primes[:3])
                 
