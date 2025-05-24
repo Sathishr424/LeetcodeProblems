@@ -1,7 +1,6 @@
-# Last updated: 24/5/2025, 10:30:16 pm
+# Last updated: 24/5/2025, 10:31:15 pm
 class Solution:
     def maxSubstrings(self, word: str) -> int:
-        # accccbacbc
         n = len(word)
         alp = [ord(char) - 97 for char in word]
         indexes = [[] for _ in range(26)]
@@ -19,9 +18,6 @@ class Solution:
                 return max(ans, rec(indexes[char][right] + 1) + 1)
             return ans
         
-        ret = 0
-        for i in range(n):
-            ret = max(ret, rec(i))
 
-        return ret
+        return rec(0)
             
