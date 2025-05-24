@@ -1,4 +1,4 @@
-# Last updated: 24/5/2025, 9:54:54 pm
+# Last updated: 24/5/2025, 10:09:53 pm
 N = 10**5
 mod = 10**9 + 7
 dp = [[-1, -1] for _ in range(N + 1)]
@@ -14,26 +14,26 @@ def rec(index, t):
 rec(0, 0)
 class Solution:
     def assignEdgeWeights(self, edges: List[List[int]]) -> int:
-        n = len(edges)
+        n = len(edges) + 1
 
         graph = defaultdict(list)
         for x, y in edges:
             graph[x].append(y)
             graph[y].append(x)
 
-        visited = {}
-        visited[1] = 1
+        visited = [False] * (n+1)
+        visited[1] = True
         max_depth = 0
         def dfs(x, depth):
             nonlocal max_depth
             max_depth = max(max_depth, depth)
             for y in graph[x]:
-                if y not in visited:
-                    visited[y] = 1
+                if not visited[y]:
+                    visited[y] = True
                     dfs(y, depth+1)
             
         dfs(1, 0)
 
-        return dp[N - max_depth][0]
+        return rec(N - max_depth, 0)
 
         
