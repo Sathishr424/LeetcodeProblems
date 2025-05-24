@@ -1,4 +1,4 @@
-# Last updated: 24/5/2025, 10:24:08 pm
+# Last updated: 24/5/2025, 11:48:36 pm
 def isPrime(num):
     if num == 1: return False
     if num == 2: return True
