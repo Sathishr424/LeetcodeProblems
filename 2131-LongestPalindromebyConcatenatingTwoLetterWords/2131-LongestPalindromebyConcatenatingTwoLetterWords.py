@@ -1,4 +1,4 @@
-# Last updated: 25/5/2025, 11:39:28 am
+# Last updated: 25/5/2025, 11:40:01 am
 class Solution:
     def longestPalindrome(self, words: List[str]) -> int:
         there = Counter(words)
@@ -6,7 +6,7 @@ class Solution:
         ret = 0
         odd = False
 
-        for word in there:
+        for word in there.keys():
             if word[0] == word[1]:
                 odd = odd or (there[word] % 2 == 1)
                 ret += there[word] - (there[word] % 2)
