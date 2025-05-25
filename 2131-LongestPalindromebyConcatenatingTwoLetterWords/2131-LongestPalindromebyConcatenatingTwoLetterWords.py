@@ -1,22 +1,16 @@
-# Last updated: 25/5/2025, 11:37:08 am
+# Last updated: 25/5/2025, 11:38:38 am
 class Solution:
     def longestPalindrome(self, words: List[str]) -> int:
-        there = defaultdict(int)
-        
-        for word in words:
-            there[word] += 1
+        there = Counter(words)
         
         ret = 0
         odd = False
 
-        for word in list(there.keys()):
-            if there[word] == 0: continue
+        for word in there:
             if word[0] == word[1]:
                 odd = odd or (there[word] % 2 == 1)
                 ret += there[word] - (there[word] % 2)
             else:
-                reverse_word = word[1] + word[0]
-                ret += min(there[word], there[reverse_word]) * 2
-                there[reverse_word] = 0
+                ret += min(there[word], there[word[1] + word[0]])
 
         return (ret + odd) * 2
