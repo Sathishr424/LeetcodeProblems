@@ -1,4 +1,4 @@
-# Last updated: 25/5/2025, 11:38:38 am
+# Last updated: 25/5/2025, 11:39:28 am
 class Solution:
     def longestPalindrome(self, words: List[str]) -> int:
         there = Counter(words)
