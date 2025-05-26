@@ -1,4 +1,4 @@
-# Last updated: 26/5/2025, 11:16:31 pm
+# Last updated: 26/5/2025, 11:17:23 pm
 # abcdefghihklmnoopqrstwxyz
 @cache
 def isPair(x, y):
@@ -19,7 +19,7 @@ class Solution:
             if isPair(s[i], s[j]) and dfs(i+1, j-1):
                 return True
             if (j-i+1) % 2: return False
-            for k in range(i+1, j, 2):
+            for k in range(i+1, j):
                 if dfs(i, k) and dfs(k+1, j): return True
             return False
 
@@ -29,7 +29,8 @@ class Solution:
 
             ans = s[index] + rec(index+1)
 
-            for i in range(index+1, n, 2):
+            # if (n-index) % 2: return ans
+            for i in range(index+1, n):
                 if dfs(index, i):
                     ans = min(ans, rec(i+1))
             
