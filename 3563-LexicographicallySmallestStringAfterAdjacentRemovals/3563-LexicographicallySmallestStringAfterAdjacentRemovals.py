@@ -1,6 +1,6 @@
-# Last updated: 26/5/2025, 11:18:49 pm
+# Last updated: 26/5/2025, 11:19:20 pm
 # abcdefghihklmnoopqrstwxyz
-@cache
+
 def isPair(x, y):
     x = ord(x) - 97
     y = ord(y) - 97
@@ -11,7 +11,7 @@ def isPair(x, y):
 
 class Solution:
     def lexicographicallySmallestString(self, s: str) -> str:
-        n = len(s)     
+        n = len(s)
         @cache
         def dfs(i, j):
             if i == j: return False
