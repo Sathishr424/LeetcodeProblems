@@ -1,4 +1,4 @@
-# Last updated: 26/5/2025, 11:14:04 pm
+# Last updated: 26/5/2025, 11:16:31 pm
 # abcdefghihklmnoopqrstwxyz
 @cache
 def isPair(x, y):
@@ -18,6 +18,7 @@ class Solution:
             elif i > j: return True
             if isPair(s[i], s[j]) and dfs(i+1, j-1):
                 return True
+            if (j-i+1) % 2: return False
             for k in range(i+1, j, 2):
                 if dfs(i, k) and dfs(k+1, j): return True
             return False
