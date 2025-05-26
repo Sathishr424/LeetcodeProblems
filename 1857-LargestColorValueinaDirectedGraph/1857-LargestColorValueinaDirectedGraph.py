@@ -1,4 +1,5 @@
-# Last updated: 26/5/2025, 9:30:32 am
+# Last updated: 26/5/2025, 9:32:21 am
+cmax = lambda x, y: x if x > y else y
 class Solution:
     def largestPathValue(self, colors: str, edges: List[List[int]]) -> int:
         n = len(colors)
@@ -22,10 +23,11 @@ class Solution:
             for y in graph[x]:
                 if not dfs(y, vis): return False
                 for i in range(26):
-                    max_freq[x][i] = max(max_freq[x][i], max_freq[y][i])
+                    max_freq[x][i] = cmax(max_freq[x][i], max_freq[y][i])
 
-            max_freq[x][ord(colors[x]) - 97] += 1
-            ret = max(ret, max_freq[x][ord(colors[x]) - 97])
+            char = ord(colors[x]) - 97
+            max_freq[x][char] += 1
+            ret = cmax(ret, max_freq[x][char])
             
             del vis[x]
             return True
