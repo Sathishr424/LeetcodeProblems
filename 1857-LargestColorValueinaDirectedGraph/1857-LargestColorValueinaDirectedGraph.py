@@ -1,4 +1,4 @@
-# Last updated: 26/5/2025, 9:32:21 am
+# Last updated: 26/5/2025, 10:08:23 am
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def largestPathValue(self, colors: str, edges: List[List[int]]) -> int:
@@ -13,7 +13,6 @@ class Solution:
         visited = [False] * n
 
         def dfs(x, vis):
-            nonlocal ret
             if x in vis: return False
             if visited[x]: return True
 
@@ -25,14 +24,13 @@ class Solution:
                 for i in range(26):
                     max_freq[x][i] = cmax(max_freq[x][i], max_freq[y][i])
 
-            char = ord(colors[x]) - 97
-            max_freq[x][char] += 1
-            ret = cmax(ret, max_freq[x][char])
+            max_freq[x][ord(colors[x]) - 97] += 1
             
             del vis[x]
             return True
         
         for x in range(n):
             if not dfs(x, {}): return -1
+            ret = cmax(ret, max_freq[x][ord(colors[x]) - 97])
 
         return ret
