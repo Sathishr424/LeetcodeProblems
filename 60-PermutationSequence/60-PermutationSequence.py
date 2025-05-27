@@ -1,22 +1,17 @@
-# Last updated: 19/4/2025, 3:33:13 am
+# Last updated: 28/5/2025, 2:35:20 am
 @cache
 def fact(x):
-    if x <= 1: return 1
-    return fact(x-1) * x
+    return factorial(x)
 
 class Solution:
     def getPermutation(self, n: int, k: int) -> str:
-        def helper(arr, k):
-            n = len(arr)
+        def rec(arr, k):
+            if len(arr) == 1: return str(arr[0])
             prev = 0
-            fa = fact(n-1)
-
-            for i in range(n):
-                f = prev+fa
-                if f >= k:
-                    return str(arr[i]) + helper(arr[:i] + arr[i+1:], k-prev)
-                prev = f
-            
-            return ''
+            p = fact(len(arr) - 1)
+            for i in range(len(arr)):
+                if k <= prev + p:
+                    return str(arr[i]) + rec(arr[:i] + arr[i+1:], k-prev)
+                prev += p
         
-        return helper([i for i in range(1, n+1)], k)
+        return rec([i for i in range(1, n+1)], k)
