@@ -1,10 +1,12 @@
-# Last updated: 27/5/2025, 5:53:00 am
+# Last updated: 27/5/2025, 5:58:57 am
 class Solution:
     def differenceOfSums(self, n: int, m: int) -> int:
-        num = 0
-        s = 0
-        for i in range(1, n+1):
-            s += i
-            if i % m: num += i
+        s = n * (n+1) // 2
+
+        x = m
+        y = 0
+        while x <= n:
+            y += x
+            x += m
         
-        return num - (s - num)
+        return (s - y) - y
