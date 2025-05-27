@@ -1,4 +1,4 @@
-# Last updated: 28/5/2025, 3:23:05 am
+# Last updated: 28/5/2025, 3:23:51 am
 class Solution:
     def nextPermutation(self, nums: List[int]) -> None:
         if len(nums) == 1: return nums
@@ -33,7 +33,7 @@ class Solution:
         
         left = index
         right = n-1
-        for i in range((right-left+1)//2):
+        while left < right:
             nums[left], nums[right] = nums[right], nums[left]
             left += 1
             right -= 1
