@@ -1,4 +1,4 @@
-# Last updated: 29/5/2025, 8:19:43 am
+# Last updated: 29/5/2025, 8:24:00 am
 class Solution:
     def maxTargetNodes(self, edges1: List[List[int]], edges2: List[List[int]]) -> List[int]:
         m = len(edges1) + 1
@@ -14,19 +14,27 @@ class Solution:
             graph2[x].append(y)
             graph2[y].append(x)
         
-        def dfs(x, par, graph, depth, odds):
-            odds[x] = depth % 2
-            for y in graph[x]:
-                if y == par: continue
-                dfs(y, x, graph, depth+1, odds)
+        def bfs(graph, odds):
+            stack = [(0, -1)]
+            depth = 0
+
+            while stack:
+                new_stack = []
+                for x, par in stack:
+                    odds[x] = depth % 2
+                    for y in graph[x]:
+                        if y == par: continue
+                        new_stack.append((y, x))
+                depth += 1
+                stack = new_stack
         
         odds_index = [0] * m
-        dfs(0, -1, graph1, 0, odds_index)
+        bfs(graph1, odds_index)
         odds1 = sum(odds_index)
         evens1 = m - odds1
 
         odds2 = [0] * n
-        dfs(0, -1, graph2, 0, odds2)
+        bfs(graph2, odds2)
         odds2 = sum(odds2)
         evens2 = n - odds2
 
