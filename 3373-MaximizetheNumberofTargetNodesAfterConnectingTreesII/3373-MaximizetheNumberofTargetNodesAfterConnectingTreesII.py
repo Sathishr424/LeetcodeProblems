@@ -1,4 +1,4 @@
-# Last updated: 29/5/2025, 8:18:05 am
+# Last updated: 29/5/2025, 8:19:43 am
 class Solution:
     def maxTargetNodes(self, edges1: List[List[int]], edges2: List[List[int]]) -> List[int]:
         m = len(edges1) + 1
@@ -22,19 +22,14 @@ class Solution:
         
         odds_index = [0] * m
         dfs(0, -1, graph1, 0, odds_index)
-        evens1 = 0
-        for odd in odds_index:
-            evens1 += odd == 0
-        odds1 = m - evens1
+        odds1 = sum(odds_index)
+        evens1 = m - odds1
 
         odds2 = [0] * n
         dfs(0, -1, graph2, 0, odds2)
-        evens2 = 0
-        for odd in odds2:
-            evens2 += odd == 0
-        odds2 = n - evens2
+        odds2 = sum(odds2)
+        evens2 = n - odds2
 
-        # print(evens1, odds1, evens2, odds2)
         maxi = max(odds2, evens2)
         ret = [evens1 + maxi]
         for i in range(1, m):
