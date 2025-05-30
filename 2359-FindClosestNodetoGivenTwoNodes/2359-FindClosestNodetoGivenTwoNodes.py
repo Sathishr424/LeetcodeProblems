@@ -1,12 +1,12 @@
-# Last updated: 30/5/2025, 1:37:00 pm
+# Last updated: 30/5/2025, 1:37:51 pm
 class Solution:
     def closestMeetingNode(self, edges: List[int], node1: int, node2: int) -> int:
-        candidates = {}
+        candidates = [-1] * (len(edges) + 1)
         ret = [-1, -1]
 
         def dfs(node, vis, depth):
             nonlocal ret
-            if node in candidates:
+            if candidates[node] != -1:
                 new_depth = max(depth, candidates[node])
                 if ret[0] == -1 or new_depth < ret[1]:
                     ret = [node, new_depth]
