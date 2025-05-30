@@ -1,4 +1,4 @@
-# Last updated: 30/5/2025, 1:37:51 pm
+# Last updated: 30/5/2025, 1:39:16 pm
 class Solution:
     def closestMeetingNode(self, edges: List[int], node1: int, node2: int) -> int:
         candidates = [-1] * (len(edges) + 1)
@@ -13,7 +13,7 @@ class Solution:
                 elif new_depth == ret[1]:
                     ret[0] = min(node, ret[0])
                     
-                candidates[node] = max(depth, candidates[node])
+                candidates[node] = new_depth
             else:
                 candidates[node] = depth
             
