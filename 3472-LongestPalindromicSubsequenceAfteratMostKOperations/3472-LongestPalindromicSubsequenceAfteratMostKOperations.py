@@ -1,4 +1,4 @@
-# Last updated: 31/5/2025, 11:53:59 pm
+# Last updated: 31/5/2025, 11:55:09 pm
 class Solution:
     def longestPalindromicSubsequence(self, s: str, k: int) -> int:
         n = len(s)
@@ -6,9 +6,9 @@ class Solution:
         dp = [[[-1] * (k+1) for _ in range(n)] for _ in range(n)]
 
         def dfs(l, r, k):
+            if dp[l][r][k] != -1: return dp[l][r][k]
             if l == r: return 1
             elif l > r: return 0
-            if dp[l][r][k] != -1: return dp[l][r][k]
 
             ans = max(dfs(l+1, r, k), dfs(l, r-1, k))
 
