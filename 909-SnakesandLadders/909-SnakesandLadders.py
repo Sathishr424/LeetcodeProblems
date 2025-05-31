@@ -1,44 +1,49 @@
-# Last updated: 31/5/2025, 3:10:49 pm
+# Last updated: 31/5/2025, 3:16:47 pm
 class Solution:
     def snakesAndLadders(self, board: List[List[int]]) -> int:
-        n = len(board)
-        area = n * n
+        m = len(board)
+        n = len(board[0])
+        total = m*n
 
-        grid = [0] * area
-        pos = 0
-
-        def addToGrid(i, j):
-            if board[i][j] == -1:
-                grid[pos] = pos
-            else:
-                grid[pos] = board[i][j] - 1
-
-        for i in range(n-1, -1, -1):
-            if (n-i) % 2 == 0:
-                for j in range(n-1, -1, -1):
-                    addToGrid(i, j)
-                    pos += 1
-            else: 
+        arr = []
+        cnt = 0
+        for i in range(m-1, -1, -1):
+            if cnt % 2 == 0:
                 for j in range(n):
-                    addToGrid(i, j)
-                    pos += 1
+                    arr.append(board[i][j])
+            else:
+                for j in range(n-1, -1, -1):
+                    arr.append(board[i][j])
+            cnt += 1
+       
+        pos = []
+
+        for i in range(2, min(8, total+1)):
+            if arr[i-1] != -1:
+                heapq.heappush(pos, (1, arr[i-1]))
+            else:
+                heapq.heappush(pos, (1, i))
+        # print(json.dumps(arr, indent=2))
+        ret = float('inf')
+        visited = {}
+        # print(pos)
+
+        while pos:
+            cnt, node = heapq.heappop(pos)
+            if node == total:
+                # print(node, cnt)
+                return cnt
+            if cnt >= ret: continue
+            if node in visited and visited[node] <= cnt: continue
+            visited[node] = cnt
+            # print(node, cnt, node+1, min(node+7, total+1))
+
+            for i in range(node+1, min(node+7, total+1)):
+                if arr[i-1] != -1:
+                    heapq.heappush(pos, (cnt+1, arr[i-1]))
+                else:
+                    heapq.heappush(pos, (cnt+1, i))
+            
+            # print(pos)
         
-        stack = deque([(0, 0)])
-        visited = [0] * area
-        while stack:
-            pos, moves = stack.popleft()
-
-            if pos == area-1: return moves
-
-            for roll in range(1, 7):
-                new_pos = pos + roll
-                if new_pos >= area: break
-                if visited[new_pos]: continue
-                visited[new_pos] = 1
-
-                stack.append((grid[new_pos], moves + 1))
-        
-        return -1
-
-                
-
+        return ret if ret != float('inf') else -1
