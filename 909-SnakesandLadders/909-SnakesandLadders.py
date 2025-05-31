@@ -1,17 +1,17 @@
-# Last updated: 31/5/2025, 3:18:46 pm
+# Last updated: 31/5/2025, 3:19:49 pm
 class Solution:
     def snakesAndLadders(self, board: List[List[int]]) -> int:
         n = len(board)
         area = n * n
 
-        grid = [0] * area
+        grid = []
         pos = 0
 
         def addToGrid(i, j):
             if board[i][j] == -1:
-                grid[pos] = pos
+                grid.append(pos)
             else:
-                grid[pos] = board[i][j] - 1
+                grid.append(board[i][j] - 1)
 
         for i in range(n-1, -1, -1):
             if (n-i) % 2 == 0:
