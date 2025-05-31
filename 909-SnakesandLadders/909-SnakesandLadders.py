@@ -1,12 +1,15 @@
-# Last updated: 31/5/2025, 3:22:01 pm
+# Last updated: 31/5/2025, 3:23:03 pm
 cmin = lambda x, y: x if x < y else y
 class Solution:
     def snakesAndLadders(self, board: List[List[int]]) -> int:
         n = len(board)
         area = n * n
 
-        grid = []
+        stack = [0]
         pos = 0
+
+        grid = []
+        moves = 0
 
         def addToGrid(i, j):
             if board[i][j] == -1:
@@ -24,15 +27,13 @@ class Solution:
                     addToGrid(i, j)
                     pos += 1
         
-        stack = [0]
-        moves = 0
         while stack:
             new_stack = []
             for pos in stack:
-                if pos == area-1: return moves
                 for new_pos in range(pos+1, cmin(n*n, pos+7)):
                     if grid[new_pos] == -1: continue
-
+                    
+                    if grid[new_pos] == area-1: return moves + 1
                     new_stack.append(grid[new_pos])
                     grid[new_pos] = -1
             
@@ -40,6 +41,3 @@ class Solution:
             moves += 1
         
         return -1
-
-                
-
