@@ -1,5 +1,4 @@
-# Last updated: 31/5/2025, 3:24:56 pm
-cmin = lambda x, y: x if x < y else y
+# Last updated: 31/5/2025, 3:25:15 pm
 class Solution:
     def snakesAndLadders(self, board: List[List[int]]) -> int:
         n = len(board)
@@ -30,11 +29,13 @@ class Solution:
         while stack:
             new_stack = []
             for pos in stack:
-                for new_pos in range(pos+1, cmin(n*n, pos+7)):
+                for roll in range(1, 7):
+                    new_pos = pos + roll
+                    if new_pos >= area: break
                     if visited[new_pos]: continue
                     if grid[new_pos] == area-1: return moves + 1
-                    
                     visited[new_pos] = 1
+
                     new_stack.append(grid[new_pos])
             stack = new_stack
             moves += 1
