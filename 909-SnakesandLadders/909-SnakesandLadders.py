@@ -1,4 +1,4 @@
-# Last updated: 31/5/2025, 3:19:49 pm
+# Last updated: 31/5/2025, 3:21:25 pm
 class Solution:
     def snakesAndLadders(self, board: List[List[int]]) -> int:
         n = len(board)
@@ -25,18 +25,16 @@ class Solution:
         
         stack = [0]
         moves = 0
-        visited = [0] * area
         while stack:
             new_stack = []
             for pos in stack:
                 if pos == area-1: return moves
-                for roll in range(1, 7):
-                    new_pos = pos + roll
-                    if new_pos >= area: break
-                    if visited[new_pos]: continue
-                    visited[new_pos] = 1
+                for new_pos in range(pos+1, min(n*n, pos+7)):
+                    if grid[new_pos] == -1: continue
 
                     new_stack.append(grid[new_pos])
+                    grid[new_pos] = -1
+            
             stack = new_stack
             moves += 1
         
