@@ -1,4 +1,4 @@
-# Last updated: 31/5/2025, 9:51:20 pm
+# Last updated: 31/5/2025, 9:52:10 pm
 @cache
 def getComb(x, y):
     if x == 0 and y == 0: return 1
@@ -7,8 +7,6 @@ def getComb(x, y):
 
 class Solution:
     def permute(self, n: int, k: int) -> List[int]:
-        # 1, 2, 3, 4 => 2, 2
-        # 4, 4
         odds = []
         evens = []
 
