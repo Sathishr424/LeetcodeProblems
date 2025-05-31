@@ -1,4 +1,4 @@
-# Last updated: 31/5/2025, 11:57:15 pm
+# Last updated: 31/5/2025, 11:57:50 pm
 class Solution:
     def longestPalindromicSubsequence(self, s: str, k: int) -> int:
         n = len(s)
@@ -20,4 +20,4 @@ class Solution:
             dp[l][r][k] = ans
             return ans
         
-        return dfs(0, len(s)-1, k)
+        return dfs(0, n-1, k)
