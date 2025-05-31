@@ -1,4 +1,4 @@
-# Last updated: 31/5/2025, 3:09:16 pm
+# Last updated: 31/5/2025, 3:10:49 pm
 class Solution:
     def snakesAndLadders(self, board: List[List[int]]) -> int:
         n = len(board)
@@ -7,28 +7,20 @@ class Solution:
         grid = [0] * area
         pos = 0
 
+        def addToGrid(i, j):
+            if board[i][j] == -1:
+                grid[pos] = pos
+            else:
+                grid[pos] = board[i][j] - 1
+
         for i in range(n-1, -1, -1):
             if (n-i) % 2 == 0:
                 for j in range(n-1, -1, -1):
-                    if board[i][j] == -1:
-                        grid[pos] = pos
-                    else:
-                        curr = board[i][j] - 1
-                        i2 = curr // n
-                        j2 = curr % n
-                        new_pos = curr
-                        grid[pos] = new_pos
+                    addToGrid(i, j)
                     pos += 1
             else: 
                 for j in range(n):
-                    if board[i][j] == -1:
-                        grid[pos] = pos
-                    else:
-                        curr = board[i][j] - 1
-                        i2 = curr // n
-                        j2 = curr % n
-                        new_pos = curr
-                        grid[pos] = new_pos
+                    addToGrid(i, j)
                     pos += 1
         
         stack = deque([(0, 0)])
@@ -45,6 +37,7 @@ class Solution:
                 visited[new_pos] = 1
 
                 stack.append((grid[new_pos], moves + 1))
+        
         return -1
 
                 
