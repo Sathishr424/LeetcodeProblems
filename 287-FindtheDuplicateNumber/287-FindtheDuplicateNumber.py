@@ -1,19 +1,18 @@
-# Last updated: 1/6/2025, 11:21:22 pm
+# Last updated: 2/6/2025, 2:38:07 am
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
-        l = 1
-        r = len(nums)
+        n = len(nums)
 
-        while l < r:
-            mid = (l + r) // 2
+        slow = 0
+        fast = 0
 
-            cnt = 0
-            for num in nums:
-                cnt += num <= mid
-            
-            if cnt > mid:
-                r = mid
-            else:
-                l = mid + 1
+        while True:
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+            if slow == fast: break
         
-        return l
+        slow = 0
+        while slow != fast:
+            slow = nums[slow]
+            fast = nums[fast]
+        return slow
