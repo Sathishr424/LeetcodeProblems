@@ -1,10 +1,8 @@
-# Last updated: 1/6/2025, 7:34:08 pm
+# Last updated: 1/6/2025, 7:40:08 pm
 cmin = lambda x, y: x if x < y else y
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def distributeCandies(self, n: int, limit: int) -> int:
-        if limit * 3 < n: return 0
-
         start = cmax(0, n - (limit * 2))
         end = cmin(n, limit)
 
