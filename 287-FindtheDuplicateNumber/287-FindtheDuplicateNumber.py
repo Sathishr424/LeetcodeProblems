@@ -1,21 +1,21 @@
-# Last updated: 1/6/2025, 10:52:41 pm
+# Last updated: 1/6/2025, 11:15:20 pm
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
         n = len(nums)
         
-        l = int(log2(n-1)) + 1
-        ret = 0
-        
-        for bit in range(l):
+        l = 1
+        r = n
+
+        while l < r:
+            mid = (l + r) // 2
+
             cnt = 0
-            mask = 1 << bit
             for num in nums:
-                cnt += num & mask
+                cnt += num <= mid
             
-            for num in range(1, n):
-                if cnt == 0: break
-                cnt -= num & mask
-            
-            if cnt: ret += mask
+            if cnt > mid:
+                r = mid
+            else:
+                l = mid + 1
         
-        return ret
+        return l
