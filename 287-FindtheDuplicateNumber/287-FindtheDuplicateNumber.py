@@ -1,4 +1,4 @@
-# Last updated: 1/6/2025, 10:52:22 pm
+# Last updated: 1/6/2025, 10:52:41 pm
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
         n = len(nums)
@@ -6,7 +6,7 @@ class Solution:
         l = int(log2(n-1)) + 1
         ret = 0
         
-        for bit in range(l+1):
+        for bit in range(l):
             cnt = 0
             mask = 1 << bit
             for num in nums:
