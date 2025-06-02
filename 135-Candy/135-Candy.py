@@ -1,4 +1,4 @@
-# Last updated: 2/6/2025, 1:05:30 pm
+# Last updated: 2/6/2025, 1:08:23 pm
 class Solution:
     def candy(self, ratings: List[int]) -> int:
         n = len(ratings)
@@ -6,19 +6,21 @@ class Solution:
         left = [0] * n
         right = [0] * n
 
-        stack = [ratings[0]]
+        stack = [1, ratings[0]]
         for i in range(1, n):
-            if stack and stack[-1] >= ratings[i]:
-                stack = []
-            left[i] = len(stack)
-            stack.append(ratings[i])
+            if stack[-1] >= ratings[i]:
+                stack = [0, -1]
+            left[i] = stack[0]
+            stack[0] += 1
+            stack[-1] = ratings[i]
 
-        stack = [ratings[-1]]
+        stack = [1, ratings[-1]]
         for i in range(n-2, -1, -1):
-            if stack and stack[-1] >= ratings[i]:
-                stack = []
-            right[i] = len(stack)
-            stack.append(ratings[i])
+            if stack[-1] >= ratings[i]:
+                stack = [0, -1]
+            right[i] = stack[0]
+            stack[0] += 1
+            stack[-1] = ratings[i]
 
         ret = 0
         for i in range(n):
