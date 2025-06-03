@@ -1,4 +1,4 @@
-# Last updated: 4/6/2025, 2:23:44 am
+# Last updated: 4/6/2025, 2:24:45 am
 class Solution:
     def answerString(self, word: str, numFriends: int) -> str:
         if numFriends == 1: return word
@@ -29,9 +29,9 @@ class Solution:
 
         start = indexes[0]
         
-        for index in indexes[1:]:
-            if checkMax(index, start):
-                start = index
+        for i in range(1, len(indexes)):
+            if checkMax(indexes[i], start):
+                start = indexes[i]
 
         return word[start:start+split]
 
