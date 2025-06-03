@@ -1,16 +1,14 @@
-# Last updated: 4/6/2025, 2:59:29 am
+# Last updated: 4/6/2025, 2:59:54 am
 class Solution:
     def answerString(self, word: str, numFriends: int) -> str:
         if numFriends == 1: return word
-        n = len(word)
-        indexes = []
+        split = len(word) - (numFriends - 1)
 
         maxi = 0
         for i, char in enumerate(word):
             if char > word[maxi]:
                 maxi = i
         
-        split = n - (numFriends - 1)
         ret = word[maxi:maxi+split]
         for i, char in enumerate(word):
             if char == word[maxi]:
