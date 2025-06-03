@@ -1,4 +1,4 @@
-# Last updated: 4/6/2025, 2:24:45 am
+# Last updated: 4/6/2025, 2:59:29 am
 class Solution:
     def answerString(self, word: str, numFriends: int) -> str:
         if numFriends == 1: return word
@@ -10,29 +10,12 @@ class Solution:
             if char > word[maxi]:
                 maxi = i
         
+        split = n - (numFriends - 1)
+        ret = word[maxi:maxi+split]
         for i, char in enumerate(word):
             if char == word[maxi]:
-                indexes.append(i)
+                ret = max(ret, word[i:i+split])
         
-        split = n - (numFriends-1)
-
-        def checkMax(i, j):
-            k = min(n, i+split)
-            l = min(n, j+split)
-            while i < k and j < l:
-                if word[i] > word[j]: return True
-                elif word[j] > word[i]: return False
-                i += 1
-                j += 1
-            
-            return False
-
-        start = indexes[0]
-        
-        for i in range(1, len(indexes)):
-            if checkMax(indexes[i], start):
-                start = indexes[i]
-
-        return word[start:start+split]
+        return ret
 
             
