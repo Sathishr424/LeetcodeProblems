@@ -1,4 +1,4 @@
-# Last updated: 4/6/2025, 10:30:37 pm
+# Last updated: 4/6/2025, 10:31:38 pm
 class Solution:
     def maxSum(self, nums: List[int], k: int, m: int) -> int:
         n = len(nums)
@@ -12,7 +12,7 @@ class Solution:
         @cache
         def rec(index, k, expand):
             if k == 0 and (not expand or index == n): return 0
-            # print(index, k, expand)
+
             ans = -inf
             if index+1 <= n-(k*m):
                 ans = rec(index+1, k, False)
@@ -27,5 +27,5 @@ class Solution:
             return ans
         
         ans = rec(0, k, False)
-        rec.cache_clear()
+
         return ans
