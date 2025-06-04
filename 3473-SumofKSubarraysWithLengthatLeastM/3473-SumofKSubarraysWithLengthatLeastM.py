@@ -1,4 +1,4 @@
-# Last updated: 4/6/2025, 10:34:37 pm
+# Last updated: 4/6/2025, 10:35:20 pm
 class Solution:
     def maxSum(self, nums: List[int], k: int, m: int) -> int:
         n = len(nums)
@@ -8,25 +8,24 @@ class Solution:
             prefix.append(prefix[-1] + num)
         
         inf = float('inf')
-
-        dp = [[[-inf, -inf] for _ in range(k+1)] for _ in range(n+1)]
         
+        @cache
         def rec(index, k, expand):
-            if dp[index][k][expand] != -inf: return dp[index][k][expand]
-            if k == 0 and (expand == 0 or index == n): return 0
+            if k == 0 and (not expand or index == n): return 0
 
             ans = -inf
             if index+1 <= n-(k*m):
-                ans = rec(index+1, k, 0)
+                ans = rec(index+1, k, False)
             
             if expand and index+1 <= n-(k*m):
-                ans = max(ans, rec(index+1, k, 1) + nums[index])
+                ans = max(ans, rec(index+1, k, True) + nums[index])
             if k > 0:
                 t = prefix[index+m] - prefix[index]
 
-                ans = max(ans, rec(index+m, k-1, 1) + t)
-            dp[index][k][expand] = ans
+                ans = max(ans, rec(index+m, k-1, True) + t)
+            
             return ans
         
-        ans = rec(0, k, 0)
+        ans = rec(0, k, False)
+        rec.cache_clear()
         return ans
