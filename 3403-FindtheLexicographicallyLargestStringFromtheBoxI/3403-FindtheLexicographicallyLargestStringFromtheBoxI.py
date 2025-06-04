@@ -1,20 +1,19 @@
-# Last updated: 4/6/2025, 5:32:47 pm
+# Last updated: 4/6/2025, 5:32:59 pm
 class Solution:
-    def lastSubstring(self, s: str) -> str:
-        i, j, n = 0, 1, len(s)
-        while j < n:
-            k = 0
-            while j + k < n and s[i + k] == s[j + k]:
-                k += 1
-            if j + k < n and s[i + k] < s[j + k]:
-                i, j = j, max(j + 1, i + k + 1)
-            else:
-                j = j + k + 1
-        return s[i:]
-
     def answerString(self, word: str, numFriends: int) -> str:
-        if numFriends == 1:
-            return word
-        last = self.lastSubstring(word)
-        n, m = len(word), len(last)
-        return last[: min(m, n - numFriends + 1)]
+        if numFriends == 1: return word
+        split = len(word) - (numFriends - 1)
+
+        maxi = 0
+        for i, char in enumerate(word):
+            if char > word[maxi]:
+                maxi = i
+        
+        ret = word[maxi:maxi+split]
+        for i, char in enumerate(word):
+            if char == word[maxi]:
+                ret = max(ret, word[i:i+split])
+        
+        return ret
+
+            
