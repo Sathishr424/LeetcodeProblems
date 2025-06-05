@@ -1,9 +1,9 @@
-# Last updated: 5/6/2025, 4:57:49 pm
+# Last updated: 5/6/2025, 4:58:42 pm
 class Solution:
     def checkEqualPartitions(self, nums: List[int], target: int) -> bool:
         n = len(nums)
-
         memo = {}
+        
         def rec(mask, tot, rem):
             if mask in memo: return memo[mask]
             if tot == target:
@@ -21,4 +21,4 @@ class Solution:
         for num in nums:
             total *= num
         
-        return rec(1 << n, 1, total)
+        return rec(0, 1, total)
