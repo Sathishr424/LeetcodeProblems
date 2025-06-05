@@ -1,16 +1,20 @@
-# Last updated: 5/6/2025, 4:57:00 pm
+# Last updated: 5/6/2025, 4:57:49 pm
 class Solution:
     def checkEqualPartitions(self, nums: List[int], target: int) -> bool:
         n = len(nums)
 
-        @cache
+        memo = {}
         def rec(mask, tot, rem):
+            if mask in memo: return memo[mask]
             if tot == target:
                 return rem == target
 
             for i in range(n):
-                if mask & (1 << i) == 0 and rec(mask | (1 << i), tot * nums[i], rem // nums[i]): return True
-
+                if mask & (1 << i) == 0 and rec(mask | (1 << i), tot * nums[i], rem // nums[i]): 
+                    memo[mask] = True
+                    return True
+            
+            memo[mask] = False
             return False
         
         total = 1
