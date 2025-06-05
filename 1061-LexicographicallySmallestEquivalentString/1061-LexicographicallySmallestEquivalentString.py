@@ -1,10 +1,9 @@
-# Last updated: 5/6/2025, 1:26:32 pm
+# Last updated: 5/6/2025, 1:27:41 pm
 class Solution:
     def smallestEquivalentString(self, s1: str, s2: str, baseStr: str) -> str:
         n = len(s1)
 
         parents = [i for i in range(26)]
-        smallest = [i for i in range(26)]
 
         def find(x):
             if x != parents[x]:
@@ -17,12 +16,10 @@ class Solution:
 
             if node1 == node2: return True
 
-            if smallest[node1] <= smallest[node2]:
+            if node1 <= node2:
                 parents[node2] = node1
-                smallest[node2] = smallest[node1]
             else:
                 parents[node1] = node2
-                smallest[node1] = smallest[node2]
 
             return False
         
