@@ -1,30 +1,36 @@
-# Last updated: 5/6/2025, 1:20:55 pm
+# Last updated: 5/6/2025, 1:26:32 pm
 class Solution:
     def smallestEquivalentString(self, s1: str, s2: str, baseStr: str) -> str:
         n = len(s1)
-        graph = defaultdict(list)
 
-        for i in range(n):
-            if s1[i] != s2[i]:
-                graph[s1[i]].append(s2[i])
-                graph[s2[i]].append(s1[i])
+        parents = [i for i in range(26)]
+        smallest = [i for i in range(26)]
+
+        def find(x):
+            if x != parents[x]:
+                parents[x] = find(parents[x])
+            return parents[x]
         
-        visited = {}
+        def union(x, y):
+            node1 = find(x)
+            node2 = find(y)
 
-        def dfs(char, vis):
-            ans = char
-            for new_char in graph[char]:
-                if new_char not in vis:
-                    vis[new_char] = 1
-                    ans = min(ans, dfs(new_char, vis))
-            return ans
+            if node1 == node2: return True
 
-        visited = {}
-        for char in [chr(i + 97) for i in range(26)]:
-            visited[char] = dfs(char, {char: 1})
+            if smallest[node1] <= smallest[node2]:
+                parents[node2] = node1
+                smallest[node2] = smallest[node1]
+            else:
+                parents[node1] = node2
+                smallest[node1] = smallest[node2]
 
+            return False
+        
+        for i in range(n):
+            union(ord(s1[i]) - 97, ord(s2[i]) - 97)
+        
         ret = ''
         for char in baseStr:
-            ret += visited[char]
+            ret += chr(find(ord(char) - 97) + 97)
         
         return ret
