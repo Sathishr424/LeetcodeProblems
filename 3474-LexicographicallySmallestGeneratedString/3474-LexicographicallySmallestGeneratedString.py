@@ -1,4 +1,4 @@
-# Last updated: 5/6/2025, 9:27:26 pm
+# Last updated: 5/6/2025, 9:29:33 pm
 def getLPS(s):
     n = len(s)
     lps = [0] * n
@@ -69,12 +69,12 @@ class Solution:
                         ret[i] = 'b'
                         break
         
-        prev = ret[-1]
         for i in range(n, len(ret)):
             if ret[i] == '-':
                 ret[i] = 'a'
         
-        if prev == '-' and ''.join(ret[-m:]) == str2:
-            ret[-1] = 'b'
+        ans = ''.join(ret)
+        if str1[-1] == 'F' and ans[-m:] == str2:
+            return ans[:-1] + 'b'
 
-        return ''.join(ret)
+        return ans
