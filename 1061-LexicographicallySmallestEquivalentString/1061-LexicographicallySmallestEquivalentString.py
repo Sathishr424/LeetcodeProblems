@@ -1,4 +1,4 @@
-# Last updated: 5/6/2025, 1:18:16 pm
+# Last updated: 5/6/2025, 1:20:55 pm
 class Solution:
     def smallestEquivalentString(self, s1: str, s2: str, baseStr: str) -> str:
         n = len(s1)
@@ -12,7 +12,6 @@ class Solution:
         visited = {}
 
         def dfs(char, vis):
-            if char in visited: return visited[char]
             ans = char
             for new_char in graph[char]:
                 if new_char not in vis:
@@ -20,8 +19,12 @@ class Solution:
                     ans = min(ans, dfs(new_char, vis))
             return ans
 
+        visited = {}
+        for char in [chr(i + 97) for i in range(26)]:
+            visited[char] = dfs(char, {char: 1})
+
         ret = ''
         for char in baseStr:
-            ret += dfs(char, {char: 1})
+            ret += visited[char]
         
         return ret
