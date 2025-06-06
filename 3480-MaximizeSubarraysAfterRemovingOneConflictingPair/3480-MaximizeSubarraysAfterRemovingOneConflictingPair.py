@@ -1,42 +1,76 @@
-# Last updated: 6/6/2025, 8:22:32 pm
+# Last updated: 7/6/2025, 2:28:11 am
 class Solution:
-    def numOfUnplacedFruits(self, fruits: List[int], baskets: List[int]) -> int:
-        n = len(fruits)
+    def maxSubarrays(self, n: int, cp: List[List[int]]) -> int:
+        m = len(cp)
+        new_cp = []
+        for x, y in cp:
+            new_cp.append([min(x,y), max(x,y)])
+        cp = new_cp
+        cp.sort()
+        # print(cp)
+        better = [0] * m
 
-        tree = [0 for _ in range(n*4)]
+        def calcScore(cp):
+            m = len(cp)
+            if m == 0: return n*(n+1)//2
+            start = []
+            end = []
 
-        def query(l, r, index, need):
-            if tree[index] < need: return False
+            for x,y in cp:
+                start.append(x)
             
-            if l == r:
-                tree[index] = 0
-                return True
+            end = deque([])
+            end.append(m-1)
+            secondEnd = deque([])
+            secondEnd.append(m)
 
-            mid = (l + r) // 2
+            heap = SortedList()
+            heap.add((cp[-1][1], m-1))
 
-            left = query(l, mid, index*2, need)
-            right = False
-            if not left:
-                right = query(mid+1, r, index*2+1, need)
-            
-            tree[index] = max(tree[index*2], tree[index*2+1])
-            return left or right
+            for i in range(len(cp)-2, -1, -1):
+                if cp[i][1] < cp[end[0]][1]:
+                    end.appendleft(i)
+                else:
+                    end.appendleft(end[0])
+                
+                heap.add((cp[i][1], i))
+                if len(heap) > 1:
+                    secondEnd.appendleft(heap[1][1])
+                else:
+                    secondEnd.appendleft(m)
 
-        def build(l, r, index):
-            if l == r:
-                tree[index] = baskets[l]
-                return tree[index]
-            mid = (l+r) // 2
-            left = build(l, mid, index*2)
-            right = build(mid+1, r, index*2+1)
+            # print(end)
+            # print(secondEnd)
+            cnt = 0
+            for i in range(n, 0, -1):
+                index = bisect_left(start, i)
+                if index < m:
+                    index_2 = end[index]
+                    diff = cp[index_2][1] - i
+                    cnt += diff
+                    index_3 = m
+                    if secondEnd[index] < m:
+                        index_3 = secondEnd[index]
+                        better[index_2] += (cp[index_3][1] - i) - diff
+                    else:
+                        better[index_2] += (n - i + 1) - diff
 
-            tree[index] = max(left, right)
-            return tree[index]
+                    # print(i, index, cp[index_2], cp[index_3] if index_3 < m else '-', diff)
+                else:
+                    # print(i, n-i+1)
+                    cnt += n-i+1
+            # print(cnt)
+            return cnt
         
-        build(0, n-1, 1)
+        cnt = calcScore(cp)
+        # print(cnt, better)
 
+        # maxi = 0
         ret = 0
-        for i in range(n):
-            ret += not query(0, n-1, 1, fruits[i])
-
+        for i in range(m):
+            ret = max(ret, cnt+better[i])
         return ret
+        
+        # cp = cp[:maxi] + cp[maxi+1:]
+
+        # return calcScore(cp)
