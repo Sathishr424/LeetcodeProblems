@@ -1,12 +1,15 @@
-# Last updated: 6/6/2025, 11:34:45 pm
+# Last updated: 6/6/2025, 11:35:54 pm
 class Solution:
     def numOfUnplacedFruits(self, fruits: List[int], baskets: List[int]) -> int:
-        n = len(fruits)
+
+        n, ans = len(baskets), 0
         
-        for q in baskets:
-            for i in range(len(fruits)):
-                if fruits[i] <= q:
-                    fruits = fruits[:i] + fruits[i+1:]
+        for fruit in fruits:
+            for i in range(n):
+                if fruit <= baskets[i]:
+                    baskets[i] = 0
                     break
-        
-        return len(fruits)
+
+            else: ans += 1
+
+        return ans
