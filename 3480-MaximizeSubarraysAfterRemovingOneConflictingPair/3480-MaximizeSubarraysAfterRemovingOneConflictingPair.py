@@ -1,4 +1,4 @@
-# Last updated: 7/6/2025, 3:02:25 am
+# Last updated: 7/6/2025, 3:02:57 am
 class Solution:
     def maxSubarrays(self, n: int, cp: List[List[int]]) -> int:
         m = len(cp)
@@ -16,7 +16,7 @@ class Solution:
         cp.append([0, n+1])
 
         sl = [m-1, m]
-        end.appendleft(sl + [])
+        end.appendleft((m-1, m))
 
         for i in range(m-2, -1, -1):
             if cp[i][1] <= cp[sl[0]][1]:
@@ -25,7 +25,7 @@ class Solution:
             elif cp[i][1] < cp[sl[1]][1]:
                 sl[1] = i
             
-            end.appendleft(sl + [])
+            end.appendleft((sl[0], sl[1]))
 
         cnt = 0
         for i in range(n, 0, -1):
