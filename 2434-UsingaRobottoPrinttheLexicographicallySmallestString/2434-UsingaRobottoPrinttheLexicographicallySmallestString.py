@@ -1,4 +1,4 @@
-# Last updated: 6/6/2025, 1:15:36 pm
+# Last updated: 6/6/2025, 1:16:40 pm
 class Solution:
     def robotWithString(self, s: str) -> str:
         n = len(s)
@@ -24,14 +24,14 @@ class Solution:
                 t.append(s[i])
         
         while index < n:
-            for i in range(26):
-                if freq[i] == 0: continue
+            i = 0
+            while i < 26 and freq[i] == 0: 
+                i += 1
 
-                if not t or ord(t[-1]) - 97 > i:
-                    addItToT(i)
-                else:
-                    ret += t.pop()
-                break
+            if not t or ord(t[-1]) - 97 > i:
+                addItToT(i)
+            else:
+                ret += t.pop()
         
         return ret + ''.join(t[::-1])
 
