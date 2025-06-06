@@ -1,4 +1,4 @@
-# Last updated: 7/6/2025, 2:40:52 am
+# Last updated: 7/6/2025, 2:45:41 am
 class Solution:
     def maxSubarrays(self, n: int, cp: List[List[int]]) -> int:
         m = len(cp)
@@ -30,6 +30,7 @@ class Solution:
             sl.add(cp[i][1])
             if len(sl) > 1:
                 secondEnd.appendleft(sl[1])
+                if len(sl) > 2: sl.pop()
             else:
                 secondEnd.appendleft(n+1)
     
