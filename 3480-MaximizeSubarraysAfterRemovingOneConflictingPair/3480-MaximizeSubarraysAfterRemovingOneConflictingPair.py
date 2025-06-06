@@ -1,4 +1,4 @@
-# Last updated: 7/6/2025, 2:38:56 am
+# Last updated: 7/6/2025, 2:40:52 am
 class Solution:
     def maxSubarrays(self, n: int, cp: List[List[int]]) -> int:
         m = len(cp)
@@ -44,8 +44,4 @@ class Solution:
             else:
                 cnt += n-i+1
         
-        ret = 0
-        for i in range(m):
-            ret = max(ret, cnt+better[i])
-        
-        return ret
+        return cnt + max(better)
