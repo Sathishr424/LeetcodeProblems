@@ -1,19 +1,36 @@
-# Last updated: 6/6/2025, 1:20:22 pm
+# Last updated: 6/6/2025, 1:22:00 pm
 class Solution:
     def robotWithString(self, s: str) -> str:
         n = len(s)
-        min_char = [''] * n
-        min_char[-1] = s[-1]
-        for i in range(n - 2, -1, -1):
-            min_char[i] = min(s[i], min_char[i + 1])
-        
+        ret = []
         t = []
-        res = []
-        i = 0
-        while i < n:
-            t.append(s[i])
-            while t and (i == n - 1 or min_char[i + 1] >= t[-1]):
-                res.append(t.pop())
-            i += 1
+        index = 0
         
-        return ''.join(res)
+        freq = [0] * 26
+
+        for i in range(n):
+            a = ord(s[i]) - 97
+            freq[a] += 1
+        
+        def addItToT(to_find):
+            nonlocal index, ret
+            for i in range(index, n):
+                a = ord(s[i]) - 97
+                freq[a] -= 1
+                if a == to_find:
+                    ret.append(s[i])
+                    index = i + 1
+                    break
+                t.append(s[i])
+        
+        while index < n:
+            i = 0
+            while i < 26 and freq[i] == 0: 
+                i += 1
+
+            if not t or ord(t[-1]) - 97 > i:
+                addItToT(i)
+            else:
+                ret.append(t.pop())
+        
+        return ''.join(ret + t[::-1])
