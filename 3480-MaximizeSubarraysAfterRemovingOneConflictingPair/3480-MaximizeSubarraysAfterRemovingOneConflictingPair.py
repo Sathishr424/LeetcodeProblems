@@ -1,10 +1,11 @@
-# Last updated: 7/6/2025, 2:36:29 am
+# Last updated: 7/6/2025, 2:37:18 am
 class Solution:
     def maxSubarrays(self, n: int, cp: List[List[int]]) -> int:
         m = len(cp)
 
         for i, (x, y) in enumerate(cp):
-            cp[i] = [min(x,y), max(x,y)]
+            if x > y:
+                cp[i] = [y, x]
 
         cp.sort()
 
