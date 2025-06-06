@@ -1,11 +1,11 @@
-# Last updated: 7/6/2025, 2:37:18 am
+# Last updated: 7/6/2025, 2:38:56 am
 class Solution:
     def maxSubarrays(self, n: int, cp: List[List[int]]) -> int:
         m = len(cp)
 
         for i, (x, y) in enumerate(cp):
             if x > y:
-                cp[i] = [y, x]
+                cp[i][0], cp[i][1] = cp[i][1], cp[i][0]
 
         cp.sort()
 
@@ -19,7 +19,7 @@ class Solution:
         secondEnd.append(n+1)
 
         sl = SortedList()
-        sl.add((cp[-1][1], m-1))
+        sl.add(cp[-1][1])
 
         for i in range(len(cp)-2, -1, -1):
             if cp[i][1] < cp[end[0]][1]:
@@ -27,9 +27,9 @@ class Solution:
             else:
                 end.appendleft(end[0])
             
-            sl.add((cp[i][1], i))
+            sl.add(cp[i][1])
             if len(sl) > 1:
-                secondEnd.appendleft(sl[1][0])
+                secondEnd.appendleft(sl[1])
             else:
                 secondEnd.appendleft(n+1)
     
