@@ -1,4 +1,4 @@
-# Last updated: 6/6/2025, 6:38:45 pm
+# Last updated: 6/6/2025, 6:39:58 pm
 class Solution:
     def findMaxSum(self, nums1: List[int], nums2: List[int], k: int) -> List[int]:
         n = len(nums1)
@@ -7,13 +7,12 @@ class Solution:
         arr = []
         for i in range(n):
             arr.append((nums1[i], i))
-
         arr.sort(key=lambda x: x[0])
+        
         heap = []
-        total = nums2[arr[0][1]]
-        heapq.heappush(heap, nums2[arr[0][1]])
+        total = 0
 
-        for index in range(1, n):
+        for index in range(n):
             num, i = arr[index]
             prev = total
 
@@ -22,8 +21,6 @@ class Solution:
 
             if len(heap) > k:
                 total -= heapq.heappop(heap)
-            
-            # print((i, num), heap)
 
             if num == arr[index-1][0]:
                 ret[i] = ret[arr[index-1][1]]
