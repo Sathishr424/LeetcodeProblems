@@ -1,4 +1,4 @@
-# Last updated: 7/6/2025, 4:24:46 pm
+# Last updated: 7/6/2025, 4:25:56 pm
 class Solution:
     def clearStars(self, s: str) -> str:
         n = len(s)
@@ -15,11 +15,5 @@ class Solution:
             else:
                 freq[ord(s[i]) - 97].append(i)
         
-        ret = []    
-
-        for i in range(n):
-            if deleted[i] == 0:
-                ret.append(s[i])
-        
-        return ''.join(ret)
+        return ''.join([s[i] for i in range(n) if deleted[i] == 0])
                 
