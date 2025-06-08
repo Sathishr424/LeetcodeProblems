@@ -1,4 +1,4 @@
-# Last updated: 9/6/2025, 4:07:58 am
+# Last updated: 9/6/2025, 4:11:29 am
 class Solution:
     def countPartitions(self, nums: List[int], k: int) -> int:
         mod = 10**9 + 7
@@ -19,13 +19,9 @@ class Solution:
                 cnt -= 1
             
             z = ret
-            ret += add
+            ret = (ret + add) % mod
             cnts[i] = ret
             add += z
             cnt += 1
 
-        return ret % mod
-            
-            
-
-
+        return ret
