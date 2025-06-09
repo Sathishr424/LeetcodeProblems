@@ -1,15 +1,18 @@
-# Last updated: 9/6/2025, 1:56:37 pm
+# Last updated: 9/6/2025, 1:58:08 pm
 class Solution:
     def lexicalOrder(self, n: int) -> List[int]:
         ret = []
         def dfs(num):
             if num > n: return
-            # print(num)
-            for i in range(9 if num == 1 else 10):
+            for i in range(10):
                 if num <= n:
                     ret.append(num)
                     dfs(num * 10)
                     num += 1
         
-        dfs(1)
+        for num in range(1, 10):
+            if num > n: break
+            ret.append(num)
+            dfs(num * 10)
+        
         return ret
