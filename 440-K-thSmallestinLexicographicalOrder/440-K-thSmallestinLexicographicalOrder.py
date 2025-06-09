@@ -1,13 +1,13 @@
-# Last updated: 10/6/2025, 3:22:52 am
+# Last updated: 10/6/2025, 3:39:58 am
 class Solution:
     def findKthNumber(self, n: int, k: int) -> int:
         def dfs(num, rem):
             if rem == 0: return num
+            
             num *= 10
-
             cnt = 0
-            for i in range(10):
-                new_num = num + i
+
+            for new_num in range(num, num+10):
                 possible = getPossible(new_num)
 
                 if cnt + possible >= rem:
@@ -30,10 +30,10 @@ class Solution:
             return possible + ((n % balance) + 1 if n - (n % balance) == balance else 0)
 
         cnt = 0
-        for i in range(1, 10):
-            possible = getPossible(i)
+        for num in range(1, 10):
+            possible = getPossible(num)
             if cnt + possible >= k:
-                return dfs(i, k-cnt-1)
+                return dfs(num, k-cnt-1)
             cnt += possible
 
         return 0
