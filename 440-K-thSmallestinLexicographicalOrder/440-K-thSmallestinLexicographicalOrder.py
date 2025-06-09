@@ -1,8 +1,9 @@
-# Last updated: 10/6/2025, 3:09:55 am
+# Last updated: 10/6/2025, 3:22:52 am
 class Solution:
     def findKthNumber(self, n: int, k: int) -> int:
         def dfs(num, rem):
-            if rem == 0: return num // 10
+            if rem == 0: return num
+            num *= 10
 
             cnt = 0
             for i in range(10):
@@ -10,7 +11,7 @@ class Solution:
                 possible = getPossible(new_num)
 
                 if cnt + possible >= rem:
-                    return dfs(new_num * 10, rem-cnt-1)
+                    return dfs(new_num, rem-cnt-1)
                 
                 cnt += possible
 
@@ -32,7 +33,7 @@ class Solution:
         for i in range(1, 10):
             possible = getPossible(i)
             if cnt + possible >= k:
-                return dfs(i * 10, k-cnt-1)
+                return dfs(i, k-cnt-1)
             cnt += possible
 
         return 0
