@@ -1,4 +1,4 @@
-# Last updated: 9/6/2025, 1:58:08 pm
+# Last updated: 9/6/2025, 2:04:53 pm
 class Solution:
     def lexicalOrder(self, n: int) -> List[int]:
         ret = []
