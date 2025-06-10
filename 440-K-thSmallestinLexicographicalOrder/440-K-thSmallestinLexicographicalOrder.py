@@ -1,4 +1,4 @@
-# Last updated: 10/6/2025, 3:39:58 am
+# Last updated: 10/6/2025, 6:24:35 pm
 class Solution:
     def findKthNumber(self, n: int, k: int) -> int:
         def dfs(num, rem):
