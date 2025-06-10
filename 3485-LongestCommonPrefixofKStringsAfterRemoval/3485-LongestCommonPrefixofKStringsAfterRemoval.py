@@ -1,8 +1,7 @@
-# Last updated: 11/6/2025, 12:10:03 am
+# Last updated: 11/6/2025, 12:13:22 am
 class Node:
     def __init__(self):
         self.cnt = 0
-        self.total = 0
         self.childs = [None] * 26
 
 class Trie:
@@ -31,15 +30,14 @@ class Trie:
             node.cnt -= 1
 
     def getLongestCommonPrefix(self, node, k):
-        key = node
-        if node.cnt > 0 and key in self.memo:
-            return self.memo[key]
+        if node.cnt > 0 and node in self.memo:
+            return self.memo[node]
         ans = 0
         for child in node.childs:
             if child == None: continue
             if child.cnt >= k:
                 ans = max(ans, self.getLongestCommonPrefix(child, k) + 1)
-        self.memo[key] = ans
+        self.memo[node] = ans
         return ans
 
 class Solution:
