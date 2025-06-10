@@ -1,4 +1,4 @@
-# Last updated: 11/6/2025, 12:45:28 am
+# Last updated: 11/6/2025, 12:48:51 am
 class Node:
     def __init__(self):
         self.cnt = 0
@@ -56,7 +56,7 @@ class Solution:
 
         ret = []
         for word in words:
-            if word[:len(trie.largest_start)] == trie.largest_start:
+            if word.startswith(trie.largest_start):
                 ret.append(second_largest)
             else:
                 ret.append(trie.largest)
