@@ -1,8 +1,8 @@
-# Last updated: 11/6/2025, 12:13:22 am
+# Last updated: 11/6/2025, 12:17:03 am
 class Node:
     def __init__(self):
         self.cnt = 0
-        self.childs = [None] * 26
+        self.childs = {}
 
 class Trie:
     def __init__(self):
@@ -13,7 +13,7 @@ class Trie:
         node = self.node
         for char in val:
             a = ord(char) - 97
-            if node.childs[a] == None:
+            if a not in node.childs:
                 node.childs[a] = Node()
             node = node.childs[a]
             if node in self.memo:
@@ -34,7 +34,7 @@ class Trie:
             return self.memo[node]
         ans = 0
         for child in node.childs:
-            if child == None: continue
+            child = node.childs[child]
             if child.cnt >= k:
                 ans = max(ans, self.getLongestCommonPrefix(child, k) + 1)
         self.memo[node] = ans
@@ -55,5 +55,3 @@ class Solution:
             trie.insert(word)
         
         return ret
-
-        
