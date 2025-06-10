@@ -1,18 +1,19 @@
-# Last updated: 4/4/2025, 12:29:50 am
+# Last updated: 10/6/2025, 11:08:44 am
 class Solution:
     def maxDifference(self, s: str) -> int:
-        count = defaultdict(int)
-
-        for char in s:
-            count[char] += 1
+        freq = [0] * 26
         
         odd = 0
-        even = float('inf')
-
-        for char in count:
-            if count[char] % 2 == 0:
-                even = min(even, count[char])
+        even = 100
+        for char in s:
+            a = ord(char) - 97
+            freq[a] += 1
+        
+        for cnt in freq:
+            if cnt == 0: continue
+            if cnt % 2 == 0:
+                even = min(cnt, even)
             else:
-                odd = max(odd, count[char])
+                odd = max(cnt, odd)
 
         return odd - even
