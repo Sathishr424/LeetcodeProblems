@@ -1,11 +1,10 @@
-# Last updated: 10/6/2025, 10:10:16 pm
+# Last updated: 10/6/2025, 10:18:21 pm
 class Solution:
     def minOperations(self, word1: str, word2: str) -> int:
         n = len(word1)
         inf = float('inf')
 
         def calcCost(str1, str2, reverse):
-            tmp = str1
             revCost = inf
             if not reverse:
                 revCost = calcCost(str1[::-1], str2, True) + 1
@@ -31,7 +30,6 @@ class Solution:
                     cost += 1
                     relation[a][b].popleft()
             
-            # print(''.join(str1), str2, min(revCost, cost))
             return min(revCost, cost)
 
         @cache
@@ -42,4 +40,6 @@ class Solution:
             
             return min(cost, calcCost(list(word1[start:end+1]), word2[start:end+1], False) + dfs(end+1, end+1))
 
-        return dfs(0, 0)
+        ans = dfs(0, 0)
+        dfs.cache_clear()
+        return ans
