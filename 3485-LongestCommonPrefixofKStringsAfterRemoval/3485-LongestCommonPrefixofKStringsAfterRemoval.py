@@ -1,4 +1,4 @@
-# Last updated: 11/6/2025, 12:09:15 am
+# Last updated: 11/6/2025, 12:10:03 am
 class Node:
     def __init__(self):
         self.cnt = 0
@@ -17,8 +17,8 @@ class Trie:
             if node.childs[a] == None:
                 node.childs[a] = Node()
             node = node.childs[a]
-            if id(node) in self.memo:
-                del self.memo[id(node)]
+            if node in self.memo:
+                del self.memo[node]
             node.cnt += 1
 
     def remove(self, val):
@@ -26,12 +26,12 @@ class Trie:
         for char in val:
             a = ord(char) - 97
             node = node.childs[a]
-            if id(node) in self.memo:
-                del self.memo[id(node)]
+            if node in self.memo:
+                del self.memo[node]
             node.cnt -= 1
 
     def getLongestCommonPrefix(self, node, k):
-        key = id(node)
+        key = node
         if node.cnt > 0 and key in self.memo:
             return self.memo[key]
         ans = 0
