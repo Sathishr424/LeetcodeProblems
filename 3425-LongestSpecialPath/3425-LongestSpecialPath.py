@@ -1,4 +1,4 @@
-# Last updated: 13/6/2025, 5:09:25 am
+# Last updated: 13/6/2025, 5:09:57 am
 class Solution:
     def longestSpecialPath(self, edges: List[List[int]], nums: List[int]) -> List[int]:
         ret = [0, 1]
@@ -58,9 +58,10 @@ class Solution:
             nodes[nums[x]] = prev
             cnts[nums[x]] -= 1
         
+        m = max(nums) + 1
         childs = [0] * n
-        cnts = [0] * (max(nums) + 1)
-        nodes = defaultdict(int)
+        cnts = [0] * m
+        nodes = [0] * m
 
         dfs(0, -1, n)
 
