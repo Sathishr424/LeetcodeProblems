@@ -1,4 +1,4 @@
-# Last updated: 13/6/2025, 4:51:36 am
+# Last updated: 13/6/2025, 4:55:06 am
 class Solution:
     def longestSpecialPath(self, edges: List[List[int]], nums: List[int]) -> List[int]:
         ret = [0, 1]
@@ -22,11 +22,9 @@ class Solution:
         
         dfs_pre(0, -1, 0, 0)
 
-        def dfs(x, par, nodes, childs, last_cut):
+        def dfs(x, par, last_cut):
             nonlocal ret
             prev = nodes[nums[x]]
-
-            # print(x, last_cut, depths[x], scores[x])
 
             if depths[prev] >= depths[last_cut]:
                 if cnts[nums[x]] == 0 and last_cut == n:
@@ -37,15 +35,11 @@ class Solution:
                     s = scores[x] - prev_score
                     nodes_cnt = depths[x] - depths[prev]
                     last_cut = prev
-                
-                # print(x, (s, nodes_cnt))
             else:
                 prev_score = scores[last_cut] + graph[last_cut][childs[last_cut]]
 
                 s = scores[x] - prev_score
                 nodes_cnt = depths[x] - depths[last_cut]
-
-            # print(x, (s, nodes_cnt), 'no')
             
             if s > ret[0]:
                 ret = [s, nodes_cnt]
@@ -59,14 +53,15 @@ class Solution:
                 if y == par: continue
 
                 childs[x] = y
-                dfs(y, x, nodes, childs, last_cut)
+                dfs(y, x, last_cut)
             
             nodes[nums[x]] = prev
             cnts[nums[x]] -= 1
         
         childs = defaultdict(int)
         cnts = defaultdict(int)
+        nodes = defaultdict(int)
 
-        dfs(0, -1, defaultdict(int), childs, n)
+        dfs(0, -1, n)
 
         return ret
