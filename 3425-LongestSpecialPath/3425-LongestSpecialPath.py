@@ -1,4 +1,4 @@
-# Last updated: 13/6/2025, 4:56:22 am
+# Last updated: 13/6/2025, 5:08:45 am
 class Solution:
     def longestSpecialPath(self, edges: List[List[int]], nums: List[int]) -> List[int]:
         ret = [0, 1]
@@ -31,7 +31,7 @@ class Solution:
                     nodes_cnt = depths[x] + 1
                 else:
                     prev_score = scores[prev] + graph[prev][childs[prev]]
-                    
+
                     s = scores[x] - prev_score
                     nodes_cnt = depths[x] - depths[prev]
                     last_cut = prev
@@ -58,7 +58,7 @@ class Solution:
             nodes[nums[x]] = prev
             cnts[nums[x]] -= 1
         
-        childs = defaultdict(int)
+        childs = [0] * n
         cnts = defaultdict(int)
         nodes = defaultdict(int)
 
