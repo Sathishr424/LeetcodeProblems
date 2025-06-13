@@ -1,4 +1,4 @@
-# Last updated: 13/6/2025, 7:25:04 am
+# Last updated: 13/6/2025, 7:27:12 am
 class Solution:
     def longestSpecialPath(self, edges: List[List[int]], nums: List[int]) -> List[int]:
         ret = [0, 1]
@@ -52,8 +52,6 @@ class Solution:
                 prev_score = scores[start] + graph[start][childs[start]]
                 score = scores[x] - prev_score
                 nodes_cnt = depths[x] - depths[start]
-            
-            # print(x, (score, nodes_cnt), start, two)
 
             if score > ret[0]:
                 ret = [score, nodes_cnt]
@@ -69,8 +67,8 @@ class Solution:
 
             for y in graph[x]:
                 if y == par: continue
+                
                 childs[x] = y
-
                 dfs(y, x, start, two)
 
             second_last[color] = second_last_bu
@@ -79,4 +77,3 @@ class Solution:
         
         dfs(0, -1, -1, -1)
         return ret
-
