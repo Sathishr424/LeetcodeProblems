@@ -1,24 +1,26 @@
-# Last updated: 20/5/2025, 4:47:58 pm
+# Last updated: 13/6/2025, 10:32:11 pm
 class Solution:
     def minZeroArray(self, nums: List[int], queries: List[List[int]]) -> int:
-        n = len(nums)
-        m = len(queries)
+        def canMakeItZero(index):
+            can = {}
+            can[nums[index]] = 1
+            for k, (x, y, val) in enumerate(queries):
+                if x <= index and y >= index:
+                    new_can = {}
+                    for num in can:
+                        new_can[num] = 1
+                        if num-val >= 0:
+                            if num-val == 0: return k + 1
+                            new_can[num - val] = 1
+                    can = new_can
+            return -1
         
-        def rec(index, need):
-            if need == 0: return -1
-            sums = [False] * (need+1)
-            sums[0] = True
+        ret = 0
+        for i in range(len(nums)):
+            if nums[i] == 0: continue
 
-            for i, (x, y, val) in enumerate(queries):
-                if x <= index and y >= index and need-val >= 0:
-                    if sums[need-val]: return i
-                    for s in range(need-1, val-1, -1):
-                        if sums[s-val]:
-                            sums[s] = True
-            return m
+            index = canMakeItZero(i)
+            if index == -1: return -1
+            ret = max(ret, index)
         
-        ret = -1
-        for i, num in enumerate(nums):
-            ret = max(ret, rec(i, num))
-        
-        return -1 if ret >= m else ret+1
+        return ret
