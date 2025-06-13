@@ -1,31 +1,41 @@
-# Last updated: 13/6/2025, 9:05:11 am
+# Last updated: 13/6/2025, 9:08:16 am
 class Solution:
     def minimizeMax(self, nums: List[int], p: int) -> int:
-        n = len(nums)
         nums.sort()
+        ret = 0
+        n = len(nums)
+
+        # 5, 7, 8, 10
+        # [1, 2, 1, 3, 0, 2, 1, 1, 2, 3]
 
         l = 0
         r = (nums[-1] - nums[0]) + 1
 
-        def isGood(target):
-            start = 0
-            cnt = 0
-            for i in range(1, n):
-                if nums[i] - nums[start] > target:
-                    diff = i - start
-                    cnt += diff // 2
-                    if diff % 2 == 0 or nums[i] - nums[i-1] > target:
-                        start = i
-                    else:
-                        start = i-1
-            
-            cnt += (n - start) // 2
-            return cnt >= p
-
         while l < r:
             mid = (l + r) // 2
+            # print(l, mid, r)
 
-            if isGood(mid):
+            stack = deque([])
+            
+            cnt = 0
+            for i in range(n):
+                while stack and nums[i] - stack[0] > mid:
+                    stack.popleft()
+                    if stack:
+                        stack.popleft()
+                        cnt += 1
+                stack.append(nums[i])
+                # print(stack, cnt)
+            
+            while stack:
+                stack.popleft()
+                if stack:
+                    stack.popleft()
+                    cnt += 1
+
+            # print(cnt)
+
+            if cnt >= p:
                 r = mid
             else:
                 l = mid + 1
