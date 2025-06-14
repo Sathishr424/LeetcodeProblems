@@ -1,23 +1,17 @@
-# Last updated: 14/6/2025, 11:29:51 am
+# Last updated: 14/6/2025, 1:12:16 pm
 class Solution:
-    def minMaxDifference(self, num: int) -> int:
-        digit = -1
-        def rec(num, replace):
-            nonlocal digit
-            if num == 0: return 0
-
-            new_num = rec(num // 10, replace)
-            rem = num % 10
-
-            if digit == -1 and rem != replace:
-                digit = rem
-            
-            if rem == digit:
-                return new_num * 10 + replace
-            return new_num * 10 + rem
+    def gcdOfStrings(self, str1: str, str2: str) -> str:
+        if len(str2) > len(str1):
+            str1, str2 = str2, str1
         
-        maxi = rec(num, 9)
-        digit = -1
-        mini = rec(num, 0)
+        n = len(str1)
+        m = len(str2)
+        
+        div = m
+        while div:
+            if n % div == 0 and m % div == 0:
+                st = str2[:div]
+                if st * (n // div) == str1 and st * (m // div) == str2: return st
+            div -= 1
 
-        return maxi - mini
+        return ''
