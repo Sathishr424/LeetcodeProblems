@@ -1,12 +1,16 @@
-# Last updated: 14/6/2025, 2:28:52 pm
-def gcd(x, y):
-    rem = x % y
-    if rem == 0: return y
-    return gcd(y, rem)
-
+# Last updated: 14/6/2025, 2:36:46 pm
 class Solution:
-    def findGCD(self, nums: List[int]) -> int:
-        x = max(nums)
-        y = min(nums)
+    def mostFrequent(self, nums: List[int], key: int) -> int:
+        keys = defaultdict(int)
+        ret = 0
 
-        return gcd(x, y)
+        for i in range(len(nums)-1):
+            if nums[i] == key:
+                keys[nums[i+1]] += 1
+                ret = nums[i+1]
+
+        for num in keys:
+            if keys[num] > keys[ret]:
+                ret = num
+        
+        return ret
