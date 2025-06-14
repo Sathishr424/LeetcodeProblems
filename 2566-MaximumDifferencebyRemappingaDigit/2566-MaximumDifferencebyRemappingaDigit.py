@@ -1,5 +1,4 @@
-# Last updated: 14/6/2025, 3:22:33 pm
-@cache
+# Last updated: 14/6/2025, 3:24:40 pm
 def gcd(x, y):
     rem = x % y
     if rem == 0: return y
@@ -16,9 +15,12 @@ class Solution:
         for i in range(n-1):
             num = nums[i]
             for j in range(i+1, n):
-                num = gcd(max(num, nums[j]), min(num, nums[j]))
-                if num == k:
-                    ret += 1
+                if num > nums[j]:
+                    num = gcd(num, nums[j])
+                else:
+                    num = gcd(nums[j], num)
+                
+                ret += num == k
         
         return ret
             
