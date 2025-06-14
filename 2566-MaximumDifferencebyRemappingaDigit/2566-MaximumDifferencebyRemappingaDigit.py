@@ -1,20 +1,21 @@
-# Last updated: 14/6/2025, 3:31:38 pm
-def gcd(x, y):
-    if y == 0: return x
-    return gcd(y, x % y)
-
-# 45 => 10 . 2 + 5
-# 10 => 5 . 2 + 0
-
+# Last updated: 14/6/2025, 4:23:55 pm
 class Solution:
-    def subarrayGCD(self, nums: List[int], k: int) -> int:
-        n = len(nums)
-        ret = 0
+    def dayOfTheWeek(self, day: int, month: int, year: int) -> str:
+        days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        start = 4 + (year - 1971) * 365
 
-        for i in range(n):
-            num = 0
-            for j in range(i, n):
-                ret += (num := gcd(nums[j], num)) == k
+        for y in range(1972, year, 4):
+            start += y % 100 != 0 or y % 400 == 0
         
-        return ret
-            
+        month -= 1
+
+        for m in range(month):
+            start += months[m]
+        
+        if month > 1 and year % 4 == 0 and year % 100 != 0:
+            start += 1
+
+        start += day
+    
+        return days[start % 7]
