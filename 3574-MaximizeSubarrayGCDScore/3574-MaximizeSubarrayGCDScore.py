@@ -1,8 +1,5 @@
-# Last updated: 15/6/2025, 12:47:51 am
-# def gcd(x, y):
-#     if y == 0: return x
-#     return gcd(y, x % y)
-
+# Last updated: 15/6/2025, 12:50:02 am
+@cache
 def get2Power(num):
     cnt = 0
     while num % 2 == 0:
@@ -34,11 +31,7 @@ class Solution:
                 ret = cmax(ret, num * (j-i+1))
 
                 if cnt <= k:
-                    # if num * 2 * (j-i+1) > ret:
-                        # print(num, cnt, num * 2, (j-i+1), i, j, min_power)
-                        # if j+1 < n: print(powers[j+1])
                     ret = cmax(ret, num * 2 * (j-i+1))
-                
         
         return ret
                 
