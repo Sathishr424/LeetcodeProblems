@@ -1,16 +1,8 @@
-# Last updated: 14/6/2025, 2:38:34 pm
+# Last updated: 14/6/2025, 2:41:54 pm
 class Solution:
-    def mostFrequent(self, nums: List[int], key: int) -> int:
-        targets = defaultdict(int)
-        ret = 0
+    def average(self, salary: List[int]) -> float:
+        s = sum(salary)
+        s -= min(salary)
+        s -= max(salary)
 
-        for i in range(len(nums)-1):
-            if nums[i] == key:
-                targets[nums[i+1]] += 1
-                ret = nums[i+1]
-
-        for num in targets:
-            if targets[num] > targets[ret]:
-                ret = num
-        
-        return ret
+        return s / (len(salary) - 2)
