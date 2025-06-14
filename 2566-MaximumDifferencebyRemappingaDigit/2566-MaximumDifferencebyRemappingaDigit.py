@@ -1,25 +1,23 @@
-# Last updated: 14/6/2025, 11:21:18 am
+# Last updated: 14/6/2025, 11:29:51 am
 class Solution:
     def minMaxDifference(self, num: int) -> int:
-        num = str(num)
-        n = len(num)
+        digit = -1
+        def rec(num, replace):
+            nonlocal digit
+            if num == 0: return 0
 
-        i = 0
-        while i < n and num[i] == '9':
-            i += 1
-        
-        maxi = num[:i]
-        for j in range(i, n):
-            if num[j] == num[i]:
-                maxi += '9'
-            else:
-                maxi += num[j]
-        
-        mini = ''
-        for i in range(n):
-            if num[i] == num[0]:
-                mini += '0'
-            else:
-                mini += num[i]
+            new_num = rec(num // 10, replace)
+            rem = num % 10
 
-        return int(maxi) - int(mini)
+            if digit == -1 and rem != replace:
+                digit = rem
+            
+            if rem == digit:
+                return new_num * 10 + replace
+            return new_num * 10 + rem
+        
+        maxi = rec(num, 9)
+        digit = -1
+        mini = rec(num, 0)
+
+        return maxi - mini
