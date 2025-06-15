@@ -1,4 +1,4 @@
-# Last updated: 15/6/2025, 9:39:32 am
+# Last updated: 15/6/2025, 9:39:48 am
 class Solution:
     def numberOfComponents(self, prop: List[List[int]], k: int) -> int:
         n = len(prop)
@@ -17,7 +17,7 @@ class Solution:
 
         def find(x):
             if x != parents[x]:
-                parents[x] = find(parents[x])
+                return find(parents[x])
             return parents[x]
         
         def union(x, y):
