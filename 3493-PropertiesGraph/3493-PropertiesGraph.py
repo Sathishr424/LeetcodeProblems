@@ -1,4 +1,4 @@
-# Last updated: 15/6/2025, 9:39:48 am
+# Last updated: 15/6/2025, 9:41:13 am
 class Solution:
     def numberOfComponents(self, prop: List[List[int]], k: int) -> int:
         n = len(prop)
@@ -14,24 +14,26 @@ class Solution:
         
         parents = [i for i in range(n)]
         sizes = [1] * n
+        ret = 0
 
         def find(x):
             if x != parents[x]:
-                return find(parents[x])
+                parents[x] = find(parents[x])
             return parents[x]
         
         def union(x, y):
+            nonlocal ret
             x = find(x)
             y = find(y)
 
             if x == y: return True
 
-            # if sizes[y] > sizes[x]:
-            #     x, y = y, x
+            if sizes[y] > sizes[x]:
+                x, y = y, x
             
-            # sizes[x] += sizes[y]
+            sizes[x] += sizes[y]
             parents[y] = x
-            
+            ret += 1
             return False
 
         for i in range(n):
@@ -42,9 +44,5 @@ class Solution:
                 
                 if cnt >= k: union(i, j)
         
-        ret = 0
-        for i, node in enumerate(parents):
-            if node == i: ret += 1
-        
-        return ret
+        return n-ret
                         
