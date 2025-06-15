@@ -1,4 +1,4 @@
-# Last updated: 15/6/2025, 8:38:56 am
+# Last updated: 15/6/2025, 9:03:08 am
 N = 82
 dp = [[{} for _ in range(10)] for _ in range(N)]
 
@@ -13,9 +13,6 @@ def rec(s, p, rem):
         ans += rec(s + i, p * i, rem - 1)
     dp[s][rem][p] = ans
     return ans
-
-for i in range(1, 10):
-    rec(i, i, 8)
 
 def getCount(r):
     if r == 0: return 0
