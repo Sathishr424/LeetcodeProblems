@@ -1,4 +1,4 @@
-# Last updated: 15/6/2025, 7:53:48 pm
+# Last updated: 15/6/2025, 7:54:23 pm
 class Solution:
     def minOperations(self, queries: List[List[int]]) -> int:
         N = 15
@@ -9,15 +9,11 @@ class Solution:
                 if arr[i] <= 0: continue
                 num = arr[i]
 
-                if rem >= i:
-                    num -= rem // i
-                    rem = rem % i
-
                 cnt += num // 2 * i
                 if num % 2:
                     cnt += i
                     rem += i
-                # print((arr[i], num), ((num + 1) // 2 * i, cnt), rem)
+
             return cnt - (rem // 2)
 
         ret = 0
@@ -42,8 +38,6 @@ class Solution:
                 prev = curr
                 arr[power] = new_num
 
-            # print(arr)
             ret += process(arr)
-            # print(arr, ret)
 
         return ret
