@@ -1,4 +1,4 @@
-# Last updated: 15/6/2025, 9:38:58 am
+# Last updated: 15/6/2025, 9:39:32 am
 class Solution:
     def numberOfComponents(self, prop: List[List[int]], k: int) -> int:
         n = len(prop)
@@ -26,10 +26,10 @@ class Solution:
 
             if x == y: return True
 
-            if sizes[y] > sizes[x]:
-                x, y = y, x
+            # if sizes[y] > sizes[x]:
+            #     x, y = y, x
             
-            sizes[x] += sizes[y]
+            # sizes[x] += sizes[y]
             parents[y] = x
             
             return False
