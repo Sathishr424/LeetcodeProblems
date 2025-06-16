@@ -1,4 +1,4 @@
-# Last updated: 16/6/2025, 5:19:27 pm
+# Last updated: 16/6/2025, 5:25:57 pm
 days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
@@ -13,7 +13,7 @@ class Solution:
         for m in range(month):
             start += months[m]
         
-        if month > 1 and year % 4 == 0 and year % 100 != 0:
+        if month > 1 and year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
             start += 1
 
         start += day
