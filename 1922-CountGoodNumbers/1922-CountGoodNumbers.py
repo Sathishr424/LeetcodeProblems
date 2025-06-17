@@ -1,17 +1,23 @@
-# Last updated: 13/4/2025, 7:46:50 pm
-mod = 10 ** 9 + 7
-
-def pow(x, n):
-    if n == 0: return 1
-
-    ans = pow(x, n // 2)
-    ans = ans * ans % mod
-
-    return ans * x % mod if n % 2 else ans
-
+# Last updated: 17/6/2025, 8:01:15 pm
 class Solution:
     def countGoodNumbers(self, n: int) -> int:
-        evens = (n + 1) // 2
-        odds = n // 2
+        if n == 1: return 5
+        mod = 10 ** 9 + 7
 
-        return pow(5, evens) * pow(4, odds) % mod
+        def calc(m, val):
+            if m == 1: return val
+
+            half = m // 2
+            ans = calc(half, val)
+            ans = ans * ans % mod
+
+            if m % 2:
+                ans = ans * val % mod
+
+            return ans
+        
+        ret = calc(n//2, 5)
+        ret = ret * calc(n//2, 4) % mod
+        if n % 2:
+            ret = ret * 5 % mod
+        return ret
