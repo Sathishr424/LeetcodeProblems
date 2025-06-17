@@ -1,4 +1,4 @@
-# Last updated: 17/6/2025, 10:31:41 am
+# Last updated: 17/6/2025, 12:44:12 pm
 class Solution:
     def fallingSquares(self, pos: List[List[int]]) -> List[int]:
         n = len(pos)
