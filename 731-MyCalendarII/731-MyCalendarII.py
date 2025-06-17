@@ -1,4 +1,4 @@
-# Last updated: 17/6/2025, 8:39:50 am
+# Last updated: 17/6/2025, 8:42:58 am
 class MyCalendarTwo:
     def __init__(self):
         self.arr = SortedList()
@@ -21,11 +21,10 @@ class MyCalendarTwo:
         curr = (startTime, endTime)
         intersect = -1
         res = True
-        left = self.arr.bisect_left((0, endTime))
-        # right = self.arr.bisect_right((0, endTime))
-        # right = len(self.arr)
-        # print((left, right))
-        for i in range(left, len(self.arr)):
+        index = self.arr.bisect_left((0, endTime))
+ 
+        for i in range(index, len(self.arr)):
+            if self.arr[i][0] >= endTime: break
             if collision(self.arr[i], curr):
                 if intersect != -1 and collision(self.arr[intersect], self.arr[i]):
                     res = False
