@@ -1,13 +1,12 @@
-# Last updated: 17/6/2025, 8:10:25 pm
+# Last updated: 17/6/2025, 8:10:59 pm
 mod = 10 ** 9 + 7
 
 @cache
 def cPow(x, n):
     if n == 0: return 1
     if n == 1: return x
-    half = n // 2
 
-    ans = cPow(x, half)
+    ans = cPow(x, n // 2)
     ans = ans * ans % mod
 
     return ans * (x if n % 2 else 1)
