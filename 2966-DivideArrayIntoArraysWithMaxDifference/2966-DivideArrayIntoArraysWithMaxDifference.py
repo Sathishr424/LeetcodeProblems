@@ -1,12 +1,11 @@
-# Last updated: 18/6/2025, 5:34:08 pm
+# Last updated: 18/6/2025, 5:34:36 pm
 class Solution:
     def divideArray(self, nums: List[int], k: int) -> List[List[int]]:
+        nums.sort()
         n = len(nums)
-        if n == 1: return []
 
         m = n // 3
 
-        nums.sort()
         ret = []
         for i in range(m):
             start = i * 3
