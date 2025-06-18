@@ -1,4 +1,4 @@
-# Last updated: 19/6/2025, 2:08:16 am
+# Last updated: 19/6/2025, 2:09:56 am
 N = 101000000
 cmax = lambda x, y: x if x > y else y
 
@@ -29,7 +29,7 @@ class SegmentTree:
         
         self.processLazy(index, self.tree[index].lazy)
         mid = (l + r) // 2
-        return max(self.query(l, mid, index * 2 + 1, left, right), self.query(mid + 1, r, index * 2 + 2, left, right))
+        return cmax(self.query(l, mid, index * 2 + 1, left, right), self.query(mid + 1, r, index * 2 + 2, left, right))
 
     def update(self, l, r, index, left, right, h):
         if l > right or r < left: return
@@ -44,7 +44,7 @@ class SegmentTree:
         self.update(l, mid, index * 2 + 1, left, right, h)
         self.update(mid+1, r, index * 2 + 2, left, right, h)
 
-        self.tree[index].max = max(self.tree[index * 2 + 1].max, self.tree[index * 2 + 2].max)
+        self.tree[index].max = cmax(self.tree[index * 2 + 1].max, self.tree[index * 2 + 2].max)
 
 class Solution:
     def fallingSquares(self, positions: List[List[int]]) -> List[int]:
