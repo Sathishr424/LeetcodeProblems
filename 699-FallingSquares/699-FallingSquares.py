@@ -1,4 +1,4 @@
-# Last updated: 19/6/2025, 2:24:26 am
+# Last updated: 19/6/2025, 2:24:51 am
 N = 101000000
 cmax = lambda x, y: x if x > y else y
 class SegmentTree:
@@ -9,8 +9,8 @@ class SegmentTree:
     def processLazy(self, index):
         lazy = self.lazy[index]
         if lazy:
-            left = index * 2
-            right = index * 2 + 1
+            left = index * 2 + 1
+            right = index * 2 + 2
             self.tree[left] = lazy
             self.tree[right] = lazy
             self.lazy[left] = lazy
@@ -25,7 +25,7 @@ class SegmentTree:
         
         self.processLazy(index)
         mid = (l + r) // 2
-        return cmax(self.query(l, mid, index * 2, left, right), self.query(mid + 1, r, index * 2 + 1, left, right))
+        return cmax(self.query(l, mid, index * 2 + 1, left, right), self.query(mid + 1, r, index * 2 + 2, left, right))
 
     def update(self, l, r, index, left, right, h):
         if l > right or r < left: return
@@ -37,10 +37,10 @@ class SegmentTree:
         
         self.processLazy(index)
         mid = (l + r) // 2
-        self.update(l, mid, index * 2, left, right, h)
-        self.update(mid+1, r, index * 2 + 1, left, right, h)
+        self.update(l, mid, index * 2 + 1, left, right, h)
+        self.update(mid+1, r, index * 2 + 2, left, right, h)
 
-        self.tree[index] = cmax(self.tree[index * 2], self.tree[index * 2 + 1])
+        self.tree[index] = cmax(self.tree[index * 2 + 1], self.tree[index * 2 + 2])
 
 class Solution:
     def fallingSquares(self, positions: List[List[int]]) -> List[int]:
@@ -63,9 +63,9 @@ class Solution:
             x = compressed[x_]
             y = compressed[x_+y_-1]
 
-            h = tree.query(0, index-1, 1, x, y)
+            h = tree.query(0, index-1, 0, x, y)
 
-            tree.update(0, index-1, 1, x, y, h + y_)
-            ret.append(tree.tree[1])
+            tree.update(0, index-1, 0, x, y, h + y_)
+            ret.append(tree.tree[0])
 
         return ret
