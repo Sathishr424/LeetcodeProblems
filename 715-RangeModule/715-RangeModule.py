@@ -1,6 +1,5 @@
-# Last updated: 19/6/2025, 12:10:38 am
+# Last updated: 19/6/2025, 12:19:31 am
 N = 10**9
-cmax = lambda x, y: x if x > y else y
 class SegNode:
     def __init__(self, l, r):
         self.track = False
