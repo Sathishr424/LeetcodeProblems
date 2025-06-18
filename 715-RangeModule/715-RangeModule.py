@@ -1,4 +1,4 @@
-# Last updated: 19/6/2025, 12:06:27 am
+# Last updated: 19/6/2025, 12:06:58 am
 N = 10**9
 cmax = lambda x, y: x if x > y else y
 class SegNode:
@@ -67,16 +67,13 @@ class RangeModule:
         self.tree = SegTree()
 
     def addRange(self, left: int, right: int) -> None:
-        print("Add", (left, right))
         self.tree.add(self.tree.node, left, right-1)
 
     def queryRange(self, left: int, right: int) -> bool:
         ans = self.tree.query(self.tree.node, left, right-1)
-        print("Query", (left, right), ans)
         return ans
 
     def removeRange(self, left: int, right: int) -> None:
-        print("Remove", (left, right))
         self.tree.remove(self.tree.node, left, right-1)
 
 # Your RangeModule object will be instantiated and called as such:
