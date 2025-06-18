@@ -1,5 +1,6 @@
-# Last updated: 18/6/2025, 11:16:47 pm
+# Last updated: 18/6/2025, 11:17:32 pm
 N = 101000000
+cmax = lambda x, y: x if x > y else y
 class SegNode:
     def __init__(self, l, r):
         self.max = 0
@@ -35,7 +36,7 @@ class SegTree:
         
         self.push(node)
 
-        return max(self.query(node.left, x, y), self.query(node.right, x, y))
+        return cmax(self.query(node.left, x, y), self.query(node.right, x, y))
     
     def update(self, node, x, y, h):
         if node.r < x or node.l > y: return
@@ -48,7 +49,7 @@ class SegTree:
         self.update(node.left, x, y, h)
         self.update(node.right, x, y, h)
 
-        node.max = max(node.left.max, node.right.max)
+        node.max = cmax(node.left.max, node.right.max)
 
 class Solution:
     def fallingSquares(self, positions: List[List[int]]) -> List[int]:
