@@ -1,33 +1,29 @@
-# Last updated: 19/6/2025, 2:09:56 am
+# Last updated: 19/6/2025, 2:14:34 am
 N = 101000000
 cmax = lambda x, y: x if x > y else y
-
-class Node:
-    def __init__(self):
-        self.lazy = 0
-        self.max = 0
-
 class SegmentTree:
     def __init__(self, n):
-        self.tree = [Node() for _ in range(n * 4)]
+        self.tree = [0] * (n * 4)
+        self.lazy = [0] * (n * 4)
     
-    def processLazy(self, index, lazy):
+    def processLazy(self, index):
+        lazy = self.lazy[index]
         if lazy:
             left = index * 2 + 1
             right = index * 2 + 2
-            self.tree[left].lazy = lazy
-            self.tree[right].lazy = lazy
-            self.tree[left].max = lazy
-            self.tree[right].max = lazy
-            self.tree[index].lazy = 0
+            self.tree[left] = lazy
+            self.tree[right] = lazy
+            self.lazy[left] = lazy
+            self.lazy[right] = lazy
+            self.lazy[index] = 0
     
     def query(self, l, r, index, left, right):
         if l > right or r < left: return 0
 
         if l >= left and r <= right:
-            return self.tree[index].max
+            return self.tree[index]
         
-        self.processLazy(index, self.tree[index].lazy)
+        self.processLazy(index)
         mid = (l + r) // 2
         return cmax(self.query(l, mid, index * 2 + 1, left, right), self.query(mid + 1, r, index * 2 + 2, left, right))
 
@@ -35,16 +31,16 @@ class SegmentTree:
         if l > right or r < left: return
 
         if l >= left and r <= right:
-            self.tree[index].lazy = h
-            self.tree[index].max = h
+            self.lazy[index] = h
+            self.tree[index] = h
             return
         
-        self.processLazy(index, self.tree[index].lazy)
+        self.processLazy(index)
         mid = (l + r) // 2
         self.update(l, mid, index * 2 + 1, left, right, h)
         self.update(mid+1, r, index * 2 + 2, left, right, h)
 
-        self.tree[index].max = cmax(self.tree[index * 2 + 1].max, self.tree[index * 2 + 2].max)
+        self.tree[index] = cmax(self.tree[index * 2 + 1], self.tree[index * 2 + 2])
 
 class Solution:
     def fallingSquares(self, positions: List[List[int]]) -> List[int]:
@@ -70,6 +66,6 @@ class Solution:
             h = tree.query(0, index-1, 0, x, y)
 
             tree.update(0, index-1, 0, x, y, h + y_)
-            ret.append(tree.tree[0].max)
+            ret.append(tree.tree[0])
 
         return ret
