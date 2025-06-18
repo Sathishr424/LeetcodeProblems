@@ -1,30 +1,63 @@
-# Last updated: 17/6/2025, 12:44:12 pm
+# Last updated: 18/6/2025, 11:16:47 pm
+N = 101000000
+class SegNode:
+    def __init__(self, l, r):
+        self.max = 0
+        self.l = l
+        self.r = r
+        self.lazy = 0
+        self.left = None
+        self.right = None
+
+class SegTree:
+    def __init__(self):
+        self.node = SegNode(0, N)
+    
+    def push(self, node):
+        mid = (node.l + node.r) // 2
+        if node.left == None:
+            node.left = SegNode(node.l, mid)
+        if node.right == None:
+            node.right = SegNode(mid+1, node.r)
+        
+        if node.lazy:
+            node.left.max = node.lazy
+            node.right.max = node.lazy
+            node.left.lazy = node.lazy
+            node.right.lazy = node.lazy
+            node.lazy = 0
+
+    def query(self, node, x, y):
+        if node.r < x or node.l > y: return 0
+        
+        if node.l >= x and node.r <= y:
+            return node.max
+        
+        self.push(node)
+
+        return max(self.query(node.left, x, y), self.query(node.right, x, y))
+    
+    def update(self, node, x, y, h):
+        if node.r < x or node.l > y: return
+        if node.l >= x and node.r <= y:
+            node.lazy = h
+            node.max = h
+            return
+        
+        self.push(node)
+        self.update(node.left, x, y, h)
+        self.update(node.right, x, y, h)
+
+        node.max = max(node.left.max, node.right.max)
+
 class Solution:
-    def fallingSquares(self, pos: List[List[int]]) -> List[int]:
-        n = len(pos)
+    def fallingSquares(self, positions: List[List[int]]) -> List[int]:
+        tree = SegTree()
         ret = []
 
-        plane = SortedList()
+        for x, y in positions:
+            h = tree.query(tree.node, x, x + y - 1)
+            tree.update(tree.node, x, x + y - 1, h + y)
+            ret.append(tree.node.max)
 
-        def collision(left, right):
-            if left[0] > right[0]:
-                left, right = right, left
-
-            if right[0] >= left[0] and right[0] < left[1]:
-                return True
-            
-            return False
-
-        max_height = 0
-        for i in range(n):
-            height = pos[i][1]
-            index = plane.bisect_left((pos[i][0] + pos[i][1], 0, 0))
-            for j in range(min(len(plane)-1, index), -1, -1):
-                if collision((pos[i][0], pos[i][0] + pos[i][1]), plane[j]):
-                    height = max(height, plane[j][2] + pos[i][1])
-            
-            max_height = max(max_height, height)
-            plane.add((pos[i][0], pos[i][0] + pos[i][1], height))
-            ret.append(max_height)
-        
         return ret
