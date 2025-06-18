@@ -1,55 +1,50 @@
-# Last updated: 19/6/2025, 1:41:58 am
+# Last updated: 19/6/2025, 2:08:16 am
 N = 101000000
 cmax = lambda x, y: x if x > y else y
-class SegNode:
-    def __init__(self, l, r):
-        self.max = 0
-        self.l = l
-        self.r = r
-        self.lazy = 0
-        self.left = None
-        self.right = None
 
-class SegTree:
+class Node:
     def __init__(self):
-        self.node = SegNode(0, N)
-    
-    def push(self, node):
-        mid = (node.l + node.r) // 2
-        if node.left == None:
-            node.left = SegNode(node.l, mid)
-        if node.right == None:
-            node.right = SegNode(mid+1, node.r)
-        
-        if node.lazy:
-            node.left.max = node.lazy
-            node.right.max = node.lazy
-            node.left.lazy = node.lazy
-            node.right.lazy = node.lazy
-            node.lazy = 0
+        self.lazy = 0
+        self.max = 0
 
-    def query(self, node, x, y):
-        if node.r < x or node.l > y: return 0
-        
-        if node.l >= x and node.r <= y:
-            return node.max
-        
-        self.push(node)
-
-        return cmax(self.query(node.left, x, y), self.query(node.right, x, y))
+class SegmentTree:
+    def __init__(self, n):
+        self.tree = [Node() for _ in range(n * 4)]
     
-    def update(self, node, x, y, h):
-        if node.r < x or node.l > y: return
-        if node.l >= x and node.r <= y:
-            node.lazy = h
-            node.max = h
+    def processLazy(self, index, lazy):
+        if lazy:
+            left = index * 2 + 1
+            right = index * 2 + 2
+            self.tree[left].lazy = lazy
+            self.tree[right].lazy = lazy
+            self.tree[left].max = lazy
+            self.tree[right].max = lazy
+            self.tree[index].lazy = 0
+    
+    def query(self, l, r, index, left, right):
+        if l > right or r < left: return 0
+
+        if l >= left and r <= right:
+            return self.tree[index].max
+        
+        self.processLazy(index, self.tree[index].lazy)
+        mid = (l + r) // 2
+        return max(self.query(l, mid, index * 2 + 1, left, right), self.query(mid + 1, r, index * 2 + 2, left, right))
+
+    def update(self, l, r, index, left, right, h):
+        if l > right or r < left: return
+
+        if l >= left and r <= right:
+            self.tree[index].lazy = h
+            self.tree[index].max = h
             return
         
-        self.push(node)
-        self.update(node.left, x, y, h)
-        self.update(node.right, x, y, h)
+        self.processLazy(index, self.tree[index].lazy)
+        mid = (l + r) // 2
+        self.update(l, mid, index * 2 + 1, left, right, h)
+        self.update(mid+1, r, index * 2 + 2, left, right, h)
 
-        node.max = cmax(node.left.max, node.right.max)
+        self.tree[index].max = max(self.tree[index * 2 + 1].max, self.tree[index * 2 + 2].max)
 
 class Solution:
     def fallingSquares(self, positions: List[List[int]]) -> List[int]:
@@ -64,16 +59,17 @@ class Solution:
         for x in keys:
             compressed[x] = index
             index += 1
-        print(compressed)
-        tree = SegTree()
+
+        tree = SegmentTree(index)
         ret = []
 
         for x_, y_ in positions:
             x = compressed[x_]
             y = compressed[x_+y_-1]
 
-            h = tree.query(tree.node, x, y)
-            tree.update(tree.node, x, y, h + y_)
-            ret.append(tree.node.max)
+            h = tree.query(0, index-1, 0, x, y)
+
+            tree.update(0, index-1, 0, x, y, h + y_)
+            ret.append(tree.tree[0].max)
 
         return ret
