@@ -1,4 +1,4 @@
-# Last updated: 19/6/2025, 12:19:31 am
+# Last updated: 19/6/2025, 12:22:23 am
 N = 10**9
 class SegNode:
     def __init__(self, l, r):
@@ -37,8 +37,8 @@ class SegTree:
             val = True if node.lazy == 1 else False
             node.left.track = val
             node.right.track = val
-            node.left.lazy = val
-            node.right.lazy = val
+            node.left.lazy = node.lazy
+            node.right.lazy = node.lazy
             node.lazy = -1
 
     def query(self, node, s, e):
