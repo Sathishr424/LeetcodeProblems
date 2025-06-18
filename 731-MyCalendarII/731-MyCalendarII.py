@@ -1,4 +1,4 @@
-# Last updated: 18/6/2025, 10:52:47 pm
+# Last updated: 18/6/2025, 10:54:20 pm
 N = 10**9
 class Node:
     def __init__(self, l, r):
@@ -44,10 +44,8 @@ class MyCalendarTwo:
 
     def query(self, node, s, e):
         if node == None or node.r < s or node.l > e: return 0 
-        l = node.l
-        r = node.r 
 
-        if l >= s and r <= e:
+        if node.l >= s and node.r  <= e:
             return node.max
         
         self.push(node)
