@@ -1,4 +1,4 @@
-# Last updated: 18/6/2025, 11:17:32 pm
+# Last updated: 19/6/2025, 1:41:58 am
 N = 101000000
 cmax = lambda x, y: x if x > y else y
 class SegNode:
@@ -53,12 +53,27 @@ class SegTree:
 
 class Solution:
     def fallingSquares(self, positions: List[List[int]]) -> List[int]:
+        pos = {}
+        for x, y in positions:
+            pos[x] = 1
+            pos[x+y-1] = 1
+        
+        keys = sorted(pos.keys())
+        index = 0
+        compressed = {}
+        for x in keys:
+            compressed[x] = index
+            index += 1
+        print(compressed)
         tree = SegTree()
         ret = []
 
-        for x, y in positions:
-            h = tree.query(tree.node, x, x + y - 1)
-            tree.update(tree.node, x, x + y - 1, h + y)
+        for x_, y_ in positions:
+            x = compressed[x_]
+            y = compressed[x_+y_-1]
+
+            h = tree.query(tree.node, x, y)
+            tree.update(tree.node, x, y, h + y_)
             ret.append(tree.node.max)
 
         return ret
