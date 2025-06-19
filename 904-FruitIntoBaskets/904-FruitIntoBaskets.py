@@ -1,16 +1,15 @@
-# Last updated: 19/6/2025, 10:00:30 am
+# Last updated: 19/6/2025, 10:01:20 am
+cmax = lambda x, y: x if x > y else y
 class Solution:
     def totalFruit(self, f: List[int]) -> int:
         n = len(f)
 
-        basket = {}
-        basket[f[0]] = 0
         i = 1
         while i < n and f[i] == f[0]:
             i += 1
-        
         if i == n: return n
 
+        basket = {}
         basket[f[0]] = i-1
         basket[f[i]] = i
         ret = i + 1
@@ -30,7 +29,7 @@ class Solution:
                 cnt += 1
             
             basket[f[i]] = i
-            ret = max(ret, cnt)
+            ret = cmax(ret, cnt)
         
         return ret
 
