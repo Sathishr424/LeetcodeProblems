@@ -1,4 +1,4 @@
-# Last updated: 19/6/2025, 2:24:51 am
+# Last updated: 19/6/2025, 5:46:24 am
 N = 101000000
 cmax = lambda x, y: x if x > y else y
 class SegmentTree:
