@@ -1,46 +1,40 @@
-# Last updated: 19/6/2025, 9:42:23 am
+# Last updated: 19/6/2025, 10:00:30 am
 class Solution:
     def totalFruit(self, f: List[int]) -> int:
         n = len(f)
 
-        a = f[0]
+        basket = {}
+        basket[f[0]] = 0
         i = 1
-        while i < n and f[i] == a:
+        while i < n and f[i] == f[0]:
             i += 1
         
         if i == n: return n
-        b = f[i]
 
-        a_cnt = i
-        b_cnt = 1
-        ret = a_cnt + b_cnt
-    
-        cnt = 1
-        prev = f[i]
+        basket[f[0]] = i-1
+        basket[f[i]] = i
+        ret = i + 1
+        cnt = i + 1
 
         for i in range(i+1, n):
-            if f[i] == a:
-                a_cnt += 1
-            elif f[i] == b:
-                b_cnt += 1
-            else:
-                if prev == a:
-                    a_cnt = cnt
-                    b_cnt = 1
-                    b = f[i]
+            if f[i] not in basket:
+                x, y = list(basket.keys())
+
+                if basket[x] > basket[y]:
+                    cnt = i - basket[y]
+                    del basket[y]
                 else:
-                    a_cnt = 1
-                    b_cnt = cnt
-                    a = f[i]
-            
-            if f[i] == prev:
-                cnt += 1
+                    cnt = i - basket[x]
+                    del basket[x]
             else:
-                prev = f[i]
-                cnt = 1
+                cnt += 1
             
-            ret = max(a_cnt + b_cnt, ret)
+            basket[f[i]] = i
+            ret = max(ret, cnt)
         
         return ret
+
+
+
 
         
