@@ -1,4 +1,4 @@
-# Last updated: 19/6/2025, 8:59:49 am
+# Last updated: 19/6/2025, 9:03:11 am
 mod = 10 ** 9 + 7
 @cache
 def inverse(x):
@@ -33,8 +33,8 @@ class Solution:
         combined = f * f2 % mod
         
         a = 11
-        b = half+1
-        c = (half+1) * 9 + 1
+        b = half + 1
+        c = (half + 1) * 9 + 2
 
         dp = [[[-1] * c for _ in range(b)] for _ in range(a)]
 
@@ -49,8 +49,7 @@ class Solution:
             new_tot = tot
             new_cnt = cnt
             for l in range(r+1):
-                if new_tot < 0 or new_cnt < 0:
-                    break
+                if new_tot < 0 or new_cnt < 0: break
                 ans += inverse(l) * inverse(r-l) * howmany(index+1, new_cnt, new_tot)
                 ans %= mod
                 new_tot -= index
