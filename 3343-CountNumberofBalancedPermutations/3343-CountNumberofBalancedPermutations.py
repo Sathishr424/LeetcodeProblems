@@ -1,53 +1,53 @@
-# Last updated: 10/5/2025, 4:39:30 am
-mod = 10**9 + 7
+# Last updated: 19/6/2025, 8:54:49 am
+mod = 10 ** 9 + 7
+@cache
+def inverse(x):
+    x = fact(x)
+    return pow(x, mod-2, mod)
 
-fact = [1] * 81
-inverses = [1] * 81
-
-def inverse(num):
-    return pow(num, mod-2, mod)
-
-for i in range(1, 81):
-    fact[i] = i * fact[i-1] % mod
-    inverses[i] = inverse(fact[i])
+@cache
+def fact(x):
+    if x == 0: return 1
+    return fact(x-1) * x % mod
 
 class Solution:
     def countBalancedPermutations(self, num: str) -> int:
         n = len(num)
-
-        total = 0
-        freq = [0] * 10
-
-        for i in range(n):
-            num_ = int(num[i])
-            total += num_
-            freq[num_] += 1
-        
-        if total % 2: return 0
-
         half = n // 2
-        combined = fact[half] * fact[n-half] % mod
-        
-        @cache
-        def dfs(index, need, cnt):
-            if index == 10:
-                if need == 0 and cnt == 0:
-                    return combined
-                return 0
+    
+        arr = [int(a) for a in num]
+        arr.sort()
 
+        total = sum(arr)
+        target = total // 2
+
+        if total % 2: return 0
+        uniq = [0] * 10
+        
+        for a in arr:
+            uniq[a] += 1
+
+        f = fact(half)
+        f2 = fact(n - half)
+
+        combined = f * f2 % mod
+
+        @cache
+        def howmany(index, cnt, tot):
+            if index == 10 and cnt == 0 and tot == 0:
+                return combined
+            if index == 10 or tot < 0: return 0
             ans = 0
-            r = freq[index]
+            r = uniq[index]
             
-            for l in range(r + 1):
-                if need < 0 or cnt < 0: break
-                ans = (
-                    ans
-                    + dfs(index+1, need, cnt) * inverses[l] % mod
-                    * inverses[r-l] % mod
-                ) % mod
+            for l in range(r+1):
+                if tot < 0 or cnt < 0:
+                    break
+                ans += inverse(l) * inverse(r-l) * howmany(index+1, cnt, tot)
+                ans %= mod
+                tot -= index
                 cnt -= 1
-                need -= index
             
             return ans
-        
-        return dfs(0, total // 2, half)
+            
+        return howmany(0, half, target)
