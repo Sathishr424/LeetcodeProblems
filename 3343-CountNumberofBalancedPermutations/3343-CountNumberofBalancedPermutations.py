@@ -1,9 +1,8 @@
-# Last updated: 19/6/2025, 9:03:11 am
+# Last updated: 19/6/2025, 9:05:01 am
 mod = 10 ** 9 + 7
 @cache
 def inverse(x):
-    x = fact(x)
-    return pow(x, mod-2, mod)
+    return pow(fact(x), mod-2, mod)
 
 @cache
 def fact(x):
