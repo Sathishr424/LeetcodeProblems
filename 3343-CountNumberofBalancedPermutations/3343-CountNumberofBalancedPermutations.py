@@ -1,4 +1,4 @@
-# Last updated: 19/6/2025, 8:57:56 am
+# Last updated: 19/6/2025, 8:59:49 am
 mod = 10 ** 9 + 7
 @cache
 def inverse(x):
@@ -31,8 +31,12 @@ class Solution:
         f2 = fact(n - half)
 
         combined = f * f2 % mod
+        
+        a = 11
+        b = half+1
+        c = (half+1) * 9 + 1
 
-        dp = [[[-1] * 361 for _ in range(half+1)] for _ in range(11)]
+        dp = [[[-1] * c for _ in range(b)] for _ in range(a)]
 
         def howmany(index, cnt, tot):
             if dp[index][cnt][tot] != -1: return dp[index][cnt][tot]
