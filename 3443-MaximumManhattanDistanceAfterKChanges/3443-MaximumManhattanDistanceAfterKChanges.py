@@ -1,4 +1,4 @@
-# Last updated: 20/6/2025, 8:31:15 am
+# Last updated: 20/6/2025, 8:35:50 am
 class Solution:
     def maxDistance(self, grid: List[List[int]]) -> int:
         n = len(grid)
@@ -14,19 +14,16 @@ class Solution:
         d = 0
         ret = -1
         while stack:
+            d += 1
             new_stack = []
             for i, j in stack:
-                if dis[i][j] <= d: continue
-                dis[i][j] = d
-                if grid[i][j] == 0: 
-                    ret = max(ret, d)
-
                 for i2, j2 in DIR:
                     i2 += i
                     j2 += j
-                    if 0 <= i2 < n and 0 <= j2 < n and grid[i2][j2] == 0:
+                    if 0 <= i2 < n and 0 <= j2 < n and grid[i2][j2] == 0 and d < dis[i2][j2]:
+                        ret = max(ret, d)
+                        dis[i2][j2] = d
                         new_stack.append((i2, j2))
-            d += 1
             stack = new_stack
 
         return -1 if ret == inf else ret
