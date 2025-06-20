@@ -1,7 +1,8 @@
-# Last updated: 20/6/2025, 9:50:49 am
+# Last updated: 20/6/2025, 9:51:07 am
 class Solution:
     def executeInstructions(self, n: int, startPos: List[int], s: str) -> List[int]:
         m = len(s)
+        @cache
         def rec(index, i, j):
             if index == m: return 0
             if s[index] == 'L':
