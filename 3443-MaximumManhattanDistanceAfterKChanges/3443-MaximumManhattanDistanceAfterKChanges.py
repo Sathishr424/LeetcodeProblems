@@ -1,4 +1,5 @@
-# Last updated: 20/6/2025, 8:23:12 pm
+# Last updated: 20/6/2025, 8:26:14 pm
+cmax = lambda x, y: x if x > y else y
 class Solution:
     def maxDistance(self, s: str, k: int) -> int:
         n = len(s)
@@ -21,11 +22,11 @@ class Solution:
                         k -= 1
                     else:
                         y += 1 if char == 'N' else -1
-                ans = max(ans, abs(x) + abs(y))
+                ans = cmax(ans, abs(x) + abs(y))
             return ans
         
-        ret = max(ret, helper('W', 'N', k))
-        ret = max(ret, helper('W', 'S', k))
-        ret = max(ret, helper('E', 'N', k))
-        ret = max(ret, helper('E', 'S', k))
+        ret = cmax(ret, helper('W', 'N', k))
+        ret = cmax(ret, helper('W', 'S', k))
+        ret = cmax(ret, helper('E', 'N', k))
+        ret = cmax(ret, helper('E', 'S', k))
         return ret
