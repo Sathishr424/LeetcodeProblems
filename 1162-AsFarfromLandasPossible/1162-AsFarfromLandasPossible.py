@@ -1,6 +1,4 @@
-# Last updated: 20/6/2025, 8:46:15 am
-cmax = lambda x, y: x if x > y else y
-inf = 200
+# Last updated: 20/6/2025, 8:46:47 am
 class Solution:
     def maxDistance(self, grid: List[List[int]]) -> int:
         n = len(grid)
