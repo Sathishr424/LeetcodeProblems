@@ -1,8 +1,9 @@
-# Last updated: 20/6/2025, 8:35:50 am
+# Last updated: 20/6/2025, 8:36:25 am
+cmax = lambda x, y: x if x > y else y
+inf = 200
 class Solution:
     def maxDistance(self, grid: List[List[int]]) -> int:
         n = len(grid)
-        inf = 200
         dis = [[inf] * n for _ in range(n)]
         DIR = [(1, 0), (-1, 0), (0, 1), (0, -1)]
         stack = []
@@ -21,7 +22,7 @@ class Solution:
                     i2 += i
                     j2 += j
                     if 0 <= i2 < n and 0 <= j2 < n and grid[i2][j2] == 0 and d < dis[i2][j2]:
-                        ret = max(ret, d)
+                        ret = cmax(ret, d)
                         dis[i2][j2] = d
                         new_stack.append((i2, j2))
             stack = new_stack
