@@ -1,36 +1,32 @@
-# Last updated: 4/4/2025, 2:31:30 pm
-cmax = lambda x, y: x if x > y else y
-
-def getDirection(d, y, x):
-    if d == 'N': return y-1, x
-    if d == 'S': return y+1, x
-    if d == 'W': return y, x-1
-    if d == 'E': return y, x+1
-
-def process(s, t, s2, t2, rem, st):
-    res = 0
-    x = 0
-    y = 0
-    for d in st:
-        if rem > 0:
-            if d == s:
-                rem -= 1
-                d = t
-            elif d == s2:
-                rem -= 1
-                d = t2
-        
-        x, y = getDirection(d, x, y)
-        res = cmax(res, abs(x) + abs(y))
-    return res
-
+# Last updated: 20/6/2025, 8:24:18 am
 class Solution:
-    def maxDistance(self, st: str, k: int) -> int:
-        return max(process('S', 'N', 'W', 'E', k, st),
-        process('S', 'N', 'E', 'W', k, st),
-        process('N', 'S', 'E', 'W', k, st),
-        process('N', 'S', 'W', 'E', k, st))
-        
+    def maxDistance(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        inf = float('inf')
+        dis = [[inf] * n for _ in range(n)]
+        DIR = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        stack = deque([])
 
+        for i in range(n):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    stack.append((i, j, 0))
         
-                    
+        while stack:
+            i, j, d = stack.popleft()
+            if dis[i][j] <= d: continue
+            dis[i][j] = d
+
+            for i2, j2 in DIR:
+                i2 += i
+                j2 += j
+                if 0 <= i2 < n and 0 <= j2 < n and grid[i2][j2] == 0:
+                    stack.append((i2, j2, d+1))
+        # [print(row) for row in dis]
+        ret = -1
+        for i in range(n):
+            for j in range(n):
+                if grid[i][j] == 0:
+                    ret = max(ret, dis[i][j])
+        
+        return -1 if ret == inf else ret
