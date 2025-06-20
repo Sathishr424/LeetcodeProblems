@@ -1,10 +1,7 @@
-# Last updated: 20/6/2025, 8:28:12 pm
+# Last updated: 20/6/2025, 9:23:27 pm
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def maxDistance(self, s: str, k: int) -> int:
-        n = len(s)
-        ret = 0
-
         def helper(h, v, k):
             ans = 0
             x = 0
@@ -23,8 +20,7 @@ class Solution:
                 ans = cmax(ans, abs(x) + abs(y))
             return ans
         
-        ret = cmax(ret, helper('W', 'N', k))
+        ret = helper('W', 'N', k)
         ret = cmax(ret, helper('W', 'S', k))
         ret = cmax(ret, helper('E', 'N', k))
-        ret = cmax(ret, helper('E', 'S', k))
-        return ret
+        return cmax(ret, helper('E', 'S', k))
