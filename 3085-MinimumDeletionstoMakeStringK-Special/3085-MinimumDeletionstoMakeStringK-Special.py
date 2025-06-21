@@ -1,13 +1,9 @@
-# Last updated: 21/6/2025, 10:47:07 am
+# Last updated: 21/6/2025, 10:50:50 am
 class Solution:
     def minimumDeletions(self, word: str, k: int) -> int:
-        freq = [0] * 26
-        for char in word:
-            freq[ord(char) - 97] += 1
-
-        arr = sorted([freq[i] for i in range(26) if freq[i]])
+        arr = sorted(Counter(word).values())
         n = len(arr)
-        ret = 100001
+        ret = len(word)
         p = 0
         for i in range(n):
             best = p
