@@ -1,4 +1,4 @@
-# Last updated: 21/6/2025, 10:44:49 am
+# Last updated: 21/6/2025, 10:45:44 am
 class Solution:
     def minimumDeletions(self, word: str, k: int) -> int:
         freq = [0] * 26
@@ -7,7 +7,7 @@ class Solution:
 
         arr = sorted([freq[i] for i in range(26) if freq[i]])
         n = len(arr)
-        ret = float('inf')
+        ret = 100001
         p = 0
         for i in range(n):
             best = p
