@@ -1,4 +1,4 @@
-# Last updated: 21/6/2025, 9:24:36 am
+# Last updated: 21/6/2025, 9:25:09 am
 class Solution:
     def minimumDeletions(self, word: str, k: int) -> int:
         freq = [0] * 26
@@ -10,7 +10,7 @@ class Solution:
         dp = [[-1] * n for _ in range(n)]
 
         def rec(l, r):
-            if dp[l][r] != -1: return dp[l][r]
+            # if dp[l][r] != -1: return dp[l][r]
             if l == r: return 0
 
             diff = arr[r] - arr[l]
