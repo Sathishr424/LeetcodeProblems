@@ -1,4 +1,4 @@
-# Last updated: 21/6/2025, 9:25:33 am
+# Last updated: 21/6/2025, 10:26:40 am
 class Solution:
     def minimumDeletions(self, word: str, k: int) -> int:
         freq = [0] * 26
@@ -7,17 +7,27 @@ class Solution:
 
         arr = sorted([freq[i] for i in range(26) if freq[i]])
         n = len(arr)
-        dp = [[-1] * n for _ in range(n)]
+        dp = [[float('inf')] * n for _ in range(n)]
+        # for i in range(n):
+        #     dp[i][n-1] = 0
+        dp[0][n-1] = 0
+        # print(arr)
 
-        def rec(l, r):
-            if dp[l][r] != -1: return dp[l][r]
-            if l == r: return 0
+        ret = float('inf')
+        for i in range(n):
+            s = 0
+            for j in range(n-1, i, -1):
+                diff = arr[j] - arr[i]
+                if diff > k:
+                    dp[i+1][j] = min(dp[i+1][j], arr[i] + dp[i][j])
+                    dp[i][j-1] = min(diff - k + dp[i][j], dp[i][j-1])
+                else:
+                    # print(i, j)
+                    # ret = min(dp[i][j], ret)
+                    dp[i+1][j] = min(dp[i+1][j], dp[i][j])
+                    dp[i][j-1] = min(dp[i][j-1], dp[i][j])
+            # print((i, i), dp[i][i])
+            ret = min(ret, dp[i][i])
 
-            diff = arr[r] - arr[l]
-            if diff > k:
-                dp[l][r] = min(rec(l+1, r) + arr[l], rec(l, r-1) + diff - k)
-            else:
-                dp[l][r] = 0
-            return dp[l][r]
-        
-        return rec(0, n-1)
+        # [print(row) for row in dp]
+        return ret
