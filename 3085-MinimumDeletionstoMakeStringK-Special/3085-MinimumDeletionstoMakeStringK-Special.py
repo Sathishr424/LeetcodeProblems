@@ -1,4 +1,4 @@
-# Last updated: 21/6/2025, 10:28:49 am
+# Last updated: 21/6/2025, 10:32:19 am
 class Solution:
     def minimumDeletions(self, word: str, k: int) -> int:
         freq = [0] * 26
