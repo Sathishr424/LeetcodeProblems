@@ -1,4 +1,4 @@
-# Last updated: 21/6/2025, 7:42:21 pm
+# Last updated: 22/6/2025, 3:37:19 am
 class Solution:
     def findPaths(self, m: int, n: int, maxMove: int, r: int, c: int) -> int:
         mod = 10**9 + 7
