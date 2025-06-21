@@ -1,5 +1,7 @@
-# Last updated: 22/6/2025, 3:34:59 am
+# Last updated: 22/6/2025, 3:35:45 am
 inf = float('inf')
+cmax = lambda x, y: x if x > y else y
+cmin = lambda x, y: x if x < y else y
 class Node:
     def __init__(self):
         self.min = inf
@@ -15,12 +17,12 @@ class Solution:
         y = defaultdict(Node)
 
         for x_, y_ in coords:
-            x[x_].min = min(x[x_].min, y_)
-            x[x_].max = max(x[x_].max, y_)
+            x[x_].min = cmin(x[x_].min, y_)
+            x[x_].max = cmax(x[x_].max, y_)
             x[x_].cnt += 1
 
-            y[y_].min = min(y[y_].min, x_)
-            y[y_].max = max(y[y_].max, x_)
+            y[y_].min = cmin(y[y_].min, x_)
+            y[y_].max = cmax(y[y_].max, x_)
             y[y_].cnt += 1
         
         h = sorted(x.keys())
@@ -34,9 +36,9 @@ class Solution:
 
             base = b-a
             if x_ - h[0] > 0:
-                ret = max(base * (x_ - h[0]), ret)
+                ret = cmax(base * (x_ - h[0]), ret)
             if h[-1] - x_ > 0:
-                ret = max(ret, base * (h[-1] - x_))
+                ret = cmax(ret, base * (h[-1] - x_))
 
         for y_ in v:
             if y[y_].cnt == 1: continue
@@ -45,8 +47,8 @@ class Solution:
 
             base = b-a
             if y_ - v[0] > 0:
-                ret = max(base * (y_ - v[0]), ret)
+                ret = cmax(base * (y_ - v[0]), ret)
             if v[-1] - y_ > 0:
-                ret = max(ret, base * (v[-1] - y_))
+                ret = cmax(ret, base * (v[-1] - y_))
         
         return ret
