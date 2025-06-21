@@ -1,4 +1,4 @@
-# Last updated: 21/6/2025, 10:26:40 am
+# Last updated: 21/6/2025, 10:27:07 am
 class Solution:
     def minimumDeletions(self, word: str, k: int) -> int:
         freq = [0] * 26
@@ -22,12 +22,9 @@ class Solution:
                     dp[i+1][j] = min(dp[i+1][j], arr[i] + dp[i][j])
                     dp[i][j-1] = min(diff - k + dp[i][j], dp[i][j-1])
                 else:
-                    # print(i, j)
-                    # ret = min(dp[i][j], ret)
-                    dp[i+1][j] = min(dp[i+1][j], dp[i][j])
-                    dp[i][j-1] = min(dp[i][j-1], dp[i][j])
-            # print((i, i), dp[i][i])
+                    dp[i+1][j] = dp[i][j]
+                    dp[i][j-1] = dp[i][j]
+
             ret = min(ret, dp[i][i])
 
-        # [print(row) for row in dp]
         return ret
