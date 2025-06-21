@@ -1,4 +1,4 @@
-# Last updated: 21/6/2025, 9:57:03 pm
+# Last updated: 21/6/2025, 11:55:09 pm
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def minSwaps(self, nums: List[int]) -> int:
@@ -51,6 +51,3 @@ class Solution:
             return doEven()
 
         return min(doOdd(), doEven())
-
-
-        
