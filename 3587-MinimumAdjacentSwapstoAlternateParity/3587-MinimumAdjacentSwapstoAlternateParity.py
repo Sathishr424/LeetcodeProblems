@@ -1,4 +1,5 @@
-# Last updated: 21/6/2025, 9:53:32 pm
+# Last updated: 21/6/2025, 9:57:03 pm
+cmax = lambda x, y: x if x > y else y
 class Solution:
     def minSwaps(self, nums: List[int]) -> int:
         n = len(nums)
@@ -24,10 +25,10 @@ class Solution:
             ret = 0
             for i in range(n):
                 if need[i] == 1:
-                    ret += max(0, o[o_index] - i)
+                    ret += cmax(0, o[o_index] - i)
                     o_index += 1
                 else:
-                    ret += max(0, z[z_index] - i)
+                    ret += cmax(0, z[z_index] - i)
                     z_index += 1
             
             return ret
