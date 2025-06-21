@@ -1,4 +1,4 @@
-# Last updated: 21/6/2025, 9:15:41 am
+# Last updated: 21/6/2025, 9:22:29 am
 class Solution:
     def minimumDeletions(self, word: str, k: int) -> int:
         freq = defaultdict(int)
