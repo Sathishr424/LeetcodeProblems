@@ -1,36 +1,18 @@
-# Last updated: 21/6/2025, 2:57:39 pm
+# Last updated: 21/6/2025, 6:38:50 pm
 class Solution:
     def nthUglyNumber(self, n: int) -> int:
-        x = [2]
-        y = [3]
-        z = [5]
+        ugly = [1]
+        i = 0
+        j = 0
+        k = 0
         
-        x_index = 0
-        y_index = 0
-        z_index = 0
-        num = 1
-        n -= 1
-        while n:
-            if x[x_index] == y[y_index]:
-                x_index += 1
-            if x[x_index] == z[z_index]:
-                x_index += 1
-            if y[y_index] == z[z_index]:
-                y_index += 1
-            
-            if x[x_index] < y[y_index] and x[x_index] < z[z_index]:
-                num = x[x_index]
-                x_index += 1
-            elif y[y_index] < z[z_index]:
-                num = y[y_index]
-                y_index += 1
-            else:
-                num = z[z_index]
-                z_index += 1
-
-            x.append(num * 2)
-            y.append(num * 3)
-            z.append(num * 5)
-            n -= 1
-
-        return num
+        while n > len(ugly):
+            num = min(ugly[i] * 2, ugly[j] * 3, ugly[k] * 5)
+            ugly.append(num)
+            if num == ugly[i] * 2:
+                i += 1
+            if num == ugly[j] * 3:
+                j += 1
+            if num == ugly[k] * 5:
+                k += 1
+        return ugly[-1]
