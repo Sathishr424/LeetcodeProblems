@@ -1,4 +1,4 @@
-# Last updated: 21/6/2025, 10:27:07 am
+# Last updated: 21/6/2025, 10:28:49 am
 class Solution:
     def minimumDeletions(self, word: str, k: int) -> int:
         freq = [0] * 26
@@ -8,19 +8,15 @@ class Solution:
         arr = sorted([freq[i] for i in range(26) if freq[i]])
         n = len(arr)
         dp = [[float('inf')] * n for _ in range(n)]
-        # for i in range(n):
-        #     dp[i][n-1] = 0
         dp[0][n-1] = 0
-        # print(arr)
 
         ret = float('inf')
         for i in range(n):
-            s = 0
             for j in range(n-1, i, -1):
                 diff = arr[j] - arr[i]
                 if diff > k:
-                    dp[i+1][j] = min(dp[i+1][j], arr[i] + dp[i][j])
-                    dp[i][j-1] = min(diff - k + dp[i][j], dp[i][j-1])
+                    dp[i+1][j] = arr[i] + dp[i][j]
+                    dp[i][j-1] = diff - k + dp[i][j]
                 else:
                     dp[i+1][j] = dp[i][j]
                     dp[i][j-1] = dp[i][j]
