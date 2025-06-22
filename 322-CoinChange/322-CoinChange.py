@@ -1,5 +1,6 @@
-# Last updated: 23/6/2025, 3:08:39 am
+# Last updated: 23/6/2025, 3:10:40 am
 inf = float('inf')
+cmin = lambda x, y: x if x < y else y
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
         coins.sort()
@@ -8,6 +9,6 @@ class Solution:
         for target in range(amount):
             for coin in coins:
                 if target + coin > amount: break
-                dp[target + coin] = min(dp[target] + 1, dp[target + coin])
+                dp[target + coin] = cmin(dp[target] + 1, dp[target + coin])
         
         return -1 if dp[amount] == inf else dp[amount]
