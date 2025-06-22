@@ -1,15 +1,14 @@
-# Last updated: 23/6/2025, 3:29:28 am
+# Last updated: 23/6/2025, 3:33:35 am
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
         coins.sort()
         n = len(coins)
         
-        @cache
-        def rec(index, target):
-            if target == 0:
-                return 1
-            if index == n or target - coins[index] < 0: return 0
+        dp = [0] * (amount + 1)
+        dp[0] = 1
 
-            return rec(index+1, target) + rec(index, target - coins[index])
+        for coin in coins:
+            for tot in range(amount-coin+1):
+                dp[tot + coin] += dp[tot]
         
-        return rec(0, amount)
+        return dp[amount]
