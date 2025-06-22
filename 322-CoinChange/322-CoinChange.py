@@ -1,18 +1,13 @@
-# Last updated: 23/6/2025, 3:04:08 am
+# Last updated: 23/6/2025, 3:08:39 am
 inf = float('inf')
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
         coins.sort()
-        @cache
-        def rec(target):
-            if target == 0:
-                return 0
-            
-            ans = inf
+        dp = [inf] * (amount + 1)
+        dp[0] = 0
+        for target in range(amount):
             for coin in coins:
-                if target-coin < 0: break
-                ans = min(ans, rec(target - coin) + 1)
-            return ans
+                if target + coin > amount: break
+                dp[target + coin] = min(dp[target] + 1, dp[target + coin])
         
-        ans = rec(amount)
-        return -1 if ans == float('inf') else ans
+        return -1 if dp[amount] == inf else dp[amount]
