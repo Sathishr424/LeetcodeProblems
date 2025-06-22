@@ -1,4 +1,4 @@
-# Last updated: 23/6/2025, 3:10:40 am
+# Last updated: 23/6/2025, 3:11:54 am
 inf = float('inf')
 cmin = lambda x, y: x if x < y else y
 class Solution:
@@ -10,5 +10,6 @@ class Solution:
             for coin in coins:
                 if target + coin > amount: break
                 dp[target + coin] = cmin(dp[target] + 1, dp[target + coin])
+                if target + coin == amount: break
         
         return -1 if dp[amount] == inf else dp[amount]
