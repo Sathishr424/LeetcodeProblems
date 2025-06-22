@@ -1,4 +1,4 @@
-# Last updated: 23/6/2025, 4:26:49 am
+# Last updated: 23/6/2025, 4:31:19 am
 class Solution:
     def findCoins(self, numWays: List[int]) -> List[int]:
         n = len(numWays)
@@ -19,12 +19,9 @@ class Solution:
                 if dp[plus] + dp[tot] > numWays[plus-1]:
                     possible = False
                     break
+                dp[plus] += dp[tot]
             
-            if not possible: continue
-            for tot in range(n-coin+1):
-                if dp[tot] == 0: continue
-                dp[tot + coin] += dp[tot]
-                used[coin] = 1
+            if possible: used[coin] = 1
         
         for i in range(1, n+1):
             if dp[i] != numWays[i-1]: return []
