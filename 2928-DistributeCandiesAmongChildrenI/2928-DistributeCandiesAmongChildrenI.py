@@ -1,15 +1,11 @@
-# Last updated: 22/6/2025, 7:44:54 am
+# Last updated: 22/6/2025, 7:47:44 am
 class Solution:
     def distributeCandies(self, n: int, limit: int) -> int:
-        # *****
-        @cache
-        def rec(k, rem):
-            if k == 0:
-                if rem == 0: return 1
-                return 0
-            ans = 0
-            for c in range(limit+1):
-                ans += rec(k-1, rem-c)
-            return ans
-
-        return rec(3, n)
+        ret = 0
+        limit += 1
+        for i in range(limit):
+            for j in range(limit):
+                for k in range(limit):
+                    if i + j + k == n: ret += 1
+        
+        return ret
