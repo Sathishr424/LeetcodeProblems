@@ -1,4 +1,4 @@
-# Last updated: 24/6/2025, 2:33:54 am
+# Last updated: 24/6/2025, 2:40:56 am
 cmin = lambda x, y: x if x < y else y
 inf = float('inf')
 class Node:
@@ -18,14 +18,14 @@ class Trie:
                 node.childs[a] = Node(val[i])
             node = node.childs[a]
     
-    def getMatch(self, word, index):
+    def getMatch(self, word, index, dp):
         node = self.node
         for i in range(index, len(word)):
             a = ord(word[i]) - 97
             if node.childs[a] == None:
                 return i - index
+            dp[i + 1] = min(dp[i + 1], dp[index] + 1)
             node = node.childs[a]
-        return len(word) - index
     
 class Solution:
     def minValidStrings(self, words: List[str], target: str) -> int:
@@ -40,8 +40,6 @@ class Solution:
         dp = [inf] * (m + 1)
         dp[0] = 0
         for i in range(1, m+1):
-            cnt = trie.getMatch(target, i-1)
-            for j in range(i, i+cnt):
-                dp[j] = cmin(dp[j], dp[i - 1] + 1)
+            trie.getMatch(target, i-1, dp)
 
         return -1 if dp[-1] == inf else dp[-1]
