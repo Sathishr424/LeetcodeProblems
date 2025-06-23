@@ -1,9 +1,9 @@
-# Last updated: 23/6/2025, 11:36:37 am
+# Last updated: 23/6/2025, 11:39:27 am
 def is_palindrome(num):
     st = str(num)
     return st == st[::-1]
 
-def getNewBaseAndNum(num, pal, base):
+def getPalBaseNum(num, pal, base):
     while pal:
         rem = pal % 10
         num = num * base + rem
@@ -30,13 +30,13 @@ class Solution:
                     if n == 0: return ret
                 wait_list = []
             
-            new_num = getNewBaseAndNum(num, base // 10, k)
+            new_num = getPalBaseNum(num, base // 10, k)
             if is_palindrome(new_num):
                 ret += new_num
                 n -= 1
                 if n == 0: break
             
-            new_num = getNewBaseAndNum(num, base, k)
+            new_num = getPalBaseNum(num, base, k)
             if is_palindrome(new_num):
                 prev = l
                 wait_list.append(new_num)
