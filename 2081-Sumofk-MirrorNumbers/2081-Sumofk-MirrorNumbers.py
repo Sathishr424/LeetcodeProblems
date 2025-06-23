@@ -1,4 +1,4 @@
-# Last updated: 23/6/2025, 12:01:31 pm
+# Last updated: 23/6/2025, 12:02:57 pm
 def is_palindrome(num):
     st = str(num)
     return st == st[::-1]
