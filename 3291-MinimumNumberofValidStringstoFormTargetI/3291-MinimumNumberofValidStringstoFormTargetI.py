@@ -1,4 +1,4 @@
-# Last updated: 24/6/2025, 2:32:01 am
+# Last updated: 24/6/2025, 2:33:54 am
 cmin = lambda x, y: x if x < y else y
 inf = float('inf')
 class Node:
@@ -41,9 +41,7 @@ class Solution:
         dp[0] = 0
         for i in range(1, m+1):
             cnt = trie.getMatch(target, i-1)
-            # print(target[:i], cnt)
             for j in range(i, i+cnt):
-                dp[j] = min(dp[j], dp[i - 1] + 1)
-            # print(dp)
-        # print(dp)
+                dp[j] = cmin(dp[j], dp[i - 1] + 1)
+
         return -1 if dp[-1] == inf else dp[-1]
