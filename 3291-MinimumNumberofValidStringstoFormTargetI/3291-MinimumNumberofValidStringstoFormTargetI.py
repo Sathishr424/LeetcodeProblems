@@ -1,4 +1,4 @@
-# Last updated: 24/6/2025, 2:40:56 am
+# Last updated: 24/6/2025, 2:41:24 am
 cmin = lambda x, y: x if x < y else y
 inf = float('inf')
 class Node:
@@ -24,7 +24,7 @@ class Trie:
             a = ord(word[i]) - 97
             if node.childs[a] == None:
                 return i - index
-            dp[i + 1] = min(dp[i + 1], dp[index] + 1)
+            dp[i + 1] = cmin(dp[i + 1], dp[index] + 1)
             node = node.childs[a]
     
 class Solution:
