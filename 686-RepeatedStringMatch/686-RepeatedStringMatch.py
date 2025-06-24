@@ -1,4 +1,4 @@
-# Last updated: 24/6/2025, 5:55:56 pm
+# Last updated: 24/6/2025, 5:57:01 pm
 class Solution:
     def repeatedStringMatch(self, a: str, b: str) -> int:
         n = len(a)
@@ -28,9 +28,10 @@ class Solution:
         while i < len(new_a):
             if new_a[i] == b[j]:
                 j += 1
+                if j == m: return i // n + 1
             elif j > 0:
                 j = lps[j - 1]
                 continue
-            if j == len(b): return i // n + 1
             i += 1
+        
         return -1
