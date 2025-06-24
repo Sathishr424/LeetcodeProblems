@@ -1,29 +1,19 @@
-# Last updated: 25/6/2025, 12:22:48 am
-inf = float('inf')
-cmin = lambda x, y: x if x < y else y
-
+# Last updated: 25/6/2025, 12:23:38 am
 class Solution:
     def jump(self, nums: List[int]) -> int:
         n = len(nums)
+        if n == 1: return 0
 
-        dp = [inf] * n
-        dp[0] = 0
+        left = nums[0]
+        steps = 1
 
-        stack = deque([])
+        right = nums[0]
 
-        for i in range(n):
-            while stack and stack[0] < i:
-                stack.popleft()
-            
-            if stack: dp[i] = cmin(dp[i], dp[stack[0]])
-            
-            if nums[i]:
-                index = cmin(n - 1, i + nums[i])
-                dp[index] = cmin(dp[index], dp[i] + 1)
-                while stack and stack[-1] < index and dp[stack[-1]] > dp[index]:
-                    stack.pop()
-                
-                if not stack or stack[-1] < index:
-                    stack.append(index)
+        for i in range(1, n-1):
+            left = max(left, nums[i] + i)
+            if i >= right:
+                right = left
+                steps += 1
+            if right >= n-1: return steps
         
-        return dp[n-1]
+        return steps
