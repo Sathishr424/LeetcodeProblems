@@ -1,15 +1,23 @@
-# Last updated: 24/6/2025, 2:19:20 pm
+# Last updated: 24/6/2025, 2:21:58 pm
+inf = 2001
+cmin = lambda x, y: x if x < y else y
 class Solution:
-    def findKDistantIndices(
-        self, nums: List[int], key: int, k: int
-    ) -> List[int]:
-        res = []
-        r = 0  # unjudged minimum index
+    def findKDistantIndices(self, nums: List[int], key: int, k: int) -> List[int]:
         n = len(nums)
-        for j in range(n):
-            if nums[j] == key:
-                l = max(r, j - k)
-                r = min(n - 1, j + k) + 1
-                for i in range(l, r):
-                    res.append(i)
-        return res
+        ret = []
+        
+        nearest = [0] * n
+        
+        prev = inf
+        for i in range(n-1, -1, -1):
+            if nums[i] == key:
+                prev = i
+            nearest[i] = abs(i - prev)
+        
+        prev = inf
+        for i in range(n):
+            if nums[i] == key: prev = i
+            nearest[i] = cmin(nearest[i], abs(prev - i))
+            if nearest[i] <= k: ret.append(i)
+        
+        return ret
