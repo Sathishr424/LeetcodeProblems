@@ -1,10 +1,10 @@
-# Last updated: 24/6/2025, 5:57:01 pm
+# Last updated: 24/6/2025, 6:00:50 pm
 class Solution:
     def repeatedStringMatch(self, a: str, b: str) -> int:
         n = len(a)
         m = len(b)
 
-        new_a = a + (a * ceil(m / n))
+        nn = n + (n * ceil(m / n))
 
         def getKMP(word):
             n = len(word)
@@ -25,8 +25,8 @@ class Solution:
         lps = getKMP(b)
         j = 0
         i = 0
-        while i < len(new_a):
-            if new_a[i] == b[j]:
+        while i < nn:
+            if a[i % n] == b[j]:
                 j += 1
                 if j == m: return i // n + 1
             elif j > 0:
