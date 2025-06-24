@@ -1,4 +1,4 @@
-// Last updated: 24/6/2025, 7:10:11 pm
+// Last updated: 24/6/2025, 7:14:24 pm
 class Solution {
 public:
     int repeatedStringMatch(string a, string b) {
@@ -15,7 +15,7 @@ public:
                 lps[i] = ++j;
             }
         }
-        const int nn = n + n * ceil((float) m / n);
+        const int nn = n + n * (m + (n - 1)) / n;
         j = 0;
         for (unsigned int i=0; i < nn; i++) {
             while (j > 0 and a[i % n] != b[j]) {
@@ -23,7 +23,7 @@ public:
             }
             if (a[i % n] == b[j]) {
                 j++;
-                if (j == m) return ceil((float) (i + 1) / n);
+                if (j == m) return ((i + 1) + (n - 1)) / n;
             }
         }
 
