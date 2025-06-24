@@ -1,4 +1,4 @@
-// Last updated: 24/6/2025, 9:08:31 pm
+// Last updated: 24/6/2025, 9:41:10 pm
 public:
     int minValidStrings(vector<string>& v, string t) {
         int m = t.size();
