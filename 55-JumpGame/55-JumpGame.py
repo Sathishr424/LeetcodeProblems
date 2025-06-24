@@ -1,10 +1,15 @@
-# Last updated: 12/6/2025, 5:54:21 am
+# Last updated: 25/6/2025, 12:03:44 am
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
-        left = nums[0]
-        for i in range(1, len(nums)):
-            if left >= i:
-                left = max(left, i+nums[i])
-            else: return False
+        n = len(nums)
+
+        dp = [0] * n
+        larger = 0
+
+        for i in range(n):
+            if i <= larger:
+                larger = max(larger, i + nums[i])
+            else:
+                return False
         
         return True
