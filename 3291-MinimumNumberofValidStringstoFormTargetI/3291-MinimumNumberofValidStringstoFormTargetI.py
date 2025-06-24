@@ -1,45 +1,56 @@
-# Last updated: 24/6/2025, 2:41:24 am
+# Last updated: 24/6/2025, 10:47:31 pm
 cmin = lambda x, y: x if x < y else y
+cmax = lambda x, y: x if x > y else y
 inf = float('inf')
-class Node:
-    def __init__(self, val):
-        self.val = val
-        self.childs = [None for _ in range(26)]
 
-class Trie:
-    def __init__(self):
-        self.node = Node(inf)
+def getKMP(st):
+    n = len(st)
+    lps = [0] * n
+    j = 0
+    for i in range(1, n):
+        while j > 0 and st[i] != st[j]:
+            j = lps[j - 1]
+        if st[i] == st[j]:
+            j += 1
+            lps[i] = j
     
-    def insert(self, val):
-        node = self.node
-        for i in range(len(val)):
-            a = ord(val[i]) - 97
-            if node.childs[a] == None:
-                node.childs[a] = Node(val[i])
-            node = node.childs[a]
-    
-    def getMatch(self, word, index, dp):
-        node = self.node
-        for i in range(index, len(word)):
-            a = ord(word[i]) - 97
-            if node.childs[a] == None:
-                return i - index
-            dp[i + 1] = cmin(dp[i + 1], dp[index] + 1)
-            node = node.childs[a]
-    
+    return lps
+
 class Solution:
     def minValidStrings(self, words: List[str], target: str) -> int:
         n = len(words)
         m = len(target)
 
-        trie = Trie()
-        
-        for i, word in enumerate(words):
-            trie.insert(word)
-        
+        matches = [0] * m
+
+        for w, word in enumerate(words):
+            lps = getKMP(word)
+            j = 0
+            for i in range(m):
+                while j > 0 and target[i] != word[j]:
+                    j = lps[j - 1]
+                if target[i] == word[j]:
+                    matches[i-j] = cmax(matches[i-j], j+1)
+                    j += 1
+                    if j == len(word): j = lps[j - 1]
+    
         dp = [inf] * (m + 1)
         dp[0] = 0
+        stack = deque([])
         for i in range(1, m+1):
-            trie.getMatch(target, i-1, dp)
+            while stack and stack[0] < i:
+                stack.popleft()
+            
+            if matches[i - 1]:
+                index = i + matches[i - 1] - 1
+                dp[index] = cmin(dp[index], dp[i-1] + 1)
 
-        return -1 if dp[-1] == inf else dp[-1]
+                while stack and stack[-1] < index and dp[stack[-1]] > dp[index]:
+                    stack.pop()
+                
+                if not stack or stack[-1] < index:
+                    stack.append(index)
+            
+            if stack: dp[i] = min(dp[i], dp[stack[0]])
+
+        return -1 if dp[m] == inf else dp[m]
