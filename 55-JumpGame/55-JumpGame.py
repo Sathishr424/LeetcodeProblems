@@ -1,9 +1,8 @@
-# Last updated: 25/6/2025, 12:03:44 am
+# Last updated: 25/6/2025, 12:04:01 am
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
         n = len(nums)
 
-        dp = [0] * n
         larger = 0
 
         for i in range(n):
