@@ -1,11 +1,18 @@
-# Last updated: 25/6/2025, 12:04:51 am
-cmax = lambda x, y: x if x > y else y
-class Solution:
-    def canJump(self, nums: List[int]) -> bool:
-        larger = 0
+# Last updated: 25/6/2025, 12:15:09 am
+inf = float('inf')
+cmin = lambda x, y: x if x < y else y
 
-        for i in range(len(nums)):
-            if i > larger: return False
-            larger = cmax(larger, i + nums[i])
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        n = len(nums)
+
+        dp = [inf] * n
+        dp[0] = 0
+
+        for i in range(n):
+            for j in range(nums[i]):
+                index = i + j + 1
+                if index == n: break
+                dp[index] = min(dp[index], dp[i] + 1)
         
-        return True
+        return dp[n-1]
