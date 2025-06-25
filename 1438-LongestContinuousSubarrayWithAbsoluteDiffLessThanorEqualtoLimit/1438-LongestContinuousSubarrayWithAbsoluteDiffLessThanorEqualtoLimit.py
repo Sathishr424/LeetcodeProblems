@@ -1,4 +1,5 @@
-# Last updated: 25/6/2025, 7:53:08 am
+# Last updated: 25/6/2025, 7:53:48 am
+cmax = lambda x, y: x if x > y else y
 class Solution:
     def longestSubarray(self, nums: List[int], limit: int) -> int:
         n = len(nums)
@@ -25,6 +26,6 @@ class Solution:
                 while max_heap and max_heap[0][1] < prev:
                     heapq.heappop(max_heap)
             
-            ret = max(ret, i - prev + 1)
+            ret = cmax(ret, i - prev + 1)
         
         return ret
