@@ -1,4 +1,4 @@
-# Last updated: 25/6/2025, 7:59:35 am
+# Last updated: 25/6/2025, 8:00:45 am
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def longestSubarray(self, nums: List[int], limit: int) -> int:
@@ -20,10 +20,10 @@ class Solution:
 
             while max_stack[0][0] - min_stack[0][0] > limit:
                 prev += 1
-                while max_stack and max_stack[0][1] < prev:
+                if max_stack[0][1] < prev:
                     max_stack.popleft()
                 
-                while min_stack and min_stack[0][1] < prev:
+                if min_stack[0][1] < prev:
                     min_stack.popleft()
 
             ret = cmax(ret, i - prev + 1)
