@@ -1,4 +1,4 @@
-# Last updated: 25/6/2025, 8:06:57 am
+# Last updated: 25/6/2025, 8:08:27 am
 inf = float('inf')
 mod = 10 ** 9 + 7
 class Solution:
@@ -13,25 +13,24 @@ class Solution:
         max_stack = deque([])
 
         for i in range(n-1, -1, -1):
-            while max_stack and max_stack[-1][0] < nums[i]:
+            while max_stack and nums[max_stack[-1]] < nums[i]:
                 max_stack.pop()
             
-            while min_stack and min_stack[-1][0] > nums[i]:
+            while min_stack and nums[min_stack[-1]] > nums[i]:
                 min_stack.pop()
             
-            max_stack.append((nums[i], i))
-            min_stack.append((nums[i], i))
+            max_stack.append(i)
+            min_stack.append(i)
 
-            while max_stack[0][0] - min_stack[0][0] > k:
+            while nums[max_stack[0]] - nums[min_stack[0]] > k:
                 prev -= 1
-                if max_stack[0][1] > prev:
+                if max_stack[0] > prev:
                     max_stack.popleft()
                 
-                if min_stack[0][1] > prev:
+                if min_stack[0] > prev:
                     min_stack.popleft()
             
             prefix[i] = (prefix[i+1] + comb[i + 1]) % mod
-
             comb[i] = (prefix[i] - prefix[prev + 1]) % mod
 
         return comb[0]
