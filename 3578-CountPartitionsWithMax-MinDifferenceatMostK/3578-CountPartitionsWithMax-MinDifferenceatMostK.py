@@ -1,27 +1,27 @@
-# Last updated: 9/6/2025, 4:11:29 am
+# Last updated: 25/6/2025, 7:15:35 am
+inf = float('inf')
+mod = 10 ** 9 + 7
 class Solution:
     def countPartitions(self, nums: List[int], k: int) -> int:
-        mod = 10**9 + 7
+        # [9,4,1,3,7]
 
         n = len(nums)
         sl = SortedList()
-
-        cnt = 0
-        cnts = [1] * (n+1)
-        ret = 0
-        add = 1
+        prev = n-1
+        comb = [0] * (n + 1)
+        comb[n] = 1
+        prefix = [0] * (n + 1)
         for i in range(n-1, -1, -1):
             sl.add(nums[i])
 
             while sl[-1] - sl[0] > k:
-                add -= cnts[i+cnt+1]
-                sl.remove(nums[i+cnt])
-                cnt -= 1
+                sl.remove(nums[prev])
+                prev -= 1
             
-            z = ret
-            ret = (ret + add) % mod
-            cnts[i] = ret
-            add += z
-            cnt += 1
+            prefix[i] = prefix[i+1] + comb[i + 1]
+            prefix[i] %= mod
 
-        return ret
+            comb[i] = prefix[i] - prefix[prev + 1]
+            comb[i] %= mod
+
+        return comb[0]
