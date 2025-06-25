@@ -1,10 +1,8 @@
-# Last updated: 25/6/2025, 7:15:35 am
+# Last updated: 25/6/2025, 7:16:23 am
 inf = float('inf')
 mod = 10 ** 9 + 7
 class Solution:
     def countPartitions(self, nums: List[int], k: int) -> int:
-        # [9,4,1,3,7]
-
         n = len(nums)
         sl = SortedList()
         prev = n-1
@@ -18,10 +16,8 @@ class Solution:
                 sl.remove(nums[prev])
                 prev -= 1
             
-            prefix[i] = prefix[i+1] + comb[i + 1]
-            prefix[i] %= mod
+            prefix[i] = (prefix[i+1] + comb[i + 1]) % mod
 
-            comb[i] = prefix[i] - prefix[prev + 1]
-            comb[i] %= mod
+            comb[i] = (prefix[i] - prefix[prev + 1]) % mod
 
         return comb[0]
