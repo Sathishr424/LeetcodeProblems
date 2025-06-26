@@ -1,33 +1,19 @@
-# Last updated: 27/6/2025, 1:28:54 am
+# Last updated: 27/6/2025, 2:23:48 am
 class Solution:
-    def largestPalindromic(self, num: str) -> str:
-        freq = [0] * 10
+    def partition(self, s: str) -> List[List[str]]:
+        n = len(s)
+        ret = []
 
-        for char in num:
-            freq[int(char)] += 1
-        
-        to_add = []
-        odd = -1
-
-        for i in range(9, -1, -1):
-            if freq[i] > 1:
-                to_add.append(i)
+        def rec(curr, index, st):
+            if len(curr) and curr == curr[::-1]:
+                rec('', index, st + [curr])
             
-            if freq[i] % 2 and odd == -1:
-                odd = i
+            if index == n:
+                if len(curr) == 0:
+                    ret.append(st)
+                return
+            
+            rec(curr + s[index], index+1, st)
         
-        can_add_zero = True
-        if freq[0] > 1 and len(to_add) == 1:
-            can_add_zero = False
-        
-        ret = ''
-        for i in to_add:
-            if i != 0 or can_add_zero:
-                ret = ret + str(i) * (freq[i] // 2)
-
-        if odd != -1:
-            ret = ret + str(odd) + ret[::-1]
-        else:
-            ret = ret + ret[::-1]
-        
-        return ret if len(ret) else '0'
+        rec('', 0, [])
+        return ret
