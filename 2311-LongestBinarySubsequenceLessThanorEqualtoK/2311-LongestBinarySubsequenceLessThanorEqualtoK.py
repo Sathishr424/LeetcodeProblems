@@ -1,10 +1,12 @@
-# Last updated: 26/6/2025, 9:17:39 pm
+# Last updated: 26/6/2025, 9:18:33 pm
 inf = -float('inf')
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         n = len(s)
 
-        @cache
+        # dp = [[0] * n for _ in range(n)]
+
+        # @cache
         def rec(i, j):
             if i < 0 or j == n: return i + 1
 
