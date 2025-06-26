@@ -1,4 +1,4 @@
-# Last updated: 26/6/2025, 11:20:28 pm
+# Last updated: 26/6/2025, 11:32:26 pm
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def longestPalindrome(self, s: str, t: str) -> int:
@@ -8,37 +8,43 @@ class Solution:
         tot = n + m
         st = s + t
         ret = 1
-
-        def rec_left(i, j, done):
+        
+        def rec_left(i, j):
             if i < 0 or j == tot: return 0
 
-            ans = 0
-            if not done:
-                ans = cmax(ans, rec_left(i-1, j, False))
+            ans = rec_left(i-1, j)
 
             if st[i] == st[j]:
-                ans = cmax(ans, rec_left(i-1, j+1, True) + 2)
+                cnt = 0
+                while i >= 0 and j < tot and st[i] == st[j]:
+                    i -= 1
+                    j += 1
+                    cnt += 2
+                ans = cmax(ans, cnt)
             
             return ans
         
-        def rec_right(i, j, done):
+        def rec_right(i, j):
             if i < 0 or j == tot: return 0
 
-            ans = 0
-            if not done:
-                ans = cmax(ans, rec_right(i, j + 1, False))
+            ans = rec_right(i, j + 1)
 
             if st[i] == st[j]:
-                ans = cmax(ans, rec_right(i-1, j+1, True) + 2)
+                cnt = 0
+                while i >= 0 and j < tot and st[i] == st[j]:
+                    i -= 1
+                    j += 1
+                    cnt += 2
+                ans = cmax(ans, cnt)
             
             return ans
 
         def do_left(left, right):
-            cnt = rec_left(n-1, right + 1, False)
+            cnt = rec_left(n-1, right + 1)
             return right - left + cnt + 1
         
         def do_right(left, right):
-            cnt = rec_right(left - 1, n, False)
+            cnt = rec_right(left - 1, n)
             return right - left + cnt + 1
 
         for i in range(1, tot):
