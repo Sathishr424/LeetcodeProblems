@@ -1,19 +1,39 @@
-# Last updated: 27/6/2025, 2:23:48 am
+# Last updated: 27/6/2025, 5:17:18 am
 class Solution:
-    def partition(self, s: str) -> List[List[str]]:
-        n = len(s)
-        ret = []
+    def primePalindrome(self, n: int) -> int:
+        def isPrime(num):
+            if num == 1: return False
+            if num == 2: return True
+            if num == 3: return True
 
-        def rec(curr, index, st):
-            if len(curr) and curr == curr[::-1]:
-                rec('', index, st + [curr])
+            if num % 2 == 0: return False
+
+            for i in range(3, int(num ** 0.5) + 1, 2):
+                if num % i == 0: return False
             
-            if index == n:
-                if len(curr) == 0:
-                    ret.append(st)
-                return
-            
-            rec(curr + s[index], index+1, st)
+            return True
         
-        rec('', 0, [])
-        return ret
+        stack = deque([''])
+
+        while stack:
+            num = stack.popleft()
+            # print(num, '===>')
+
+            if len(num):
+                r_num = int(num + num[::-1])
+                # print(r_num)
+                if r_num >= n and isPrime(r_num):
+                    return r_num
+                
+            for i in range(10):
+                r_num = int(num + str(i) + num[::-1])
+                # print(r_num)
+                if r_num >= n and isPrime(r_num):
+                    return r_num
+            
+            for i in range(10):
+                stack.append(num + str(i))
+
+
+
+            
