@@ -1,4 +1,4 @@
-# Last updated: 26/6/2025, 11:19:15 pm
+# Last updated: 26/6/2025, 11:20:28 pm
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def longestPalindrome(self, s: str, t: str) -> int:
@@ -34,14 +34,12 @@ class Solution:
             return ans
 
         def do_left(left, right):
-            nonlocal ret
             cnt = rec_left(n-1, right + 1, False)
-            ret = cmax(ret, right - left + cnt + 1)
+            return right - left + cnt + 1
         
         def do_right(left, right):
-            nonlocal ret
             cnt = rec_right(left - 1, n, False)
-            ret = cmax(ret, right - left + cnt + 1)
+            return right - left + cnt + 1
 
         for i in range(1, tot):
             left = i-1
@@ -53,9 +51,9 @@ class Solution:
             right -= 1
             ret = cmax(ret, right - left + 1)
             if left >= n:
-                do_left(left, right)
+                ret = cmax(ret, do_left(left, right))
             if right < n:
-                do_right(left, right)
+                ret = cmax(ret, do_right(left, right))
             
             left = i-1
             right = i+1
@@ -67,8 +65,8 @@ class Solution:
             ret = cmax(ret, right - left + 1)
 
             if left >= n:
-                do_left(left, right)
+                ret = cmax(ret, do_left(left, right))
             if right < n:
-                do_right(left, right)
+                ret = cmax(ret, do_right(left, right))
 
         return ret
