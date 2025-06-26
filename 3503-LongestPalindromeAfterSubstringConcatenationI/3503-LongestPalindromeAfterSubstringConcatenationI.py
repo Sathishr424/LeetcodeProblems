@@ -1,4 +1,4 @@
-# Last updated: 27/6/2025, 1:23:58 am
+# Last updated: 27/6/2025, 1:26:30 am
 class Solution:
     def largestPalindromic(self, num: str) -> str:
         freq = [0] * 10
@@ -10,10 +10,8 @@ class Solution:
         odds = []
 
         for i in range(9, -1, -1):
-            cnt = freq[i]
             if freq[i] > 1:
                 to_add.append(i)
-                cnt %= 2
             
             if freq[i] % 2:
                 if len(odds) < 2: odds.append(i)
