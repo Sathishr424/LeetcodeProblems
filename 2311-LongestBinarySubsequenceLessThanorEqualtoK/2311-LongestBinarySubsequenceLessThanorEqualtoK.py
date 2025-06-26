@@ -1,31 +1,28 @@
-# Last updated: 26/6/2025, 9:18:33 pm
-inf = -float('inf')
+# Last updated: 26/6/2025, 9:26:10 pm
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         n = len(s)
 
-        # dp = [[0] * n for _ in range(n)]
-
-        # @cache
-        def rec(i, j):
-            if i < 0 or j == n: return i + 1
-
-            if s[i] == s[j]:
-                return rec(i-1, j + 1)
-            
-            return i + 1
-
         ans = [0, 1]
         for i in range(1, n):
-            left = rec(i-1, i+1)
-            window = (i - left) * 2 + 1
+            left = i-1
+            right = i
+            while left >= 0 and right < n and s[left] == s[right]:
+                left -= 1
+                right += 1
+            left += 1
+            window = right - left
             if window > ans[1]:
                 ans = [left, window]
-                # print(s[ans[0]:ans[0] + ans[1]])
-            left = rec(i-1, i)
-            window = (i - left) * 2
+            
+            left = i-1
+            right = i+1
+            while left >= 0 and right < n and s[left] == s[right]:
+                left -= 1
+                right += 1
+            left += 1
+            window = right - left
             if window > ans[1]:
                 ans = [left, window]
-                # print(s[ans[0]:ans[0] + ans[1]])
         
         return s[ans[0]:ans[0] + ans[1]]
