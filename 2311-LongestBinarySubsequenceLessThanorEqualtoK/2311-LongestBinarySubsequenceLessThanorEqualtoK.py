@@ -1,19 +1,29 @@
-# Last updated: 26/6/2025, 6:31:38 am
+# Last updated: 26/6/2025, 9:17:39 pm
+inf = -float('inf')
 class Solution:
-    def longestSubsequence(self, s: str, k: int) -> int:
+    def longestPalindrome(self, s: str) -> str:
         n = len(s)
 
-        curr = 0
-        power = 0
-        for i in range(n-1, -1, -1):
-            if s[i] == '1':
-                curr = (1 << power) + curr
-                if curr > k:
-                    zero = 0
-                    for j in range(i):
-                        if s[j] == '0': zero += 1
-                    return zero + (n - i - 1)
-            power += 1
-            # print(s[i], i, (curr, power))
+        @cache
+        def rec(i, j):
+            if i < 0 or j == n: return i + 1
+
+            if s[i] == s[j]:
+                return rec(i-1, j + 1)
+            
+            return i + 1
+
+        ans = [0, 1]
+        for i in range(1, n):
+            left = rec(i-1, i+1)
+            window = (i - left) * 2 + 1
+            if window > ans[1]:
+                ans = [left, window]
+                # print(s[ans[0]:ans[0] + ans[1]])
+            left = rec(i-1, i)
+            window = (i - left) * 2
+            if window > ans[1]:
+                ans = [left, window]
+                # print(s[ans[0]:ans[0] + ans[1]])
         
-        return n
+        return s[ans[0]:ans[0] + ans[1]]
