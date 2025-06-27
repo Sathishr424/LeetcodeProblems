@@ -1,4 +1,4 @@
-# Last updated: 27/6/2025, 9:28:04 pm
+# Last updated: 27/6/2025, 9:44:47 pm
 class Solution:
     def longestSubstring(self, s: str, k: int) -> int:
         # aabacc
@@ -10,29 +10,32 @@ class Solution:
             freq[ord(s[i]) - 97] += 1
 
         ret = 0
+        prev = 0
         curr = [0] * 26
 
-        def rec(start, index):
+        def checkWindow(index, curr):
             nonlocal ret
-            # print(start, index)
-            if index == n: return
-
-            a = ord(s[index]) - 97
-            if freq[a] >= k:
-                curr[a] += 1
-                new_start = min(start, index)
+            if index - prev <= ret: return
+            for j in range(prev, index):
+                a = ord(s[j]) - 97
                 cnt = 0
                 for i in range(26):
                     if curr[i] >= k:
                         cnt += curr[i]
-                if cnt == index - new_start + 1:
-                    ret = max(ret, index - new_start + 1)
-
-                rec(new_start, index + 1)
+                if cnt == index - j:
+                    ret = max(ret, cnt)
+                    break
+                
                 curr[a] -= 1
-            if start == n:
-                rec(start, index + 1)
 
-        rec(n, 0)
+        for i in range(n):
+            a = ord(s[i]) - 97
+            if freq[a] >= k:
+                curr[a] += 1
+                checkWindow(i + 1, curr[:])
+            else:
+                for j in range(prev, i):
+                    curr[ord(s[j]) - 97] -= 1
+                prev = i + 1
         
         return ret
