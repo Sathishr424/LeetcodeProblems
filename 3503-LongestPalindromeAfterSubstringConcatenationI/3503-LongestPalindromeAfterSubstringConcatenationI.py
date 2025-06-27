@@ -1,6 +1,7 @@
-# Last updated: 27/6/2025, 5:34:58 am
+# Last updated: 27/6/2025, 5:36:33 am
 primes = [2, 3, 5, 7]
 
+@cache
 def isPrime(num):
     if num == 1: return False
     if num == 2: return True
@@ -38,13 +39,11 @@ class Solution:
             num = stack.popleft()
 
             r_num = getPalindrome(num)
-            # print(num, r_num)
             if r_num >= n and isPrime(r_num):
                 return r_num
             
             for i in range(10):
                 r_num = getPalindromeExtra(num, i)
-                # print(num, r_num)
                 if r_num >= n and isPrime(r_num):
                     return r_num
 
