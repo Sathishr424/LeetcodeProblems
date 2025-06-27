@@ -1,4 +1,4 @@
-# Last updated: 27/6/2025, 5:36:33 am
+# Last updated: 27/6/2025, 5:38:36 am
 primes = [2, 3, 5, 7]
 
 @cache
@@ -41,11 +41,9 @@ class Solution:
             r_num = getPalindrome(num)
             if r_num >= n and isPrime(r_num):
                 return r_num
-            
+
             for i in range(10):
                 r_num = getPalindromeExtra(num, i)
                 if r_num >= n and isPrime(r_num):
                     return r_num
-
-            for i in range(10):
                 stack.append(num * 10 + i)
