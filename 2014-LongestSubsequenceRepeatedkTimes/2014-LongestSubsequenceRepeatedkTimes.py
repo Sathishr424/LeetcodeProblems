@@ -1,8 +1,6 @@
-# Last updated: 27/6/2025, 9:44:47 pm
+# Last updated: 27/6/2025, 9:45:46 pm
 class Solution:
     def longestSubstring(self, s: str, k: int) -> int:
-        # aabacc
-        # s = 'a' * (10 ** 4)
         n = len(s)
 
         freq = [0] * 26
