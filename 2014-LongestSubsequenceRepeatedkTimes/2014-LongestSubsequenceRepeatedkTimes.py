@@ -1,4 +1,4 @@
-# Last updated: 27/6/2025, 10:11:34 pm
+# Last updated: 27/6/2025, 10:11:58 pm
 def charToInt(char):
     return ord(char) - 97
 cmax = lambda x, y: x if x > y else y
@@ -16,10 +16,11 @@ class Solution:
 
             freq[i][alps[i - 1]] += 1
 
-        stack = [(0, n-1)]
+        stack = deque([(0, n-1)])
         ret = 0
+
         while stack:
-            l, r = stack.pop()
+            l, r = stack.popleft()
             if r - l + 1 <= ret: continue
             possible = True
             for i in range(l, r+1):
