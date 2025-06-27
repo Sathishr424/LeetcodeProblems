@@ -1,39 +1,21 @@
-# Last updated: 27/6/2025, 9:45:46 pm
+# Last updated: 27/6/2025, 10:00:34 pm
+def charToInt(char):
+    return ord(char) - 97
+
 class Solution:
     def longestSubstring(self, s: str, k: int) -> int:
         n = len(s)
 
-        freq = [0] * 26
-        for i in range(n):
-            freq[ord(s[i]) - 97] += 1
+        def rec(l, r):
+            freq = [0] * 26
+            for i in range(l, r+1):
+                freq[charToInt(s[i])] += 1
 
-        ret = 0
-        prev = 0
-        curr = [0] * 26
-
-        def checkWindow(index, curr):
-            nonlocal ret
-            if index - prev <= ret: return
-            for j in range(prev, index):
-                a = ord(s[j]) - 97
-                cnt = 0
-                for i in range(26):
-                    if curr[i] >= k:
-                        cnt += curr[i]
-                if cnt == index - j:
-                    ret = max(ret, cnt)
-                    break
-                
-                curr[a] -= 1
-
-        for i in range(n):
-            a = ord(s[i]) - 97
-            if freq[a] >= k:
-                curr[a] += 1
-                checkWindow(i + 1, curr[:])
-            else:
-                for j in range(prev, i):
-                    curr[ord(s[j]) - 97] -= 1
-                prev = i + 1
+            for i in range(l, r+1):
+                a = charToInt(s[i])
+                if freq[a] < k:
+                    return max(rec(l, i-1), rec(i+1, r))
+            
+            return r - l + 1
         
-        return ret
+        return rec(0, n-1)
