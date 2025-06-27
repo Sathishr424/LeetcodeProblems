@@ -1,4 +1,4 @@
-# Last updated: 27/6/2025, 10:07:38 pm
+# Last updated: 27/6/2025, 10:11:34 pm
 def charToInt(char):
     return ord(char) - 97
 cmax = lambda x, y: x if x > y else y
@@ -16,11 +16,19 @@ class Solution:
 
             freq[i][alps[i - 1]] += 1
 
-        def rec(l, r):
+        stack = [(0, n-1)]
+        ret = 0
+        while stack:
+            l, r = stack.pop()
+            if r - l + 1 <= ret: continue
+            possible = True
             for i in range(l, r+1):
                 if freq[r+1][alps[i]] - freq[l][alps[i]] < k:
-                    return cmax(rec(l, i-1), rec(i+1, r))
-            
-            return r - l + 1
+                    stack.append((l, i-1))
+                    stack.append((i+1, r))
+                    possible = False
+                    break
+            if possible:
+                ret = max(ret, r - l + 1) 
         
-        return rec(0, n-1)
+        return ret
