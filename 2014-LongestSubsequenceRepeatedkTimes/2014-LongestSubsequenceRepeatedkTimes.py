@@ -1,7 +1,8 @@
-# Last updated: 27/6/2025, 10:02:11 pm
+# Last updated: 27/6/2025, 10:02:49 pm
 def charToInt(char):
     return ord(char) - 97
 
+cmax = lambda x, y: x if x > y else y
 class Solution:
     def longestSubstring(self, s: str, k: int) -> int:
         n = len(s)
@@ -14,7 +15,7 @@ class Solution:
 
             for i in range(l, r+1):
                 if freq[alps[i]] < k:
-                    return max(rec(l, i-1), rec(i+1, r))
+                    return cmax(rec(l, i-1), rec(i+1, r))
             
             return r - l + 1
         
