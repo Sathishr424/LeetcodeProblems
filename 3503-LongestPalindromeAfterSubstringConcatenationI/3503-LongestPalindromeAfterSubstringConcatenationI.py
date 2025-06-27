@@ -1,13 +1,10 @@
-# Last updated: 27/6/2025, 5:38:36 am
+# Last updated: 27/6/2025, 5:40:23 am
 primes = [2, 3, 5, 7]
 
 @cache
 def isPrime(num):
-    if num == 1: return False
+    if num == 1 or num % 2 == 0: return False
     if num == 2: return True
-    if num == 3: return True
-
-    if num % 2 == 0: return False
 
     for i in range(3, int(num ** 0.5) + 1, 2):
         if num % i == 0: return False
