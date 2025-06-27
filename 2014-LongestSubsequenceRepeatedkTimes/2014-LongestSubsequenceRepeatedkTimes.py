@@ -1,4 +1,4 @@
-# Last updated: 27/6/2025, 10:12:28 pm
+# Last updated: 27/6/2025, 10:14:24 pm
 def charToInt(char):
     return ord(char) - 97
 cmax = lambda x, y: x if x > y else y
@@ -20,7 +20,7 @@ class Solution:
         
         while stack:
             l, r = stack.pop()
-            if r - l + 1 <= ret: continue
+            if r - l + 1 <= ret or r -l + 1 < k: continue
             possible = True
             for i in range(l, r+1):
                 if freq[r+1][alps[i]] - freq[l][alps[i]] < k:
