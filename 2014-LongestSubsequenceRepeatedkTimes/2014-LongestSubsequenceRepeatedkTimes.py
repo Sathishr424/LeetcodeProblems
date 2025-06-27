@@ -1,4 +1,4 @@
-# Last updated: 27/6/2025, 10:11:58 pm
+# Last updated: 27/6/2025, 10:12:28 pm
 def charToInt(char):
     return ord(char) - 97
 cmax = lambda x, y: x if x > y else y
@@ -7,7 +7,6 @@ class Solution:
     def longestSubstring(self, s: str, k: int) -> int:
         n = len(s)
         alps = [charToInt(char) for char in s]
-
         freq = [[0] * 26 for _ in range(n + 1)]
 
         for i in range(1, n + 1):
@@ -16,11 +15,11 @@ class Solution:
 
             freq[i][alps[i - 1]] += 1
 
-        stack = deque([(0, n-1)])
+        stack = [(0, n-1)]
         ret = 0
-
+        
         while stack:
-            l, r = stack.popleft()
+            l, r = stack.pop()
             if r - l + 1 <= ret: continue
             possible = True
             for i in range(l, r+1):
