@@ -1,58 +1,38 @@
-# Last updated: 27/6/2025, 7:14:18 pm
-def charToInt(char):
-    return ord(char) - 97
-
+# Last updated: 27/6/2025, 9:28:04 pm
 class Solution:
-    def longestSubsequenceRepeatedK(self, s: str, k: int) -> str:
+    def longestSubstring(self, s: str, k: int) -> int:
+        # aabacc
+        # s = 'a' * (10 ** 4)
         n = len(s)
+
         freq = [0] * 26
+        for i in range(n):
+            freq[ord(s[i]) - 97] += 1
 
-        for char in s:
-            freq[charToInt(char)] += 1
+        ret = 0
+        curr = [0] * 26
 
-        next_index = [[-1] * 26 for _ in range(n + 1)]
+        def rec(start, index):
+            nonlocal ret
+            # print(start, index)
+            if index == n: return
 
-        for i in range(n-1, -1, -1):
-            for a in range(26):
-                next_index[i][a] = next_index[i+1][a]
-            next_index[i][ord(s[i]) - 97] = i
-
-        char_limit = n // k
-
-        candidates = [0] * 26
-        for char in s:
-            a = charToInt(char)
+            a = ord(s[index]) - 97
             if freq[a] >= k:
-                candidates[a] = 1
+                curr[a] += 1
+                new_start = min(start, index)
+                cnt = 0
+                for i in range(26):
+                    if curr[i] >= k:
+                        cnt += curr[i]
+                if cnt == index - new_start + 1:
+                    ret = max(ret, index - new_start + 1)
 
-        ret = ''
-        used = [0] * 26
-        can_use = {}
+                rec(new_start, index + 1)
+                curr[a] -= 1
+            if start == n:
+                rec(start, index + 1)
 
-        def rec(st):
-            if st in can_use: return
-            can_use[st] = 1
-            if len(st) == char_limit: return
-
-            for i in range(26):
-                if candidates[i] and (used[i] + 1) * k <= freq[i]:
-                    used[i] += 1
-                    rec(st + chr(i + 97))
-                    used[i] -= 1
-
-        rec('')
-
-        def checkPossible(st):
-            last_index = 0
-            for i in range(k):
-                for char in st:
-                    a = charToInt(char)
-                    if next_index[last_index][a] == -1: return False
-                    last_index = next_index[last_index][a] + 1
-            return True
-            
-        for st in sorted(can_use.keys(), key=lambda x: (len(x), x), reverse=True):
-            if checkPossible(st):
-                return st
+        rec(n, 0)
         
-        return ''
+        return ret
