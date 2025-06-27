@@ -1,4 +1,4 @@
-# Last updated: 27/6/2025, 6:14:27 pm
+# Last updated: 27/6/2025, 6:34:29 pm
 class Solution:
     def longestSubsequenceRepeatedK(self, s: str, k: int) -> str:
         n = len(s)
@@ -7,15 +7,14 @@ class Solution:
         for i, char in enumerate(s):
             indexes[char].append(i)
         
-        ret = ''
         char_limit = n // k
 
         candidates = []
-        used = {}
+        used = defaultdict(int)
         for char in s:
-            if char not in used and len(indexes[char]) >= k:
+            if len(indexes[char]) >= (used[char] + 1) * k:
                 candidates.append(char)
-                used[char] = 1
+                used[char] += 1
         
         visited = {}
         used_freq = defaultdict(int)
@@ -43,8 +42,7 @@ class Solution:
 
         for st in sorted(visited.keys(), key=lambda x: (len(x), x), reverse=True):
             if check_possible(st):
-                ret = st
-                break
+                return st
         
-        return ret
+        return ''
             
