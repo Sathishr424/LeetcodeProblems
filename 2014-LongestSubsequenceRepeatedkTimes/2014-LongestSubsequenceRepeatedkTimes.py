@@ -1,4 +1,4 @@
-# Last updated: 27/6/2025, 6:11:58 pm
+# Last updated: 27/6/2025, 6:14:27 pm
 class Solution:
     def longestSubsequenceRepeatedK(self, s: str, k: int) -> str:
         n = len(s)
@@ -18,21 +18,20 @@ class Solution:
                 used[char] = 1
         
         visited = {}
-        def check(st, used):
-            if len(st) > char_limit: return
+        used_freq = defaultdict(int)
+        def check(st):
             if st in visited: return
             visited[st] = 1
+            if len(st) == char_limit: return
             for char in candidates:
-                if (used[char] + 1) * k <= len(indexes[char]):
-                    used[char] += 1
-                    check(st + char, used)
-                    used[char] -= 1
+                if (used_freq[char] + 1) * k <= len(indexes[char]):
+                    used_freq[char] += 1
+                    check(st + char)
+                    used_freq[char] -= 1
         
-        check('', defaultdict(int))
-        # print(visited)
+        check('')
 
         def check_possible(st):
-            # print(st)
             last_index = -1
             for i in range(k):
                 for char in st:
