@@ -1,4 +1,4 @@
-# Last updated: 28/6/2025, 8:45:11 am
+# Last updated: 28/6/2025, 8:46:06 am
 def charToInt(char):
     return ord(char) - 97
 
@@ -9,19 +9,12 @@ class Solution:
         for char in s:
             freq[charToInt(char)] += 1
         
-        even = 0
         odd = 0
         for i in range(26):
-            if freq[i] == 0: continue
-            even += freq[i] - (freq[i] % 2)
-            
             if freq[i] % 2:
                 odd += 1
 
-        if odd > k:
-            return False
-
-        return True
+        return odd <= k
         
 
         
