@@ -1,4 +1,4 @@
-# Last updated: 28/6/2025, 8:46:06 am
+# Last updated: 28/6/2025, 8:48:41 am
 def charToInt(char):
     return ord(char) - 97
 
@@ -11,10 +11,6 @@ class Solution:
         
         odd = 0
         for i in range(26):
-            if freq[i] % 2:
-                odd += 1
+            odd += freq[i] % 2
 
         return odd <= k
-        
-
-        
