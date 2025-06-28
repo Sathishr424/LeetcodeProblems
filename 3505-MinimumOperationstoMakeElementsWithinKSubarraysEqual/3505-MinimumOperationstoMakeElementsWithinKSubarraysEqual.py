@@ -1,34 +1,43 @@
-# Last updated: 28/6/2025, 6:36:30 pm
+# Last updated: 28/6/2025, 7:34:07 pm
 class Solution:
-    def minOperationsToMakeMedianK(self, nums: List[int], k: int) -> int:
+    def maxFrequency(self, nums: List[int], k: int, op: int) -> int:
         n = len(nums)
+
         nums.sort()
-        left = n
-        for i, num in enumerate(nums):
-            if num >= k:
-                left = i
-                break
+        ret = 1
+        freq = defaultdict(int)
+
+        i = 0
+        while i < n:
+            freq[nums[i]] += 1
+            j = i + 1
+            while j < n and nums[j] == nums[i]:
+                j += 1
+            
+            dup = j - i - 1
+            right = bisect_left(nums, nums[i] + k + 1)
+            left = bisect_left(nums, nums[i] - k)
+
+            left = min(op, i - left)
+            right = min(op + dup, right - i - 1)
+            ret = max(ret, left + 1, right + 1, min(left + right + 1, op + dup + 1))
+
+            i = j
         
-        mid = n // 2
-        # if left == mid and nums[left] == k: return 0
-        # if n % 2 == 0 and left == mid - 1 and nums[left + 1] == k: return 0
+        if op < 2: return ret
+        op -= 1
+        i = 0
+        while i < n:
+            num = nums[i] + k
+            dup = freq[num]
+            right = bisect_left(nums, num + k + 1)
+            left = bisect_left(nums, num - k)
 
-        # [1, 2, 3, 5, _7_, 8]
-        # [1, _2_, 3, 5, 7, 8]
+            left = min(op, i - left)
+            right = min(op + dup, right - i - 1)
 
-        # [1, 2, 3, 5, _7_, 8, 9]
-        # [1, _2_, 3, 5, 7, 8, 9]
+            ret = max(ret, left + 1, right + 1, min(left + right + 1, op + dup + 1))
 
-        ret = 0
-        if left <= mid:
-            for i in range(left, mid + 1):
-                ret += nums[i] - k
-                nums[i] = k
-        elif left > mid:
-            for i in range(mid, left):
-                ret += k - nums[i]
-                nums[i] = k
-        # print(nums)
+            i += 1
+        
         return ret
-
-
