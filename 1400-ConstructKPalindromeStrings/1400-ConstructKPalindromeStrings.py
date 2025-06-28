@@ -1,0 +1,27 @@
+# Last updated: 28/6/2025, 8:45:11 am
+def charToInt(char):
+    return ord(char) - 97
+
+class Solution:
+    def canConstruct(self, s: str, k: int) -> bool:
+        if k > len(s): return False
+        freq = [0] * 26
+        for char in s:
+            freq[charToInt(char)] += 1
+        
+        even = 0
+        odd = 0
+        for i in range(26):
+            if freq[i] == 0: continue
+            even += freq[i] - (freq[i] % 2)
+            
+            if freq[i] % 2:
+                odd += 1
+
+        if odd > k:
+            return False
+
+        return True
+        
+
+        
