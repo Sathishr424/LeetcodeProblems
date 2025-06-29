@@ -1,12 +1,12 @@
-# Last updated: 29/6/2025, 7:11:06 am
+# Last updated: 29/6/2025, 7:16:56 am
 N = 10 ** 5 + 1
-fact = [0] * N
-fact[1] = 1
+pow2 = [0] * N
+pow2[1] = 1
 mod = 10 ** 9 + 7
 s = 1
 for i in range(2, N):
-    fact[i] = (s + 1) % mod
-    s = (s + fact[i]) % mod
+    pow2[i] = (s + 1) % mod
+    s = (s + pow2[i]) % mod
 
 class Solution:
     def numSubseq(self, nums: List[int], target: int) -> int:
@@ -22,6 +22,6 @@ class Solution:
         for i in range(n):
             index = bisect_right(nums, target - nums[i])
             if index >= i:
-                ret = (ret + fact[index - i]) % mod
+                ret = (ret + pow2[index - i]) % mod
         return ret
 
