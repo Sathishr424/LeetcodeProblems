@@ -1,9 +1,9 @@
-# Last updated: 4/7/2025, 2:17:01 am
+# Last updated: 4/7/2025, 2:17:28 am
 class Solution:
     def subarraysWithKDistinct(self, nums: List[int], k: int) -> int:
         n = len(nums)
 
-        freq = defaultdict(int)
+        freq = [0] * (n + 1)
         ret = 0
         prev = 0
         cnt = 0
