@@ -1,34 +1,49 @@
-# Last updated: 2/7/2025, 11:18:42 pm
+# Last updated: 3/7/2025, 5:40:05 pm
 class Solution:
     def possibleStringCount(self, word: str, k: int) -> int:
-        mod = 10**9 + 7
-        n, cnt = len(word), 1
-        freq = list()
+        mod = 10 ** 9 + 7
+        # aabbccdd
+        # abccdd
 
+        # aa dd
+        # aadd, aad, ad, add
+
+        freq_cnt = []
+        n = len(word)
+        cnt = 1
         for i in range(1, n):
-            if word[i] == word[i - 1]:
-                cnt += 1
-            else:
-                freq.append(cnt)
+            if word[i] != word[i-1]:
+                freq_cnt.append(cnt)
                 cnt = 1
-        freq.append(cnt)
+            else:
+                cnt += 1
+        
+        freq_cnt.append(cnt)
+        freq_cnt.sort()
+        m = len(freq_cnt)
+        prefix = [1] * (m + 2)
+        for i in range(m-1, -1, -1):
+            prefix[i] = prefix[i + 1] * freq_cnt[i] % mod
+        # print(freq_cnt)
+        # print(prefix)
+        # print(m)
+        @cache
+        def rec(index, rem):
+            if rem == 0:
+                # print(index)
+                return prefix[index]
+            if index == m: return 0
 
-        ans = 1
-        for o in freq:
-            ans = ans * o % mod
-
-        if len(freq) >= k:
+            ans = 0
+            for cnt in range(1, min(rem, freq_cnt[index]) + 1):
+                curr = rec(index + 1, rem - cnt)
+                if rem-cnt == 0:
+                    curr *= freq_cnt[index] - cnt + 1
+                    curr %= mod
+                ans += curr
+                ans %= mod
             return ans
 
-        f, g = [1] + [0] * (k - 1), [1] * k
-        for i in range(len(freq)):
-            f_new = [0] * k
-            for j in range(1, k):
-                f_new[j] = g[j - 1]
-                if j - freq[i] - 1 >= 0:
-                    f_new[j] = (f_new[j] - g[j - freq[i] - 1]) % mod
-            g_new = [f_new[0]] + [0] * (k - 1)
-            for j in range(1, k):
-                g_new[j] = (g_new[j - 1] + f_new[j]) % mod
-            f, g = f_new, g_new
-        return (ans - g[k - 1]) % mod
+        ans = rec(0, k)
+        rec.cache_clear()
+        return ans
