@@ -1,35 +1,29 @@
-# Last updated: 4/7/2025, 2:02:31 am
+# Last updated: 4/7/2025, 2:07:44 am
 class Solution:
-    def subarraysWithKDistinct(self, nums: List[int], k: int) -> int:
-        n = len(nums)
-
+    def countAtMostK(self, arr, k):
+        n = len(arr)
+        
         freq = defaultdict(int)
-        ret = 0
-        prev = 0
         cnt = 0
-        prev_2 = 0
-
+        prev = 0
+        ret = 0
+        
         for i in range(n):
-            freq[nums[i]] += 1
-            if freq[nums[i]] == 1:
+            freq[arr[i]] += 1
+            if freq[arr[i]] == 1:
                 cnt += 1
-
-                if cnt > k:
-                    prev = prev_2
-                    while cnt > k:
-                        freq[nums[prev]] -= 1
-                        if freq[nums[prev]] == 0: cnt -= 1
-                        prev += 1
-                    
-                    prev_2 = prev
-            if cnt == k:
-                while freq[nums[prev_2]] > 1:
-                    freq[nums[prev_2]] -= 1
-                    prev_2 += 1
-
-                ret += prev_2 - prev + 1
-
             
-            # print((i, prev), (prev, prev_2), ret)
-        # 1, 1, 1, 2, 2, 3
+                while cnt > k:
+                    freq[arr[prev]] -= 1
+                    if freq[arr[prev]] == 0:
+                        cnt -= 1
+                    prev += 1
+            
+            ret += i - prev + 1
+        
         return ret
+    
+    def subarraysWithKDistinct(self, nums: List[int], k: int) -> int:
+        x = self.countAtMostK(nums, k)
+        y = self.countAtMostK(nums, k - 1)
+        return x - y
