@@ -1,4 +1,4 @@
-# Last updated: 5/7/2025, 1:37:20 am
+# Last updated: 5/7/2025, 1:38:19 am
 class Solution:
     def countOfSubstrings(self, word: str, k: int) -> int:
         n = len(word)
@@ -19,7 +19,6 @@ class Solution:
             else:
                 cons += 1
                 if cons > k:
-                    # print("Larger")
                     prev = prev_2
                     while cons > k:
                         char = word[prev]
@@ -33,15 +32,12 @@ class Solution:
             
             if cons == k and v_cnt == 5:
                 j = prev_2
-                # print(word[j], word[j] in 'aeiou', vowels[word[j]] - 1 > 0)
                 while j < i and word[j] in 'aeiou' and vowels[word[j]] - 1 > 0:
-                    # print(word[j])
                     vowels[word[j]] -= 1
                     j += 1
                 prev_2 = j
             
             if v_cnt == 5 and cons == k:
                 ret += prev_2 - prev + 1
-            # print((i, prev, prev_2), v_cnt, cons, ret, dict(vowels))
         
         return ret
