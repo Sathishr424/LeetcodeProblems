@@ -1,4 +1,4 @@
-# Last updated: 5/7/2025, 12:48:22 am
+# Last updated: 5/7/2025, 1:53:43 am
 class Solution:
     def kthCharacter(self, k: int, operations: List[int]) -> str:
         # a, aa, aabb
