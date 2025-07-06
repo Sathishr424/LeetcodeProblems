@@ -1,4 +1,4 @@
-# Last updated: 6/7/2025, 7:40:50 am
+# Last updated: 6/7/2025, 7:41:34 am
 class Solution:
     def minStable(self, nums: List[int], maxC: int) -> int:
         n = len(nums)
@@ -15,15 +15,12 @@ class Solution:
 
             for i in range(n - m + 1):
                 s_table[power][i] = gcd(s_table[power - 1][i], s_table[power - 1][i + prev_m])
-        
-        # [print(row) for row in s_table]
 
         l = 1
         r = n + 1
 
         while l < r:
             mid = (l + r) // 2
-            # print((l, r), mid)
             
             power = floor(log2(mid))
             rem = maxC
@@ -36,7 +33,7 @@ class Solution:
                     left += mid
                 else:
                     left += 1
-            # print(rem)
+
             if rem >= 0:
                 r = mid
             else:
