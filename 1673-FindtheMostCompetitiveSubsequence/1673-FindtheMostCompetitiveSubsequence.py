@@ -1,21 +1,23 @@
-# Last updated: 9/4/2025, 5:23:15 pm
+# Last updated: 6/7/2025, 10:24:50 pm
 class Solution:
     def mostCompetitive(self, nums: List[int], k: int) -> List[int]:
-        stack = []
         n = len(nums)
-
-        for i, num in enumerate(nums):
-            exit_ = False
-            while stack and stack[-1] > num:
-                if (n - i) + len(stack) <= k:
-                    exit_ = True
-                    break
+        stack = []
+        smallest = [-1] * n
+        for i in range(n-1, -1, -1):
+            while stack and nums[i] <= nums[stack[-1]]:
                 stack.pop()
-            
-            stack.append(num)
-            if exit_: break
-        
-        if len(stack) < k:
-            return stack + nums[i+1:]
-        
-        return stack[:k]
+            if stack:
+                smallest[i] = stack[-1]
+            stack.append(i)
+            # print(nums[i], stack)
+        # print(smallest)
+
+        ret = []
+        for i in range(n):
+            if smallest[i] != -1 and n - smallest[i] + len(ret) >= k:
+                continue
+            ret.append(nums[i])
+            if len(ret) == k: break
+
+        return ret
