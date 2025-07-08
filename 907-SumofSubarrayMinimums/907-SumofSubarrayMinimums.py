@@ -1,18 +1,18 @@
-# Last updated: 9/7/2025, 12:26:22 am
+# Last updated: 9/7/2025, 12:29:49 am
 mod = 10**9 + 7
 class Solution:
     def sumSubarrayMins(self, nums: List[int]) -> int:
         n = len(nums)
         
-        left = [-1] * n
+        left = []
         right = [n] * n
         stack = []
         for i in range(n):
             while stack and nums[stack[-1]] >= nums[i]:
                 stack.pop()
             
-            if stack:
-                left[i] = stack[-1]
+            if stack: left.append(stack[-1])
+            else: left.append(-1)
             stack.append(i)
         
         stack = []
@@ -27,11 +27,7 @@ class Solution:
         totalSum = 0
 
         for i in range(n):
-            l = i - left[i]
-            r = right[i] - i
-            
-            totalSum += l * r * nums[i] % mod
-            totalSum %= mod
+            totalSum = (totalSum + ((i - left[i]) * (right[i] - i) * nums[i] % mod)) % mod
         
         return totalSum
         
