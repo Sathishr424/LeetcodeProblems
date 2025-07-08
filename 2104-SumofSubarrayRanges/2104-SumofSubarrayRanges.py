@@ -1,40 +1,24 @@
-# Last updated: 9/7/2025, 2:05:10 am
-def getMinSubarraySum(nums):
-    n = len(nums)
-    
-    left = [-1] * n
-    right = [n] * n
-    stack = []
-    for i in range(n):
-        while stack and nums[stack[-1]] >= nums[i]:
-            stack.pop()
-        
-        if stack:
-            left[i] = stack[-1]
-        stack.append(i)
-    
-    stack = []
-    for i in range(n-1, -1, -1):
-        while stack and nums[stack[-1]] > nums[i]:
-            stack.pop()
-        
-        if stack:
-            right[i] = stack[-1]
-        stack.append(i)
-    
-    totalSum = 0
-
-    for i in range(n):
-        l = i - left[i]
-        r = right[i] - i
-        
-        totalSum += l * r * nums[i]
-    
-    return totalSum
-
+# Last updated: 9/7/2025, 2:05:40 am
 class Solution:
     def subArrayRanges(self, nums: List[int]) -> int:
-        min_ = getMinSubarraySum(nums)
-        max_ = getMinSubarraySum([-num for num in nums]) * -1
+        n, answer = len(nums), 0 
+        stack = []
+        
+        # Find the sum of all the minimum.
+        for right in range(n + 1):
+            while stack and (right == n or nums[stack[-1]] >= nums[right]):
+                mid = stack.pop()
+                left = -1 if not stack else stack[-1]
+                answer -= nums[mid] * (mid - left) * (right - mid)
+            stack.append(right)
 
-        return max_ - min_
+        # Find the sum of all the maximum.
+        stack.clear()
+        for right in range(n + 1):
+            while stack and (right == n or nums[stack[-1]] <= nums[right]):
+                mid = stack.pop()
+                left = -1 if not stack else stack[-1]
+                answer += nums[mid] * (mid - left) * (right - mid)
+            stack.append(right)
+        
+        return answer
