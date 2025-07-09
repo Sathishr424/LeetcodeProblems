@@ -1,166 +1,174 @@
-// Last updated: 17/6/2025, 12:14:35 am
+// Last updated: 9/7/2025, 11:36:36 pm
 const cmax = (x, y) => x > y ? x : y;
 const cmin = (x, y) => x < y ? x : y;
 
 class Node {
-    constructor(n) {
-        this.LF = n;
-        this.LS = n;
-        this.RF = -1;
-        this.RS = -1;
-        this.val = 0;
-        this.l = n;
-        this.r = -1;
+    constructor() {
+        this.left = 0;
+        this.right = 0;
+        this.max = 0;
+    }
+
+    toString() {
+        return `(${this.left}, ${this.right}, ${this.max})`;
     }
 }
 
 function maxActiveSectionsAfterTrade(s, queries) {
     const n = s.length;
-    let total = 0;
+    const total_ones = [...s].filter(c => c === '1').length;
+    const k = Math.floor(Math.log2(n)) + 1;
+    const s_table = Array.from({ length: k }, () => Array.from({ length: n }, () => new Node()));
+
+    const zero_prefix = [0];
     for (let i = 0; i < n; i++) {
-        total += s[i] === '1';
+        zero_prefix.push(zero_prefix[zero_prefix.length - 1] + (s[i] === '0' ? 1 : 0));
     }
 
-    const zeros_left = Array(n).fill(0);
-    const zeros_right = Array(n).fill(0);
+    const zeros_left = Array(n).fill(-1);
+    let prev = s[0];
+    let index = -1;
 
-    let i = 0;
-    while (i < n) {
+    for (let i = 1; i < n; i++) {
+        if (prev !== s[i]) {
+            if (prev === '0') {
+                index = i - 1;
+            }
+            prev = s[i];
+        }
+        zeros_left[i] = index;
+    }
+
+    const zeros_right = Array(n).fill(-1);
+    prev = s[n - 1];
+    index = -1;
+
+    for (let i = n - 2; i >= 0; i--) {
+        if (prev !== s[i]) {
+            if (prev === '0') {
+                index = i + 1;
+            }
+            prev = s[i];
+        }
+        zeros_right[i] = index;
+    }
+
+    const zero_prefix_left = Array(n).fill(0);
+    const zero_prefix_right = Array(n).fill(n - 1);
+
+    prev = s[0];
+    let prev_index = 0;
+    for (let i = 1; i < n; i++) {
+        if (prev !== s[i]) {
+            prev = s[i];
+            prev_index = i;
+        }
         if (s[i] === '0') {
-            let j = i;
-            while (j < n && s[j] === '0') {
-                zeros_left[j] = i;
-                j++;
-            }
-            i = j;
-        } else {
-            i++;
+            zero_prefix_left[i] = prev_index;
         }
     }
 
-    i = n - 1;
-    while (i >= 0) {
+    prev = s[n - 1];
+    prev_index = n - 1;
+    for (let i = n - 2; i >= 0; i--) {
+        if (prev !== s[i]) {
+            prev = s[i];
+            prev_index = i;
+        }
         if (s[i] === '0') {
-            let j = i;
-            while (j >= 0 && s[j] === '0') {
-                zeros_right[j] = i;
-                j--;
-            }
-            i = j;
-        } else {
-            i--;
+            zero_prefix_right[i] = prev_index;
         }
     }
 
-    const tree = Array(n * 4).fill(null);
-
-    function calcIntersection(left, right, l, r, mid) {
-        const ls = right.LS;
-        const rf = left.RF;
-        let ans = 0;
-
-        if (ls !== n && rf !== -1) {
-            let curr = 0;
-            curr += rf - cmax(zeros_left[rf], l) + 1;
-            curr += zeros_right[rf] - rf;
-            curr += cmin(zeros_right[ls], r) - ls + 1;
-            ans = cmax(ans, curr);
+    for (let i = 0; i < n; i++) {
+        if (s[i] === '0') {
+            s_table[0][i].left = 0;
+            s_table[0][i].right = 0;
+        } else {
+            s_table[0][i].left = 1;
+            s_table[0][i].right = 1;
         }
+    }
 
-        const rs = left.RS;
-        const lf = right.LF;
+    function getMaxNode(l, mid, r, left, right) {
+        const node = new Node();
+        node.left = left.left;
+        node.right = right.right;
 
-        if (rs !== -1 && lf !== n) {
-            let curr = 0;
-            curr += lf - zeros_left[lf] + 1;
-            curr += cmin(r, zeros_right[lf]) - lf;
-            curr += rs - cmax(zeros_left[rs], l) + 1;
-            ans = cmax(ans, curr);
-        }
+        let curr = cmax(left.max, right.max);
 
-        if (s[mid] === '1' && s[mid + 1] === '1') {
-            let curr = 0;
-            const rs = left.RS;
-            const ls = right.LS;
-            if (rs !== -1 && ls !== n) {
-                curr += rs - cmax(zeros_left[rs], l) + 1;
-                curr += cmin(zeros_right[ls], r) - ls + 1;
-                ans = cmax(ans, curr);
+        if (left.right === 0) {
+            if (right.left === 0) {
+                let left_index = zeros_left[mid];
+                if (left_index !== -1 && left_index >= l) {
+                    left_index = cmax(l, zero_prefix_left[left_index]);
+                    let right_index = cmin(r, zero_prefix_right[mid + 1]);
+                    curr = cmax(curr, zero_prefix[right_index + 1] - zero_prefix[left_index]);
+                }
+            }
+            let left_index = cmax(l, zero_prefix_left[mid]);
+            let right_index = zeros_right[mid + 1];
+            if (right_index !== -1 && right_index <= r) {
+                right_index = cmin(r, zero_prefix_right[right_index]);
+                curr = cmax(curr, zero_prefix[right_index + 1] - zero_prefix[left_index]);
+            }
+        } else {
+            let left_index = zeros_left[mid];
+            if (left_index !== -1 && left_index >= l) {
+                left_index = cmax(l, zero_prefix_left[left_index]);
+
+                if (right.left === 1) {
+                    let right_index = zeros_right[mid + 1];
+                    if (right_index !== -1 && right_index <= r) {
+                        right_index = cmin(r, zero_prefix_right[right_index]);
+                        curr = cmax(curr, zero_prefix[right_index + 1] - zero_prefix[left_index]);
+                    }
+                } else {
+                    let right_index = cmin(r, zero_prefix_right[mid + 1]);
+                    curr = cmax(curr, zero_prefix[right_index + 1] - zero_prefix[left_index]);
+                }
             }
         }
 
-        return ans;
-    }
-
-    function calcNode(left, right) {
-        const l = left.l;
-        const r = right.r;
-        const mid = left.r;
-
-        const node = new Node(n);
-        node.l = l;
-        node.r = r;
-
-        node.LF = left.LF;
-        node.RF = right.RF;
-
-        if (s[mid] === '1') {
-            node.LS = cmin(left.LS, cmin(right.LF, right.LS));
-        } else {
-            node.LS = cmin(left.LS, right.LS);
-        }
-
-        if (s[mid + 1] === '1') {
-            node.RS = cmax(right.RS, cmax(left.RF, left.RS));
-        } else {
-            node.RS = cmax(right.RS, left.RS);
-        }
-
-        node.val = cmax(cmax(left.val, right.val), calcIntersection(left, right, l, r, mid));
+        node.max = curr;
         return node;
     }
 
-    function buildTree(l, r, index) {
-        if (l === r) {
-            tree[index] = new Node(n);
-            if (s[l] === '0') {
-                tree[index].LF = l;
-                tree[index].RF = l;
+    for (let power = 1; power < k; power++) {
+        let m = 1 << power;
+        let prev_m = m >> 1;
+        for (let i = 0; i <= n - m; i++) {
+            const left = s_table[power - 1][i];
+            const right = s_table[power - 1][i + prev_m];
+            s_table[power][i] = getMaxNode(i, i + prev_m - 1, i + m - 1, left, right);
+        }
+    }
+
+    const ret = [];
+    for (const [ql, qr] of queries) {
+        let l = ql;
+        let dis = qr - ql + 1;
+        let power = 0;
+        let prev = null;
+        let x = l;
+
+        while (dis) {
+            if (dis & 1) {
+                const curr = s_table[power][l];
+                const mid = l - 1;
+                l += 1 << power;
+                if (prev !== null) {
+                    prev = getMaxNode(x, mid, l - 1, prev, curr);
+                } else {
+                    prev = curr;
+                }
             }
-            tree[index].l = l;
-            tree[index].r = l;
-            return;
+            dis >>= 1;
+            power++;
         }
 
-        const mid = Math.floor((l + r) / 2);
-        buildTree(l, mid, index * 2 + 1);
-        buildTree(mid + 1, r, index * 2 + 2);
-
-        const left = tree[index * 2 + 1];
-        const right = tree[index * 2 + 2];
-        tree[index] = calcNode(left, right);
+        ret.push(prev.max + total_ones);
     }
 
-    function query(l, r, index, left, right) {
-        if (l > right || r < left) return null;
-        if (l >= left && r <= right) return tree[index];
-
-        const mid = Math.floor((l + r) / 2);
-        const left_ans = query(l, mid, index * 2 + 1, left, right);
-        const right_ans = query(mid + 1, r, index * 2 + 2, left, right);
-
-        if (left_ans && right_ans) return calcNode(left_ans, right_ans);
-        if (left_ans) return left_ans;
-        return right_ans;
-    }
-
-    buildTree(0, n - 1, 0);
-
-    const trades = [];
-    for (const [l, r] of queries) {
-        const ans = query(0, n - 1, 0, l, r);
-        trades.push((ans ? ans.val : 0) + total);
-    }
-
-    return trades;
+    return ret;
 }
