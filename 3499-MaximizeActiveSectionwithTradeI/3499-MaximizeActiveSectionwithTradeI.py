@@ -1,34 +1,42 @@
-# Last updated: 16/6/2025, 3:52:40 am
+# Last updated: 9/7/2025, 8:23:04 pm
 class Solution:
     def maxActiveSectionsAfterTrade(self, s: str) -> int:
         n = len(s)
 
-        total = 0
-        for i in range(n):
-            total += s[i] == '1'
+        first = -1
+        second = -1
+        prev = s[0]
+        prev_index = 0
+        ret = 0
 
-        ret = total
-        i = 0
-        zeros = 0
-        ones = False
-        while i < n:
-            if s[i] == '0':
-                j = i + 1
-                while j < n and s[j] == '0':
-                    j += 1
+        ones = [0]
+        if s[0] == '1':
+            ones.append(1)
+        else:
+            ones.append(0)
 
-                curr = j - i
-                if ones and zeros:
-                    ret = max(ret, total + zeros + curr)
-
-                zeros = curr
-                ones = False
-                i = j
+        for i in range(1, n):
+            if s[i] == '1':
+                ones.append(ones[-1] + 1)
             else:
-                ones = True
-                i += 1
-                while i < n and s[i] == '1':
-                    i += 1
-                
-        return ret
-                
+                ones.append(ones[-1])
+            
+            if s[i] != prev:
+                if prev == '0':
+                    if first == -1:
+                        first = prev_index
+                    else:
+                        first = second
+                        second = prev_index
+                elif first != -1:
+                    second = i
+                        
+                prev = s[i]
+                prev_index = i
+        
+            if s[i] == '0' and first != -1 and second != -1:
+                dis = i - first + 1
+                dis -= ones[-1] - ones[first]
+                ret = max(ret, dis)
+
+        return ret + ones[-1]
