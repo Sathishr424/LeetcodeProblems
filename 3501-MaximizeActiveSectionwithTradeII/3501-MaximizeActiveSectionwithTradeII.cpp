@@ -1,171 +1,157 @@
-// Last updated: 17/6/2025, 12:58:11 am
+// Last updated: 9/7/2025, 11:40:19 pm
 #include <bits/stdc++.h>
 using namespace std;
 
-#define cmax(a, b) ((a) > (b) ? (a) : (b))
-#define cmin(a, b) ((a) < (b) ? (a) : (b))
-
 struct Node {
-    int LF, LS, RF, RS, val, l, r;
-    Node(int n) {
-        LF = LS = n;
-        RF = RS = -1;
-        val = 0;
-        l = n;
-        r = -1;
-    }
+    int left = 0, right = 0, maxVal = 0;
+    Node() {}
+    Node(int l, int r, int m) : left(l), right(r), maxVal(m) {}
 };
+
+int cmax(int x, int y) { return x > y ? x : y; }
+int cmin(int x, int y) { return x < y ? x : y; }
 
 class Solution {
 public:
-    vector<Node> tree;
-    string s;
-    vector<int> zeros_left, zeros_right;
-    int n;
+    vector<int> maxActiveSectionsAfterTrade(string s, vector<vector<int>>& queries) {
+        int n = s.size();
+        int total_ones = count(s.begin(), s.end(), '1');
+        int k = floor(log2(n)) + 1;
+        vector<vector<Node>> s_table(k, vector<Node>(n));
 
-    int calcIntersection(Node &left, Node &right, int l, int r, int mid) {
-        int ls = right.LS;
-        int rf = left.RF;
-
-        int ans = 0;
-        if (ls != n && rf != -1) {
-            int curr = 0;
-            curr += rf - cmax(zeros_left[rf], l) + 1;
-            curr += zeros_right[rf] - rf;
-            curr += cmin(zeros_right[ls], r) - ls + 1;
-            ans = cmax(ans, curr);
+        vector<int> zero_prefix(n + 1, 0);
+        for (int i = 0; i < n; i++) {
+            zero_prefix[i + 1] = zero_prefix[i] + (s[i] == '0');
         }
 
-        int rs = left.RS;
-        int lf = right.LF;
-
-        if (rs != -1 && lf != n) {
-            int curr = 0;
-            curr += lf - zeros_left[lf] + 1;
-            curr += cmin(r, zeros_right[lf]) - lf;
-            curr += rs - cmax(zeros_left[rs], l) + 1;
-            ans = cmax(ans, curr);
+        vector<int> zeros_left(n, -1), zeros_right(n, -1);
+        char prev = s[0];
+        int index = -1;
+        for (int i = 1; i < n; i++) {
+            if (prev != s[i]) {
+                if (prev == '0') index = i - 1;
+                prev = s[i];
+            }
+            zeros_left[i] = index;
         }
 
-        if (s[mid] == '1' && s[mid + 1] == '1') {
-            int curr = 0;
-            rs = left.RS;
-            ls = right.LS;
+        prev = s[n - 1];
+        index = -1;
+        for (int i = n - 2; i >= 0; i--) {
+            if (prev != s[i]) {
+                if (prev == '0') index = i + 1;
+                prev = s[i];
+            }
+            zeros_right[i] = index;
+        }
 
-            if (rs != -1 && ls != n) {
-                curr += rs - cmax(zeros_left[rs], l) + 1;
-                curr += cmin(zeros_right[ls], r) - ls + 1;
-                ans = cmax(ans, curr);
+        vector<int> zero_prefix_left(n, 0), zero_prefix_right(n, n - 1);
+        prev = s[0];
+        int prev_index = 0;
+        for (int i = 1; i < n; i++) {
+            if (prev != s[i]) {
+                prev = s[i];
+                prev_index = i;
+            }
+            if (s[i] == '0') zero_prefix_left[i] = prev_index;
+        }
+
+        prev = s[n - 1];
+        prev_index = n - 1;
+        for (int i = n - 2; i >= 0; i--) {
+            if (prev != s[i]) {
+                prev = s[i];
+                prev_index = i;
+            }
+            if (s[i] == '0') zero_prefix_right[i] = prev_index;
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '0') {
+                s_table[0][i].left = 0;
+                s_table[0][i].right = 0;
+            } else {
+                s_table[0][i].left = 1;
+                s_table[0][i].right = 1;
             }
         }
 
-        return ans;
-    }
+        auto getMaxNode = [&](int l, int mid, int r, Node& left, Node& right) {
+            Node node;
+            node.left = left.left;
+            node.right = right.right;
 
-    Node calcNode(Node &left, Node &right) {
-        int l = left.l;
-        int r = right.r;
-        int mid = left.r;
+            int curr = cmax(left.maxVal, right.maxVal);
 
-        Node node(n);
-        node.l = l;
-        node.r = r;
-
-        node.LF = left.LF;
-        node.RF = right.RF;
-
-        if (s[mid] == '1')
-            node.LS = cmin(left.LS, cmin(right.LF, right.LS));
-        else
-            node.LS = cmin(left.LS, right.LS);
-
-        if (s[mid + 1] == '1')
-            node.RS = cmax(right.RS, cmax(left.RF, left.RS));
-        else
-            node.RS = cmax(right.RS, left.RS);
-
-        node.val = cmax(cmax(left.val, right.val), calcIntersection(left, right, l, r, mid));
-
-        return node;
-    }
-
-    void buildTree(int l, int r, int index) {
-        if (l == r) {
-            tree[index] = Node(n);
-            if (s[l] == '0')
-                tree[index].LF = tree[index].RF = l;
-            tree[index].l = l;
-            tree[index].r = l;
-            return;
-        }
-
-        int mid = (l + r) / 2;
-        buildTree(l, mid, 2 * index + 1);
-        buildTree(mid + 1, r, 2 * index + 2);
-
-        tree[index] = calcNode(tree[2 * index + 1], tree[2 * index + 2]);
-    }
-
-    Node query(int l, int r, int index, int left, int right) {
-        if (l > right || r < left)
-            return Node(n);
-
-        if (l >= left && r <= right)
-            return tree[index];
-
-        int mid = (l + r) / 2;
-        Node left_ans = query(l, mid, 2 * index + 1, left, right);
-        Node right_ans = query(mid + 1, r, 2 * index + 2, left, right);
-
-        if (left_ans.l != n && right_ans.l != n)
-            return calcNode(left_ans, right_ans);
-        else if (left_ans.l != n)
-            return left_ans;
-        else
-            return right_ans;
-    }
-
-    vector<int> maxActiveSectionsAfterTrade(string str, vector<vector<int>> &queries) {
-        s = str;
-        n = s.length();
-
-        zeros_left.assign(n, 0);
-        zeros_right.assign(n, 0);
-        tree.assign(n * 4, Node(n));
-
-        int total = count(s.begin(), s.end(), '1');
-
-        for (int i = 0; i < n; ) {
-            if (s[i] == '0') {
-                int j = i;
-                while (j < n && s[j] == '0') {
-                    zeros_left[j] = i;
-                    j++;
+            if (left.right == 0) {
+                if (right.left == 0) {
+                    int left_index = zeros_left[mid];
+                    if (left_index != -1 && left_index >= l) {
+                        left_index = cmax(l, zero_prefix_left[left_index]);
+                        int right_index = cmin(r, zero_prefix_right[mid + 1]);
+                        curr = cmax(curr, zero_prefix[right_index + 1] - zero_prefix[left_index]);
+                    }
                 }
-                i = j;
-            } else i++;
-        }
-
-        for (int i = n - 1; i >= 0; ) {
-            if (s[i] == '0') {
-                int j = i;
-                while (j >= 0 && s[j] == '0') {
-                    zeros_right[j] = i;
-                    j--;
+                int left_index = cmax(l, zero_prefix_left[mid]);
+                int right_index = zeros_right[mid + 1];
+                if (right_index != -1 && right_index <= r) {
+                    right_index = cmin(r, zero_prefix_right[right_index]);
+                    curr = cmax(curr, zero_prefix[right_index + 1] - zero_prefix[left_index]);
                 }
-                i = j;
-            } else i--;
+            } else {
+                int left_index = zeros_left[mid];
+                if (left_index != -1 && left_index >= l) {
+                    left_index = cmax(l, zero_prefix_left[left_index]);
+                    if (right.left == 1) {
+                        int right_index = zeros_right[mid + 1];
+                        if (right_index != -1 && right_index <= r) {
+                            right_index = cmin(r, zero_prefix_right[right_index]);
+                            curr = cmax(curr, zero_prefix[right_index + 1] - zero_prefix[left_index]);
+                        }
+                    } else {
+                        int right_index = cmin(r, zero_prefix_right[mid + 1]);
+                        curr = cmax(curr, zero_prefix[right_index + 1] - zero_prefix[left_index]);
+                    }
+                }
+            }
+
+            node.maxVal = curr;
+            return node;
+        };
+
+        for (int power = 1; power < k; power++) {
+            int m = 1 << power;
+            int prev_m = m >> 1;
+            for (int i = 0; i + m <= n; i++) {
+                s_table[power][i] = getMaxNode(i, i + prev_m - 1, i + m - 1, s_table[power - 1][i], s_table[power - 1][i + prev_m]);
+            }
         }
 
-        buildTree(0, n - 1, 0);
-        vector<int> res;
-
-        for (auto &q : queries) {
+        vector<int> ret;
+        for (auto& q : queries) {
             int l = q[0], r = q[1];
-            Node ans = query(0, n - 1, 0, l, r);
-            res.push_back(ans.val + total);
+            int dis = r - l + 1;
+            int power = 0;
+            Node* prev = nullptr;
+            int x = l;
+            while (dis) {
+                if (dis & 1) {
+                    Node curr = s_table[power][l];
+                    int mid = l - 1;
+                    l += 1 << power;
+                    if (prev != nullptr) {
+                        Node combined = getMaxNode(x, mid, l - 1, *prev, curr);
+                        *prev = combined;
+                    } else {
+                        prev = new Node(curr);
+                    }
+                }
+                dis >>= 1;
+                power++;
+            }
+            ret.push_back(prev->maxVal + total_ones);
+            delete prev;
         }
-
-        return res;
+        return ret;
     }
 };
