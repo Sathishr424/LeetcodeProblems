@@ -1,4 +1,4 @@
-# Last updated: 9/7/2025, 12:08:01 pm
+# Last updated: 10/7/2025, 7:08:38 am
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def maxFreeTime(self, eventTime: int, startTime: List[int], endTime: List[int]) -> int:
