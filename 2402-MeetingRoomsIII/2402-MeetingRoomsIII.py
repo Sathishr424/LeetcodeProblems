@@ -1,15 +1,10 @@
-# Last updated: 11/7/2025, 12:04:13 pm
+# Last updated: 11/7/2025, 12:05:10 pm
 class Solution:
     def mostBooked(self, n: int, meetings: List[List[int]]) -> int:
-        m = len(meetings)
-        # meetings.sort()
-
         free_rooms = SortedList([i for i in range(n)])
         used = [0] * n
 
-        meetings_heap = meetings[:]
-        heapq.heapify(meetings_heap)
-
+        heapq.heapify(meetings)
         on_going_meetings_heap = []
 
         def assignRoom(e):
@@ -20,8 +15,8 @@ class Solution:
                 return True
             return False
 
-        while meetings_heap:
-            s, e = heapq.heappop(meetings_heap)
+        while meetings:
+            s, e = heapq.heappop(meetings)
             while on_going_meetings_heap and on_going_meetings_heap[0][0] <= s:
                 e_, r = heapq.heappop(on_going_meetings_heap)
                 free_rooms.add(r)
