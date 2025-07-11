@@ -1,8 +1,8 @@
-# Last updated: 11/7/2025, 12:03:52 pm
+# Last updated: 11/7/2025, 12:04:13 pm
 class Solution:
     def mostBooked(self, n: int, meetings: List[List[int]]) -> int:
         m = len(meetings)
-        meetings.sort()
+        # meetings.sort()
 
         free_rooms = SortedList([i for i in range(n)])
         used = [0] * n
