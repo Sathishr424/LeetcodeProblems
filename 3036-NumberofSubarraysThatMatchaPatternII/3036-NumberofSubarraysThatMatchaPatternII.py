@@ -1,4 +1,4 @@
-# Last updated: 11/7/2025, 11:24:38 pm
+# Last updated: 11/7/2025, 11:26:17 pm
 class Solution:
     def countMatchingSubarrays(self, nums: List[int], pattern: List[int]) -> int:
         n = len(nums)
@@ -13,6 +13,7 @@ class Solution:
             if pattern[i] == pattern[j]:
                 j += 1
                 lps[i] = j
+        
         def compare(x, y, p):
             if p == 1:
                 return x > y
@@ -32,4 +33,4 @@ class Solution:
                     ret += 1
                     j = lps[j - 1]
 
-        return ret  
+        return ret
