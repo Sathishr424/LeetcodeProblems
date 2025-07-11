@@ -1,7 +1,8 @@
-# Last updated: 11/7/2025, 12:06:15 pm
+# Last updated: 11/7/2025, 12:12:18 pm
 class Solution:
     def mostBooked(self, n: int, meetings: List[List[int]]) -> int:
-        free_rooms = SortedList([i for i in range(n)])
+        free_rooms = [i for i in range(n)]
+        heapq.heapify(free_rooms)
         used = [0] * n
 
         meetings.sort()
@@ -9,16 +10,16 @@ class Solution:
 
         def assignRoom(e):
             if len(free_rooms) > 0:
-                heapq.heappush(on_going_meetings_heap, (e, free_rooms[0]))
-                used[free_rooms[0]] += 1
-                free_rooms.discard(free_rooms[0])
+                room = heapq.heappop(free_rooms)
+                heapq.heappush(on_going_meetings_heap, (e, room))
+                used[room] += 1
                 return True
             return False
 
         for s, e in meetings:
             while on_going_meetings_heap and on_going_meetings_heap[0][0] <= s:
                 e_, r = heapq.heappop(on_going_meetings_heap)
-                free_rooms.add(r)
+                heapq.heappush(free_rooms, r)
             
             if not assignRoom(e):
                 e_, r = heapq.heappop(on_going_meetings_heap)
