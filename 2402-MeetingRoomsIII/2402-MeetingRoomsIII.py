@@ -1,4 +1,4 @@
-# Last updated: 11/7/2025, 12:12:18 pm
+# Last updated: 11/7/2025, 12:13:39 pm
 class Solution:
     def mostBooked(self, n: int, meetings: List[List[int]]) -> int:
         free_rooms = [i for i in range(n)]
