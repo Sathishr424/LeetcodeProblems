@@ -1,4 +1,4 @@
-# Last updated: 11/7/2025, 11:13:33 pm
+# Last updated: 11/7/2025, 11:24:38 pm
 class Solution:
     def countMatchingSubarrays(self, nums: List[int], pattern: List[int]) -> int:
         n = len(nums)
@@ -13,38 +13,23 @@ class Solution:
             if pattern[i] == pattern[j]:
                 j += 1
                 lps[i] = j
-        # print(lps)
+        def compare(x, y, p):
+            if p == 1:
+                return x > y
+            elif p == -1:
+                return x < y
+            else:
+                return x == y
+
         ret = 0
         j = 0
-        i = 1
-        while i < n:
-            # print((i, nums[i]), pattern[j], j, nums[i - j - 1:i+1], ret)
-            if pattern[j] == 0:
-                if nums[i] == nums[i-1]: 
-                    j += 1
-                    if j == m:
-                        ret += 1
-                        j = lps[j - 1]
-                elif j > 0:
+        for i in range(1, n):
+            while j > 0 and not compare(nums[i], nums[i-1], pattern[j]): 
+                j = lps[j - 1]
+            if compare(nums[i], nums[i-1], pattern[j]):
+                j += 1
+                if j == m: 
+                    ret += 1
                     j = lps[j - 1]
-                    continue
-            elif pattern[j] == 1:
-                if nums[i] > nums[i-1]: 
-                    j += 1
-                    if j == m: 
-                        ret += 1
-                        j = lps[j - 1]
-                elif j > 0:
-                    j = lps[j - 1]
-                    continue
-            else:
-                if nums[i] < nums[i-1]: 
-                    j += 1
-                    if j == m: 
-                        ret += 1
-                        j = lps[j - 1]
-                elif j > 0:
-                    j = lps[j - 1]
-                    continue
-            i += 1
+
         return ret  
