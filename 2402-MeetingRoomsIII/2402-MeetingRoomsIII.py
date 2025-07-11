@@ -1,33 +1,30 @@
-# Last updated: 11/7/2025, 11:58:42 am
+# Last updated: 11/7/2025, 12:03:52 pm
 class Solution:
     def mostBooked(self, n: int, meetings: List[List[int]]) -> int:
         m = len(meetings)
         meetings.sort()
 
-        free_rooms = [0] * n
+        free_rooms = SortedList([i for i in range(n)])
         used = [0] * n
 
         meetings_heap = meetings[:]
         heapq.heapify(meetings_heap)
 
         on_going_meetings_heap = []
-        max_used_room = 0
 
         def assignRoom(e):
-            nonlocal max_used_room
-            for i in range(n):
-                if free_rooms[i] == 0:
-                    heapq.heappush(on_going_meetings_heap, (e, i))
-                    used[i] += 1
-                    free_rooms[i] = 1
-                    return True
+            if len(free_rooms) > 0:
+                heapq.heappush(on_going_meetings_heap, (e, free_rooms[0]))
+                used[free_rooms[0]] += 1
+                free_rooms.discard(free_rooms[0])
+                return True
             return False
 
         while meetings_heap:
             s, e = heapq.heappop(meetings_heap)
             while on_going_meetings_heap and on_going_meetings_heap[0][0] <= s:
                 e_, r = heapq.heappop(on_going_meetings_heap)
-                free_rooms[r] = 0
+                free_rooms.add(r)
             
             if not assignRoom(e):
                 e_, r = heapq.heappop(on_going_meetings_heap)
