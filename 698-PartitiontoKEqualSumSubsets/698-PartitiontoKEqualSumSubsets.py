@@ -1,32 +1,17 @@
-# Last updated: 13/7/2025, 12:49:48 am
+# Last updated: 13/7/2025, 12:58:50 am
 class Solution:
-    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
+    def lengthOfLIS(self, nums: List[int]) -> int:
         n = len(nums)
-        total = sum(nums)
-        if total % k: return False
-
-        nums.sort()
-        half = total // k
-        full_mask = (1 << n) - 1
-
         @cache
-        def rec(mask, rem_tot, rem):
-            if mask == full_mask:
-                if rem == 1 and rem_tot == 0: return True
-                return False
-            if rem == 0: return False
-            if rem_tot == 0:
-                return rec(mask, half, rem - 1)
-            
-            for i in range(n):
-                if nums[i] > rem_tot: break
-                if mask & (1 << i) == 0:
-                    if rec(mask | (1 << i), rem_tot - nums[i], rem):
-                        return True
-            
-            return False
+        def rec(index):
+            if index == n:
+                return 0
 
-        ans = rec(0, half, k)
-        rec.cache_clear()
-        return ans
+            ans = 0
+            for i in range(index + 1, n):
+                if nums[i] > nums[index]:
+                    ans = max(ans, rec(i))
+            
+            return ans + 1
         
+        return max([rec(i) for i in range(n)])
