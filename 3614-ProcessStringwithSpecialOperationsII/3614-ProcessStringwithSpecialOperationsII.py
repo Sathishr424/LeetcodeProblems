@@ -1,4 +1,4 @@
-# Last updated: 14/7/2025, 5:32:45 pm
+# Last updated: 14/7/2025, 5:40:43 pm
 class Solution:
     def processStr(self, s: str, k: int) -> str:
         n = len(s)
@@ -9,9 +9,7 @@ class Solution:
                 cnt = max(0, cnt - 1)
             elif char == '#':
                 cnt += cnt
-            elif char == '%':
-                pass
-            else:
+            elif char != '%':
                 cnt += 1
         
         if cnt <= k: return '.'
