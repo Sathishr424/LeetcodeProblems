@@ -1,4 +1,4 @@
-# Last updated: 14/7/2025, 12:14:50 pm
+# Last updated: 14/7/2025, 12:20:40 pm
 class Solution:
     def processStr(self, s: str, k: int) -> str:
         n = len(s)
@@ -33,8 +33,7 @@ class Solution:
                 else:
                     if index == cnt - 1 and char == a: return True
                     cnt -= 1
-
-                if index >= cnt: return False
+                    if index >= cnt: return False
             
             return True
 
