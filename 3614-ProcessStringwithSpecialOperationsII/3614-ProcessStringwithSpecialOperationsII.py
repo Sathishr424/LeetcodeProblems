@@ -1,4 +1,4 @@
-# Last updated: 14/7/2025, 12:07:14 pm
+# Last updated: 14/7/2025, 12:08:58 pm
 class Solution:
     def processStr(self, s: str, k: int) -> str:
         total_cnt = 0
@@ -14,13 +14,10 @@ class Solution:
                 total_cnt += 1
         
         if total_cnt <= k: return '.'
-        print(total_cnt)
-        for i in range(26):
-            a = chr(ord('a') + i)
-            # print(a)
+
+        def checkMatch(a):
             index = k
             cnt = total_cnt
-            match = True
 
             for char in s[::-1]:
                 if char == '*':
@@ -32,12 +29,13 @@ class Solution:
                 elif char == '%':
                     index = cnt - index - 1
                 else:
-                    if index == cnt - 1 and char == a: break
+                    if index == cnt - 1 and char == a: return True
                     cnt -= 1
-                # print(a, index, cnt)
-                if index >= cnt:
-                    match = False
-                    break
+
+                if index >= cnt: return False
             
-            if match:
-                return a
+            return True
+
+        for i in range(26):
+            a = chr(ord('a') + i)
+            if checkMatch(a): return a
