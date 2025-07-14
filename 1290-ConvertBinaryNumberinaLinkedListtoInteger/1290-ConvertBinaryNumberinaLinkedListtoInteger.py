@@ -1,4 +1,4 @@
-# Last updated: 14/7/2025, 11:51:34 am
+# Last updated: 14/7/2025, 5:29:01 pm
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
@@ -6,11 +6,11 @@
 #         self.next = next
 class Solution:
     def getDecimalValue(self, head: Optional[ListNode]) -> int:
-        def rec(node):
-            if node == None: return 0, 0
-            val, power = rec(node.next)
-            if node.val == 1:
-                val += 1 << power
-            return val, power + 1
+        val = 0
+        while head:
+            val *= 2
+            if head.val == 1:
+                val += 1
+            head = head.next
         
-        return rec(head)[0]
+        return val
