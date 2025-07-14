@@ -1,8 +1,9 @@
-# Last updated: 14/7/2025, 12:20:40 pm
+# Last updated: 14/7/2025, 12:21:47 pm
 class Solution:
     def processStr(self, s: str, k: int) -> str:
         n = len(s)
         total_cnt = 0
+        new_s = {}
 
         for char in s:
             if char == '*':
@@ -13,6 +14,7 @@ class Solution:
                 pass
             else:
                 total_cnt += 1
+                new_s[char] = 1
         
         if total_cnt <= k: return '.'
 
@@ -37,6 +39,5 @@ class Solution:
             
             return True
 
-        for i in range(26):
-            a = chr(ord('a') + i)
+        for a in new_s:
             if checkMatch(a): return a
