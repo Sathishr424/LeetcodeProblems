@@ -1,6 +1,7 @@
-# Last updated: 14/7/2025, 12:08:58 pm
+# Last updated: 14/7/2025, 12:14:50 pm
 class Solution:
     def processStr(self, s: str, k: int) -> str:
+        n = len(s)
         total_cnt = 0
 
         for char in s:
@@ -19,7 +20,8 @@ class Solution:
             index = k
             cnt = total_cnt
 
-            for char in s[::-1]:
+            for i in range(n-1, -1, -1):
+                char = s[i]
                 if char == '*':
                     cnt += 1
                 elif char == '#':
