@@ -1,4 +1,4 @@
-# Last updated: 15/7/2025, 2:45:09 pm
+# Last updated: 15/7/2025, 3:21:32 pm
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def maxProduct(self, nums: List[int], k: int, limit: int) -> int:
@@ -14,9 +14,9 @@ class Solution:
                 if s == k: 
                     if lim == 0: 
                         if zero_used: return 0
-                        return -inf
+                        return -1
                     return lim
-                return -inf
+                return -1
             
             ans = rec(index + 1, is_odd, s, lim, zero_used)
 
@@ -33,10 +33,9 @@ class Solution:
             
             return ans
         
-        ans = -inf
+        ans = -1
         for i in range(n):
             if nums[i] <= limit:
                 ans = cmax(ans, rec(i + 1, True, nums[i], nums[i], nums[i] == 0))
-        if ans == -inf: return -1
         rec.cache_clear()
         return ans
