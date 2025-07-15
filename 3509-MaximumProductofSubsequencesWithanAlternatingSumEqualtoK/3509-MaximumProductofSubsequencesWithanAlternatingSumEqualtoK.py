@@ -1,4 +1,4 @@
-# Last updated: 15/7/2025, 2:42:15 pm
+# Last updated: 15/7/2025, 2:43:19 pm
 class Solution:
     def maxProduct(self, nums: List[int], k: int, limit: int) -> int:
         n = len(nums)
@@ -6,9 +6,9 @@ class Solution:
         for i, num in enumerate(nums):
             if num == 0:
                 zero_index = i
+        
         @cache
         def rec(index, is_odd, s, lim, zero_used):
-            # print(index, is_odd, s, lim)
             if index == n: 
                 if s == k: 
                     if lim == 0: 
@@ -18,18 +18,17 @@ class Solution:
                 return -inf
             
             ans = rec(index + 1, is_odd, s, lim, zero_used)
+            
+            if is_odd:
+                s -= nums[index]
+            else:
+                s += nums[index]
+            zero_used = zero_used or nums[index] == 0
+
             if lim * nums[index] <= limit:
-                if is_odd:
-                    s -= nums[index]
-                else:
-                    s += nums[index]
-                ans = max(ans, rec(index + 1, not is_odd, s, lim * nums[index], zero_used or nums[index] == 0))
+                ans = max(ans, rec(index + 1, not is_odd, s, lim * nums[index], zero_used))
             elif index <= zero_index:
-                if is_odd:
-                    s -= nums[index]
-                else:
-                    s += nums[index]
-                ans = max(ans, rec(index + 1, not is_odd, s, 0, zero_used or nums[index] == 0))
+                ans = max(ans, rec(index + 1, not is_odd, s, 0, zero_used))
             
             return ans
         
