@@ -1,28 +1,19 @@
-# Last updated: 15/7/2025, 5:51:44 pm
+# Last updated: 15/7/2025, 5:55:27 pm
 class Node:
-    def __init__(self, val, prev=None):
+    def __init__(self, val, prev=None, index=-1):
         self.val = val
         self.prev = prev
         self.next = None
+        self.index = index
         self.deleted = False
-        self.index = -1
     
     def __lt__(self, node):
         return self.index < node.index
-    
-    def __repr__(self):
-        node = self
-        st = ''
-        while node:
-            st += str(node.val) + f"({node.index})" +  ' -> '
-            node = node.next
-        return st
 
 class Solution:
     def minimumPairRemoval(self, nums: List[int]) -> int:
-        head = Node(nums[0])
+        head = Node(nums[0], None, 0)
         node = head
-        node.index = 0
 
         heap = []
         bad_pairs = 0
@@ -30,10 +21,9 @@ class Solution:
         for i in range(len(nums) - 1):
             if nums[i] > nums[i + 1]:
                 bad_pairs += 1
-            node.next = Node(nums[i + 1], node)
+            node.next = Node(nums[i + 1], node, i + 1)
             heapq.heappush(heap, (nums[i] + nums[i+1], node))
             node = node.next
-            node.index = i + 1
         
         op = 0
         while bad_pairs:
@@ -41,13 +31,9 @@ class Solution:
                 heapq.heappop(heap)
             s, node = heapq.heappop(heap)
 
-            index = node.index
-            # print('==>', s, node)
             node.deleted = True
             node.next.deleted = True
-
-            new_node = Node(s, node.prev)
-            new_node.index = index
+            new_node = Node(s, node.prev, node.index)
             
             if node.prev:
                 node.prev.next = new_node
