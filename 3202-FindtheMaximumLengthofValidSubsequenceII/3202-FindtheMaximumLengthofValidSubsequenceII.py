@@ -1,4 +1,4 @@
-# Last updated: 16/7/2025, 11:37:41 am
+# Last updated: 16/7/2025, 11:38:20 am
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def maximumLength(self, nums: List[int], k) -> int:
@@ -6,13 +6,11 @@ class Solution:
 
         ret = 0
         for match in range(k):
-            counter = defaultdict(int)
+            counter = [0] * k
             for i in range(n):
                 need = (k - (nums[i] % k) - match) % k
 
-                counter[nums[i] % k] = max(1, counter[need] + 1)
-                ret = max(counter[nums[i] % k], ret)
-                
-            # print(counter)
+                counter[nums[i] % k] = cmax(1, counter[need] + 1)
+                ret = cmax(counter[nums[i] % k], ret)
         
         return ret
