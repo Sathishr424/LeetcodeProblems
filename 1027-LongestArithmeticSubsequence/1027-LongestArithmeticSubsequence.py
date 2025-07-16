@@ -1,4 +1,4 @@
-# Last updated: 16/7/2025, 6:43:57 pm
+# Last updated: 16/7/2025, 6:46:10 pm
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def longestArithSeqLength(self, nums: List[int]) -> int:
@@ -9,7 +9,7 @@ class Solution:
             counter = [0] * (maxi * 3 + 1)
             for num in nums:
                 counter[num + maxi] = counter[ (num - diff + maxi) ] + 1
-                ret = cmax(ret, counter[num + maxi])
+            ret = cmax(ret, max(counter))
 
         return ret
 
