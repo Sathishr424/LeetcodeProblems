@@ -1,4 +1,4 @@
-# Last updated: 16/7/2025, 8:51:19 am
+# Last updated: 16/7/2025, 8:55:39 am
 class Solution:
     def maximumLength(self, nums: List[int]) -> int:
         # nums = [random.randrange(1, 10**7 + 1) for _ in range(2 * 10**5)]
@@ -13,9 +13,7 @@ class Solution:
                 ans = max(ans, rec(index + 1, to_match, nums[index] % 2) + 1)
             return ans
         
-        ans = 0
-        for i in range(n):
-            ans = max(ans, rec(i + 1, 0, nums[i] % 2) + 1, rec(i + 1, 1, nums[i] % 2) + 1)
+        ans = max(rec(0, 0, 1), rec(0, 1, 0), rec(0, 0, 0), rec(0, 1, 1))
         
         rec.cache_clear()
         return ans
