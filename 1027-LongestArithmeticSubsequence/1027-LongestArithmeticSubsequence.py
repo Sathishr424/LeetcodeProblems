@@ -1,4 +1,4 @@
-# Last updated: 16/7/2025, 6:41:32 pm
+# Last updated: 16/7/2025, 6:42:30 pm
 class Solution:
     def longestArithSeqLength(self, nums: List[int]) -> int:
         n = len(nums)
@@ -13,10 +13,10 @@ class Solution:
         # 4, 6 => 2
         # 6, 4 => -2
         for diff in diffs:
-            counter = [0] * 1501
+            counter = [0] * (maxi * 3 + 1)
             for i in range(n):
-                counter[nums[i] + 500] = counter[ (nums[i] - diff + 500) ] + 1
-                ret = max(ret, counter[nums[i] + 500])
+                counter[nums[i] + maxi] = counter[ (nums[i] - diff + maxi) ] + 1
+                ret = max(ret, counter[nums[i] + maxi])
             # print(diff, [(i, counter[i]) for i in range(maxi + 1) if counter[i] > 0])
         return ret
 
