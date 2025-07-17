@@ -1,4 +1,4 @@
-# Last updated: 17/7/2025, 3:24:42 pm
+# Last updated: 17/7/2025, 3:25:00 pm
 class Solution:
     def predictTheWinner(self, nums: List[int]) -> bool:
         @cache
@@ -11,4 +11,5 @@ class Solution:
             else:
                 return rec(l+1, r, p1_s, p2_s + nums[l], not p1_turn) and rec(l, r-1, p1_s, p2_s + nums[r], not p1_turn)
         
+        rec.cache_clear()
         return rec(0, len(nums)-1, 0, 0, True)
