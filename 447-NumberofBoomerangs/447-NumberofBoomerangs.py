@@ -1,4 +1,4 @@
-# Last updated: 17/7/2025, 3:02:08 pm
+# Last updated: 17/7/2025, 3:02:37 pm
 class Solution:
     def numberOfBoomerangs(self, points: List[List[int]]) -> int:
         n = len(points)
@@ -8,12 +8,11 @@ class Solution:
             return sqrt(diff)
 
         ret = 0
-        dis = defaultdict(lambda: defaultdict(int))
+        dis = [defaultdict(int) for _ in range(n)]
         for i in range(n):
             for j in range(n):
                 if j == i: continue
                 d = getDis(points[i], points[j])
-                # print((i, j), d, dict(dis))
                 ret += dis[i][d] * 2
                 dis[i][d] += 1
         
