@@ -1,4 +1,4 @@
-# Last updated: 17/7/2025, 9:42:31 pm
+# Last updated: 17/7/2025, 9:42:49 pm
 class OrderedStream:
     def __init__(self, n: int):
         self.n = n
@@ -17,9 +17,9 @@ class OrderedStream:
             if self.used[i] == 0: return []
         
         for i in range(idKey, self.n):
-            if self.used[i] == 0 or self.output[i]: break
+            if self.used[i] == 0: break
             ret.append(self.arr[i])
-            self.output[i] = 1
+            # self.output[i] = 1
         
         return ret
 
