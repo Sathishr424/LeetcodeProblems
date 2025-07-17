@@ -1,4 +1,4 @@
-# Last updated: 17/7/2025, 9:13:56 pm
+# Last updated: 17/7/2025, 9:18:35 pm
 cmax = lambda x, y: x if x > y else y
 mod = 10**9 + 7
 class Solution:
@@ -21,6 +21,6 @@ class Solution:
             if len(heap) > k:
                 s -= heapq.heappop(heap)
 
-            performance = cmax(performance, (s * eff))
+            performance = cmax(performance, s * eff)
             
         return performance % mod
