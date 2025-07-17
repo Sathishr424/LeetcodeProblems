@@ -1,17 +1,15 @@
-# Last updated: 17/7/2025, 2:19:21 pm
+# Last updated: 17/7/2025, 2:20:23 pm
 class Solution:
     def divide(self, dividend: int, divisor: int) -> int:
-        # if dividend == 0: return 0
-        # if divisor == 1: return dividend
-        # if divisor > dividend: return 0
-        # if divisor == dividend: return 1
-
-        is_neg = (divisor < 0) + (dividend < 0)
-        divisor = abs(divisor)   
-        dividend = abs(dividend)   
+        is_neg = 0
+        if divisor < 0:
+            divisor = -divisor
+            is_neg += 1
+        if dividend < 0:
+            dividend = -dividend
+            is_neg += 1
         
         def recAdd(num, add, op, op_add):
-            # print("add", (num, add, op, op_add))
             if num + add > dividend:
                 if op_add == 1: return op
                 return recAdd(num, divisor, op, 1)
