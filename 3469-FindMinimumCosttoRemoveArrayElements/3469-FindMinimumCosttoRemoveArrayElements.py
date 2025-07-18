@@ -1,10 +1,12 @@
-# Last updated: 18/7/2025, 2:34:14 pm
+# Last updated: 18/7/2025, 2:36:50 pm
 class Solution:
     def minCost(self, nums: List[int]) -> int:
         n = len(nums)
 
-        @cache
+        dp = [[-1] * (n + 1) for _ in range(n)]
+
         def rec(x, y):
+            if dp[x][y] != -1: return dp[x][y]
             z = y + 1
             if  y >= n or z >= n:
                 curr = nums[x]
@@ -14,9 +16,7 @@ class Solution:
             one = rec(z, z + 1) + max(nums[x], nums[y])
             two = rec(y, z + 1) + max(nums[x], nums[z])
             three = rec(x, z + 1) + max(nums[y], nums[z])
-
-            return min(one, two, three)
+            dp[x][y] = min(one, two, three)
+            return dp[x][y]
         
-        ans = rec(0, 1)
-        rec.cache_clear()
-        return ans
+        return rec(0, 1)
