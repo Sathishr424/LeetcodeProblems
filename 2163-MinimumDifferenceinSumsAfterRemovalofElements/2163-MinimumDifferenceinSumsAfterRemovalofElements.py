@@ -1,4 +1,6 @@
-# Last updated: 18/7/2025, 2:57:41 pm
+# Last updated: 18/7/2025, 2:58:13 pm
+cmax = lambda x, y: x if x > y else y
+cmin = lambda x, y: x if x < y else y
 class Solution:
     def minimumDifference(self, nums: List[int]) -> int:
         n = len(nums)
@@ -14,7 +16,7 @@ class Solution:
             if len(heap) > quater:
                 s -= heapq.heappop(heap)
             if len(heap) == quater:
-                max_sum[i] = max(max_sum[i + 1], s)
+                max_sum[i] = cmax(max_sum[i + 1], s)
 
         left_end = n - quater
 
@@ -28,7 +30,7 @@ class Solution:
             if len(heap) > quater:
                 s -= -heapq.heappop(heap)
             if len(heap) == quater:
-                ret = min(ret, s - max_sum[i + 1])
+                ret = cmin(ret, s - max_sum[i + 1])
 
         return ret
                 
