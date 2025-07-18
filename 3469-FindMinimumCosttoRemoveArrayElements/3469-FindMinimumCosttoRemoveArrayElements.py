@@ -1,28 +1,21 @@
-# Last updated: 27/5/2025, 4:39:06 pm
-cmax = lambda x, y: x if x > y else y
+# Last updated: 18/7/2025, 2:33:21 pm
 class Solution:
     def minCost(self, nums: List[int]) -> int:
-        # 1 2 3 4 5 6 7
-        # 1 2 3
         n = len(nums)
-        if n < 3: return max(nums)
+
+        @cache
+        def rec(x, y, z):
+            if  y >= n or z >= n:
+                curr = nums[x]
+                if y < n: curr = max(curr, nums[y])
+                if z < n: curr = max(curr, nums[z])
+                return curr
+            one = rec(z, z + 1, z + 2) + max(nums[x], nums[y])
+            two = rec(y, z + 1, z + 2) + max(nums[x], nums[z])
+            three = rec(x, z + 1, z + 2) + max(nums[y], nums[z])
+
+            return min(one, two, three)
         
-        memo = [[-1] * (n+1) for _ in range(n+1)]
-
-        def dfs(index, prev_index):
-            if memo[index][prev_index] != -1: return memo[index][prev_index]
-            if n-index < 2:
-                return max([nums[prev_index]] + nums[index:])
-            
-            one = dfs(index+2, index) + cmax(nums[prev_index], nums[index+1])
-            two = dfs(index+2, prev_index) + cmax(nums[index], nums[index+1])
-            three = dfs(index+2, index+1) + cmax(nums[prev_index], nums[index])
-            ans = min(one, two, three)
-            memo[index][prev_index] = ans
-            return ans
-    
-        one = dfs(3, 0) + cmax(nums[1], nums[2])
-        two = dfs(3, 1) + cmax(nums[0], nums[2])
-        three = dfs(3, 2) + cmax(nums[0], nums[1])
-
-        return min(one, two, three)
+        ans = rec(0, 1, 2)
+        rec.cache_clear()
+        return ans
