@@ -1,4 +1,4 @@
-# Last updated: 19/7/2025, 2:02:21 pm
+# Last updated: 19/7/2025, 2:05:13 pm
 class Node:
     def __init__(self):
         self.childs = [None] * 27
@@ -10,18 +10,20 @@ class Trie:
     
     def insert(self, folder):
         node = self.mainNode
+        new_created = False
         for char in folder:
             if char == '/':
-                if node.is_end:
-                    print(folder, char)
-                    return
                 a = 26
+                if node.is_end: return
             else:
                 a = ord(char) - ord('a')
             if node.childs[a] == None:
+                new_created = True
                 node.childs[a] = Node()
             node = node.childs[a]
         node.is_end = True
+        if not new_created:
+            node.childs[26] = None
     
     def getAllMainFolders(self, node, s, ret):
         if node.is_end:
@@ -35,7 +37,6 @@ class Trie:
 class Solution:
     def removeSubfolders(self, folders: List[str]) -> List[str]:
         n = len(folders)
-        folders.sort(key=lambda x: len(x))
         trie = Trie()
         for folder in folders:
             trie.insert(folder)
