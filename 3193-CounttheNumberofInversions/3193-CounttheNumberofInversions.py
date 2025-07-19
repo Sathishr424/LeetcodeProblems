@@ -1,4 +1,4 @@
-# Last updated: 19/7/2025, 5:31:52 pm
+# Last updated: 19/7/2025, 5:32:22 pm
 class SegmentNode:
     def __init__(self, l, r):
         self.l = l
@@ -26,9 +26,7 @@ class SegmentTree:
             node.lazy = -1
     
     def addRange(self, l, r, node):
-        # print(l, r, node.l, node.r)
         if node.l >= l and node.r <= r:
-            # print("inside")
             node.track = True
             node.lazy = 1
             return
@@ -45,7 +43,6 @@ class SegmentTree:
     
     def removeRange(self, l, r, node):
         if node.l >= l and node.r <= r:
-            # print((l, r), (node.l, node.r), 'remove')
             node.track = False
             node.lazy = 0
             return
@@ -62,7 +59,6 @@ class SegmentTree:
 
     def queryRange(self, l, r, node):
         if node.l >= l and node.r <= r:
-            # print((l, r), (node.l, node.r), 'query', node.track)
             return node.track
         
         mid = (node.l + node.r) // 2
