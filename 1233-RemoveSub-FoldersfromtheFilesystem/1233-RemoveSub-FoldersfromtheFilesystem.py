@@ -1,9 +1,7 @@
-# Last updated: 19/7/2025, 2:18:32 pm
-int_to_alp = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '/']
-
+# Last updated: 19/7/2025, 2:21:09 pm
 class Node:
     def __init__(self):
-        self.childs = [None] * 27
+        self.childs = {}
         self.is_end = False
 
 class Trie:
@@ -13,23 +11,19 @@ class Trie:
     def insert(self, folder):
         node = self.mainNode
         for char in folder:
-            if char == '/':
-                if node.is_end: return
-                a = 26
-            else:
-                a = ord(char) - 97
-            if node.childs[a] == None:
-                node.childs[a] = Node()
-            node = node.childs[a]
+            if char == '/' and node.is_end: return
+            if char not in node.childs:
+                node.childs[char] = Node()
+            node = node.childs[char]
         node.is_end = True
-        node.childs[26] = None
+        if '/' in node.childs:
+            del node.childs['/']
     
     def getAllMainFolders(self, node, s, ret):
-        if node.is_end:
-            ret.append(s)
-        for child in range(27):
-            if node.childs[child] == None: continue
-            self.getAllMainFolders(node.childs[child], s + int_to_alp[child], ret)
+        if node.is_end: ret.append(s)
+        for char in node.childs:
+            if node.childs[char] == None: continue
+            self.getAllMainFolders(node.childs[char], s + char, ret)
 
 class Solution:
     def removeSubfolders(self, folders: List[str]) -> List[str]:
