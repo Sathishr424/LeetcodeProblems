@@ -1,4 +1,6 @@
-# Last updated: 19/7/2025, 2:15:59 pm
+# Last updated: 19/7/2025, 2:18:32 pm
+int_to_alp = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '/']
+
 class Node:
     def __init__(self):
         self.childs = [None] * 27
@@ -25,11 +27,9 @@ class Trie:
     def getAllMainFolders(self, node, s, ret):
         if node.is_end:
             ret.append(s)
-        for child in range(26):
+        for child in range(27):
             if node.childs[child] == None: continue
-            self.getAllMainFolders(node.childs[child], s + chr(child + 97), ret)
-        if node.childs[26] != None:
-            self.getAllMainFolders(node.childs[26], s + '/', ret)
+            self.getAllMainFolders(node.childs[child], s + int_to_alp[child], ret)
 
 class Solution:
     def removeSubfolders(self, folders: List[str]) -> List[str]:
