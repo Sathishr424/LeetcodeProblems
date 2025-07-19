@@ -1,4 +1,4 @@
-# Last updated: 19/7/2025, 2:05:13 pm
+# Last updated: 19/7/2025, 2:06:17 pm
 class Node:
     def __init__(self):
         self.childs = [None] * 27
@@ -13,8 +13,8 @@ class Trie:
         new_created = False
         for char in folder:
             if char == '/':
-                a = 26
                 if node.is_end: return
+                a = 26
             else:
                 a = ord(char) - ord('a')
             if node.childs[a] == None:
@@ -22,8 +22,7 @@ class Trie:
                 node.childs[a] = Node()
             node = node.childs[a]
         node.is_end = True
-        if not new_created:
-            node.childs[26] = None
+        node.childs[26] = None
     
     def getAllMainFolders(self, node, s, ret):
         if node.is_end:
