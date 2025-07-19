@@ -1,43 +1,51 @@
-# Last updated: 19/7/2025, 2:08:49 pm
-class Node:
-    def __init__(self):
-        self.childs = [None] * 27
-        self.is_end = False
-
-class Trie:
-    def __init__(self):
-        self.mainNode = Node()
-    
-    def insert(self, folder):
-        node = self.mainNode
-        for char in folder:
-            if char == '/':
-                if node.is_end: return
-                a = 26
-            else:
-                a = ord(char) - ord('a')
-            if node.childs[a] == None:
-                node.childs[a] = Node()
-            node = node.childs[a]
-        node.is_end = True
-        node.childs[26] = None
-    
-    def getAllMainFolders(self, node, s, ret):
-        if node.is_end:
-            ret.append(s)
-        for child in range(26):
-            if node.childs[child] == None: continue
-            self.getAllMainFolders(node.childs[child], s + chr(child + ord('a')), ret)
-        if node.childs[26] != None:
-            self.getAllMainFolders(node.childs[26], s + '/', ret)
-
+# Last updated: 19/7/2025, 2:15:07 pm
 class Solution:
-    def removeSubfolders(self, folders: List[str]) -> List[str]:
-        n = len(folders)
-        trie = Trie()
-        for folder in folders:
-            trie.insert(folder)
-        
-        ret = []
-        trie.getAllMainFolders(trie.mainNode, '', ret)
-        return ret
+
+    class TrieNode:
+        def __init__(self):
+            self.is_end_of_folder = False
+            self.children = {}
+
+    def __init__(self):
+        self.root = self.TrieNode()
+
+    def removeSubfolders(self, folder):
+        # Build Trie from folder paths
+        for path in folder:
+            current_node = self.root
+            folders = path.split("/")
+
+            for folder_name in folders:
+                if folder_name == "":
+                    continue
+
+                # Create new node if it doesn't exist
+                if folder_name not in current_node.children:
+                    current_node.children[folder_name] = self.TrieNode()
+                current_node = current_node.children[folder_name]
+
+            # Mark the end of the folder path
+            current_node.is_end_of_folder = True
+
+        # Check each path for subfolders
+        result = []
+        for path in folder:
+            current_node = self.root
+            folders = path.split("/")
+            is_subfolder = False
+
+            for i, folder_name in enumerate(folders):
+                if folder_name == "":
+                    continue
+                next_node = current_node.children[folder_name]
+                # Check if the current folder path is a subfolder of an existing folder
+                if next_node.is_end_of_folder and i != len(folders) - 1:
+                    is_subfolder = True
+                    break  # Found a subfolder
+                current_node = next_node
+
+            # If not a subfolder, add to the result
+            if not is_subfolder:
+                result.append(path)
+
+        return result
