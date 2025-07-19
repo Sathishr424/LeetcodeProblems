@@ -1,4 +1,4 @@
-# Last updated: 19/7/2025, 2:06:17 pm
+# Last updated: 19/7/2025, 2:08:49 pm
 class Node:
     def __init__(self):
         self.childs = [None] * 27
@@ -10,7 +10,6 @@ class Trie:
     
     def insert(self, folder):
         node = self.mainNode
-        new_created = False
         for char in folder:
             if char == '/':
                 if node.is_end: return
@@ -18,7 +17,6 @@ class Trie:
             else:
                 a = ord(char) - ord('a')
             if node.childs[a] == None:
-                new_created = True
                 node.childs[a] = Node()
             node = node.childs[a]
         node.is_end = True
