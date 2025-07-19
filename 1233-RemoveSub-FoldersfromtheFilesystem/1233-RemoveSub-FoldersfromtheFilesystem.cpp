@@ -1,4 +1,4 @@
-// Last updated: 19/7/2025, 2:10:46 pm
+// Last updated: 19/7/2025, 2:11:42 pm
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -23,7 +23,7 @@ public:
         for (char ch : folder) {
             int idx;
             if (ch == '/') {
-                if (node->is_end) return; // Already a main folder
+                if (node->is_end) return;
                 idx = 26;
             } else {
                 idx = ch - 'a';
@@ -34,7 +34,6 @@ public:
             node = node->childs[idx];
         }
         node->is_end = true;
-        // Clear children beyond this folder
         node->childs[26] = nullptr;
     }
     
