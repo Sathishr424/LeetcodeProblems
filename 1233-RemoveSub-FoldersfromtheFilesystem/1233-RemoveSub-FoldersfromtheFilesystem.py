@@ -1,4 +1,4 @@
-# Last updated: 19/7/2025, 2:21:09 pm
+# Last updated: 19/7/2025, 2:21:50 pm
 class Node:
     def __init__(self):
         self.childs = {}
@@ -20,10 +20,12 @@ class Trie:
             del node.childs['/']
     
     def getAllMainFolders(self, node, s, ret):
-        if node.is_end: ret.append(s)
+        if node.is_end: ret.append(''.join(s))
         for char in node.childs:
             if node.childs[char] == None: continue
-            self.getAllMainFolders(node.childs[char], s + char, ret)
+            s.append(char)
+            self.getAllMainFolders(node.childs[char], s, ret)
+            s.pop()
 
 class Solution:
     def removeSubfolders(self, folders: List[str]) -> List[str]:
@@ -33,5 +35,5 @@ class Solution:
             trie.insert(folder)
         
         ret = []
-        trie.getAllMainFolders(trie.mainNode, '', ret)
+        trie.getAllMainFolders(trie.mainNode, [], ret)
         return ret
