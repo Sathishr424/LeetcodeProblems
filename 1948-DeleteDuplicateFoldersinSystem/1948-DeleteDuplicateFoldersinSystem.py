@@ -1,4 +1,4 @@
-# Last updated: 20/7/2025, 10:06:52 pm
+# Last updated: 20/7/2025, 10:07:42 pm
 class Node:
     def __init__(self):
         self.childs = {}
@@ -24,21 +24,17 @@ class Trie:
             s += '-'
         node.cache = s
         self.cached[s] += 1
-        # if s: print(s)
         return s
     
     def getValidPaths(self, node, s, ret):
-        # if self.cached[node.cache] > 1: return
         ret.append(s[:])
         for folder in node.childs:
             child_node = node.childs[folder]
             if self.cached[child_node.cache] <= 1:
-                # print(folder, child_node.cache, self.cached[child_node.cache])
                 s.append(folder)
                 self.getValidPaths(child_node, s, ret)
                 s.pop()
 
-                
 class Solution:
     def deleteDuplicateFolder(self, paths: List[List[str]]) -> List[List[str]]:
         ret = []
@@ -48,7 +44,7 @@ class Solution:
         for path in paths:
             trie.insert(path)
         trie.cache(trie.mainNode)
-        # print(trie.cached)
+
         trie.cached[''] = 0
         trie.getValidPaths(trie.mainNode, [], ret)
         return ret[1:]
