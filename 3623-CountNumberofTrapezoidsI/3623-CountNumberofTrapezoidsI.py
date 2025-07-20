@@ -1,4 +1,4 @@
-# Last updated: 20/7/2025, 9:55:38 am
+# Last updated: 20/7/2025, 10:01:11 am
 mod = 10**9 + 7
 
 @cache
@@ -21,7 +21,7 @@ class Solution:
         for h in hor:
             cnt = hor[h]
             if cnt == 1: continue
-            curr = fact(cnt) // (fact(cnt - 2) * fact(2))
+            curr = cnt * (cnt - 1) // 2
             ret += prev * curr % mod
             ret %= mod
             prev += curr
