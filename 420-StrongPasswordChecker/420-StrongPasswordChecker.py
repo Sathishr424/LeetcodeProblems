@@ -1,4 +1,4 @@
-# Last updated: 22/7/2025, 12:41:52 am
+# Last updated: 22/7/2025, 12:46:38 am
 alp = 'abcdefghijklmnopqrstuvwxyz'
 ALP = alp.upper()
 dig = '01234567890'
@@ -15,7 +15,7 @@ class Solution:
                 if not upper: extra += 1
                 if not digit: extra += 1
                 if cnt < 6:
-                    return max(0, 6-(cnt + extra)) + extra
+                    return max(extra, 6 - cnt)
                 return extra
             
             ans = inf
