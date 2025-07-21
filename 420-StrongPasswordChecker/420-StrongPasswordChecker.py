@@ -1,4 +1,4 @@
-# Last updated: 22/7/2025, 12:33:13 am
+# Last updated: 22/7/2025, 12:41:52 am
 alp = 'abcdefghijklmnopqrstuvwxyz'
 ALP = alp.upper()
 dig = '01234567890'
@@ -10,15 +10,13 @@ class Solution:
         def rec(index, lower, upper, digit, prev, prev_prev, cnt):
             if cnt > 20: return inf
             if index >= n:
-                if not lower:
-                    return rec(index, True, upper, digit, '-', '-', cnt + 1) + 1
-                if not upper:
-                    return rec(index, lower, True, digit, '-', '-', cnt + 1) + 1
-                if not digit:
-                    return rec(index, lower, upper, True, '-', '-', cnt + 1) + 1
+                extra = 0
+                if not lower: extra += 1
+                if not upper: extra += 1
+                if not digit: extra += 1
                 if cnt < 6:
-                    return rec(index, lower, upper, digit, '-', '-', cnt + 1) + 1
-                return 0
+                    return max(0, 6-(cnt + extra)) + extra
+                return extra
             
             ans = inf
             curr = password[index]
