@@ -1,4 +1,4 @@
-# Last updated: 21/7/2025, 9:26:40 pm
+# Last updated: 21/7/2025, 9:27:29 pm
 class Solution:
     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
         there = defaultdict(list)
@@ -25,12 +25,11 @@ class Solution:
         while stack:
             word, cnt = stack.popleft()
             if word in visited and visited[word] <= cnt: continue
-            can_visit[word] = 1
-            if cnt >= shortest: continue
             visited[word] = cnt
+            can_visit[word] = 1
             if word == endWord:
                 shortest = cnt
-                continue
+                break
 
             for new_word in possible[word]:
                 for n_word in there[new_word]:
