@@ -1,4 +1,4 @@
-# Last updated: 22/7/2025, 12:30:59 am
+# Last updated: 22/7/2025, 12:33:13 am
 alp = 'abcdefghijklmnopqrstuvwxyz'
 ALP = alp.upper()
 dig = '01234567890'
@@ -18,8 +18,7 @@ class Solution:
                     return rec(index, lower, upper, True, '-', '-', cnt + 1) + 1
                 if cnt < 6:
                     return rec(index, lower, upper, digit, '-', '-', cnt + 1) + 1
-                if lower and upper and digit: return 0
-                return inf
+                return 0
             
             ans = inf
             curr = password[index]
@@ -51,13 +50,10 @@ class Solution:
                 ans = min(ans, rec(index + 1, p_lower, p_upper, p_digit, prev, prev_prev, cnt) + 1) # delete
                 if not digit:
                     ans = min(ans, rec(index + 1, lower, upper, True, '-', prev, cnt + 1) + 1) # replace
-                    # ans = min(ans, rec(index, lower, upper, True, '-', curr, cnt + 1) + 1) # insert
                 if not lower:
                     ans = min(ans, rec(index + 1, True, upper, digit, '-', prev, cnt + 1) + 1) # replace
-                    # ans = min(ans, rec(index, True, upper, digit, '-', curr, cnt + 1) + 1) # insert
                 if not upper:
                     ans = min(ans, rec(index + 1, lower, True, digit, '-', prev, cnt + 1) + 1) # replace
-                    # ans = min(ans, rec(index, lower, True, digit, '-', curr, cnt + 1) + 1) # insert
 
             return ans
         
