@@ -1,0 +1,46 @@
+# Last updated: 21/7/2025, 1:04:35 pm
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        boxes = [0] * 10
+        rows = [0] * 10
+        cols = [0] * 10
+        need = []
+        n = 9
+        for i in range(n):
+            for j in range(n):
+                if board[i][j] == '.': need.append((i, j))
+                else:
+                    pos = 1 << int(board[i][j])
+                    box = (i // 3) * 3 + (j // 3)
+                    rows[i] |= pos
+                    cols[j] |= pos
+                    boxes[box] |= pos
+        
+        def dfs(index):
+            if index == len(need):
+                return True
+            i, j = need[index]
+            box = (i // 3) * 3 + (j // 3)
+            for val in range(1, 10):
+                pos = 1 << val
+                if rows[i] & pos == 0 and cols[j] & pos == 0 and boxes[box] & pos == 0:
+                    r = rows[i]
+                    c = cols[j]
+                    b = boxes[box]
+                    rows[i] |= pos
+                    cols[j] |= pos
+                    boxes[box] |= pos
+                    board[i][j] = str(val)
+                    if dfs(index + 1): return True
+                    rows[i] = r
+                    cols[j] = c
+                    boxes[box] = b
+                    board[i][j] = '.'
+            return False
+        dfs(0)
+        # print([print(row) for row in board])
+        return board
+
