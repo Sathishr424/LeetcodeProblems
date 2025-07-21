@@ -1,4 +1,4 @@
-# Last updated: 21/7/2025, 9:24:01 pm
+# Last updated: 21/7/2025, 9:25:50 pm
 class Solution:
     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
         there = defaultdict(list)
@@ -17,16 +17,7 @@ class Solution:
                 possible[beginWord].append(new_word)
         
         ret = []      
-        def addItoRet(index, arr, s):
-            if index == len(arr):
-                ret.append(s + [endWord])
-                return
-            for word in there[arr[index]]:
-                if word not in s:
-                    s.append(word)
-                    addItoRet(index + 1, arr, s)
-                    s.pop()      
-        
+
         stack = deque([(beginWord, 1)])
         can_visit = {}
         visited = {}
