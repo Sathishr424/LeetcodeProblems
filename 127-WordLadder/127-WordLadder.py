@@ -1,35 +1,25 @@
-# Last updated: 12/6/2025, 5:52:41 am
+# Last updated: 21/7/2025, 5:37:29 pm
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        there = defaultdict(list)
         m = len(beginWord)
-
-        # wordMatch = defaultdict(list)
-
-        # for word in wordList:
-        #     for i in range(m):
-        #         w = word[:i] + '*' + word[i+1:]
-        #         wordMatch[w].append(word)
-
-        wordMatch = {}
-
         for word in wordList:
-            wordMatch[word] = 1
+            for i in range(m):
+                new_word = word[:i] + "*" + word[i+1:]
+                there[new_word].append(word)
         
-        visited = {}
         stack = deque([(beginWord, 1)])
-        visited[beginWord] = 1
-
+        visited = {}
         while stack:
             word, cnt = stack.popleft()
-            if word == endWord: return cnt
+            if word in visited and visited[word] <= cnt: continue
+            visited[word] = cnt
+            if word == endWord:
+                return cnt
 
             for i in range(m):
-                for j in range(26):
-                    w = word[:i] + chr(97+j) + word[i+1:]
-                    if w == word: continue
-                    if w in wordMatch and w not in visited:
-                        stack.append((w, cnt+1))
-                        visited[w] = 1
-
+                new_word = word[:i] + "*" + word[i+1:]
+                for n_word in there[new_word]:
+                    stack.append((n_word, cnt + 1))
+        
         return 0
-            
