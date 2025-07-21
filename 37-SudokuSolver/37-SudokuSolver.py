@@ -1,4 +1,4 @@
-# Last updated: 21/7/2025, 1:04:35 pm
+# Last updated: 21/7/2025, 1:13:34 pm
 class Solution:
     def solveSudoku(self, board: List[List[str]]) -> None:
         """
@@ -41,6 +41,3 @@ class Solution:
                     board[i][j] = '.'
             return False
         dfs(0)
-        # print([print(row) for row in board])
-        return board
-
