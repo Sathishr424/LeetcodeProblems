@@ -1,4 +1,4 @@
-# Last updated: 23/7/2025, 3:06:46 am
+# Last updated: 23/7/2025, 3:09:10 am
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -37,15 +37,13 @@ class Solution:
             if un.connected == 1: return index
             return -1
 
-        reverse = defaultdict(list)
+        reverse = [-1] * (n + 1)
 
         for i in range(n-1, -1, -1):
-            _, y = edges[i]
-            reverse[y].append(i)
-
-            if len(reverse[y]) > 1:
-                for index in reverse[y]:
-                    if unionConnect(index) == index: return edges[index] 
+            if reverse[edges[i][1]] != -1:
+                for index in [reverse[edges[i][1]], i]:
+                    if unionConnect(index) == index: return edges[index]
+            reverse[edges[i][1]] = i
         
         un = Union(n)
         ans = 0
