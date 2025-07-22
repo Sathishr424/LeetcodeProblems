@@ -1,4 +1,4 @@
-# Last updated: 23/7/2025, 2:39:14 am
+# Last updated: 23/7/2025, 3:00:49 am
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -27,44 +27,34 @@ class Solution:
     def findRedundantDirectedConnection(self, edges: List[List[int]]) -> List[int]:
         n = len(edges)
         
-        def dfs(x, vis, extra):
-            for y in graph[x]:
-                if y in vis:
-                    extra.append(vis[y])
-                    extra.append(graph[x][y])
-                    continue
-                vis[y] = graph[x][y]
-                dfs(y, vis, extra)
+        def unionConnect(index):
+            un = Union(n)
+
+            for i in range(n):
+                if i == index: continue
+                un.union(edges[i][0] - 1, edges[i][1] - 1)
         
-        def findCycle(node):
-            vis = defaultdict(int)
-            vis[node] = -1
-            extra = []
-            dfs(node, vis, extra)
-            ans = -1
-
-            if len(vis) < n: return -1
-            for i in extra:
-                if i == -1: continue
-                un = Union(n)
-
-                for k in range(n):
-                    if k == i: continue
-                    un.union(edges[k][0] - 1, edges[k][1] - 1)
-            
-                if un.cnt == n:
-                    ans = max(ans, i)
-            
-            return ans
+            if un.cnt == n:
+                return index
+            return -1
         
         graph = defaultdict(dict)
+        reverse = defaultdict(list)
 
-        for i in range(n):
+        for i in range(n-1, -1, -1):
             graph[edges[i][0]][edges[i][1]] = i
-
+            reverse[edges[i][1]].append(i)
+        
+        for i in range(1, n+1):
+            if len(reverse[i]) > 1:
+                for index in reverse[i]:
+                    if unionConnect(index) == index: return edges[index] 
+        
+        un = Union(n)
         ans = 0
-        for node in range(1, n + 1):
-            ans = max(ans, findCycle(node))
-            if ans == n-1: return edges[ans]
-
+        for i in range(n):
+            if un.union(edges[i][0] - 1, edges[i][1] - 1):
+                ans = i
+        
         return edges[ans]
+            
