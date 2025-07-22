@@ -1,9 +1,10 @@
-# Last updated: 22/7/2025, 3:00:54 pm
+# Last updated: 22/7/2025, 3:01:26 pm
+N = 10**4 + 1
 class Solution:
     def maximumUniqueSubarray(self, nums: List[int]) -> int:
         n = len(nums)
 
-        freq = defaultdict(int)
+        freq = [0] * N
         prev = 0
         ret = nums[0]
         s = 0
