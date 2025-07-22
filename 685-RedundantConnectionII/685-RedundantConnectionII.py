@@ -1,9 +1,9 @@
-# Last updated: 23/7/2025, 3:04:52 am
+# Last updated: 23/7/2025, 3:06:40 am
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
         self.sizes = [1] * n
-        self.cnt = 1
+        self.connected = n
     
     def find(self, x):
         if x != self.parents[x]:
@@ -20,7 +20,7 @@ class Union:
             x, y = y, x
         self.sizes[x] += self.sizes[y]
         self.parents[y] = x
-        self.cnt += 1
+        self.connected -= 1
         return False
 
 class Solution:
@@ -34,7 +34,7 @@ class Solution:
                 if i == index: continue
                 un.union(edges[i][0] - 1, edges[i][1] - 1)
         
-            if un.cnt == n: return index
+            if un.connected == 1: return index
             return -1
 
         reverse = defaultdict(list)
@@ -54,4 +54,3 @@ class Solution:
                 ans = i
         
         return edges[ans]
-            
