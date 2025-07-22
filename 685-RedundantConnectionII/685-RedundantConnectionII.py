@@ -1,4 +1,4 @@
-# Last updated: 23/7/2025, 2:37:37 am
+# Last updated: 23/7/2025, 2:39:14 am
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
