@@ -1,4 +1,4 @@
-# Last updated: 23/7/2025, 3:00:49 am
+# Last updated: 23/7/2025, 3:04:52 am
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -34,20 +34,17 @@ class Solution:
                 if i == index: continue
                 un.union(edges[i][0] - 1, edges[i][1] - 1)
         
-            if un.cnt == n:
-                return index
+            if un.cnt == n: return index
             return -1
-        
-        graph = defaultdict(dict)
+
         reverse = defaultdict(list)
 
         for i in range(n-1, -1, -1):
-            graph[edges[i][0]][edges[i][1]] = i
-            reverse[edges[i][1]].append(i)
-        
-        for i in range(1, n+1):
-            if len(reverse[i]) > 1:
-                for index in reverse[i]:
+            _, y = edges[i]
+            reverse[y].append(i)
+
+            if len(reverse[y]) > 1:
+                for index in reverse[y]:
                     if unionConnect(index) == index: return edges[index] 
         
         un = Union(n)
