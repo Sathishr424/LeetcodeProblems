@@ -1,4 +1,4 @@
-# Last updated: 23/7/2025, 12:42:49 am
+# Last updated: 23/7/2025, 12:44:30 am
 class Solution:
     def strangePrinter(self, s: str) -> int:
         n = len(s)
@@ -8,14 +8,20 @@ class Solution:
             if l > r: return 0
             if l == r: return 1
 
+            l += 1
+            while l < r and s[l] == s[l - 1]:
+                l += 1
+
             ans = inf
-            for i in range(l + 1, r + 1):
-                if s[i] == s[l]:
-                    left = rec(l + 1, i - 1)
+            for i in range(l, r + 1):
+                if s[i] == s[l - 1]:
+                    left = rec(l, i - 1)
                     right = rec(i, r)
                     ans = min(ans, left + right)
             
-            ans = min(ans, rec(l + 1, r) + 1)
+            ans = min(ans, rec(l, r) + 1)
             return ans
         
-        return rec(0, n-1)
+        ret = rec(0, n-1)
+        rec.cache_clear()
+        return ret
