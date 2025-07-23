@@ -1,4 +1,4 @@
-# Last updated: 23/7/2025, 8:55:30 pm
+# Last updated: 23/7/2025, 9:00:08 pm
 @cache
 def alpToInt(char):
     return ord(char) - ord('a')
@@ -18,16 +18,13 @@ class Solution:
                 firstLetters[alpToInt(char)][mask] += 1
         
         def rec(puzzle, index, first, mask):
-            can_add = firstLetters[first][mask]
-            ans = 0
-            if can_add:
-                ans += firstLetters[first][mask]
-                firstLetters[first][mask] = 0
-            if index < len(puzzle):
-                ans += rec(puzzle, index + 1, first, mask)
-                ans += rec(puzzle, index + 1, first, mask | (1 << alpToInt(puzzle[index])))
-            if can_add:
-                firstLetters[first][mask] = can_add
+            if index == len(puzzle):
+                if mask in firstLetters[first]:
+                    return firstLetters[first][mask]
+                return 0
+        
+            ans = rec(puzzle, index + 1, first, mask)
+            ans += rec(puzzle, index + 1, first, mask | (1 << alpToInt(puzzle[index])))
             return ans
 
         ret = []
