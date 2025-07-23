@@ -1,4 +1,4 @@
-# Last updated: 23/7/2025, 7:41:16 pm
+# Last updated: 23/7/2025, 7:41:41 pm
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -12,8 +12,6 @@ class Solution:
         @cache
         def rec(node, can):
             if node == None: return 0
-            ans = inf
-
             ans = rec(node.left, 2) + rec(node.right, 2) + 1
 
             if can >= 2:
