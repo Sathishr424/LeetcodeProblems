@@ -1,4 +1,4 @@
-# Last updated: 23/7/2025, 3:23:01 pm
+# Last updated: 23/7/2025, 3:37:24 pm
 class Solution:
     def sumOfDistancesInTree(self, n: int, edges: List[List[int]]) -> List[int]:
         graph = [[] for _ in range(n)]
@@ -25,7 +25,7 @@ class Solution:
         
         dfs(0, -1)
 
-        def dfs2(x, par, connection, cost):
+        def reroot(x, par, connection, cost):
             costs[x] += cost + connection
 
             c = costs[x]
@@ -35,9 +35,9 @@ class Solution:
                 if y == par: continue
                 conn_ = conn - connections[y]
                 cost_ = c - (costs[y] + connections[y] + 1)
-                dfs2(y, x, connection + conn_, cost_)
+                reroot(y, x, connection + conn_, cost_)
 
 
-        dfs2(0, -1, 0, 0)
+        reroot(0, -1, 0, 0)
         return ret
                 
