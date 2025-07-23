@@ -1,4 +1,4 @@
-# Last updated: 23/7/2025, 7:36:04 pm
+# Last updated: 23/7/2025, 7:39:05 pm
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -6,6 +6,7 @@
 #         self.left = left
 #         self.right = right
 cmin = lambda x, y: x if x < y else y
+inf = 1000
 class Solution:
     def minCameraCover(self, root: Optional[TreeNode]) -> int:
         @cache
