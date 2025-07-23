@@ -1,18 +1,13 @@
-# Last updated: 23/7/2025, 5:58:20 pm
+# Last updated: 23/7/2025, 5:59:15 pm
 cmin = lambda x, y: x if x < y else y
 class Solution:
     def shortestSubarray(self, nums: List[int], k: int) -> int:
         n = len(nums)
 
         s = 0
-        ret = inf
-        # prefix = [0]
-        # for num in nums:
-        #     prefix.append(prefix[-1] + num)
-    
-        # heap = []
+        ret = n + 1
         stack = deque([(0, -1)])
-        # heapq.heappush(heap, (0, -1))
+
         for i in range(n):
             s += nums[i]
 
@@ -21,15 +16,9 @@ class Solution:
             
             stack.append((s, i))
 
-            # heapq.heappush(heap, (s, i))
-
             while stack and s - stack[0][0] >= k:
                 c, p = stack.popleft()
                 ret = cmin(ret, i - p)
-            
-            # while heap and s - heap[0][0] >= k:
-            #     c, p = heapq.heappop(heap)
-            #     ret = cmin(ret, i - p)
         
-        if ret == inf: return -1
+        if ret == n + 1: return -1
         return ret
