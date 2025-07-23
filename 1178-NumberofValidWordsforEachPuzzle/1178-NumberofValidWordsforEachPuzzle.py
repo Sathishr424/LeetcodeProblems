@@ -1,4 +1,4 @@
-# Last updated: 23/7/2025, 8:40:42 pm
+# Last updated: 23/7/2025, 8:50:07 pm
 class Solution:
     def findNumOfValidWords(self, words: List[str], puzzles: List[str]) -> List[int]:
         n = len(words)
@@ -17,20 +17,19 @@ class Solution:
             mask = 0
             for char in uniq:
                 mask |= 1 << alpToInt(char)
-            # print(word, format(mask, '08b'))
+
             for char in uniq:
                 firstLetters[alpToInt(char)][mask] += 1
         
-        def rec(puzzle, index, first, mask, st):
+        def rec(puzzle, index, first, mask):
             can_add = firstLetters[first][mask]
             ans = 0
             if can_add:
-                # print(format(mask, '08b'), puzzle, index, firstLetters[first][mask], st)
                 ans += firstLetters[first][mask]
                 firstLetters[first][mask] = 0
             if index < len(puzzle):
-                ans += rec(puzzle, index + 1, first, mask, st)
-                ans += rec(puzzle, index + 1, first, mask | (1 << alpToInt(puzzle[index])), st + puzzle[index])
+                ans += rec(puzzle, index + 1, first, mask)
+                ans += rec(puzzle, index + 1, first, mask | (1 << alpToInt(puzzle[index])))
             if can_add:
                 firstLetters[first][mask] = can_add
             return ans
@@ -39,8 +38,7 @@ class Solution:
         for puzzle in puzzles:
             char = puzzle[0]
             a = alpToInt(char)
-            # print(puzzle, char, dict(firstLetters[a]))
-            cnt = rec(puzzle, 1, a, 1 << a, char)
+            cnt = rec(puzzle, 1, a, 1 << a)
             ret.append(cnt)
         
         return ret
