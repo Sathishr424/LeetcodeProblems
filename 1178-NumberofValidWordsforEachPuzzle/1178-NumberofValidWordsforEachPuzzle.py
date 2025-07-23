@@ -1,10 +1,11 @@
-# Last updated: 23/7/2025, 8:52:20 pm
+# Last updated: 23/7/2025, 8:55:30 pm
+@cache
+def alpToInt(char):
+    return ord(char) - ord('a')
+
 class Solution:
     def findNumOfValidWords(self, words: List[str], puzzles: List[str]) -> List[int]:
         firstLetters = [defaultdict(int) for _ in range(26)]
-
-        def alpToInt(char):
-            return ord(char) - ord('a')
 
         for word in words:
             uniq = set(word)
