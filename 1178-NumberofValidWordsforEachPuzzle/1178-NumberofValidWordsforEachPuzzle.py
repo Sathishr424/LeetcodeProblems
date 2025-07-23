@@ -1,18 +1,13 @@
-# Last updated: 23/7/2025, 8:50:07 pm
+# Last updated: 23/7/2025, 8:52:20 pm
 class Solution:
     def findNumOfValidWords(self, words: List[str], puzzles: List[str]) -> List[int]:
-        n = len(words)
-        m = len(puzzles)
-
         firstLetters = [defaultdict(int) for _ in range(26)]
 
         def alpToInt(char):
             return ord(char) - ord('a')
 
         for word in words:
-            uniq = {}
-            for char in word:
-                uniq[char] = 1
+            uniq = set(word)
             if len(uniq) > 7: continue
             mask = 0
             for char in uniq:
