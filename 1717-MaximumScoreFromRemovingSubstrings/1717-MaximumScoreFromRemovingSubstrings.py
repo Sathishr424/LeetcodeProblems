@@ -1,4 +1,4 @@
-# Last updated: 23/7/2025, 11:43:51 am
+# Last updated: 23/7/2025, 11:44:13 am
 class Solution:
     def maximumGain(self, s: str, x: int, y: int) -> int:
         n = len(s)
@@ -21,10 +21,6 @@ class Solution:
         new_stack = []
         for char in stack:
             if new_stack:
-                if new_stack[-1] + char == a:
-                    new_stack.pop()
-                    ret += x
-                    continue
                 if new_stack[-1] + char == b:
                     new_stack.pop()
                     ret += y
