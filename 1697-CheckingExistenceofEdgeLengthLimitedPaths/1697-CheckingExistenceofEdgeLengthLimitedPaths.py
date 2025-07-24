@@ -1,4 +1,4 @@
-# Last updated: 25/7/2025, 3:55:43 am
+# Last updated: 25/7/2025, 4:10:50 am
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -26,87 +26,24 @@ class Union:
 
 class Solution:
     def distanceLimitedPathsExist(self, n: int, edgeList: List[List[int]], queries: List[List[int]]) -> List[bool]:
-        parents = [-1] * n
+        m = len(edgeList)
         edgeList.sort(key=lambda x: x[2])
-        graph = [{} for _ in range(n)]
-        main_parents = [-1] * n
-        depths = [0] * n
+
+        sort_queries = []
+        for i, q in enumerate(queries):
+            sort_queries.append((q, i))
+        sort_queries.sort(key=lambda x: x[0][2])
 
         un = Union(n)
-        for x, y, d in edgeList:
-            if un.union(x, y): continue
-            graph[x][y] = d
-            graph[y][x] = d
-        
-        def dfs(node, depth, parent, main_parent):
-            depths[node] = depth
-            parents[node] = parent
-            main_parents[node] = main_parent
+        index = 0
 
-            for child in graph[node]:
-                if child == parent: continue
-                dfs(child, depth + 1, node, main_parent)
-        
-        done = [0] * n
-        for i in range(n):
-            par = un.find(i)
-            if done[par]: continue
-            dfs(par, 0, -1, par)
-            done[par] = 1
-        
-        k = floor(log2(n)) + 1
-        logs = [[[-1, 0] for _ in range(n)] for _ in range(k)]
+        ret = [False] * len(queries)
+        for (x, y, limit), i in sort_queries:
+            while index < m and edgeList[index][2] < limit:
+                un.union(edgeList[index][0], edgeList[index][1])
+                index += 1
 
-        for i in range(n):
-            if parents[i] == -1: continue
-            logs[0][i][0] = parents[i]
-            logs[0][i][1] = graph[parents[i]][i]
+            ret[i] = un.find(x) == un.find(y)
         
-        for i in range(1, k):
-            for j in range(n):
-                if logs[i-1][j][0] == -1: continue
-                logs[i][j][0] = logs[i-1][ logs[i-1][j][0] ][0]
-                logs[i][j][1] = max(logs[i-1][j][1], logs[i-1][ logs[i-1][j][0] ][1])
-        
-        ret = []
-
-        def goToDepth(x, depth):
-            if depth == 0: return x, 0
-            ans = 0
-            for i in range(k-1, -1, -1):
-                if 1 << i <= depth:
-                    ans = max(logs[i][x][1], ans)
-                    x = logs[i][x][0]
-                    depth -= 1 << i
-            return x, ans
-        
-        def meet(x, y, ans):
-            if x == y: return ans
-            for i in range(k-1, -1, -1):
-                if logs[i][x][0] == -1: continue
-                if logs[i][x][0] == logs[i][y][0]: continue
-                ans = max(ans, logs[i][x][1], logs[i][y][1])
-                x = logs[i][x][0]
-                y = logs[i][y][0]
-            
-            return max(ans, logs[0][x][1], logs[0][y][1])
-
-        for x, y, dis in queries:
-            par = main_parents[x]
-            if par == -1 or main_parents[y] != par:
-                ret.append(False)
-                continue
-            
-            x_depth = depths[x]
-            y_depth = depths[y]
-
-            if y_depth < x_depth:
-                x_depth, y_depth = y_depth, x_depth
-                x, y = y, x
-            
-            depth_need = y_depth - x_depth
-            new_y, ans = goToDepth(y, depth_need)
-            ans = meet(x, new_y, ans)
-            ret.append(ans < dis)
-
         return ret
+        
