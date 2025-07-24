@@ -1,11 +1,11 @@
-# Last updated: 24/7/2025, 1:44:33 pm
+# Last updated: 24/7/2025, 1:45:41 pm
 class Solution:
     def findMaxPathScore(self, edges: List[List[int]], online: List[bool], k: int) -> int:
-        graph = defaultdict(dict)
+        graph = defaultdict(list)
         n = len(online)
         max_cost = 0
         for x, y, c in edges:
-            graph[x][y] = c
+            graph[x].append((y, c))
             max_cost = max(max_cost, c)
         
         l = -1
@@ -25,10 +25,10 @@ class Solution:
                 if visited[x] <= dis: continue
                 visited[x] = dis
                 
-                for y in graph[x]:
-                    if not online[y] or graph[x][y] < mid: continue
-                    if dis + graph[x][y] > k: continue
-                    heapq.heappush(stack, (dis + graph[x][y], y))
+                for y, c in graph[x]:
+                    if not online[y] or c < mid: continue
+                    if dis + c > k: continue
+                    heapq.heappush(stack, (dis + c, y))
             
             if can:
                 l = mid
