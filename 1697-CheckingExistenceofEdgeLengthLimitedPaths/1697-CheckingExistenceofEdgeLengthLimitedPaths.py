@@ -1,4 +1,4 @@
-# Last updated: 25/7/2025, 3:51:58 am
+# Last updated: 25/7/2025, 3:55:43 am
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -26,24 +26,17 @@ class Union:
 
 class Solution:
     def distanceLimitedPathsExist(self, n: int, edgeList: List[List[int]], queries: List[List[int]]) -> List[bool]:
-        newEdgeList = []
+        parents = [-1] * n
         edgeList.sort(key=lambda x: x[2])
+        graph = [{} for _ in range(n)]
+        main_parents = [-1] * n
+        depths = [0] * n
 
         un = Union(n)
         for x, y, d in edgeList:
             if un.union(x, y): continue
-            newEdgeList.append([x, y, d])
-        # print(newEdgeList)
-
-        parents = [-1] * n
-
-        graph = defaultdict(dict)
-        for x, y, d in newEdgeList:
             graph[x][y] = d
             graph[y][x] = d
-        
-        main_parents = [-1] * n
-        depths = [0] * n
         
         def dfs(node, depth, parent, main_parent):
             depths[node] = depth
@@ -54,10 +47,10 @@ class Solution:
                 if child == parent: continue
                 dfs(child, depth + 1, node, main_parent)
         
-        done = {}
+        done = [0] * n
         for i in range(n):
             par = un.find(i)
-            if par in done: continue
+            if done[par]: continue
             dfs(par, 0, -1, par)
             done[par] = 1
         
@@ -75,10 +68,6 @@ class Solution:
                 logs[i][j][0] = logs[i-1][ logs[i-1][j][0] ][0]
                 logs[i][j][1] = max(logs[i-1][j][1], logs[i-1][ logs[i-1][j][0] ][1])
         
-        # print(visited)
-        # print([(parents[i], i) for i in range(n)])
-        # print(main_parents)
-        # [print(row) for row in logs]
         ret = []
 
         def goToDepth(x, depth):
@@ -117,9 +106,7 @@ class Solution:
             
             depth_need = y_depth - x_depth
             new_y, ans = goToDepth(y, depth_need)
-            # print('==', new_y, ans, depth_need, (x, y), (x_depth, y_depth))
             ans = meet(x, new_y, ans)
-            # print((x, y, dis), ans)
             ret.append(ans < dis)
 
         return ret
