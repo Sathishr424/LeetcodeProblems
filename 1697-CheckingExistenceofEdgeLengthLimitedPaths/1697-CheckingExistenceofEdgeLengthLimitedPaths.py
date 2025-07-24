@@ -1,4 +1,4 @@
-# Last updated: 25/7/2025, 4:10:50 am
+# Last updated: 25/7/2025, 4:11:22 am
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -46,4 +46,3 @@ class Solution:
             ret[i] = un.find(x) == un.find(y)
         
         return ret
-        
