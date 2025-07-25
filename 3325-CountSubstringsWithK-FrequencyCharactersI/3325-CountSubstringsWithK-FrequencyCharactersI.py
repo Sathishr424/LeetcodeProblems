@@ -1,4 +1,4 @@
-# Last updated: 25/7/2025, 8:11:10 pm
+# Last updated: 25/7/2025, 8:11:55 pm
 class Solution:
     def numberOfSubstrings(self, s: str, k: int) -> int:
         n = len(s)
@@ -18,12 +18,10 @@ class Solution:
             curr = ord(s[i]) - ord('a')
             for a in range(26):
                 need = prefix[i][a] + k
-                if a == curr:
-                    need -= 1
+                need -= a == curr
                 index = bisect_left(maxi[a], need, lo=i + k - 1)
-                # print(i, (curr, a), chr(a + ord('a')), need, index)
-
                 smallest = min(index, smallest)
+
             ret += n - smallest
 
         return ret
