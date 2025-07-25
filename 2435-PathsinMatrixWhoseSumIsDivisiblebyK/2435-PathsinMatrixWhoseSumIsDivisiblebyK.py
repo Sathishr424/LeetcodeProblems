@@ -1,25 +1,32 @@
-# Last updated: 26/7/2025, 2:05:11 am
+# Last updated: 26/7/2025, 2:18:01 am
+mod = 10**9 + 7
+
 class Solution:
     def numberOfPaths(self, grid: List[List[int]], k: int) -> int:
         m = len(grid)
         n = len(grid[0])
-        mod = 10**9 + 7
 
-        dp = [[[-1] * k for _ in range(n)] for _ in range(m)]
+        dp = [[[0] * k for _ in range(n)] for _ in range(m)]
+        dp[0][0][0] = 1
 
-        def dfs(i, j, s):
-            if dp[i][j][s] != -1: return dp[i][j][s]
-            if i == m-1 and j == n-1:
-                if (s + grid[i][j]) % k == 0: return 1
-                return 0
-            
-            ans = 0
-            if i+1 < m:
-                ans += dfs(i + 1, j, (s + grid[i][j]) % k)
-            if j+1 < n:
-                ans += dfs(i, j + 1, (s + grid[i][j]) % k)
-            dp[i][j][s] = ans % mod
-            return dp[i][j][s]
+        for i in range(m):
+            for j in range(n):
+                val = grid[i][j]
+                for d in range(k):
+                    new_d = (d + val) % k
+                    if i + 1 < m:
+                        dp[i + 1][j][new_d] += dp[i][j][d]
+                        dp[i + 1][j][new_d] %= mod
+                    if j + 1 < n:
+                        dp[i][j + 1][new_d] += dp[i][j][d]
+                        dp[i][j + 1][new_d] %= mod
         
-        ans = dfs(0, 0, 0)
-        return ans
+        ret = 0
+        lastVal = grid[m-1][n-1]
+        lastBlock = dp[m-1][n-1]
+        for d in range(k):
+            if (d + lastVal) % k == 0:
+                ret += lastBlock[d]
+                ret %= mod
+            
+        return ret
