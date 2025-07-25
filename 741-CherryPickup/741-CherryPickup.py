@@ -1,4 +1,4 @@
-# Last updated: 26/7/2025, 5:17:02 am
+# Last updated: 26/7/2025, 5:17:17 am
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def cherryPickup(self, grid: List[List[int]]) -> int:
@@ -19,13 +19,13 @@ class Solution:
                 (i, j + 1, i2, j2 + 1),
             ]
 
-            if i == n-1 and j == n-1:
-                check.append((i, j, i2 + 1, j2))
-                check.append((i, j, i2, j2 + 1))
+            # if i == n-1 and j == n-1:
+            #     check.append((i, j, i2 + 1, j2))
+            #     check.append((i, j, i2, j2 + 1))
             
-            if i2 == n-1 and j2 == n-1:
-                check.append((i + 1, j, i2, j2))
-                check.append((i, j + 1, i2, j2))
+            # if i2 == n-1 and j2 == n-1:
+            #     check.append((i + 1, j, i2, j2))
+            #     check.append((i, j + 1, i2, j2))
             
             add = grid[i][j]
             if i != i2 and j != j2: add += grid[i2][j2]
