@@ -1,10 +1,10 @@
-# Last updated: 26/7/2025, 5:18:29 am
+# Last updated: 26/7/2025, 5:21:41 am
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def cherryPickup(self, grid: List[List[int]]) -> int:
         n = len(grid)
         if grid[0][0] == -1: return 0
-
+        inf = n * n
         @cache
         def dfs(i, j, i2, j2):
             if i == n-1 and j == n-1 and i2 == n-1 and j2 == n-1:
