@@ -1,4 +1,4 @@
-# Last updated: 26/7/2025, 2:22:36 am
+# Last updated: 26/7/2025, 2:23:21 am
 mod = 10**9 + 7
 
 class Solution:
@@ -14,10 +14,7 @@ class Solution:
                 val = grid[i][j]
                 for d in range(k):
                     new_d = (d + val) % k
-                    dp[i + 1][j][new_d] += dp[i][j][d]
-                    dp[i + 1][j][new_d] %= mod
-
-                    dp[i][j + 1][new_d] += dp[i][j][d]
-                    dp[i][j + 1][new_d] %= mod
+                    dp[i + 1][j][new_d] = (dp[i + 1][j][new_d] + dp[i][j][d]) % mod
+                    dp[i][j + 1][new_d] = (dp[i][j + 1][new_d] + dp[i][j][d]) % mod
         
         return dp[m][n-1][0]
