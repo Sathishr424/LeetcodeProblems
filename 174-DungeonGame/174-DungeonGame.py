@@ -1,21 +1,22 @@
-# Last updated: 26/7/2025, 2:39:27 am
+# Last updated: 26/7/2025, 2:49:09 am
 class Solution:
     def calculateMinimumHP(self, dung: List[List[int]]) -> int:
         m = len(dung)
         n = len(dung[0])
 
-        @cache
-        def dfs(i, j, health):
-            health += dung[i][j]
-            if health <= 0: return False
-            if i == m-1 and j == n-1:
-                return True
-            
-            if i + 1 < m:
-                if dfs(i + 1, j, health): return True
-            if j + 1 < n:
-                if dfs(i, j + 1, health): return True
-            return False
+        def isGood(health):
+            dp = [[-inf] * n for _ in range(m)]
+            dp[0][0] = health
+            for i in range(m):
+                for j in range(n):
+                    dp[i][j] += dung[i][j]
+                    if dp[i][j] <= 0: dp[i][j] = -inf
+                    if i + 1 < m:
+                        dp[i+1][j] = max(dp[i+1][j], dp[i][j])
+                    if j + 1 < n:
+                        dp[i][j + 1] = max(dp[i][j + 1], dp[i][j])
+
+            return dp[m-1][n-1] > 0
         
         l = 1
         r = 1
@@ -28,7 +29,7 @@ class Solution:
         while l < r:
             mid = (l + r) // 2
 
-            if dfs(0, 0, mid):
+            if isGood(mid):
                 r = mid
             else:
                 l = mid + 1
