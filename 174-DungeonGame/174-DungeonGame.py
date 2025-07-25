@@ -1,4 +1,4 @@
-# Last updated: 26/7/2025, 2:36:16 am
+# Last updated: 26/7/2025, 2:39:27 am
 class Solution:
     def calculateMinimumHP(self, dung: List[List[int]]) -> int:
         m = len(dung)
@@ -18,7 +18,12 @@ class Solution:
             return False
         
         l = 1
-        r = m * n * 1000
+        r = 1
+
+        for i in range(m):
+            for j in range(n):
+                if dung[i][j] < 0:
+                    r += -dung[i][j]
 
         while l < r:
             mid = (l + r) // 2
