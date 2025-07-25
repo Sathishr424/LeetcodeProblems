@@ -1,18 +1,8 @@
-# Last updated: 26/7/2025, 5:01:11 am
+# Last updated: 26/7/2025, 5:02:25 am
 class Solution:
     def cherryPickup(self, grid: List[List[int]]) -> int:
         n = len(grid)
         m = len(grid)
-
-        @cache
-        def canReachIt(i, j):
-            if i == n-1 and j == n-1: return True
-
-            if i + 1 < n and grid[i + 1][j] != -1:
-                if canReachIt(i + 1, j): return True
-            elif j + 1 < n and grid[i][j + 1] != -1:
-                if canReachIt(i, j + 1): return True
-            return False
     
         if grid[0][0] == -1: return 0
 
@@ -45,6 +35,5 @@ class Solution:
                 return grid[i][j]
                 
             return max(visit(i, j, i2, j2), visit(i2, j2, i, j))
-            
         
         return max(0, dfs(0, 0, 0, 0))
