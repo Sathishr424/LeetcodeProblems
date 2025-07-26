@@ -1,4 +1,4 @@
-# Last updated: 26/7/2025, 6:06:41 am
+# Last updated: 26/7/2025, 6:07:02 am
 class Solution:
     def maximalPathQuality(self, values: List[int], edges: List[List[int]], maxTime: int) -> int:
         graph = defaultdict(list)
@@ -7,11 +7,11 @@ class Solution:
             graph[x].append((y, t))
             graph[y].append((x, t))
         
-        stack = deque([(0, maxTime, 0, {0: 1})])
+        stack = [(0, maxTime, 0, {0: 1})]
         ret = 0
 
         while stack:
-            node, remTime, parent, vis = stack.popleft()
+            node, remTime, parent, vis = stack.pop()
             if node == 0:
                 ans = 0
                 for x in vis:
