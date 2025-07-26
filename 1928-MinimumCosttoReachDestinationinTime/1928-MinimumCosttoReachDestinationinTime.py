@@ -1,4 +1,4 @@
-# Last updated: 26/7/2025, 6:36:00 am
+# Last updated: 26/7/2025, 6:36:56 am
 class Solution:
     def minCost(self, maxTime: int, edges: List[List[int]], passingFees: List[int]) -> int:
         n = len(passingFees)
@@ -15,20 +15,16 @@ class Solution:
         while stack:
             remTime, fee, node = heapq.heappop(stack)
             remTime *= -1
-            # print(remTime, fee, node)
-            if node == n - 1: 
-                ret = min(ret, fee)
-                continue
 
-            if node in visited and visited[node] < fee: 
-                # print('cant vis', remTime, fee, node)
-                continue
+            if node in visited and visited[node] < fee:  continue
             visited[node] = fee
 
+            if node == n - 1: 
+                ret = fee
+                continue
+
             for child, t in graph[node]:
-                if remTime - t < 0: 
-                    # print('cant', child, remTime, t)
-                    continue
+                if remTime - t < 0: continue
                 heapq.heappush(stack, (-(remTime - t), fee + passingFees[child], child))
         
         if ret == inf: return -1
