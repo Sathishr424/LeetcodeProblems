@@ -1,4 +1,4 @@
-# Last updated: 26/7/2025, 6:37:39 am
+# Last updated: 26/7/2025, 6:37:58 am
 class Solution:
     def minCost(self, maxTime: int, edges: List[List[int]], passingFees: List[int]) -> int:
         n = len(passingFees)
@@ -16,12 +16,12 @@ class Solution:
             remTime, fee, node = heapq.heappop(stack)
             remTime *= -1
 
+            if node == n - 1: 
+                ret = min(fee, ret)
+                continue
+            
             if visited[node] < fee:  continue
             visited[node] = fee
-
-            if node == n - 1: 
-                ret = fee
-                continue
 
             for child, t in graph[node]:
                 if remTime - t < 0: continue
