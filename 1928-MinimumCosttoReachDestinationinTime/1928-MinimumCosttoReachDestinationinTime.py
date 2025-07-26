@@ -1,4 +1,4 @@
-# Last updated: 26/7/2025, 6:37:58 am
+# Last updated: 26/7/2025, 6:41:58 am
 class Solution:
     def minCost(self, maxTime: int, edges: List[List[int]], passingFees: List[int]) -> int:
         n = len(passingFees)
