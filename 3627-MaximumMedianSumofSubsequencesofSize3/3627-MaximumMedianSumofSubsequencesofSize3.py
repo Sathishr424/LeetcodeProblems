@@ -1,8 +1,7 @@
-# Last updated: 28/7/2025, 9:24:53 pm
+# Last updated: 28/7/2025, 9:25:26 pm
 class Solution:
     def maximumMedianSum(self, nums: List[int]) -> int:
         nums.sort()
-        # print(nums)
 
         need = len(nums) // 3
         ret = 0
