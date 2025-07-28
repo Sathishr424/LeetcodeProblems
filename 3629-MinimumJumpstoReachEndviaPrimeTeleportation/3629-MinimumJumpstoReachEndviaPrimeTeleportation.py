@@ -1,4 +1,4 @@
-# Last updated: 28/7/2025, 8:42:28 pm
+# Last updated: 28/7/2025, 8:46:33 pm
 N = 10 ** 6 + 1
 is_prime = [True] * N
 
@@ -21,7 +21,6 @@ class Solution:
             if is_prime[num]:
                 primes[num] = 1
         
-        # print(list(primes.keys()))
         max_num = max(nums)
         for num in primes:
             p_num = num
@@ -30,13 +29,6 @@ class Solution:
                     for i in indexes[num]:
                         prime_indexes[p_num].append(i)
                 num += p_num
-                # print(num)
-
-        primes = list(primes.keys())
-        # print(dict(prime_indexes))
-    
-        def check(index, moves):
-            return visited[index] > moves
 
         dis = [inf] * n
         heap = [(0, 0)]
@@ -46,7 +38,7 @@ class Solution:
 
             if dis[index] <= moves: continue
             dis[index] = moves
-            if index == n-1: continue
+            if index == n-1: return moves
 
             moves += 1
             if index > 0 and dis[index - 1] > moves:
@@ -54,11 +46,10 @@ class Solution:
             if dis[index + 1] > moves:
                 heapq.heappush(heap, (moves, index + 1))
             
-            arr = prime_indexes[nums[index]]
-            while arr:
-                i = arr.pop()
+            for i in prime_indexes[nums[index]]:
                 if i == index or dis[i] <= moves: continue
                 heapq.heappush(heap, (moves, i))
+            
+            prime_indexes[nums[index]] = []
         
-        # print(dis)
-        return dis[n-1]
+        return n-1
