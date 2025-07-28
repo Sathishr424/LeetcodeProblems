@@ -1,7 +1,6 @@
-# Last updated: 28/7/2025, 6:00:33 pm
+# Last updated: 28/7/2025, 6:01:38 pm
 class Solution:
     def numOfSubsequences(self, s: str) -> int:
-        # s = ''.join([chr(random.randrange(26) + 97) for _ in range(10**5)])
         n = len(s)
         
         prefix_l = [0] * n
@@ -18,9 +17,6 @@ class Solution:
             if s[i] == 'L':
                 l += 1
             prefix_l[i] = l
-
-        # print(prefix_l)
-        # print(suffix_t)
 
         ret = 0
         l_cnt = 1
@@ -40,12 +36,13 @@ class Solution:
             elif s[i] == 'C':
                 cnt += t_cnt * prefix_l[i]
         
-        # print(ret, cnt)
         ret = max(ret, cnt)
 
-        @cache
+        dp = [[-1, -1] for _ in range(n + 1)]
+        dp[n] = [0, 0]
+        
         def rec(index, added):
-            if index == n: return 0
+            if dp[index][added] != -1: return dp[index][added]
 
             ans = 0
             if not added:
@@ -55,6 +52,7 @@ class Solution:
                 ans = max(ans, prefix_l[index] * suffix_t[index] + rec(index + 1, added))
             else:
                 ans = max(ans, rec(index + 1, added))
+            dp[index][added] = ans
             return ans
 
         return max(ret, rec(0, False))
