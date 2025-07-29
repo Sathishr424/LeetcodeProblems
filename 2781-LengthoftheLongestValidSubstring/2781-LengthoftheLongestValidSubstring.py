@@ -1,4 +1,4 @@
-# Last updated: 29/7/2025, 11:55:58 pm
+# Last updated: 29/7/2025, 11:56:18 pm
 cmin = lambda x, y: x if x < y else y
 cmax = lambda x, y: x if x > y else y
 class Solution:
@@ -6,21 +6,26 @@ class Solution:
         n = len(word)
         remove = set(forbidden)
         
-        def check(l, r):
+        def check(word):
             m = len(word)
-            curr = ''
-            for i in range(r, max(l - 1, r - 10), -1):
-                curr = word[i] + curr
-                if curr in remove: return i
+            for i in range(m-1, -1, -1):
+                if word[i:] in remove: return i
             return -1
 
         ret = 0
-        left = 0
+        curr = ''
         l = 0
         for i in range(n):
-            index = check(left, i)
+            curr += word[i]
+        
+            if len(curr) > 10:
+                curr = curr[1:]
+                l += 1
+            
+            index = check(curr)
             if index != -1:
-                left = index + 1
-            ret = cmax(ret, i - left + 1)
+                curr = curr[index+1:]
+                l = 0
+            ret = cmax(ret, l + len(curr))
         
         return ret
