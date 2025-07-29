@@ -1,15 +1,18 @@
-# Last updated: 29/7/2025, 11:50:28 pm
+# Last updated: 29/7/2025, 11:55:41 pm
 cmin = lambda x, y: x if x < y else y
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def longestValidSubstring(self, word: str, forbidden: List[str]) -> int:
         n = len(word)
         remove = set(forbidden)
+        word = list(word)
         
         def check(l, r):
             m = len(word)
+            curr = ''
             for i in range(r, max(l - 1, r - 10), -1):
-                if word[i:r+1] in remove: return i
+                curr = word[i] + curr
+                if curr in remove: return i
             return -1
 
         ret = 0
