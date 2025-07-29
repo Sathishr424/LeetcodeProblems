@@ -1,12 +1,10 @@
-# Last updated: 29/7/2025, 2:29:00 pm
+# Last updated: 29/7/2025, 2:32:09 pm
 class Solution:
     def smallestSubarrays(self, nums: List[int]) -> List[int]:
         n = len(nums)
         maxi = 0
         for num in nums:
             maxi |= num
-        
-        # print(maxi)
 
         k = floor(log2(n)) + 1
         logs = [[0] * n for _ in range(k)]
@@ -19,6 +17,7 @@ class Solution:
             for i in range(n-m+1):
                 logs[power][i] = logs[power - 1][i] | logs[power - 1][i + prev_m]
 
+        @cache
         def getOR(l, r):
             dis = r - l + 1
             power = floor(log2(dis))
@@ -33,10 +32,8 @@ class Solution:
             while right + 1 < n and getOR(left, right) < maxi:
                 right += 1
 
-            # print(left, right, nums[left:right+1], getOR(left, right))
             ret[left] = right - left + 1
             left += 1
             right = max(right, left)
-        
+        getOR.cache_clear()
         return ret
-        
