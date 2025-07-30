@@ -1,55 +1,29 @@
-# Last updated: 30/7/2025, 9:08:24 pm
+# Last updated: 30/7/2025, 9:17:27 pm
+from math import sqrt, ceil, floor
+from typing import List
+
 class NumArray:
     def __init__(self, nums: List[int]):
-        n = len(nums)
-        self.n = n
         self.nums = nums
-
-        self.blockSize = floor(sqrt(n)) + 1
-        self.blocks = [0] * ceil(n / self.blockSize)
-
-        s = 0
-        index = 0
-        for i in range(n):
-            s += nums[i]
-            if (i + 1) % self.blockSize == 0:
-                self.blocks[index] = s
-                index += 1
-                s = 0
+        n = len(nums)
+        self.blockSize = int(sqrt(n)) + 1
+        self.blocks = [0] * ((n + self.blockSize - 1) // self.blockSize)
         
-        if n % self.blockSize:
-            self.blocks[index] = s
-        # print(self.blocks, self.blockSize, sum(self.nums[:self.blockSize]))
+        for i in range(n):
+            self.blocks[i // self.blockSize] += nums[i]
 
     def update(self, index: int, val: int) -> None:
-        prev = self.nums[index]
-        self.nums[index] = val
         block = index // self.blockSize
-        self.blocks[block] -= prev - val
+        self.blocks[block] += val - self.nums[index]
+        self.nums[index] = val
 
     def sumRange(self, left: int, right: int) -> int:
         s = 0
-
-        l = ceil(left / self.blockSize)
-        r = (right + 1) // self.blockSize - 1
-        
-        for i in range(l, r + 1):
-            s += self.blocks[i]
-        
-        last = left
-        for i in range(left, min(right + 1, l * self.blockSize)):
-            s += self.nums[i]
-            last = i + 1
-        # print((left, right), (l, r), last)
-        # print(max(left, (r + 1) * self.blockSize), right + 1)
-        for i in range(max(last, (r + 1) * self.blockSize), right + 1):
-            s += self.nums[i]
-        
+        while left <= right:
+            if left % self.blockSize == 0 and left + self.blockSize - 1 <= right:
+                s += self.blocks[left // self.blockSize]
+                left += self.blockSize
+            else:
+                s += self.nums[left]
+                left += 1
         return s
-        
-
-
-# Your NumArray object will be instantiated and called as such:
-# obj = NumArray(nums)
-# obj.update(index,val)
-# param_2 = obj.sumRange(left,right)
