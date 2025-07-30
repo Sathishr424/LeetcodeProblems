@@ -1,47 +1,52 @@
-# Last updated: 8/7/2025, 7:23:10 pm
-class Node:
-    def __init__(self, val, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-def build(indexes, tree, index, left, right, arr):
-    if left == right:
-        indexes[left] = index
-        tree[index] = arr[left]
-        return tree[index]
-
-    mid = (left+right) // 2
-
-    tree[index] = build(indexes, tree, index*2+1, left, mid, arr) + build(indexes, tree, index*2+2, mid+1, right, arr)
-
-    return tree[index]
-
-def sumRange(tree, index, left, right, i, j):
-    if i > right or j < left: return 0
-    if i >= left and j <= right: return tree[index]
-
-    mid = (i+j) // 2
-
-    return sumRange(tree, index*2+1, left, right, i, mid) + sumRange(tree, index*2+2, left, right, mid+1, j)
-
+# Last updated: 30/7/2025, 9:08:24 pm
 class NumArray:
     def __init__(self, nums: List[int]):
-        self.n = len(nums)
-        self.tree = [0] * (self.n*4)
-        self.indexes = [0] * self.n
-        build(self.indexes, self.tree, 0, 0, self.n-1, nums)
+        n = len(nums)
+        self.n = n
+        self.nums = nums
+
+        self.blockSize = floor(sqrt(n)) + 1
+        self.blocks = [0] * ceil(n / self.blockSize)
+
+        s = 0
+        index = 0
+        for i in range(n):
+            s += nums[i]
+            if (i + 1) % self.blockSize == 0:
+                self.blocks[index] = s
+                index += 1
+                s = 0
+        
+        if n % self.blockSize:
+            self.blocks[index] = s
+        # print(self.blocks, self.blockSize, sum(self.nums[:self.blockSize]))
 
     def update(self, index: int, val: int) -> None:
-        index = self.indexes[index]
-        self.tree[index] = val
-
-        while index > 0:
-            index = (index-1) // 2
-            self.tree[index] = self.tree[index*2+1] + self.tree[index*2+2]
+        prev = self.nums[index]
+        self.nums[index] = val
+        block = index // self.blockSize
+        self.blocks[block] -= prev - val
 
     def sumRange(self, left: int, right: int) -> int:
-        return sumRange(self.tree, 0, left, right, 0, self.n-1)
+        s = 0
+
+        l = ceil(left / self.blockSize)
+        r = (right + 1) // self.blockSize - 1
+        
+        for i in range(l, r + 1):
+            s += self.blocks[i]
+        
+        last = left
+        for i in range(left, min(right + 1, l * self.blockSize)):
+            s += self.nums[i]
+            last = i + 1
+        # print((left, right), (l, r), last)
+        # print(max(left, (r + 1) * self.blockSize), right + 1)
+        for i in range(max(last, (r + 1) * self.blockSize), right + 1):
+            s += self.nums[i]
+        
+        return s
+        
 
 
 # Your NumArray object will be instantiated and called as such:
