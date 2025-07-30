@@ -1,4 +1,4 @@
-# Last updated: 30/7/2025, 9:17:53 pm
+# Last updated: 30/7/2025, 9:18:29 pm
 class NumArray:
     def __init__(self, nums: List[int]):
         n = len(nums)
@@ -35,11 +35,10 @@ class NumArray:
         for i in range(l, r + 1):
             s += self.blocks[i]
         
-        last = left
-        for i in range(left, min(right + 1, l * self.blockSize)):
+        last = min(right + 1, l * self.blockSize)
+        for i in range(left, last):
             s += self.nums[i]
-            last = i + 1
-
+        
         for i in range(max(last, (r + 1) * self.blockSize), right + 1):
             s += self.nums[i]
         
