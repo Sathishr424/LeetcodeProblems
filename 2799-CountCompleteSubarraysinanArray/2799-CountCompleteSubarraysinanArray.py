@@ -1,28 +1,25 @@
-# Last updated: 24/4/2025, 10:13:55 am
+# Last updated: 31/7/2025, 5:39:52 pm
 class Solution:
     def countCompleteSubarrays(self, nums: List[int]) -> int:
         n = len(nums)
+        uniq_cnt = len(set(nums))
         ret = 0
-
-        uniq = {}
-        for num in nums: uniq[num] = 1
-        cnt = len(uniq)
-
-        uniq = [0] * 2001
-        matches = 0
-        left = 0
-        prev = 0
-
-        for i in range(n):
-            uniq[nums[i]] += 1
-            if uniq[nums[i]] == 1: matches += 1
-            
-            if matches == cnt:
-                while left <= i and matches == cnt:
-                    prev += 1
-                    uniq[nums[left]] -= 1
-                    if uniq[nums[left]] == 0: matches -= 1
-                    left += 1
-            ret += prev
         
+        cnt = 0
+        left = 0
+        freq = [0] * 2001
+        
+        for i in range(n):
+            freq[nums[i]] += 1
+            if freq[nums[i]] == 1:
+                cnt += 1
+
+            while left <= i and cnt == uniq_cnt:
+                ret += n - i
+                freq[nums[left]] -= 1
+                if freq[nums[left]] == 0:
+                    cnt -= 1
+                left += 1
+
         return ret
+                
