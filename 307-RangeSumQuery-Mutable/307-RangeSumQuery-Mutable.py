@@ -1,49 +1,56 @@
-# Last updated: 30/7/2025, 9:18:29 pm
+# Last updated: 2/8/2025, 7:47:19 pm
+class SegmentTree:
+    def __init__(self, nums):
+        self.nums = nums
+        self.n = len(nums)
+        self.tree = [0] * (self.n * 4)
+        self.indexes = [0] * self.n
+
+        self.build(0, self.n-1, 0)
+    
+    def build(self, l, r, index):
+        if l == r:
+            self.indexes[l] = index
+            self.tree[index] = self.nums[l]
+            return self.tree[index]
+        
+        mid = (l + r) // 2
+        left = self.build(l, mid, index * 2 + 1)
+        right = self.build(mid + 1, r, index * 2 + 2)
+
+        self.tree[index] = left + right
+        return self.tree[index]
+    
+    def query(self, l, r, index, left, right):
+        if l > right or r < left:
+            return 0
+        
+        if l >= left and r <= right:
+            return self.tree[index]
+        
+        mid = (l + r) // 2
+
+        return self.query(l, mid, index * 2 + 1, left, right) + self.query(mid + 1, r, index * 2 + 2, left, right)
+    
+    def update(self, index, new_val):
+        index = self.indexes[index]
+        self.tree[index] = new_val
+
+        while index:
+            index = (index - 1) // 2
+            self.tree[index] = self.tree[index * 2  + 1] + self.tree[index * 2 + 2]
+
 class NumArray:
     def __init__(self, nums: List[int]):
-        n = len(nums)
-        self.n = n
-        self.nums = nums
-
-        self.blockSize = floor(sqrt(n)) + 1
-        self.blocks = [0] * ceil(n / self.blockSize)
-
-        s = 0
-        index = 0
-        for i in range(n):
-            s += nums[i]
-            if (i + 1) % self.blockSize == 0:
-                self.blocks[index] = s
-                index += 1
-                s = 0
-        
-        if n % self.blockSize:
-            self.blocks[index] = s
-
+        self.tree = SegmentTree(nums)
+            
     def update(self, index: int, val: int) -> None:
-        prev = self.nums[index]
-        self.nums[index] = val
-        block = index // self.blockSize
-        self.blocks[block] -= prev - val
+        self.tree.update(index, val)
 
     def sumRange(self, left: int, right: int) -> int:
-        s = 0
+        return self.tree.query(0, self.tree.n-1, 0, left, right)
 
-        l = ceil(left / self.blockSize)
-        r = (right + 1) // self.blockSize - 1
-        
-        for i in range(l, r + 1):
-            s += self.blocks[i]
-        
-        last = min(right + 1, l * self.blockSize)
-        for i in range(left, last):
-            s += self.nums[i]
-        
-        for i in range(max(last, (r + 1) * self.blockSize), right + 1):
-            s += self.nums[i]
-        
-        return s
-        
+
 # Your NumArray object will be instantiated and called as such:
 # obj = NumArray(nums)
 # obj.update(index,val)
