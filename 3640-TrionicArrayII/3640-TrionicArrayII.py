@@ -1,4 +1,4 @@
-# Last updated: 3/8/2025, 10:56:48 am
+# Last updated: 3/8/2025, 10:57:19 am
 class Solution:
     def maxSumTrionic(self, nums: List[int]) -> int:
         n = len(nums)
@@ -35,8 +35,6 @@ class Solution:
                 right[i] = maxi
             i = j
             i += 1
-        # print(left)
-        # print(right)
 
         i = 0
         while i < n - 1:
@@ -47,10 +45,8 @@ class Solution:
                 s += nums[j]
             
             if j != i:
-                # print(i, j, (left[i], s, right[j]))
                 ret = max(ret, s + left[i] + right[j])
             i = j
             i += 1
         
-        # print(ret)
         return ret
