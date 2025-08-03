@@ -1,4 +1,4 @@
-# Last updated: 3/8/2025, 10:57:19 am
+# Last updated: 3/8/2025, 11:00:23 am
 class Solution:
     def maxSumTrionic(self, nums: List[int]) -> int:
         n = len(nums)
@@ -11,13 +11,13 @@ class Solution:
         while i > 0:
             j = i
             s = 0
+            maxi = -inf
             while j - 1 >= 0 and nums[j] > nums[j - 1]:
-                if j != i and s + nums[j - 1] <= s:
-                    break
                 j -= 1
                 s += nums[j]
+                maxi = max(s, maxi)
             if j != i:
-                left[i] = s
+                left[i] = maxi
             i = j
             i -= 1
             
