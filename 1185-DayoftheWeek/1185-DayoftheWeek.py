@@ -1,21 +1,23 @@
-# Last updated: 16/6/2025, 5:25:57 pm
-days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-
+# Last updated: 3/8/2025, 5:52:55 pm
 class Solution:
     def dayOfTheWeek(self, day: int, month: int, year: int) -> str:
-        start = 4 + (year - 1971) * 365
-        month -= 1
+        weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        startDay = 5
+        months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
-        for y in range(1972, year, 4):
-            start += y % 100 != 0 or y % 400 == 0
+        days = startDay - 1
+        for y in range(1971, year):
+            if y % 4 == 0 and (y % 100 != 0 or y % 400 == 0):
+                days += 366
+            else:
+                days += 365
         
-        for m in range(month):
-            start += months[m]
+        for m in range(1, month):
+            days += months[m - 1]
         
-        if month > 1 and year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
-            start += 1
+        days += day
 
-        start += day
-    
-        return days[start % 7]
+        if month > 2 and (year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)):
+            days += 1
+        
+        return weekdays[days % 7]
