@@ -1,4 +1,4 @@
-# Last updated: 3/8/2025, 5:52:55 pm
+# Last updated: 3/8/2025, 6:08:16 pm
 class Solution:
     def dayOfTheWeek(self, day: int, month: int, year: int) -> str:
         weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
