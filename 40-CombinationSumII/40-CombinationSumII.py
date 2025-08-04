@@ -1,4 +1,4 @@
-# Last updated: 5/8/2025, 2:12:21 am
+# Last updated: 5/8/2025, 2:12:35 am
 class Solution:
     def diffWaysToCompute(self, expression: str) -> List[int]:
         def calc(x, y, op):
@@ -24,7 +24,8 @@ class Solution:
             if i < n:
                 ops.append(expression[i])
                 i += 1
-
+        
+        @cache
         def rec(l, r):
             if l == r: return [nums[l]]
             arr = []
