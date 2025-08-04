@@ -1,4 +1,4 @@
-# Last updated: 4/8/2025, 11:54:25 pm
+# Last updated: 4/8/2025, 11:55:02 pm
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         ret = []
@@ -8,7 +8,7 @@ class Solution:
                     ret.append(s)
                 return
             
-            if opened < rem - 1:
+            if opened < rem:
                 rec(rem - 1, opened + 1, s + '(')
             if opened:
                 rec(rem - 1, opened - 1, s + ')')
