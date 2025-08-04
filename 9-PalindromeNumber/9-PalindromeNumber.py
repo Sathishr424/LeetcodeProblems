@@ -1,4 +1,4 @@
-# Last updated: 4/8/2025, 11:09:10 pm
+# Last updated: 4/8/2025, 11:09:44 pm
 mod = 10 ** 9 + 7
 N = 101
 primes = [0] * N
@@ -8,7 +8,7 @@ primes[3] = 1
 def is_prime(num):
     if num % 2 == 0: return 0
     for i in range(3, int(num ** 0.5) + 1, 2):
-        if num != i and num % i == 0: return 0
+        if num % i == 0: return 0
     return 1
 
 for num in range(4, N):
@@ -27,5 +27,5 @@ class Solution:
                 prime += 1
             else:
                 non_prime += 1
-        # print(prime, non_prime)
+
         return fact[prime] * fact[non_prime] % mod
