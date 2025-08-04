@@ -1,13 +1,11 @@
-# Last updated: 12/6/2025, 5:55:30 am
+# Last updated: 4/8/2025, 2:20:40 pm
 class Solution:
     def isPalindrome(self, x: int) -> bool:
-        if x <= 9: return x >= 0
+        if x < 0: return False
+        rev = 0
+        num = x
+        while num:
+            rev = rev * 10 + (num % 10)
+            num //= 10
         
-        y = 0
-        dig = 1
-        tmp = x
-        while x:
-            rem = x % 10
-            x //= 10
-            y = (y*10) + rem
-        return y == tmp
+        return rev == x
