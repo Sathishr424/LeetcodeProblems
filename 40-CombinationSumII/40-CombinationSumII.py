@@ -1,23 +1,15 @@
-# Last updated: 4/8/2025, 11:34:43 pm
+# Last updated: 4/8/2025, 11:37:40 pm
 class Solution:
-    def combinationSum2(self, cand: List[int], target: int) -> List[List[int]]:
-        n = len(cand)
-        cand.sort()
+    def combine(self, n: int, k: int) -> List[List[int]]:
         ret = []
-        print(cand)
-
-        def rec(index, rem, arr):
-            if rem == 0:
+        def rec(index, arr):
+            if len(arr) == k:
                 ret.append(arr[:])
                 return
-            if index == n: return
             
-            for i in range(index, n):
-                if cand[i] > rem: break
-                if i > index and cand[i] == cand[i - 1]: continue
-                arr.append(cand[i])
-                rec(i + 1, rem - cand[i], arr)
+            for i in range(index, n + 1):
+                arr.append(i)
+                rec(i + 1, arr)
                 arr.pop()
-        
-        rec(0, target, [])
+        rec(1, [])
         return ret
