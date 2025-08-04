@@ -1,47 +1,25 @@
-# Last updated: 19/6/2025, 10:03:38 am
-cmax = lambda x, y: x if x > y else y
+# Last updated: 4/8/2025, 2:10:16 pm
 class Solution:
     def totalFruit(self, f: List[int]) -> int:
         n = len(f)
+        ret = 1
 
-        a = f[0]
-        i = 1
-        while i < n and f[i] == a:
-            i += 1
-        
-        if i == n: return n
-        b = f[i]
+        freq = defaultdict(int)
+        cnt = 0
+        left = 0
 
-        a_cnt = i
-        b_cnt = 1
-        ret = a_cnt + b_cnt
-    
-        cnt = 1
-        prev = f[i]
-
-        for i in range(i+1, n):
-            if f[i] == a:
-                a_cnt += 1
-            elif f[i] == b:
-                b_cnt += 1
-            else:
-                if prev == a:
-                    a_cnt = cnt
-                    b_cnt = 1
-                    b = f[i]
-                else:
-                    a_cnt = 1
-                    b_cnt = cnt
-                    a = f[i]
-            
-            if f[i] == prev:
+        for i in range(n):
+            freq[f[i]] += 1
+            if freq[f[i]] == 1:
                 cnt += 1
-            else:
-                prev = f[i]
-                cnt = 1
             
-            ret = cmax(a_cnt + b_cnt, ret)
-        
-        return ret
+            while cnt > 2:
+                freq[f[left]] -= 1
+                if freq[f[left]] == 0:
+                    cnt -= 1
+                left += 1
 
-        
+            # print(freq, left, cnt, i)
+            ret = max(ret, i - left + 1)
+
+        return ret 
