@@ -1,14 +1,19 @@
-# Last updated: 4/8/2025, 11:20:22 pm
+# Last updated: 4/8/2025, 11:25:22 pm
 class Solution:
-    def numIdenticalPairs(self, nums: List[int]) -> int:
-        freq = [0] * 101
-
-        for num in nums:
-            freq[num] += 1
-
-        ret = 0
-        for cnt in freq:
-            if cnt > 1:
-                ret += cnt * (cnt - 1) // 2
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        n = len(candidates)
+        candidates.sort()
+        ret = []
+        def rec(index, rem, arr):
+            if rem == 0:
+                ret.append(arr[:])
+                return
+            
+            for i in range(index, n):
+                if candidates[i] > rem: break
+                arr.append(candidates[i])
+                rec(i, rem - candidates[i], arr)
+                arr.pop()
         
+        rec(0, target, [])
         return ret
