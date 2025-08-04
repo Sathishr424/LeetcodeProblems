@@ -1,9 +1,4 @@
-# Last updated: 4/8/2025, 11:19:54 pm
-N = 101
-fact = [1] * N
-for i in range(1, N):
-    fact[i] = fact[i - 1] * i
-
+# Last updated: 4/8/2025, 11:20:22 pm
 class Solution:
     def numIdenticalPairs(self, nums: List[int]) -> int:
         freq = [0] * 101
@@ -14,6 +9,6 @@ class Solution:
         ret = 0
         for cnt in freq:
             if cnt > 1:
-                ret += fact[cnt] // (fact[2] * fact[cnt - 2])
+                ret += cnt * (cnt - 1) // 2
         
         return ret
