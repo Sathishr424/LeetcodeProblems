@@ -1,10 +1,10 @@
-# Last updated: 4/8/2025, 10:47:22 pm
+# Last updated: 4/8/2025, 10:48:35 pm
 def addition(a, b):
     max_int = 1 << 32
     ret = 0
     carry = 0
     power = 0
-    while (a or b) and power < 32:
+    while power < 32:
         a_rem = a % 2
         b_rem = b % 2
 
@@ -27,8 +27,4 @@ def addition(a, b):
 
 class Solution:
     def getSum(self, a: int, b: int) -> int:
-        is_neg = a < 0 or b < 0
-        # if a < 0: a = addition(~a, 1)
-        # if b < 0: b = addition(~b, 1)
-        ans = addition(a, b)
-        return ans
+        return addition(a, b)
