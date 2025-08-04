@@ -1,8 +1,10 @@
-# Last updated: 4/8/2025, 2:29:08 pm
+# Last updated: 4/8/2025, 2:31:07 pm
 class Solution:
-    def singleNumber(self, nums: List[int]) -> int:
-        xor = 0
+    def missingNumber(self, nums: List[int]) -> int:
+        n = len(nums)
+        tot = n * (n + 1) // 2
+
         for num in nums:
-            xor ^= num
+            tot -= num
         
-        return xor
+        return tot
