@@ -1,18 +1,15 @@
-# Last updated: 4/8/2025, 11:45:00 pm
+# Last updated: 4/8/2025, 11:50:39 pm
 class Solution:
-    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+    def generateParenthesis(self, n: int) -> List[str]:
         ret = []
-        def rec(index, arr, rem):
-            if len(arr) == k:
-                if rem == 0:
-                    ret.append(arr[:])
+        def rec(rem, opened, s):
+            if rem == 0:
+                if opened == 0:
+                    ret.append(s)
                 return
             
-            for i in range(index, 10):
-                if i > rem: break
-                arr.append(i)
-                rec(i + 1, arr, rem - i)
-                arr.pop()
-        
-        rec(1, [], n)
+            rec(rem - 1, opened + 1, s + '(')
+            if opened:
+                rec(rem - 1, opened - 1, s + ')')
+        rec(n * 2, 0, '')
         return ret
