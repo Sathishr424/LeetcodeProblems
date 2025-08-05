@@ -1,13 +1,20 @@
-# Last updated: 5/8/2025, 11:12:33 am
-fact = [1] * 34
-
-for i in range(1, 34):
-    fact[i] = fact[i - 1] * i
-
+# Last updated: 5/8/2025, 11:24:29 am
 class Solution:
-    def getRow(self, row: int) -> List[int]:
-        ret = []
-        for i in range(row + 1):
-            ret.append(fact[row] // (fact[i] * fact[row - i]))
+    def gcdOfStrings(self, str1: str, str2: str) -> str:
+        m = len(str1)
+        n = len(str2)
+
+        if m < n:
+            m, n = n, m
+            str1, str2 = str2, str1
+        
+        d = gcd(m, n)
+        ret = str2[:d]
+
+        for i in range(0, m, d):
+            if str1[i:i+d] != ret: return ''
+        
+        for i in range(0, n, d):
+            if str2[i:i+d] != ret: return ''
         
         return ret
