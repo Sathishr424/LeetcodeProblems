@@ -1,8 +1,13 @@
-# Last updated: 5/8/2025, 11:01:59 am
-fact = [1] * 201
-for i in range(1, 201):
+# Last updated: 5/8/2025, 11:12:33 am
+fact = [1] * 34
+
+for i in range(1, 34):
     fact[i] = fact[i - 1] * i
 
 class Solution:
-    def uniquePaths(self, m: int, n: int) -> int:
-        return fact[m + n - 2] // (fact[m - 1] * fact[n - 1])
+    def getRow(self, row: int) -> List[int]:
+        ret = []
+        for i in range(row + 1):
+            ret.append(fact[row] // (fact[i] * fact[row - i]))
+        
+        return ret
