@@ -1,10 +1,16 @@
-# Last updated: 12/6/2025, 5:53:23 am
+# Last updated: 5/8/2025, 10:41:57 am
 class Solution:
-    def numTrees(self, n: int, memo={}) -> int:
-        dp = [0 for _ in range(n+1)]
-        dp[0] = 1
-        dp[1] = 1
-        for i in range(2,n+1):
-            for j in range(i):
-                dp[i] += dp[j] * dp[(i-j)-1]
-        return dp[-1]
+    def uniquePaths(self, m: int, n: int) -> int:
+        @cache
+        def rec(i, j):
+            if i == m-1 and j == n-1:
+                return 1
+            
+            ans = 0
+            if i + 1 < m:
+                ans += rec(i + 1, j)
+            if j + 1 < n:
+                ans += rec(i, j + 1)
+            return ans
+        
+        return rec(0, 0)
