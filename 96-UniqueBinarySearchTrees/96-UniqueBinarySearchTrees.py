@@ -1,9 +1,12 @@
-# Last updated: 5/8/2025, 11:59:09 am
-def gcd(x, y):
-    rem = x % y
-    if rem == 0: return y
-    return gcd(y, rem)
-
+# Last updated: 5/8/2025, 12:11:06 pm
 class Solution:
-    def findGCD(self, nums: List[int]) -> int:
-        return gcd(max(nums), min(nums))
+    def subarrayGCD(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        ret = 0
+        for i in range(n):
+            d = nums[i]
+            for j in range(i, n):
+                d = gcd(nums[j], d)
+                if d == k: ret += 1
+        
+        return ret
