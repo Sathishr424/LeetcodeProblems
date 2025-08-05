@@ -1,16 +1,16 @@
-# Last updated: 13/4/2025, 7:41:55 pm
+# Last updated: 5/8/2025, 5:44:33 pm
 class Solution:
     def myPow(self, x: float, n: int) -> float:
+        def cPow(num, power):
+            if power == 0: return 1
+            if power == 1: return num
+            half = power // 2
+            ans = cPow(num, half)
+            ans = ans * ans
+            if power % 2:
+                ans = ans * num
+            return ans
+        
         if n < 0:
-            x = 1/x
-            n *= -1
-        
-        def rec(n):
-            if n == 0: return 1
-
-            ans = rec(n//2)
-            ans *= ans
-            
-            return ans * x if n % 2 else ans
-        
-        return rec(n)
+            return cPow(1/x, -n)
+        return cPow(x, n)
