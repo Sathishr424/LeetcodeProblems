@@ -1,4 +1,4 @@
-# Last updated: 5/8/2025, 1:14:58 pm
+# Last updated: 5/8/2025, 1:15:54 pm
 N = 1000 + 1
 is_prime = [1] * N
 is_prime[0] = 0
@@ -22,11 +22,9 @@ class Solution:
                 uniq[num] = 1
                 continue
             for p in primes:
-                if p > num: break
-                if num % p == 0:
+                while num % p == 0:
+                    num //= p
                     uniq[p] = 1
-                    while num % p == 0:
-                        num //= p
-                    if num == 0: break
+                if num == 0: break
         
         return sum(uniq)
