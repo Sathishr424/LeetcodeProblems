@@ -1,4 +1,4 @@
-# Last updated: 5/8/2025, 12:11:06 pm
+# Last updated: 5/8/2025, 12:11:41 pm
 class Solution:
     def subarrayGCD(self, nums: List[int], k: int) -> int:
         n = len(nums)
