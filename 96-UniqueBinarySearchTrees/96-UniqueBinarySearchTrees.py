@@ -1,4 +1,4 @@
-# Last updated: 5/8/2025, 1:01:24 pm
+# Last updated: 5/8/2025, 1:02:38 pm
 N = 10 ** 5 + 1
 is_prime = [1] * N
 is_prime[0] = 0
@@ -40,24 +40,21 @@ class Union:
 
 class Solution:
     def largestComponentSize(self, nums: List[int]) -> int:
-        # nums = [randrange(1, N) for _ in range(10 ** 4 * 2)]
         n = len(nums)
-        graph = {}
-        un = Union(n)
-
-        def link(p, index):
-            print(p, index)
-            if p in graph:
-                un.union(graph[p], index)
-            else:
-                graph[p] = index
-        
-
         there = {}
         for i, num in enumerate(nums):
             there[num] = i
-        
         max_num = max(nums)
+
+        graph = [-1] * (max_num + 1)
+        un = Union(n)
+
+        def link(p, index):
+            if graph[p] != -1:
+                un.union(graph[p], index)
+            else:
+                graph[p] = index
+
         for p in primes:
             num = p
             while num <= max_num:
@@ -65,9 +62,8 @@ class Solution:
                     link(p, there[num])
                 num += p
 
-        # print(dict(graph))
         ret = 1
         for i in range(n):
             ret = max(ret, un.sizes[un.find(i)])
-        # print(un.parents)
+
         return ret
