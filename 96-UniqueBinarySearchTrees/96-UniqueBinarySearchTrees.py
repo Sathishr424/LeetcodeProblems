@@ -1,4 +1,4 @@
-# Last updated: 5/8/2025, 1:15:54 pm
+# Last updated: 5/8/2025, 1:16:22 pm
 N = 1000 + 1
 is_prime = [1] * N
 is_prime[0] = 0
@@ -15,16 +15,17 @@ for i in range(N):
 
 class Solution:
     def distinctPrimeFactors(self, nums: List[int]) -> int:
-        # nums = [randrange(1, N) for _ in range(10**4)]
-        uniq = [0] * (max(nums) + 1)
+        uniq = {}
         for num in nums:
             if is_prime[num]:
                 uniq[num] = 1
                 continue
             for p in primes:
-                while num % p == 0:
-                    num //= p
+                if p > num: break
+                if num % p == 0:
                     uniq[p] = 1
-                if num == 0: break
+                    while num % p == 0:
+                        num //= p
+                    if num == 0: break
         
-        return sum(uniq)
+        return len(uniq)
