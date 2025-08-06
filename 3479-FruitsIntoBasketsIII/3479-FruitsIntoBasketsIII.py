@@ -1,48 +1,49 @@
-# Last updated: 6/8/2025, 11:25:25 am
-class SegTree:
+# Last updated: 6/8/2025, 11:25:52 am
+class SegmentTree:
     def __init__(self, baskets):
+        self.baskets = baskets
         self.n = len(baskets)
-        size = 2 << (self.n - 1).bit_length()
-        self.seg = [0] * size
-        self._build(baskets, 1, 0, self.n - 1)
+        self.tree = [0] * (self.n * 4)
 
-    def _maintain(self, o):
-        self.seg[o] = max(self.seg[o * 2], self.seg[o * 2 + 1])
-
-    def _build(self, a, o, l, r):
+        self.build(0, self.n-1, 0)
+    
+    def build(self, l, r, index):
         if l == r:
-            self.seg[o] = a[l]
-            return
-        m = (l + r) // 2
-        self._build(a, o * 2, l, m)
-        self._build(a, o * 2 + 1, m + 1, r)
-        self._maintain(o)
+            self.tree[index] = self.baskets[l]
+            return self.tree[index]
+        
+        mid = (l + r) // 2
+        left = self.build(l, mid, index * 2 + 1)
+        right = self.build(mid + 1, r, index * 2 + 2)
 
-    def find_first_and_update(self, o, l, r, x):
-        if self.seg[o] < x:
-            return -1
+        self.tree[index] = max(left, right)
+        return self.tree[index]
+    
+    def query(self, l, r, index, capacity):
+        if self.tree[index] < capacity:
+            return False
+        
         if l == r:
-            self.seg[o] = -1
-            return l
-        m = (l + r) // 2
-        i = self.find_first_and_update(o * 2, l, m, x)
-        if i == -1:
-            i = self.find_first_and_update(o * 2 + 1, m + 1, r, x)
-        self._maintain(o)
-        return i
+            self.tree[index] = 0
+            return True
+        
+        mid = (l + r) // 2
 
+        canPlace = self.query(l, mid, index * 2 + 1, capacity)
+        if not canPlace:
+            canPlace = self.query(mid + 1, r, index * 2 + 2, capacity)
+
+        self.tree[index] = max(self.tree[index * 2 + 1], self.tree[index * 2 + 2])
+        return canPlace
 
 class Solution:
     def numOfUnplacedFruits(self, fruits: List[int], baskets: List[int]) -> int:
-        m = len(baskets)
-        if m == 0:
-            return len(fruits)
+        n = len(baskets)
 
-        tree = SegTree(baskets)
-        count = 0
+        segTree = SegmentTree(baskets)
 
-        for fruit in fruits:
-            if tree.find_first_and_update(1, 0, m - 1, fruit) == -1:
-                count += 1
-
-        return count
+        un_placed = 0
+        for f in fruits:
+            if not segTree.query(0, n-1, 0, f): un_placed += 1
+        
+        return un_placed
