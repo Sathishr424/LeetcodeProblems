@@ -1,4 +1,4 @@
-# Last updated: 9/8/2025, 4:10:46 am
+# Last updated: 9/8/2025, 4:11:43 am
 # [[1, 5, 9],
 #  [10,11,14],
 #  [12,13,15]]
@@ -13,10 +13,7 @@ class Solution:
         def smallest(num):
             count = 0
             for i in range(n):
-                if matrix[i][n-1] <= num:
-                    count += n
-                else:
-                    count += bisect_right(matrix[i], num)
+                count += bisect_right(matrix[i], num)
             return count
 
         while l < r:
