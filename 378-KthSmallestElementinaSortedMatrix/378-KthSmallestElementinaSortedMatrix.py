@@ -1,4 +1,4 @@
-# Last updated: 9/8/2025, 2:39:04 am
+# Last updated: 9/8/2025, 2:39:20 am
 class Solution:
     def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
         n = len(matrix)
@@ -24,7 +24,6 @@ class Solution:
             
             for _ in range(k - 1):
                 _, i, j = heapq.heappop(heap)
-                print(i, j)
                 if j - 1 >= 0:
                     heapq.heappush(heap, (-matrix[i][j-1], i, j-1))
             
