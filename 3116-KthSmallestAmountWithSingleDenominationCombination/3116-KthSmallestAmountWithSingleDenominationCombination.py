@@ -1,4 +1,4 @@
-# Last updated: 9/8/2025, 7:58:44 pm
+# Last updated: 9/8/2025, 7:59:25 pm
 class Solution:
     def findKthSmallest(self, coins: List[int], k: int) -> int:
         coins.sort()
@@ -7,19 +7,19 @@ class Solution:
         odd_lcm = []
         even_lcm = []
 
-        for mask in range(1, 1 << n):
-            l = 1
-            count = 0
-
-            for i in range(n):
-                if mask & (1 << i) > 0:
-                    l = lcm(l, coins[i])
-                    count += 1
+        def rec(index, cnt, l):
+            if index == n:
+                if cnt == 0: return
+                if cnt % 2:
+                    odd_lcm.append(l)
+                else:
+                    even_lcm.append(l)
+                return
             
-            if count % 2:
-                odd_lcm.append(l)
-            else:
-                even_lcm.append(l)
+            rec(index + 1, cnt + 1, lcm(l, coins[index]))
+            rec(index + 1, cnt, l)
+
+        rec(0, 0, 1)
 
         def isGood(mid):
             total = 0
