@@ -1,11 +1,11 @@
-# Last updated: 9/8/2025, 6:57:17 am
+# Last updated: 9/8/2025, 6:57:52 am
 class Solution:
     def kthSmallestPrimeFraction(self, nums: List[int], k: int) -> List[int]:
         n = len(nums)
 
         l = 0
         r = 1
-        add = 0.000000001
+        add = 0.0000001
         numerator = 0
         denominator = 0
         
