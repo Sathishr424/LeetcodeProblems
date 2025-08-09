@@ -1,6 +1,7 @@
-# Last updated: 9/8/2025, 6:48:11 pm
+# Last updated: 9/8/2025, 6:50:06 pm
 class Solution:
     def findKthSmallest(self, coins: List[int], k: int) -> int:
+        coins.sort()
         n = len(coins)
 
         def isGood(mid):
