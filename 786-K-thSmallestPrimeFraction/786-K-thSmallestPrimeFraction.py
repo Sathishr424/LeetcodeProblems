@@ -1,4 +1,4 @@
-# Last updated: 9/8/2025, 7:11:38 am
+# Last updated: 9/8/2025, 7:12:10 am
 class Solution:
     def kthSmallestPrimeFraction(self, nums: List[int], k: int) -> List[int]:
         n = len(nums)
@@ -14,7 +14,7 @@ class Solution:
             deno = 0
             diff = 0
             j = 1
-            # [1,13,17,59]
+
             for i in range(n-1):
                 while j < n and nums[j] * mid <= nums[i]:
                     j += 1
@@ -31,7 +31,6 @@ class Solution:
 
             if count == k:
                 return [nums[nume], nums[deno]]
-                r = mid
             elif count < k:
                 l = mid
             else:
