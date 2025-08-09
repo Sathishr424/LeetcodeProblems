@@ -1,35 +1,4 @@
-# Last updated: 9/8/2025, 6:50:29 am
-def maxHeap(nums, n, k):
-    heap = []
-    for i in range(n-1):
-        heapq.heappush(heap, (-nums[i] / nums[i+1], i, i+1))
-
-    for _ in range(k-1):
-        _, i, j = heapq.heappop(heap)
-
-        if j+1 < n:
-            j += 1
-            heapq.heappush(heap, (-nums[i] / nums[j], i, j))
-    
-    _, i, j = heapq.heappop(heap)
-    return [nums[i], nums[j]]
-
-def minHeap(nums, n, k):
-    heap = []
-    for i in range(n-1):
-        heapq.heappush(heap, (nums[i] / nums[n-1], i, n-1))
-
-    while k-1:
-        _, i, j = heapq.heappop(heap)
-
-        if j-1 > i:
-            j -= 1
-            heapq.heappush(heap, (nums[i] / nums[j], i, j))
-        k -= 1
-    
-    _, i, j = heapq.heappop(heap)
-    return [nums[i], nums[j]]
-
+# Last updated: 9/8/2025, 6:57:17 am
 class Solution:
     def kthSmallestPrimeFraction(self, nums: List[int], k: int) -> List[int]:
         n = len(nums)
@@ -46,11 +15,14 @@ class Solution:
             count = 0
             nume = 0
             deno = 0
+            diff = 0
             # [1,13,17,59]
             for i in range(n-1):
                 j = n-1
                 while count < k and j > i and nums[i] / nums[j] <= mid:
-                    if mid - (nums[i] / nums[j]) < abs(mid - (nums[nume] / nums[deno])):
+                    curr = nums[i] / nums[j]
+                    if curr > diff:
+                        diff = curr
                         nume = i
                         deno = j
                     j -= 1
@@ -65,5 +37,3 @@ class Solution:
                 l = mid + add
 
         return [nums[numerator], nums[denominator]]
-
-    
