@@ -1,4 +1,4 @@
-# Last updated: 9/8/2025, 6:50:48 pm
+# Last updated: 9/8/2025, 7:40:52 pm
 class Solution:
     def findKthSmallest(self, coins: List[int], k: int) -> int:
         coins.sort()
@@ -6,21 +6,15 @@ class Solution:
 
         def isGood(mid):
             total = 0
-            
-            def rec(index, cnt, l):
-                nonlocal total
-                if index == n:
-                    if cnt == 0: return
-                    if cnt % 2:
-                        total += mid // l
-                    else:
-                        total -= mid // l
-                    return
-                
-                rec(index + 1, cnt + 1, lcm(l, coins[index]))
-                rec(index + 1, cnt, l)
-
-            rec(0, 0, 1)
+            for mask in range(1, 1 << n):
+                bits = bin(mask).count('1')
+                l = 1
+                for i in range(n):
+                    if mask >> i & 1:
+                        l = lcm(l, coins[i])
+                        if l > mid: break
+                else:
+                    total += (mid // l) if bits % 2 == 1 else -(mid // l)
             return total >= k    
             
         l = 1
