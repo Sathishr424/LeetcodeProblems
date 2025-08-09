@@ -1,13 +1,10 @@
-# Last updated: 9/8/2025, 7:06:40 am
+# Last updated: 9/8/2025, 7:11:38 am
 class Solution:
     def kthSmallestPrimeFraction(self, nums: List[int], k: int) -> List[int]:
         n = len(nums)
 
         l = 0
         r = 1
-        add = 0.0000001
-        numerator = 0
-        denominator = 0
         
         while l < r:
             mid = (l + r) / 2
@@ -16,26 +13,28 @@ class Solution:
             nume = 0
             deno = 0
             diff = 0
+            j = 1
             # [1,13,17,59]
             for i in range(n-1):
-                j = n-1
-                while j > i and nums[j] * mid >= nums[i]:
-                    j -= 1
+                while j < n and nums[j] * mid <= nums[i]:
+                    j += 1
                 
-                j += 1
-                if j == n: continue
                 count += n - j
-                if nums[i] / nums[j] > diff:
-                    diff = nums[i] / nums[j]
+            
+                if j == n: break
+
+                f = nums[i] / nums[j]
+                if f > diff:
+                    diff = f
                     nume = i
                     deno = j
 
-            # print((l, mid, r), count, (nume, deno))
-            if count >= k:
-                numerator = nume
-                denominator = deno
-                r = mid - add
+            if count == k:
+                return [nums[nume], nums[deno]]
+                r = mid
+            elif count < k:
+                l = mid
             else:
-                l = mid + add
+                r = mid
 
-        return [nums[numerator], nums[denominator]]
+        return []
