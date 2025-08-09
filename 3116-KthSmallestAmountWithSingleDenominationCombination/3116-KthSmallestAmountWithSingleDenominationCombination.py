@@ -1,4 +1,4 @@
-# Last updated: 9/8/2025, 7:57:53 pm
+# Last updated: 9/8/2025, 7:58:44 pm
 class Solution:
     def findKthSmallest(self, coins: List[int], k: int) -> int:
         coins.sort()
