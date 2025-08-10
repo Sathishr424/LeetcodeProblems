@@ -1,16 +1,14 @@
-# Last updated: 1/6/2025, 7:41:30 pm
-cmin = lambda x, y: x if x < y else y
-cmax = lambda x, y: x if x > y else y
+# Last updated: 10/8/2025, 6:41:34 am
 class Solution:
     def distributeCandies(self, n: int, limit: int) -> int:
-        start = cmax(0, n - (limit * 2))
-        end = cmin(n, limit)
         ret = 0
+        for i in range(min(n, limit) + 1):
+            rem = n - i
 
-        for rem in range(n-start, n-end-1, -1):
-            s = cmax(0, rem - limit)
-            e = cmin(rem, limit)
+            if rem - limit > limit: continue
 
-            ret += cmin(limit - s, e) + 1
+            can = max(0, rem - limit)
 
+            ret += rem - can * 2 + 1
+        
         return ret
