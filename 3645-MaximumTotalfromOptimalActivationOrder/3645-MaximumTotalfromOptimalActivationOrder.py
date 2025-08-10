@@ -1,4 +1,4 @@
-# Last updated: 10/8/2025, 9:52:28 am
+# Last updated: 10/8/2025, 9:52:54 am
 class Solution:
     def maxTotal(self, value: List[int], limit: List[int]) -> int:
         n = len(value)
@@ -7,7 +7,7 @@ class Solution:
         for i in range(n):
             new_arr.append((limit[i], value[i], i))
         new_arr.sort(key=lambda x: (x[0], -x[1]))
-        print(new_arr)
+
         heap = []
         for i in range(n):
             heapq.heappush(heap, (limit[i], i))
@@ -28,8 +28,6 @@ class Solution:
                 _, index = heapq.heappop(heap)
                 can_use[index] = 0
                 if used[index]: active -= 1
-            
-            # print(active, ret)
         
         return ret
         
