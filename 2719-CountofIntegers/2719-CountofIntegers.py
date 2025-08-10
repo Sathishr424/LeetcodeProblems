@@ -1,4 +1,4 @@
-# Last updated: 10/8/2025, 7:54:13 pm
+# Last updated: 10/8/2025, 8:00:28 pm
 
 def substract(x, y):
     carry = 0
@@ -14,7 +14,6 @@ def substract(x, y):
             a = 10 + a
         
         ret = str(a - b) + ret
-    # print(x, y, ret)
     return ret
 
 class Solution:
@@ -51,15 +50,10 @@ class Solution:
             if length > 1:
                 ans += rec(length - 1, 0, 1, False)
 
-            for i in range(1, min(int(num[0]), max_sum + 1)):
-                ans += rec(length - 1, i, 0, False)
+            for i in range(1, min(int(num[0]), max_sum) + 1):
+                ans += rec(length - 1, i, 0, i == int(num[0]))
                 ans %= mod
-
-            if int(num[0]) <= max_sum:
-                ans += rec(length - 1, int(num[0]), 0, True)
             
-            ans %= mod
-
             return ans
         
         right = helper(num2, n)
