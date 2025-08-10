@@ -1,4 +1,4 @@
-# Last updated: 10/8/2025, 5:59:04 am
+# Last updated: 10/8/2025, 5:59:51 am
 class Solution:
     def reorderedPowerOf2(self, n: int) -> bool:
         length = 0
@@ -24,8 +24,11 @@ class Solution:
             
             return False
         
+        match = False
         for i in range(length):
             if digits[i] == 0: continue
-            if rec(1 << i, digits[i]): return True
-        
-        return False
+            if rec(1 << i, digits[i]):
+                match = True
+                break
+        rec.cache_clear()
+        return match
