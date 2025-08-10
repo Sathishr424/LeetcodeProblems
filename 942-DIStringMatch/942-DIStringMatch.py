@@ -1,4 +1,4 @@
-# Last updated: 10/8/2025, 2:23:52 pm
+# Last updated: 10/8/2025, 2:26:11 pm
 class Solution:
     def numberOfPowerfulInt(self, start: int, finish: int, limit: int, s: str) -> int:
         if int(s) > finish: return 0
@@ -56,18 +56,16 @@ class Solution:
             if m >= 2:
                 for i in range(1, limit + 1):
                     ans += rec_all(m - 2)
-            # print(ans)
+
             if m >= 1:
                 for i in range(1, min(int(end[0]), limit + 1)):
                     ans += rec(m - 1)
-            # print(ans)
 
             curr = int(end[0] + '0' * (m - 1) + s)
             if int(end[0]) <= limit and curr <= end_int:
                 ans += rec_strict(1, True)
 
             rec_strict.cache_clear()
-            # print(end, m, ans)
             return ans
 
         ans = helper(finish, f_n - l) - helper(start, s_n - l)
