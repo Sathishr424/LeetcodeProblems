@@ -1,62 +1,38 @@
-# Last updated: 10/8/2025, 8:00:28 pm
-
-def substract(x, y):
-    carry = 0
-    ret = ''
-    for i in range(len(x)-1, -1, -1):
-        a = int(x[i])
-        b = int(y[i])
-        if carry:
-            carry = (a - 1) < b
-            a = (a - 1) % 10
-        if b > a:
-            carry = 1
-            a = 10 + a
-        
-        ret = str(a - b) + ret
-    return ret
-
+# Last updated: 10/8/2025, 8:38:14 pm
 class Solution:
-    def count(self, num1: str, num2: str, min_sum: int, max_sum: int) -> int:
-        mod = 10 ** 9 + 7
-
-        m = len(num1)
-        n = len(num2)
+    def numberOfBeautifulIntegers(self, low: int, high: int, k: int) -> int:
+        low = str(low - 1)
+        high = str(high)
 
         def helper(num, length):
             @cache
-            def rec(rem, s, is_all, strict):
-                if rem == 0:
-                    return 1 if s >= min_sum and s <= max_sum else 0
+            def rec(rem, curr_num, odd, is_all, tight):
+                if rem == length - is_all:
+                    return 1 if curr_num == 0 and odd == (rem - odd) else 0
                 
-                ans = 1 if is_all and s >= min_sum and s <= max_sum else 0
+                ans = 1 if is_all and curr_num == 0 and odd == (rem - odd) else 0
 
-                if strict:
-                    for i in range(int(num[length - rem]) + 1):
-                        if s == 0 and i == 0: continue
-                        
-                        if s + i <= max_sum:
-                            ans += rec(rem - 1, s + i, is_all, i == int(num[length - rem]))
+                if tight:
+                    for i in range(int(num[rem]) + 1):
+                        ans += rec(rem + 1, (curr_num * 10 + i) % k, odd + (i % 2), is_all, i == int(num[rem]))
                 else:
                     for i in range(10):
-                        if s == 0 and i == 0: continue
-
-                        if s + i <= max_sum:
-                            ans += rec(rem - 1, s + i, is_all, strict)
+                        ans += rec(rem + 1, (curr_num * 10 + i) % k, odd + (i % 2), is_all, False)
                 
-                return ans % mod
+                return ans
             
             ans = 0
             if length > 1:
-                ans += rec(length - 1, 0, 1, False)
+                for i in range(1, 10):
+                    ans += rec(1, i % k, i % 2, 1, False)
 
-            for i in range(1, min(int(num[0]), max_sum) + 1):
-                ans += rec(length - 1, i, 0, i == int(num[0]))
-                ans %= mod
+            for i in range(1, int(num[0]) + 1):
+                ans += rec(1, i % k, i % 2, 0, i == int(num[0]))
             
+            rec.cache_clear()
             return ans
         
-        right = helper(num2, n)
-        left = helper(substract(num1, '0' * (m - 1) + '1'), m)
+        right = helper(high, len(high))
+        left = helper(low, len(low))
 
-        return (right - left) % mod
+        return right - left
