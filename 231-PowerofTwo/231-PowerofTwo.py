@@ -1,18 +1,15 @@
-# Last updated: 10/8/2025, 6:09:30 am
+# Last updated: 10/8/2025, 6:14:03 am
 class Solution:
     def reorderedPowerOf2(self, n: int) -> bool:
-        length = 0
-
-        tmp = n
         digits = []
-        while tmp:
-            length += 1
-            digits.append(tmp % 10)
-            tmp //= 10
+        while n:
+            digits.append(n % 10)
+            n //= 10
+        digits.sort()
         
+        length = len(digits)
         l = 0
         r = 31
-        digits.sort()
         while l < r:
             mid = (l + r) // 2
 
