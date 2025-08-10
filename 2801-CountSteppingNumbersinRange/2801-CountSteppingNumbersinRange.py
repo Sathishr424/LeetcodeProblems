@@ -1,4 +1,4 @@
-# Last updated: 10/8/2025, 11:38:53 am
+# Last updated: 10/8/2025, 11:39:55 am
 def substract(x, y):
     carry = 0
     ret = ''
@@ -13,12 +13,10 @@ def substract(x, y):
             a = 10 + a
         
         ret = str(a - b) + ret
-    # print(x, y, ret)
     return ret
 
 class Solution:
     def countSteppingNumbers(self, low: str, high: str) -> int:
-        
         low = substract(low, '0' * (len(low) - 1) + '1')
         
         l_n = len(low)
@@ -89,23 +87,18 @@ class Solution:
             
             return ans % mod
         
-        # print("1 to high - 1 digit")
         ans = 0
         if r_n >= 2:
             for i in range(1, 10):
                 ans += rec(r_n - 2, i)
                 ans %= mod
-        
-        # print("1 to high less than high all")
+
         for i in range(1, int(high[0])):
             ans += rec3(r_n - 1, i)
             ans %= mod
         
-        # print("1 to high less than high full")
         ans += rec2(1, int(high[0]), True)
         ans %= mod
-        
-        # print(ans, low)
 
         left = 0
         if l_n >= 2:
@@ -121,6 +114,8 @@ class Solution:
             left += rec4(1, int(low[0]), True)
             left %= mod
         
-        # print(ans, left, ans - left)
-        
+        rec.cache_clear()
+        rec2.cache_clear()
+        rec3.cache_clear()
+        rec4.cache_clear()
         return (ans - left) % mod
