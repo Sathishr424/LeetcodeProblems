@@ -1,4 +1,4 @@
-# Last updated: 10/8/2025, 6:08:49 am
+# Last updated: 10/8/2025, 6:09:30 am
 class Solution:
     def reorderedPowerOf2(self, n: int) -> bool:
         length = 0
@@ -29,12 +29,10 @@ class Solution:
                 num //= 10
             val.sort()
 
-            match = True
             for i in range(length):
-                if val[i] != digits[i]:
-                    match = False
-                    break
-            if match: return True
+                if val[i] != digits[i]: break
+            else:
+                return True
             l += 1
         
         return False
