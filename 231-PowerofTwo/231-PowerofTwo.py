@@ -1,4 +1,4 @@
-# Last updated: 10/8/2025, 5:57:11 am
+# Last updated: 10/8/2025, 5:59:04 am
 class Solution:
     def reorderedPowerOf2(self, n: int) -> bool:
         length = 0
@@ -19,10 +19,13 @@ class Solution:
                 return False
             
             for i in range(length):
-                if digits[i] == 0 and num == 0: continue
                 if mask & (1 << i) == 0 and rec(mask | (1 << i), num * 10 + digits[i]):
                     return True
             
             return False
         
-        return rec(0, 0)
+        for i in range(length):
+            if digits[i] == 0: continue
+            if rec(1 << i, digits[i]): return True
+        
+        return False
