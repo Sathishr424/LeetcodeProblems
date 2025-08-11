@@ -1,7 +1,7 @@
-# Last updated: 11/8/2025, 11:38:53 am
+# Last updated: 11/8/2025, 11:39:06 am
 mod = 10 ** 9 + 7
 def inverse(x):
-    return pow(x, mod - 2, mod)
+    return pow(x, -1, mod)
 
 class Solution:
     def productQueries(self, n: int, queries: List[List[int]]) -> List[int]:
