@@ -1,4 +1,4 @@
-# Last updated: 11/8/2025, 11:36:53 am
+# Last updated: 11/8/2025, 11:37:30 am
 mod = 10 ** 9 + 7
 def inverse(x):
     return pow(x, mod - 2, mod)
@@ -12,7 +12,6 @@ class Solution:
             if n & (1 << i) > 0:
                 curr = pow(2, i, mod)
                 arr.append(curr)
-                n -= curr
                 prefix.append(prefix[-1] * curr % mod)
         
         ret = []
