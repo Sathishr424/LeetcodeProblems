@@ -1,4 +1,4 @@
-# Last updated: 24/4/2025, 5:38:35 pm
+# Last updated: 12/8/2025, 12:52:49 am
 k = 10
 link = {'A': 1, 'C': 2, 'G': 3, 'T': 4}
 
