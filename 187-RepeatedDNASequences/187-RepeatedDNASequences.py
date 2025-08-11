@@ -1,11 +1,11 @@
-# Last updated: 12/8/2025, 1:04:00 am
+# Last updated: 12/8/2025, 1:17:18 am
 class Solution:
     def findRepeatedDnaSequences(self, s: str) -> List[str]:
         n = len(s)
         if n <= 10: return []
         base = 31
         mod = 10**9 + 7
-        mp = {'A': 1, 'C': 2, 'G': 3, 'T': 4}
+        mp = {'A': 0, 'C': 1, 'G': 2, 'T': 3}
 
         freq = defaultdict(int)
         ret = []
