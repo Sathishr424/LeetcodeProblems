@@ -1,4 +1,4 @@
-# Last updated: 12/8/2025, 3:11:44 pm
+# Last updated: 12/8/2025, 3:36:54 pm
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -44,8 +44,9 @@ class Solution:
         
         for x, y, t in meetings:
             if t != prev:
+                vis = {}
                 for node in linked:
-                    dfs(node, {})
+                    dfs(node, vis)
                 linked = []
                 last_added = defaultdict(list)
                     
@@ -59,8 +60,9 @@ class Solution:
 
             prev = t
 
+        vis = {}
         for node in linked:
-            dfs(node, {})
+            dfs(node, vis)
         
         ret = []
 
