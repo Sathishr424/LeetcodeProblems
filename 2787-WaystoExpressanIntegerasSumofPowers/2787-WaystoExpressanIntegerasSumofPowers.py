@@ -1,4 +1,4 @@
-# Last updated: 12/8/2025, 10:29:19 am
+# Last updated: 12/8/2025, 10:31:35 am
 powers = [[0] * 301 for _ in range(6)]
 for i in range(1, 6):
     y = 1
@@ -20,9 +20,11 @@ class Solution:
             
             if index == y: return 0
 
-            ans = rec(index + 1, rem)
+            ans = 0
             if rem >= powers[x][index]:
+                ans += rec(index + 1, rem)
                 ans += rec(index + 1, rem - (powers[x][index]))
+            
             return ans % mod
             
         return rec(1, n)
