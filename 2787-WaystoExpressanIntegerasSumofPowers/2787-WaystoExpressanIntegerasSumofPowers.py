@@ -1,4 +1,4 @@
-# Last updated: 12/8/2025, 10:31:35 am
+# Last updated: 12/8/2025, 10:33:40 am
 powers = [[0] * 301 for _ in range(6)]
 for i in range(1, 6):
     y = 1
@@ -10,7 +10,7 @@ class Solution:
     def numberOfWays(self, n: int, x: int) -> int:
         mod = 10**9 + 7
         y = 0
-        while y ** x <= n:
+        while y <= 300 and powers[x][y] <= n:
             y += 1
         
         @cache
