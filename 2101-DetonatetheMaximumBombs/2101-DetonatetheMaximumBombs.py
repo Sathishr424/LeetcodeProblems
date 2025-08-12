@@ -1,23 +1,32 @@
-# Last updated: 13/8/2025, 12:56:45 am
+# Last updated: 13/8/2025, 1:00:59 am
 class Solution:
     def maximumDetonation(self, bombs: List[List[int]]) -> int:
         n = len(bombs)
 
         def isColloide(x, y, x2, y2, r):
-            # print((x, y), (x2, y2), r, (x - x2) ** 2 + (y - y2) ** 2 < r ** 2)
             return (x - x2) ** 2 + (y - y2) ** 2 <= r ** 2
+        
+        graph = defaultdict(list)
 
-        def dfs(index, vis):
+        def dfs(x, vis):
+            if x in vis: return 0
+            vis[x] = 1
             ans = 1
-            vis[index] = 1
-            for i in range(n):
-                if i in vis: continue
-                if isColloide(bombs[i][0], bombs[i][1], *bombs[index]):
-                    ans += dfs(i, vis)
+            for y in graph[x]:
+                ans += dfs(y, vis)
             return ans
         
-        ret = 0
         for i in range(n):
-            ret = max(ret, dfs(i, {}))
+            x, y, r = bombs[i]
+            for j in range(n):
+                if i == j: continue
+                x2, y2, _ = bombs[j]
+
+                if isColloide(x2, y2, x, y, r):
+                    graph[i].append(j)
+        
+        ret = 1
+        for i in range(n):
+            ret = max(dfs(i, {}), ret)
         
         return ret
