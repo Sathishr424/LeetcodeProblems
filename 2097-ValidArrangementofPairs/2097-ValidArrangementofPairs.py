@@ -1,4 +1,4 @@
-# Last updated: 13/8/2025, 6:12:57 pm
+# Last updated: 13/8/2025, 6:23:40 pm
 class Solution:
     def validArrangement(self, pairs: List[List[int]]) -> List[List[int]]:
         n = len(pairs)
