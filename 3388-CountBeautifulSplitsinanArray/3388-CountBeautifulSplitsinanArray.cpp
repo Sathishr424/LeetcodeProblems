@@ -1,4 +1,4 @@
-// Last updated: 15/8/2025, 2:15:14 pm
+// Last updated: 15/8/2025, 2:39:45 pm
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -9,10 +9,6 @@ vector<long long> powers(5000, 1);
 class Solution {
 public:
     int beautifulSplits(vector<int>& nums) {
-        // nums.clear();
-        // for (int i = 0; i < 5000; i++) {
-        //     nums.push_back(rand() % 51);
-        // }
         int n = nums.size();
         if (n < 3) return 0;
 
