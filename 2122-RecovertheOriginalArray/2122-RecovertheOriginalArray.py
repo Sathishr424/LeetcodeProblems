@@ -1,17 +1,13 @@
-# Last updated: 16/8/2025, 1:49:12 pm
+# Last updated: 16/8/2025, 1:52:46 pm
 class Solution:
     def recoverArray(self, nums: List[int]) -> List[int]:
         n = len(nums)
         nums.sort()
         m = n // 2
 
-        diffs = defaultdict(int)
-        for i in range(n):
-            for j in range(i+1, n):
-                diffs[nums[j] - nums[i]] += 1
-
-        for k in diffs:
-            if k == 0 or diffs[k] < m: continue
+        for i in range(1, n):
+            k = nums[i] - nums[0]
+            if k == 0: continue
             ret = []
 
             freq = defaultdict(int)
