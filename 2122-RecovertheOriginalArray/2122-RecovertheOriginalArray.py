@@ -1,8 +1,6 @@
-# Last updated: 16/8/2025, 1:34:55 pm
+# Last updated: 16/8/2025, 1:37:43 pm
 class Solution:
     def recoverArray(self, nums: List[int]) -> List[int]:
-        # N = 10**9
-        # nums = [random.randrange(1, N+1) for _ in range(2000)]
         n = len(nums)
         nums.sort()
         m = n // 2
@@ -11,7 +9,7 @@ class Solution:
         for i in range(n):
             for j in range(i+1, n):
                 diffs[nums[j] - nums[i]] += 1
-        # print(diffs)
+
         for k in diffs:
             if k == 0 or diffs[k] < m: continue
             ret = []
@@ -24,22 +22,23 @@ class Solution:
             lower = []
             for i in range(n):
                 if freq[nums[i]] == 0:
-                    higher.append(nums[i] - k)
+                    higher.append(nums[i])
                     continue
                 freq[nums[i]] -= 1
                 if freq[nums[i] + k]:
-                    lower.append(nums[i] + k)
+                    lower.append(nums[i])
                     freq[nums[i] + k] -= 1
                 else:
-                    higher.append(nums[i] - k)
+                    higher.append(nums[i])
                     freq[nums[i]] += 1
 
             if len(lower) == m:
                 ret = []
-                new_k = (lower[0] - higher[0]) // 2
+                new_k = (higher[0] - lower[0]) // 2
+                # print(lower, higher, new_k)
                 for i in range(m):
-                    ret.append(lower[i] - new_k)
-                    if lower[i] - new_k != higher[i] + new_k:
+                    ret.append(lower[i] + new_k)
+                    if lower[i] + new_k != higher[i] - new_k:
                         break
                 else:
                     return ret
