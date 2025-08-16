@@ -1,11 +1,11 @@
-# Last updated: 16/8/2025, 1:52:46 pm
+# Last updated: 16/8/2025, 1:54:29 pm
 class Solution:
     def recoverArray(self, nums: List[int]) -> List[int]:
         n = len(nums)
         nums.sort()
         m = n // 2
 
-        for i in range(1, n):
+        for i in range(1, m+1):
             k = nums[i] - nums[0]
             if k == 0: continue
             ret = []
