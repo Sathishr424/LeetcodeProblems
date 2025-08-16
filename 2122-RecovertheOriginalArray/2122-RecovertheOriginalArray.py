@@ -1,4 +1,4 @@
-# Last updated: 16/8/2025, 1:33:06 pm
+# Last updated: 16/8/2025, 1:34:55 pm
 class Solution:
     def recoverArray(self, nums: List[int]) -> List[int]:
         # N = 10**9
@@ -7,13 +7,13 @@ class Solution:
         nums.sort()
         m = n // 2
 
-        diffs = {}
+        diffs = defaultdict(int)
         for i in range(n):
             for j in range(i+1, n):
-                diffs[nums[j] - nums[i]] = 1
-
+                diffs[nums[j] - nums[i]] += 1
+        # print(diffs)
         for k in diffs:
-            if k == 0: continue
+            if k == 0 or diffs[k] < m: continue
             ret = []
 
             freq = defaultdict(int)
@@ -33,8 +33,7 @@ class Solution:
                 else:
                     higher.append(nums[i] - k)
                     freq[nums[i]] += 1
-                
-            # print(k, lower, higher)
+
             if len(lower) == m:
                 ret = []
                 new_k = (lower[0] - higher[0]) // 2
