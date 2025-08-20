@@ -1,4 +1,4 @@
-# Last updated: 20/8/2025, 11:05:34 am
+# Last updated: 20/8/2025, 11:06:35 am
 """
 [0,1,1,1,1,1],
 [1,1,1,1,1,1],
@@ -14,7 +14,6 @@ class Solution:
         n = len(matrix[0])
 
         DIR = [(0, 1), (1, 1), (1, 0)]
-        dp = [[0] * (n+1) for _ in range(m+1)]
         tot = 0
 
         for i in range(m-1, -1, -1):
@@ -25,9 +24,8 @@ class Solution:
                     i2 += i
                     j2 += j
 
-                    max_area = cmin(max_area, dp[i2][j2])
-                dp[i][j] = max_area + 1
-                tot += dp[i][j]
+                    max_area = cmin(max_area, matrix[i2][j2] if i2 < m and j2 < n else 0)
+                matrix[i][j] = max_area + 1
+                tot += matrix[i][j]
         
-        # [print(row) for row in dp]
         return tot
