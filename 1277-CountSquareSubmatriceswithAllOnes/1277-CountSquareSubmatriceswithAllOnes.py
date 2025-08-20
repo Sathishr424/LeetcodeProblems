@@ -1,4 +1,4 @@
-# Last updated: 20/8/2025, 11:05:08 am
+# Last updated: 20/8/2025, 11:05:34 am
 """
 [0,1,1,1,1,1],
 [1,1,1,1,1,1],
@@ -6,6 +6,7 @@
 [0,1,1,1,1,1],
 [0,1,1,1,1,1]
 """
+cmin = lambda x, y: x if x < y else y
 
 class Solution:
     def countSquares(self, matrix: List[List[int]]) -> int:
@@ -24,7 +25,7 @@ class Solution:
                     i2 += i
                     j2 += j
 
-                    max_area = min(max_area, dp[i2][j2])
+                    max_area = cmin(max_area, dp[i2][j2])
                 dp[i][j] = max_area + 1
                 tot += dp[i][j]
         
