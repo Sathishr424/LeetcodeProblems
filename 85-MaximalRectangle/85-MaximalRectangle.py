@@ -1,4 +1,4 @@
-# Last updated: 21/8/2025, 3:44:27 pm
+# Last updated: 21/8/2025, 5:12:30 pm
 cmax = lambda x, y: x if x > y else y
 
 class Solution:
@@ -6,31 +6,26 @@ class Solution:
         m = len(matrix)
         n = len(matrix[0])
 
-        h = [[0] * (n + 1) for _ in range(m + 1)]
+        v = [[0] * n for _ in range(m)]
 
-        for i in range(m):
-            for j in range(n-1, -1, -1):
-                if matrix[i][j] == '1':
-                    h[i][j] = h[i][j + 1] + 1
-
-        max_ret = 0
         for j in range(n):
-            stack = deque([])
             for i in range(m):
-                cnt = 0
-                while stack and stack[-1][0] >= h[i][j]:
-                    v, c = stack.pop()
-                    cnt += c
-                    max_ret = cmax(max_ret, v * cnt)
-                stack.append((h[i][j], cnt + 1))
-            
-            tot_cnt = 0
-            for _, c in stack:
-                tot_cnt += c
-            
-            while stack:
-                v, c = stack.popleft()
-                max_ret = cmax(max_ret, v * tot_cnt)
-                tot_cnt -= c
+                if matrix[i][j] == '1':
+                    v[i][j] = v[i - 1][j] + 1
+        
+        max_rect = 0
+        stack = []
+        for i in range(m):
+            for j in range(n):
+                left = j
+                while stack and stack[-1][0] > v[i][j]:
+                    height, left = stack.pop()
+                    max_rect = cmax(max_rect, height * (j - left))
+                stack.append((v[i][j], left))
 
-        return max_ret
+            right = n
+            while stack:
+                height, left = stack.pop()
+                max_rect = cmax(max_rect, height * (right - left))
+
+        return max_rect
