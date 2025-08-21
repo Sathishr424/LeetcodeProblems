@@ -1,30 +1,36 @@
-# Last updated: 9/4/2025, 3:02:39 am
+# Last updated: 21/8/2025, 3:33:47 pm
 class Solution:
     def maximalRectangle(self, matrix: List[List[str]]) -> int:
         m = len(matrix)
         n = len(matrix[0])
 
-        vis = [[0] * n for _ in range(m)]
-        
+        h = [[0] * (n + 1) for _ in range(m + 1)]
+
         for i in range(m):
             for j in range(n-1, -1, -1):
                 if matrix[i][j] == '1':
-                    vis[i][j] = vis[i][j+1] + 1 if j+1 < n else 1
+                    h[i][j] = h[i][j + 1] + 1
         
-        stack = []
-        ret = 0
+        # [print(row) for row in h]
+
+        max_ret = 0
         for j in range(n):
+            stack = deque([])
             for i in range(m):
-                index = i
-                while stack and stack[-1][1] > vis[i][j]:
-                    index, val = stack.pop()
-                    ret = max(ret, val * (i-index))
-                stack.append((index, vis[i][j]))
-
-            i = m
+                cnt = 0
+                while stack and stack[-1][0] >= h[i][j]:
+                    v, c = stack.pop()
+                    cnt += c + 1
+                    max_ret = max(max_ret, v * cnt)
+                stack.append((h[i][j], cnt))
+                # print(j, stack)
+            tot_cnt = 0
+            for _, c in stack:
+                tot_cnt += c + 1
             while stack:
-                index, val = stack.pop()
-                ret = max(ret, val * (i-index))
+                v, c = stack.popleft()
+                # print(stack, tot_cnt, (v, c))
+                max_ret = max(max_ret, v * tot_cnt)
+                tot_cnt -= c + 1
 
-        # 1, 3, 3, 2, 3, 1, 3, 3, 3, 3, 3
-        return ret
+        return max_ret
