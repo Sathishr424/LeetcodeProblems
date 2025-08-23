@@ -1,4 +1,4 @@
-# Last updated: 24/8/2025, 1:56:27 am
+# Last updated: 24/8/2025, 1:56:47 am
 class Solution:
     def minimumTime(self, s: str) -> int:
         n = len(s)
@@ -32,4 +32,5 @@ class Solution:
                 l += add
                 add = 0
         
+        rec.cache_clear()
         return ans
