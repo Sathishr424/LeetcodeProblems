@@ -1,4 +1,4 @@
-# Last updated: 23/8/2025, 4:19:48 pm
+# Last updated: 23/8/2025, 4:28:28 pm
 cmin = lambda x, y: x if x < y else y
 cmax = lambda x, y: x if x > y else y
 
@@ -7,6 +7,7 @@ class Solution:
         m = len(grid)
         n = len(grid[0])
 
+        @cache
         def split(t, r, b, l):
             min_area = inf
             ones = 0
@@ -33,6 +34,7 @@ class Solution:
 
             return min_area
 
+        @cache
         def getArea(t, r, b, l):
             left = inf
             top = inf
