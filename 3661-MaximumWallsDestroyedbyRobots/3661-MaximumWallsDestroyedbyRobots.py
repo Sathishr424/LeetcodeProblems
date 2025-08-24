@@ -1,4 +1,4 @@
-# Last updated: 25/8/2025, 5:08:21 am
+# Last updated: 25/8/2025, 5:10:16 am
 class SegmentTree:
     def __init__(self, n, walls):
         self.n = n
@@ -63,6 +63,7 @@ class Solution:
 
         left = [0] * n
         right = [0] * n
+        between = [0] * n
 
         for i in range(n):
             rob, dis = combined[i]
@@ -72,6 +73,8 @@ class Solution:
             r = compressed[min(robots[i+1] - 1, rob + dis) if i + 1 < n else rob + dis]
             right[i] = tree.query(0, c_index-1, 0, compressed[rob], r)
 
+            if i + 1 < n:
+                between[i] = tree.query(0, c_index-1, 0, compressed[robots[i]], compressed[robots[i + 1]])
 
         @cache
         def rec(index, is_left):
@@ -85,8 +88,7 @@ class Solution:
             
             ans = max(ans, right[index] + rec(index + 1, False))
             if index + 1 < n:
-                between = tree.query(0, c_index-1, 0, compressed[robots[index]], compressed[robots[index + 1]])
-                ans = max(ans, min(right[index] + left[index + 1], between) + rec(index + 2, True))
+                ans = max(ans, min(right[index] + left[index + 1], between[index]) + rec(index + 2, True))
             
             return ans
         
