@@ -1,4 +1,4 @@
-// Last updated: 24/8/2025, 7:10:13 pm
+// Last updated: 24/8/2025, 7:10:53 pm
 class SegmentTree {
 public:
     int n;
@@ -67,8 +67,7 @@ public:
         vector<int> ret(n, 0);
 
         for (int i = n - 1; i >= 0; i--) {
-            int el = 0;
-                el = tree.query(0, index - 1, 0, 0, max(compressed[left[i]], compressed[nums[i]]) - 1);
+            int el = tree.query(0, index - 1, 0, 0, max(compressed[left[i]], compressed[nums[i]]) - 1);
 
             ret[i] = max(el, left[i]);
             tree.update(compressed[nums[i]], ret[i]);
