@@ -1,8 +1,7 @@
-# Last updated: 25/8/2025, 5:03:56 am
+# Last updated: 25/8/2025, 5:08:21 am
 class SegmentTree:
-    def __init__(self, n, compressed, walls):
+    def __init__(self, n, walls):
         self.n = n
-        self.compressed = compressed
         self.walls = walls
         self.tree = [0] * (self.n * 4)
 
@@ -40,10 +39,6 @@ class Solution:
         
         combined.sort(key=lambda x: x[0])
         robots.sort()
-        # walls.sort()
-
-        # print(walls)
-        # print(combined)
 
         compressed = {}
         c_index = 0
@@ -64,7 +59,7 @@ class Solution:
         for wall in walls:
             c_walls[compressed[wall]] = 1
         
-        tree = SegmentTree(c_index, compressed, c_walls)
+        tree = SegmentTree(c_index, c_walls)
 
         left = [0] * n
         right = [0] * n
@@ -72,17 +67,11 @@ class Solution:
         for i in range(n):
             rob, dis = combined[i]
             l = compressed[max(robots[i-1] + 1, rob - dis) if i > 0 else rob - dis]
-            # print(i, (max(combined[i - 1][0], rob - dis) if i > 0 else rob - dis, rob), 'left')
             left[i] = tree.query(0, c_index-1, 0, l, compressed[rob])
 
             r = compressed[min(robots[i+1] - 1, rob + dis) if i + 1 < n else rob + dis]
-            # print(i, (rob, min(combined[i + 1][0], rob + dis) if i + 1 < n else rob + dis), 'right')
             right[i] = tree.query(0, c_index-1, 0, compressed[rob], r)
 
-        # print(left)
-        # print(right)
-
-        # print('total walls', tree.query(0, c_index-1, 0, 0, c_index-1))
 
         @cache
         def rec(index, is_left):
@@ -97,13 +86,8 @@ class Solution:
             ans = max(ans, right[index] + rec(index + 1, False))
             if index + 1 < n:
                 between = tree.query(0, c_index-1, 0, compressed[robots[index]], compressed[robots[index + 1]])
-                # print((robots[index], robots[index + 1]), between)
                 ans = max(ans, min(right[index] + left[index + 1], between) + rec(index + 2, True))
             
-            # print(index, is_left, ans)
             return ans
         
         return rec(0, True)
-
-
-        
