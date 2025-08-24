@@ -1,4 +1,4 @@
-# Last updated: 25/8/2025, 5:10:16 am
+# Last updated: 25/8/2025, 5:14:46 am
 class SegmentTree:
     def __init__(self, n, walls):
         self.n = n
