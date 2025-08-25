@@ -1,8 +1,6 @@
-# Last updated: 26/8/2025, 1:04:15 am
+# Last updated: 26/8/2025, 1:04:31 am
 class Solution:
     def repeatLimitedString(self, s: str, repeatLimit: int) -> str:
-        heap = []
-
         counter = defaultdict(int)
         for char in s:
             counter[char] += 1
