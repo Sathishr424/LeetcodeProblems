@@ -1,13 +1,14 @@
-# Last updated: 25/8/2025, 3:54:23 pm
+# Last updated: 25/8/2025, 3:56:58 pm
+cmax = lambda x, y: x if x > y else y
+cmin = lambda x, y: x if x < y else y
+
 class Solution:
     def maxWalls(self, robots: List[int], distance: List[int], walls: List[int]) -> int:
         n = len(robots)
         combined = []
         for i in range(n):
             combined.append((robots[i], distance[i]))
-        
         combined.sort(key=lambda x: x[0])
-        robots.sort()
 
         compressed = {}
         c_index = 0
@@ -44,14 +45,14 @@ class Solution:
 
         for i in range(n):
             rob, dis = combined[i]
-            l = compressed[max(robots[i-1] + 1, rob - dis) if i > 0 else rob - dis]
+            l = compressed[cmax(combined[i-1][0] + 1, rob - dis) if i > 0 else rob - dis]
             left[i] = query(l, compressed[rob])
 
-            r = compressed[min(robots[i+1] - 1, rob + dis) if i + 1 < n else rob + dis]
+            r = compressed[cmin(combined[i+1][0] - 1, rob + dis) if i + 1 < n else rob + dis]
             right[i] = query(compressed[rob], r)
 
             if i + 1 < n:
-                between[i] = query(compressed[robots[i]], compressed[robots[i + 1]])
+                between[i] = query(compressed[combined[i][0]], compressed[combined[i + 1][0]])
 
         @cache
         def rec(index, is_left):
@@ -63,9 +64,9 @@ class Solution:
             if is_left:
                 ans = left[index] + rec(index + 1, True)
             
-            ans = max(ans, right[index] + rec(index + 1, False))
+            ans = cmax(ans, right[index] + rec(index + 1, False))
             if index + 1 < n:
-                ans = max(ans, min(right[index] + left[index + 1], between[index]) + rec(index + 2, True))
+                ans = cmax(ans, cmin(right[index] + left[index + 1], between[index]) + rec(index + 2, True))
             
             return ans
         
