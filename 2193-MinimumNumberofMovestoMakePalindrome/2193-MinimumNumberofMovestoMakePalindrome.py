@@ -1,44 +1,29 @@
-# Last updated: 26/8/2025, 10:00:30 pm
-class BIT:
-    def __init__(self, n):
-        self.sums = [0] * (n+1)
-    
-    def update(self, i, delta):
-        while i < len(self.sums):
-            self.sums[i] += delta
-            i += i & (-i)
-    
-    def query(self, i):
-        res = 0
-        while i > 0:
-            res += self.sums[i]
-            i -= i & (-i)
-        return res
-
+# Last updated: 26/8/2025, 10:00:42 pm
 class Solution:
-    def minMovesToMakePalindrome(self, s):
-        n = len(s)
-        s = [ord(x) - 95 for x in s]
-        ans, bit = 0, BIT(n)
-        if sum(x % 2 == 1 for x in Counter(s).values()) > 1: return -1
+    def minMovesToMakePalindrome(self, s: str) -> int:
+        counts = defaultdict(int)
+        s = list(s)
+        for char in s:
+            counts[char] += 1
 
-        idx = defaultdict(list)
-        for i, c in enumerate(s):
-            idx[c].append(i)
+        l = 0
+        r = len(s) - 1
+        op = 0
+        while l < r:
+            if s[l] != s[r]:
+                if counts[s[l]] == 1:
+                    s[l], s[l+1] = s[l+1], s[l]
+                    op += 1
+                    continue
+                else:
+                    for j in range(r, l, -1):
+                        if s[j] == s[l]:
+                            for k in range(j, r):
+                                s[k], s[k + 1] = s[k+1], s[k]
+                                op += 1
+                            break
+            counts[s[l]] -= 2
+            l += 1
+            r -= 1
 
-        B, P = [0] * n, []
-        for c, I in idx.items():
-            cnt = len(I)
-            if cnt % 2:
-                B[I[cnt//2]] = n//2 + 1
-            for i in range((cnt)//2):
-                P += [(I[i], I[~i])]
-
-        for i, (l, r) in enumerate(sorted(P)):
-            B[l], B[r] = i + 1, n - i
-        
-        for i, b in enumerate(B):
-            ans += i - bit.query(b)
-            bit.update(b, 1)
-        
-        return ans
+        return op
