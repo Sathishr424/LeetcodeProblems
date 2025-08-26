@@ -1,20 +1,17 @@
-# Last updated: 26/8/2025, 9:48:31 pm
+# Last updated: 26/8/2025, 9:49:13 pm
 class Solution:
     def minMovesToMakePalindrome(self, s: str) -> int:
         counts = defaultdict(int)
         s = list(s)
-        for i, char in enumerate(s):
+        for char in s:
             counts[char] += 1
 
-        n = len(s)
-
         l = 0
-        r = n-1
+        r = len(s) - 1
         op = 0
         while l < r:
             if s[l] != s[r]:
                 if counts[s[l]] == 1:
-                    print(s[l], s[r])
                     s[l], s[l+1] = s[l+1], s[l]
                     op += 1
                     continue
