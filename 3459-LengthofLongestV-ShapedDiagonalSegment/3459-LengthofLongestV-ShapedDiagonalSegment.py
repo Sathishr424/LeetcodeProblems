@@ -1,4 +1,4 @@
-# Last updated: 27/8/2025, 1:14:36 pm
+# Last updated: 27/8/2025, 1:15:09 pm
 class Solution:
     def lenOfVDiagonal(self, grid: List[List[int]]) -> int:
         m = len(grid)
@@ -39,4 +39,5 @@ class Solution:
                     for d in range(4):
                         longest = max(longest, checkRotate(i, j, d, 2, False) + 1)
         
+        rec.cache_clear()
         return longest
