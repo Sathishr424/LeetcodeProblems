@@ -1,4 +1,7 @@
-# Last updated: 27/8/2025, 1:15:09 pm
+# Last updated: 27/8/2025, 1:16:01 pm
+cmax = lambda x, y: x if x > y else y
+cmin = lambda x, y: x if x < y else y
+
 class Solution:
     def lenOfVDiagonal(self, grid: List[List[int]]) -> int:
         m = len(grid)
@@ -20,15 +23,15 @@ class Solution:
             # print(i, j, d, rotated)
             ans = 0
             if grid[i][j] == 2:
-                ans = max(ans, checkRotate(i, j, d, 0, rotated))
+                ans = cmax(ans, checkRotate(i, j, d, 0, rotated))
                 
                 if not rotated:
-                    ans = max(ans, checkRotate(i, j, can_rotate[d], 0, True))
+                    ans = cmax(ans, checkRotate(i, j, can_rotate[d], 0, True))
             else:
-                ans = max(ans, checkRotate(i, j, d, 2, rotated))
+                ans = cmax(ans, checkRotate(i, j, d, 2, rotated))
                 
                 if not rotated:
-                    ans = max(ans, checkRotate(i, j, can_rotate[d], 2, True))
+                    ans = cmax(ans, checkRotate(i, j, can_rotate[d], 2, True))
 
             return ans
         
@@ -37,7 +40,7 @@ class Solution:
             for j in range(n):
                 if grid[i][j] == 1:
                     for d in range(4):
-                        longest = max(longest, checkRotate(i, j, d, 2, False) + 1)
+                        longest = cmax(longest, checkRotate(i, j, d, 2, False) + 1)
         
         rec.cache_clear()
         return longest
