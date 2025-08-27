@@ -1,4 +1,4 @@
-# Last updated: 27/8/2025, 1:16:01 pm
+# Last updated: 27/8/2025, 1:23:47 pm
 cmax = lambda x, y: x if x > y else y
 cmin = lambda x, y: x if x < y else y
 
@@ -20,7 +20,6 @@ class Solution:
 
         @cache
         def rec(i, j, d, rotated):
-            # print(i, j, d, rotated)
             ans = 0
             if grid[i][j] == 2:
                 ans = cmax(ans, checkRotate(i, j, d, 0, rotated))
