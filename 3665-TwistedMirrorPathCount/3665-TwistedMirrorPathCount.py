@@ -1,4 +1,4 @@
-# Last updated: 31/8/2025, 12:13:55 am
+# Last updated: 31/8/2025, 12:14:24 am
 class Solution:
     def uniquePaths(self, grid: List[List[int]]) -> int:
         # N = 500
@@ -9,17 +9,15 @@ class Solution:
         m = len(grid)
         n = len(grid[0])
         
-        dp = [[[-1, -1] for _ in range(n)] for _ in range(m)]
-        dp[-1][-1][0] = 1
-        dp[-1][-1][1] = 1
+        @cache
         def rec(i, j, is_down):
-            if dp[i][j][is_down] != -1: return dp[i][j][is_down]
+            if i == m or j == n: return 0
+            if i == m-1 and j == n-1: return 1
+
             if grid[i][j] == 1:
                 if is_down:
-                    if j + 1 == n: return 0
                     return rec(i, j + 1, False)
                 else:
-                    if i + 1 == m: return 0
                     return rec(i + 1, j, True)
 
             ans = 0
@@ -27,8 +25,9 @@ class Solution:
                 ans += rec(i + 1, j, True)
             if j+1 < n:
                 ans += rec(i, j + 1, False)
-            dp[i][j][is_down] = ans % mod
-            return dp[i][j][is_down]
+            return ans % mod
 
-        return rec(0, 0, False)
+        ans = rec(0, 0, False)
+        rec.cache_clear()
+        return ans
                     
