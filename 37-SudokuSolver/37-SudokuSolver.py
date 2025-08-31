@@ -1,4 +1,4 @@
-# Last updated: 31/8/2025, 5:29:33 pm
+# Last updated: 31/8/2025, 6:18:45 pm
 class Solution:
     def solveSudoku(self, board: List[List[str]]) -> None:
         """
@@ -23,16 +23,10 @@ class Solution:
                 rows[i] |= cell
                 cols[j] |= cell
                 boxes[box] |= cell
-            
-        # print([format(rows[i], '09b') for i in range(n)])
-        # print([format(cols[i], '09b') for i in range(n)])
-        # print([format(boxes[i], '09b') for i in range(n)])
 
-        # print(emptyCells)
         ret = []
         def rec(index):
             if index == len(emptyCells):
-                ret = [board[k][:] for k in range(n)]
                 return True
             i, j = emptyCells[index]
             box = (i // 3) * 3 + (j // 3)
@@ -54,4 +48,3 @@ class Solution:
             return False
         
         rec(0)
-        return ret
