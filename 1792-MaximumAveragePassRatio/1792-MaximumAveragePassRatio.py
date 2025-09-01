@@ -1,4 +1,4 @@
-# Last updated: 1/9/2025, 10:33:13 pm
+# Last updated: 1/9/2025, 10:33:56 pm
 class Solution:
     def maxAverageRatio(self, classes: List[List[int]], extraStudents: int) -> float:
         n = len(classes)
@@ -22,8 +22,7 @@ class Solution:
             heapq.heappush(heap, ((p / t - (p + 1) / (t + 1)), p, t, index))
             extraStudents -= 1
         
-        while heap:
-            diff, p, t, index = heapq.heappop(heap)
+        for _, p, t, index in heap:
             students[index] = p
             total[index] = t
 
