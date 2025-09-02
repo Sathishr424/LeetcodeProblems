@@ -1,4 +1,4 @@
-# Last updated: 2/9/2025, 11:39:12 am
+# Last updated: 2/9/2025, 11:40:51 am
 class Solution:
     def numberOfPairs(self, points: List[List[int]]) -> int:
         n = len(points)
@@ -40,8 +40,7 @@ class Solution:
             x, y = points[i]
             for j in range(i):
                 x2, y2 = points[j]
-                ans = isValid(y, y2, x, x2)
-                if ans:
+                if isValid(y, y2, x, x2):
                     count += 1
         
         return count
