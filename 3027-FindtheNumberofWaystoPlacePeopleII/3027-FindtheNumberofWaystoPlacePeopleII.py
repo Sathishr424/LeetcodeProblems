@@ -1,4 +1,4 @@
-# Last updated: 3/9/2025, 4:14:31 pm
+# Last updated: 3/9/2025, 4:15:24 pm
 class Solution:
     def numberOfPairs(self, points: List[List[int]]) -> int:
         n = len(points)
@@ -38,8 +38,6 @@ class Solution:
             for j in range(1, col + 1):
                 s += points_on_grid[i-1][j-1]
                 prefix[i][j] = s + prefix[i - 1][j]
-        
-        # [print(row) for row in prefix]
 
         count = 0
         for i in range(n):
@@ -53,9 +51,7 @@ class Solution:
                 bottom_left = prefix[y2 + 1][x2]
                 top_right = prefix[y][x + 1]
                 center = prefix[y][x2]
-
-                # print((x, y), (x2, y2), full, bottom_left, top_right, center, 'area:', full - (bottom_left + top_right - center))
-
+                
                 if full - (bottom_left + top_right - center) == 2:
                     count += 1
             
