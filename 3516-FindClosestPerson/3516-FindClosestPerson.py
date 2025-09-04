@@ -1,10 +1,9 @@
-# Last updated: 13/4/2025, 9:45:20 am
+# Last updated: 4/9/2025, 1:25:39 pm
 class Solution:
     def findClosest(self, x: int, y: int, z: int) -> int:
-        a = abs(z-x)
-        b = abs(y-z)
+        p1 = abs(z - x)
+        p2 = abs(z - y)
 
-        if a > b: return 2
-        elif a < b: return 1
+        if p1 < p2: return 1
+        elif p2 < p1: return 2
         return 0
-        
