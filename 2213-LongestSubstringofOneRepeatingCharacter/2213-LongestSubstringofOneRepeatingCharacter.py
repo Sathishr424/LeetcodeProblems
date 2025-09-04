@@ -1,4 +1,4 @@
-# Last updated: 4/9/2025, 1:27:59 pm
+# Last updated: 4/9/2025, 4:02:53 pm
 class Node:
     def __init__(self):
         self.max = 1
