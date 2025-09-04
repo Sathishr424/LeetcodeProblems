@@ -1,4 +1,4 @@
-# Last updated: 4/9/2025, 4:01:40 am
+# Last updated: 4/9/2025, 1:27:59 pm
 class Node:
     def __init__(self):
         self.max = 1
@@ -44,8 +44,6 @@ class SegmentTree:
             self.indexes[l] = index
             self.tree[index].left_a = self.alp[l]
             self.tree[index].right_a = self.alp[l]
-            self.tree[index].l = l
-            self.tree[index].r = l
             return self.tree[index]
 
         mid = (l + r) // 2
