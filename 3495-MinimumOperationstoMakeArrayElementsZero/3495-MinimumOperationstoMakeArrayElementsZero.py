@@ -1,4 +1,6 @@
-# Last updated: 6/9/2025, 3:08:57 pm
+# Last updated: 6/9/2025, 3:10:31 pm
+cmin = lambda x, y: x if x < y else y
+
 class Solution:
     def minOperations(self, queries: List[List[int]]) -> int:
         N = 17
@@ -15,25 +17,23 @@ class Solution:
                 index += 1
             for i in range(index, N):
                 if arr[i] == 0: break
-                op += min(arr[i], rem)
+                op += cmin(arr[i], rem)
                 rem = abs(arr[i] - rem)
 
-            op += ceil(rem / 2)
-            return op
+            return op + ceil(rem / 2)
         
         count = 0
         for l, r in queries:
             arr = [0] * N
-
+            r += 1
             prev = l
             for p in range(1, N):
                 if powers[p] <= l: continue
-                arr[p] = (min(r + 1, powers[p]) - prev) * p
-                prev = min(r + 1, powers[p])
+                arr[p] = (cmin(r, powers[p]) - prev) * p
+                prev = cmin(r, powers[p])
                 
-                if powers[p] > r: break
+                if powers[p] >= r: break
             
-            # print((l, r), arr)
             count += process(arr)
         
         return count
