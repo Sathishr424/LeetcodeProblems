@@ -1,11 +1,10 @@
-# Last updated: 6/9/2025, 3:10:31 pm
+# Last updated: 6/9/2025, 3:22:12 pm
 cmin = lambda x, y: x if x < y else y
+N = 17
+powers = [0] * N
 
 class Solution:
     def minOperations(self, queries: List[List[int]]) -> int:
-        N = 17
-        powers = [0] * N
-
         for p in range(N):
             powers[p] = 4 ** p
 
