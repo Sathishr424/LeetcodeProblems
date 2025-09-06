@@ -1,43 +1,39 @@
-# Last updated: 15/6/2025, 7:54:23 pm
+# Last updated: 6/9/2025, 3:08:57 pm
 class Solution:
     def minOperations(self, queries: List[List[int]]) -> int:
-        N = 15
+        N = 17
+        powers = [0] * N
+
+        for p in range(N):
+            powers[p] = 4 ** p
+
         def process(arr):
             rem = 0
-            cnt = 0
-            for i in range(N, 0, -1):
-                if arr[i] <= 0: continue
-                num = arr[i]
+            op = 0
+            index = 0
+            while index < N and arr[index] == 0:
+                index += 1
+            for i in range(index, N):
+                if arr[i] == 0: break
+                op += min(arr[i], rem)
+                rem = abs(arr[i] - rem)
 
-                cnt += num // 2 * i
-                if num % 2:
-                    cnt += i
-                    rem += i
+            op += ceil(rem / 2)
+            return op
+        
+        count = 0
+        for l, r in queries:
+            arr = [0] * N
 
-            return cnt - (rem // 2)
-
-        ret = 0
-        for x, y in queries:
-            num = x
-            f = 0
-            while num:
-                num //= 4
-                f += 1
+            prev = l
+            for p in range(1, N):
+                if powers[p] <= l: continue
+                arr[p] = (min(r + 1, powers[p]) - prev) * p
+                prev = min(r + 1, powers[p])
+                
+                if powers[p] > r: break
             
-            num = y
-            to = 0
-            while num:
-                num //= 4
-                to += 1
-            
-            prev = x
-            arr = [0] * (N + 1)
-            for power in range(f, to+1):
-                curr = min(y + 1, 4 ** power)
-                new_num = curr - prev
-                prev = curr
-                arr[power] = new_num
-
-            ret += process(arr)
-
-        return ret
+            # print((l, r), arr)
+            count += process(arr)
+        
+        return count
