@@ -1,4 +1,4 @@
-# Last updated: 8/9/2025, 9:05:05 pm
+# Last updated: 8/9/2025, 9:05:35 pm
 class Node:
     def __init__(self):
         self.childs = [None for _ in range(26)]
@@ -45,22 +45,22 @@ class Encrypter:
         return ret
 
     @cache
-    def _decrypt(self, word, node):
-        if len(word) == 0:
+    def _decrypt(self, word, index, node):
+        if index == len(word):
             return 1 if node.is_word else 0
 
-        char = word[:2]
+        char = word[index:index+2]
         ans = 0
         
         for i in self.values_dict[char]:
             a = ord(self.keys[i]) - ord('a')
             if node.childs[a] != None:
-                ans += self._decrypt(word[2:], node.childs[a])
+                ans += self._decrypt(word, index + 2, node.childs[a])
 
         return ans
     
     def decrypt(self, word2: str) -> int:
-        return self._decrypt(word2, self.trie.node)
+        return self._decrypt(word2, 0, self.trie.node)
 
 # Your Encrypter object will be instantiated and called as such:
 # obj = Encrypter(keys, values, dictionary)
