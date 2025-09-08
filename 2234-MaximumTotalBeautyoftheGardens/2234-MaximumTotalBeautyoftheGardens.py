@@ -1,4 +1,4 @@
-# Last updated: 9/9/2025, 1:08:53 am
+# Last updated: 9/9/2025, 1:11:22 am
 class Solution:
     def maximumBeauty(self, flowers: List[int], k: int, target: int, full: int, partial: int) -> int:
         n = len(flowers)
@@ -19,10 +19,6 @@ class Solution:
             diff = flowers[i] - flowers[i - 1]
             cnt += diff * i
             partial_prefix[i] = cnt
-        
-        # print(flowers)
-        # print(prefix)
-        # print(partial_prefix)
 
         def isGood(mid, rem, c):
             index = bisect_left(flowers, mid, hi=n-c) - 1
@@ -51,7 +47,6 @@ class Solution:
                     else:
                         r = mid - 1
             
-            curr = c * full + l * partial
-            max_ans = max(max_ans, curr)
+            max_ans = max(max_ans, c * full + l * partial)
 
         return max_ans
