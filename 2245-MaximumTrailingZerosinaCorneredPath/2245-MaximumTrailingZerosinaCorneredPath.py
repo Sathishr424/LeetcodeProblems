@@ -1,5 +1,6 @@
-# Last updated: 10/9/2025, 2:47:40 am
+# Last updated: 10/9/2025, 2:48:34 am
 cmax = lambda x, y: x if x > y else y
+cmin = lambda x, y: x if x < y else y
 
 @cache
 def getTwo(num: int) -> int:
@@ -9,6 +10,7 @@ def getTwo(num: int) -> int:
         num //= 2
     return cnt
 
+@cache
 def getFive(num):
     cnt = 0
     while num % 5 == 0:
@@ -22,7 +24,6 @@ class Solution:
         n = len(grid[0])
 
         converted = [[[0, 0] for _ in range(n)] for _ in range(m)]
-
         for i in range(m):
             for j in range(n):
                 converted[i][j] = [getTwo(grid[i][j]), getFive(grid[i][j])]
@@ -69,9 +70,9 @@ class Solution:
                 two = converted[i][j][0]
                 five = converted[i][j][1]
 
-                max_zero = cmax(max_zero, min(v2 + h2, v5 + h5))
-                max_zero = cmax(max_zero, min(v2_ + h2_, v5_ + h5_))
-                max_zero = cmax(max_zero, min(v2 + h2_ + two, v5 + h5_ + five))
-                max_zero = cmax(max_zero, min(v2_ + h2 - two, v5_ + h5 - five))
+                max_zero = cmax(max_zero, cmin(v2 + h2, v5 + h5))
+                max_zero = cmax(max_zero, cmin(v2_ + h2_, v5_ + h5_))
+                max_zero = cmax(max_zero, cmin(v2 + h2_ + two, v5 + h5_ + five))
+                max_zero = cmax(max_zero, cmin(v2_ + h2 - two, v5_ + h5 - five))
         
         return max_zero
