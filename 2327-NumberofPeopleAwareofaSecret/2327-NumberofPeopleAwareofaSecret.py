@@ -1,4 +1,4 @@
-# Last updated: 9/9/2025, 1:02:44 pm
+# Last updated: 9/9/2025, 3:05:52 pm
 class Solution:
     def peopleAwareOfSecret(self, n: int, delay: int, forget: int) -> int:
         mod = 10**9 + 7
