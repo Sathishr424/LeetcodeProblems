@@ -1,4 +1,6 @@
-# Last updated: 9/9/2025, 9:52:56 pm
+# Last updated: 9/9/2025, 9:53:42 pm
+cmax = lambda x, y: x if x > y else y
+
 class Solution:
     def longestPath(self, parent: List[int], relation: str) -> int:
         n = len(parent)
@@ -26,10 +28,9 @@ class Solution:
                         f1 = new_curr
                     elif new_curr > f2:
                         f2 = new_curr
-                    ans = max(ans, new_curr + curr)
+                    ans = cmax(ans, new_curr + curr)
             
-            max_ans = max(max_ans, f1 + f2 + 1)
-
+            max_ans = cmax(max_ans, f1 + f2 + 1)
             return ans
         
         dfs(0, -1, relation[0], 1)
