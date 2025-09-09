@@ -1,4 +1,4 @@
-# Last updated: 9/9/2025, 9:45:04 pm
+# Last updated: 9/9/2025, 9:46:07 pm
 class Node:
     def __init__(self):
         self.childs = {}
@@ -45,11 +45,12 @@ class Solution:
                 if y == par: continue
                 new_curr = dfs(y, x, relation[y], 1)
                 if relation[y] != prev:
-                    arr.append(new_curr)
+                    heapq.heappush(arr, new_curr)
+                    if len(arr) > 2:
+                        heapq.heappop(arr)
                     ans = max(ans, new_curr + curr)
             
-            arr.sort()
-            max_ans = max(max_ans, sum(arr[-2:]) + 1)
+            max_ans = max(max_ans, sum(arr) + 1)
 
             return ans
         
