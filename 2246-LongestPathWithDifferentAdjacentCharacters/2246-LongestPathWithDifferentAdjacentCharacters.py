@@ -1,29 +1,4 @@
-# Last updated: 9/9/2025, 9:46:07 pm
-class Node:
-    def __init__(self):
-        self.childs = {}
-
-class Trie:
-    def __init__(self):
-        self.node = Node()
-
-    def insert(self, word):
-        node = self.node
-
-        for char in word:
-            if char not in node.childs:
-                node.childs[char] = Node()
-            node = node.childs[char]
-
-    def get(self, word, node, s=''):
-        # print(word, list(node.childs.keys()))
-        ans = 0
-        for char in node.childs:
-            if char not in word:
-                ans = max(ans, self.get(word, node.childs[char], s + char) + 1)
-        # print(word, s, ans)
-        return ans
-    
+# Last updated: 9/9/2025, 9:52:56 pm
 class Solution:
     def longestPath(self, parent: List[int], relation: str) -> int:
         n = len(parent)
@@ -40,17 +15,20 @@ class Solution:
         def dfs(x, par, prev, curr):
             nonlocal max_ans
             ans = curr
-            arr = []
+            f1 = 0
+            f2 = 0
             for y in graph[x]:
                 if y == par: continue
                 new_curr = dfs(y, x, relation[y], 1)
                 if relation[y] != prev:
-                    heapq.heappush(arr, new_curr)
-                    if len(arr) > 2:
-                        heapq.heappop(arr)
+                    if new_curr > f1:
+                        f2 = f1
+                        f1 = new_curr
+                    elif new_curr > f2:
+                        f2 = new_curr
                     ans = max(ans, new_curr + curr)
             
-            max_ans = max(max_ans, sum(arr) + 1)
+            max_ans = max(max_ans, f1 + f2 + 1)
 
             return ans
         
