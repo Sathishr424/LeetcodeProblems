@@ -1,12 +1,8 @@
-# Last updated: 12/9/2025, 9:21:13 am
+# Last updated: 12/9/2025, 9:26:04 am
 class Solution:
     def doesAliceWin(self, s: str) -> bool:
-        n = len(s)
-
-        vowels = 0
         for char in s:
             if char in 'aeiou':
-                vowels += 1
+                return True
         
-        if vowels == 0: return False
-        return True
+        return False
