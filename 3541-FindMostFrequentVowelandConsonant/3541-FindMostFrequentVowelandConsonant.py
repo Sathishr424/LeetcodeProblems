@@ -1,18 +1,15 @@
-# Last updated: 10/5/2025, 9:38:54 pm
-vowels = 'aeiou'
-
+# Last updated: 13/9/2025, 2:48:52 pm
 class Solution:
     def maxFreqSum(self, s: str) -> int:
-        freq = [0] * 26
-        x = 0
-        y = 0
-
+        freq = defaultdict(int)
+        max_v = 0
+        max_c = 0
         for char in s:
-            num = ord(char) - 97
-            freq[num] += 1
-            if char in vowels:
-                y = max(y, freq[num])
-            else:
-                x = max(x, freq[num])
-
-        return x+y
+            freq[char] += 1
+            if char in 'aeiou':
+                if freq[char] > max_v:
+                    max_v = freq[char]
+            elif freq[char] > max_c:
+                max_c = freq[char]
+        
+        return max_c + max_v
