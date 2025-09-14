@@ -1,4 +1,4 @@
-# Last updated: 15/9/2025, 1:20:31 am
+# Last updated: 15/9/2025, 1:20:56 am
 class Node:
     def __init__(self):
         self.childs = [None, None]
@@ -30,7 +30,6 @@ class Solution:
         # nums = [random.randrange(0, maxi + 1) for _ in range(2 * (10 ** 5))]
         if len(nums) < 2: return 0
         ans = 0
-        nums.sort()
         trie = Trie()
 
         for i, num in enumerate(nums):
