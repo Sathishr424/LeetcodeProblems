@@ -1,11 +1,10 @@
-# Last updated: 14/9/2025, 7:11:08 pm
+# Last updated: 14/9/2025, 7:17:39 pm
 class Solution:
     def generateSchedule(self, n: int) -> List[List[int]]:
         if n <= 3: return []
         schedule = []
 
         graph = [[j for j in range(n) if j != i] for i in range(n)]
-        # [print(row) for row in graph]
         tot = n * (n - 1)
         visited = [[0] * n for _ in range(n)]
 
