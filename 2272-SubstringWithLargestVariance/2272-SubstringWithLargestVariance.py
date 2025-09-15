@@ -1,4 +1,4 @@
-# Last updated: 15/9/2025, 4:46:14 pm
+# Last updated: 15/9/2025, 4:49:46 pm
 cmax = lambda x, y: x if x > y else y
 cmin = lambda x, y: x if x < y else y
 class Solution:
@@ -10,8 +10,6 @@ class Solution:
         there = [0] * 26
         for a in s:
             there[a] = 1
-        
-        inf = 10**5
 
         for i in range(26):
             for j in range(26):
@@ -36,7 +34,7 @@ class Solution:
                         rem_min_count -= 1
                     
                     local_max = major_count - minor_count
-                    if rem_min_count and 0 > local_max:
+                    if rem_min_count and local_max < 0:
                         local_max = 0
                         major_count = 0
                         minor_count = 0
@@ -44,6 +42,6 @@ class Solution:
                     if local_max > global_max and minor_count:
                         global_max = local_max
                 
-                max_ans = max(global_max, max_ans)
+                max_ans = cmax(global_max, max_ans)
                 
         return max_ans
