@@ -1,4 +1,4 @@
-# Last updated: 16/9/2025, 9:46:03 pm
+# Last updated: 16/9/2025, 9:46:33 pm
 class Solution:
     def sellingWood(self, m: int, n: int, prices: List[List[int]]) -> int:
         there = defaultdict(int)
@@ -17,4 +17,6 @@ class Solution:
             
             return ans
 
-        return rec(m, n)
+        ans = rec(m, n)
+        rec.cache_clear()
+        return ans
