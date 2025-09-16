@@ -1,9 +1,10 @@
-# Last updated: 16/9/2025, 5:03:04 pm
+# Last updated: 16/9/2025, 5:16:22 pm
 cmin = lambda x, y: x if x < y else y
 cmax = lambda x, y: x if x > y else y
 class Solution:
     def minimumTimeRequired(self, jobs: List[int], k: int) -> int:
         n = len(jobs)
+        jobs.sort(reverse=True)
         full_mask = (1 << n) - 1
 
         masks = [0] * (1 << n)
@@ -20,16 +21,32 @@ class Solution:
                 if mask & new_mask == 0:
                     c_masks[mask].append(new_mask)
 
-        dp = [[inf] * (1 << n) for _ in range(k + 1)]
-        dp[0][0] = 0
+        def isGood(mid):
+            # dp = [[inf] * (1 << n) for _ in range(k + 1)]
 
-        for rem in range(1, k + 1):
-            for mask in range(1 << n):
-                val = dp[rem - 1][mask]
-                if val == inf: continue
+            @cache
+            def rec(mask, rem):
+                if rem == 0:
+                    return mask == full_mask
+                
                 for new_mask in c_masks[mask]:
-                    mask_ = mask | new_mask
-                    dp[rem][mask_] = cmin(dp[rem][mask_], cmax(val, masks[new_mask]))
+                    if masks[new_mask] <= mid and rec(mask | new_mask, rem - 1):
+                        return True
+                
+                return False
+            rec.cache_clear()
+        
+            return rec(0, k)
 
-        # [print(row) for row in dp]
-        return dp[-1][full_mask]
+        l = max(jobs)
+        r = sum(jobs[:n-(k-1)])
+
+        while l < r:
+            mid = (l + r) // 2
+
+            if isGood(mid):
+                r = mid
+            else:
+                l = mid + 1
+        
+        return l
