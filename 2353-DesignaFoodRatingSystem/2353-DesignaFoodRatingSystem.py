@@ -1,21 +1,17 @@
-# Last updated: 17/9/2025, 4:31:11 pm
+# Last updated: 17/9/2025, 4:31:36 pm
 class FoodRatings:
     def __init__(self, foods: List[str], cuisines: List[str], ratings: List[int]):
-        n = len(foods)
         self.cuisines = cuisines
         self.foods_index = {}
         self.cuisines_heap = defaultdict(list)
         self.ratings = ratings
-        for i in range(n):
+        for i in range(len(foods)):
             food = foods[i]
             cuisine = cuisines[i]
             rating = ratings[i]
 
             self.foods_index[food] = i
-            self.cuisines_heap[cuisine].append((-rating, food))
-        
-        for cuisine in self.cuisines_heap:
-            heapq.heapify(self.cuisines_heap[cuisine])
+            heapq.heappush(self.cuisines_heap[cuisine], (-rating, food))
 
     def changeRating(self, food: str, newRating: int) -> None:
         index = self.foods_index[food]
