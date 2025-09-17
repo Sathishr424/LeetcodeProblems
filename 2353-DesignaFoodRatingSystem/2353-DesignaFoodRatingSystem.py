@@ -1,4 +1,4 @@
-# Last updated: 17/9/2025, 12:30:34 pm
+# Last updated: 17/9/2025, 4:31:11 pm
 class FoodRatings:
     def __init__(self, foods: List[str], cuisines: List[str], ratings: List[int]):
         n = len(foods)
@@ -12,7 +12,10 @@ class FoodRatings:
             rating = ratings[i]
 
             self.foods_index[food] = i
-            heapq.heappush(self.cuisines_heap[cuisine], (-rating, food))
+            self.cuisines_heap[cuisine].append((-rating, food))
+        
+        for cuisine in self.cuisines_heap:
+            heapq.heapify(self.cuisines_heap[cuisine])
 
     def changeRating(self, food: str, newRating: int) -> None:
         index = self.foods_index[food]
