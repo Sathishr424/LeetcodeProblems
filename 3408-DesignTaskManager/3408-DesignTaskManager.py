@@ -1,39 +1,50 @@
-# Last updated: 18/9/2025, 6:11:57 am
+# Last updated: 18/9/2025, 6:24:05 am
+class Task:
+    def __init__(self, priority, taskId):
+        self.priority = priority
+        self.taskId = taskId
+    
+    def __lt__(self, task):
+        if self.priority == task.priority:
+            return self.taskId > task.taskId
+        
+        return self.priority > task.priority
+
 class TaskManager:
     def __init__(self, tasks: List[List[int]]):
         self.tasks_priority = {}
+        self.tasks_userId = {}
         self.tasks = []
 
         for userId, taskId, priority in tasks:
-            self.tasks_priority[taskId] = [priority, userId]
-            self.tasks.append((-priority, -taskId))
+            self.tasks_priority[taskId] = priority
+            self.tasks_userId[taskId] = userId
+            self.tasks.append(Task(priority, taskId))
         
         heapq.heapify(self.tasks)
 
     def add(self, userId: int, taskId: int, priority: int) -> None:
-        self.tasks_priority[taskId] = [priority, userId]
-        heapq.heappush(self.tasks, (-priority, -taskId))
-        # print(self.tasks_priority, 'add')
+        self.tasks_priority[taskId] = priority
+        self.tasks_userId[taskId] = userId
+        heapq.heappush(self.tasks, Task(priority, taskId))
 
     def edit(self, taskId: int, newPriority: int) -> None:
-        self.tasks_priority[taskId][0] = newPriority
-        heapq.heappush(self.tasks, (-newPriority, -taskId))
-        # print(self.tasks_priority, taskId, 'edit')
+        self.tasks_priority[taskId] = newPriority
+        heapq.heappush(self.tasks, Task(newPriority, taskId))
 
     def rmv(self, taskId: int) -> None:
-        # print(self.tasks_priority, taskId, 'delete')
         del self.tasks_priority[taskId]
+        del self.tasks_userId[taskId]
 
     def execTop(self) -> int:
-        while self.tasks and (-self.tasks[0][1] not in self.tasks_priority or self.tasks_priority[-self.tasks[0][1]][0] != -self.tasks[0][0]):
+        while self.tasks and (self.tasks[0].taskId not in self.tasks_priority or self.tasks_priority[self.tasks[0].taskId] != self.tasks[0].priority):
             heapq.heappop(self.tasks)
-        
-        # print(self.tasks_priority, 'exec', self.tasks)
 
         if self.tasks:
-            _, taskId = heapq.heappop(self.tasks)
-            userId = self.tasks_priority[-taskId][1]
-            del self.tasks_priority[-taskId]
+            task = heapq.heappop(self.tasks)
+            userId = self.tasks_userId[task.taskId]
+            del self.tasks_priority[task.taskId]
+            del self.tasks_userId[task.taskId]
             return userId
         
         return -1
