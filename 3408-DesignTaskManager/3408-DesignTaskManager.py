@@ -1,4 +1,4 @@
-# Last updated: 18/9/2025, 6:24:05 am
+# Last updated: 18/9/2025, 6:27:16 am
 class Task:
     def __init__(self, priority, taskId):
         self.priority = priority
@@ -10,10 +10,11 @@ class Task:
         
         return self.priority > task.priority
 
+N = 10 ** 5 + 1
 class TaskManager:
     def __init__(self, tasks: List[List[int]]):
-        self.tasks_priority = {}
-        self.tasks_userId = {}
+        self.tasks_priority = [0] * N
+        self.tasks_userId = [0] * N
         self.tasks = []
 
         for userId, taskId, priority in tasks:
@@ -33,22 +34,18 @@ class TaskManager:
         heapq.heappush(self.tasks, Task(newPriority, taskId))
 
     def rmv(self, taskId: int) -> None:
-        del self.tasks_priority[taskId]
-        del self.tasks_userId[taskId]
+        self.tasks_priority[taskId] = -1
 
     def execTop(self) -> int:
-        while self.tasks and (self.tasks[0].taskId not in self.tasks_priority or self.tasks_priority[self.tasks[0].taskId] != self.tasks[0].priority):
+        while self.tasks and (self.tasks_priority[self.tasks[0].taskId] == -1 or self.tasks_priority[self.tasks[0].taskId] != self.tasks[0].priority):
             heapq.heappop(self.tasks)
 
         if self.tasks:
             task = heapq.heappop(self.tasks)
-            userId = self.tasks_userId[task.taskId]
-            del self.tasks_priority[task.taskId]
-            del self.tasks_userId[task.taskId]
-            return userId
+            self.tasks_priority[task.taskId] = -1
+            return self.tasks_userId[task.taskId]
         
         return -1
-
 
 # Your TaskManager object will be instantiated and called as such:
 # obj = TaskManager(tasks)
