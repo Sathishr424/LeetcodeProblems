@@ -1,4 +1,4 @@
-# Last updated: 18/9/2025, 4:58:08 pm
+# Last updated: 18/9/2025, 5:01:47 pm
 class Solution:
     def validSubarraySize(self, nums: List[int], threshold: int) -> int:
         n = len(nums)
@@ -24,18 +24,11 @@ class Solution:
             arr.append((nums[i], (i - left[i] + 1) + (right[i] - i)))
         arr.sort(key=lambda x: (x[0], -x[1]))
 
-        prefix = [0] * (n + 1)
-        maxi = 0
+        max_window = 0
         for i in range(n-1, -1, -1):
-            maxi = max(arr[i][1], maxi)
-            prefix[i] = maxi
+            max_window = max(arr[i][1], max_window)
 
-        for window in range(n, 0, -1):
-            maxi = threshold / window
-
-            index = bisect_right(arr, (maxi, inf))
-
-            if prefix[index] >= window:
-                return window
+            if arr[i][0] > threshold / max_window:
+                return max_window
         
         return -1
