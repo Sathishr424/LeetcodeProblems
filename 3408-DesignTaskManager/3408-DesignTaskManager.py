@@ -1,15 +1,4 @@
-# Last updated: 18/9/2025, 6:27:16 am
-class Task:
-    def __init__(self, priority, taskId):
-        self.priority = priority
-        self.taskId = taskId
-    
-    def __lt__(self, task):
-        if self.priority == task.priority:
-            return self.taskId > task.taskId
-        
-        return self.priority > task.priority
-
+# Last updated: 18/9/2025, 6:30:02 am
 N = 10 ** 5 + 1
 class TaskManager:
     def __init__(self, tasks: List[List[int]]):
@@ -20,30 +9,30 @@ class TaskManager:
         for userId, taskId, priority in tasks:
             self.tasks_priority[taskId] = priority
             self.tasks_userId[taskId] = userId
-            self.tasks.append(Task(priority, taskId))
+            self.tasks.append((-priority, -taskId))
         
         heapq.heapify(self.tasks)
 
     def add(self, userId: int, taskId: int, priority: int) -> None:
         self.tasks_priority[taskId] = priority
         self.tasks_userId[taskId] = userId
-        heapq.heappush(self.tasks, Task(priority, taskId))
+        heapq.heappush(self.tasks, (-priority, -taskId))
 
     def edit(self, taskId: int, newPriority: int) -> None:
         self.tasks_priority[taskId] = newPriority
-        heapq.heappush(self.tasks, Task(newPriority, taskId))
+        heapq.heappush(self.tasks, (-newPriority, -taskId))
 
     def rmv(self, taskId: int) -> None:
         self.tasks_priority[taskId] = -1
 
     def execTop(self) -> int:
-        while self.tasks and (self.tasks_priority[self.tasks[0].taskId] == -1 or self.tasks_priority[self.tasks[0].taskId] != self.tasks[0].priority):
+        while self.tasks and (self.tasks_priority[-self.tasks[0][1]] == -1 or self.tasks_priority[-self.tasks[0][1]] != -self.tasks[0][0]):
             heapq.heappop(self.tasks)
-
+    
         if self.tasks:
-            task = heapq.heappop(self.tasks)
-            self.tasks_priority[task.taskId] = -1
-            return self.tasks_userId[task.taskId]
+            _, taskId = heapq.heappop(self.tasks)
+            self.tasks_priority[-taskId] = -1
+            return self.tasks_userId[-taskId]
         
         return -1
 
