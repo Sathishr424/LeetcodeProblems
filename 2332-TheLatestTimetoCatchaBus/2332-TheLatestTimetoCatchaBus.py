@@ -1,4 +1,4 @@
-# Last updated: 18/9/2025, 10:52:15 am
+# Last updated: 18/9/2025, 10:55:47 am
 class Solution:
     def latestTimeCatchTheBus(self, buses: List[int], passengers: List[int], capacity: int) -> int:
         buses.sort()
@@ -20,17 +20,22 @@ class Solution:
         available.sort()
 
         def isGood(new_p):
-            heap = []
+            heap = deque([])
+            added = False
             for p in passengers:
-                heapq.heappush(heap, p)
+                if p > new_p:
+                    heap.append(new_p)
+                    added = True
+                heap.append(p)
             
-            heapq.heappush(heap, new_p)
+            if not added:
+                heap.append(new_p)
     
             for bus in buses:
                 rem = capacity
     
                 while rem and heap and heap[0] <= bus:
-                    p = heapq.heappop(heap)
+                    p = heap.popleft()
                     if p == new_p: return True
                     rem -= 1
             
@@ -48,5 +53,3 @@ class Solution:
                 r = mid - 1
 
         return available[l]
-        
-            
