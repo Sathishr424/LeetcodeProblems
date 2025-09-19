@@ -1,4 +1,4 @@
-# Last updated: 19/9/2025, 10:47:46 pm
+# Last updated: 19/9/2025, 10:50:14 pm
 
 N = 10**9 + 1
 class Solution:
@@ -11,9 +11,9 @@ class Solution:
         op = 0
         for i in range(n-2, -1, -1):
             if nums[i] > prev:
-                steps = (nums[i] - 1) // prev
-                prev = nums[i] // (steps + 1)
-                op += steps
+                steps = ceil(nums[i] / prev)
+                prev = nums[i] // steps
+                op += steps - 1
             else:
                 prev = nums[i]
         
