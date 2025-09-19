@@ -1,4 +1,4 @@
-# Last updated: 20/9/2025, 2:29:00 am
+# Last updated: 20/9/2025, 2:29:46 am
 class Solution:
     def countSpecialNumbers(self, n: int) -> int:
         s = [int(num) for num in str(n)]
@@ -37,5 +37,4 @@ class Solution:
                 ans += curr
         rec.cache_clear()
         rec2.cache_clear()
-        time.sleep(0.05)
         return ans
