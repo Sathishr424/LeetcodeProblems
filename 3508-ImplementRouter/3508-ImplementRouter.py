@@ -1,40 +1,38 @@
-# Last updated: 6/4/2025, 9:49:57 am
+# Last updated: 20/9/2025, 10:20:19 am
 class Router:
     def __init__(self, memoryLimit: int):
         self.limit = memoryLimit
-        self.hash = defaultdict(lambda: defaultdict(deque))
         self.packets = deque([])
-        self.destToSource = defaultdict(dict)
+        self.there = {}
+        self.dest = defaultdict(lambda: deque([]))
 
     def addPacket(self, source: int, destination: int, timestamp: int) -> bool:
-        if self.hash[source][destination] and self.hash[source][destination][-1] == timestamp: return False
-
-        if len(self.packets) == self.limit:
-            s, d = self.packets.popleft()
-            self.hash[s][d].popleft()
+        if (source, destination, timestamp) in self.there:
+            return False
         
-        self.destToSource[destination][source] = 1
+        self.packets.append((source, destination, timestamp))
+        self.there[(source, destination, timestamp)] = 1
         
-        self.hash[source][destination].append(timestamp)
+        if len(self.packets) > self.limit:
+            self.forwardPacket()
 
-        self.packets.append((source, destination))
+        self.dest[destination].append(timestamp)
         return True
 
     def forwardPacket(self) -> List[int]:
         if self.packets:
-            s, d = self.packets.popleft()
-            return [s, d, self.hash[s][d].popleft()]
+            source, destination, timestamp = self.packets.popleft()
+            self.dest[destination].popleft()
+            del self.there[(source, destination, timestamp)]
+            return [source, destination, timestamp]
         return []
 
     def getCount(self, destination: int, startTime: int, endTime: int) -> int:
-        res = 0
-        for source in self.destToSource[destination]:
-            arr = self.hash[source][destination]
+        d = self.dest[destination]
+        left = bisect_left(d, startTime)
+        right = bisect_right(d, endTime)
 
-            res += bisect_right(arr, endTime)-bisect_left(arr, startTime)
-
-        return res
-
+        return right - left
 
 # Your Router object will be instantiated and called as such:
 # obj = Router(memoryLimit)
