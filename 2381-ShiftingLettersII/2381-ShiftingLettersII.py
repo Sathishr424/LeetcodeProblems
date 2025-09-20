@@ -1,4 +1,4 @@
-# Last updated: 20/9/2025, 7:01:52 pm
+# Last updated: 20/9/2025, 7:02:23 pm
 class Solution:
     def shiftingLetters(self, s: str, shifts: List[List[int]]) -> str:
         n = len(s)
@@ -12,11 +12,11 @@ class Solution:
             diff[end + 1] -= val
 
         curr = 0
-        final_s = ''
+        final_s = []
         for i in range(n):
             curr += diff[i]
             a = ord(s[i]) - ord('a')
             new_a = (a + curr) % 26
-            final_s += chr(new_a + ord('a'))
+            final_s.append(chr(new_a + ord('a')))
 
-        return final_s
+        return ''.join(final_s)
