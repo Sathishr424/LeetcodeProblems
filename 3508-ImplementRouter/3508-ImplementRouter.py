@@ -1,18 +1,17 @@
-# Last updated: 20/9/2025, 10:25:03 am
+# Last updated: 20/9/2025, 10:25:32 am
 class Router:
     def __init__(self, memoryLimit: int):
         self.limit = memoryLimit
         self.packets = deque([])
-        self.sources = defaultdict(lambda: defaultdict(lambda: deque([])))
+        self.there = {}
         self.dest = defaultdict(lambda: deque([]))
 
     def addPacket(self, source: int, destination: int, timestamp: int) -> bool:
-        s = self.sources[source][destination]
-        index = bisect_left(s, timestamp)
-        if index < len(s) and s[index] == timestamp: return False
+        if (source, destination, timestamp) in self.there:
+            return False
         
         self.packets.append((source, destination, timestamp))
-        self.sources[source][destination].append(timestamp)
+        self.there[(source, destination, timestamp)] = 1
         
         if len(self.packets) > self.limit:
             self.forwardPacket()
@@ -24,7 +23,7 @@ class Router:
         if self.packets:
             source, destination, timestamp = self.packets.popleft()
             self.dest[destination].popleft()
-            self.sources[source][destination].popleft()
+            del self.there[(source, destination, timestamp)]
             return [source, destination, timestamp]
         return []
 
