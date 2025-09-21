@@ -1,10 +1,10 @@
-# Last updated: 22/9/2025, 12:13:16 am
+# Last updated: 22/9/2025, 12:14:53 am
 class MovieRentingSystem:
     def __init__(self, n: int, entries: List[List[int]]):
         # First have an entry for every shop with every movie (double hash table [shop][movie])
         # Every movie have a heap with a (price, shop) comparator as movies heap
-        # Once movie rented move it into the rented hash table (movie, shop)
-        # Once rented movie droped off delete it from rented hash and add it to the movies heap (if deleted)
+        # Once movie rented move mark it in rented_movies hash table [movie][shop] = 1
+        # Once rented movie droped off delete the mark from rented_movies hash_table [movie][shop] = 0
         # Also, have the rented movies heap (price, shop, movie)
 
         self.shops = defaultdict(dict)
@@ -63,8 +63,6 @@ class MovieRentingSystem:
             heapq.heappush(self.rented_movies, found.pop())
         
         return ret
-        
-
 
 # Your MovieRentingSystem object will be instantiated and called as such:
 # obj = MovieRentingSystem(n, entries)
