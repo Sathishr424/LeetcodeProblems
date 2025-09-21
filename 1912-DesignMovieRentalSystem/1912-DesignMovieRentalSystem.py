@@ -1,4 +1,4 @@
-# Last updated: 22/9/2025, 12:14:53 am
+# Last updated: 22/9/2025, 12:16:52 am
 class MovieRentingSystem:
     def __init__(self, n: int, entries: List[List[int]]):
         # First have an entry for every shop with every movie (double hash table [shop][movie])
