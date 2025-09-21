@@ -1,4 +1,4 @@
-# Last updated: 21/9/2025, 9:59:14 am
+# Last updated: 22/9/2025, 12:31:31 am
 class Solution:
     def maxTotalValue(self, nums: List[int], k: int) -> int:
         n = len(nums)
@@ -44,14 +44,7 @@ class Solution:
             return max(max_logs[power][l], max_logs[power][r - m + 1])
 
         heap = []
-        for i in range(n):
-            maxi = getMax(0, i)
-            mini = getMin(0, i)
-            heapq.heappush(heap, (-(maxi - mini), 0, i))
-            
-            maxi = getMax(i, n-1)
-            mini = getMin(i, n-1)
-            heapq.heappush(heap, (-(maxi - mini), i, n-1))
+        heapq.heappush(heap, (-(max(nums) - min(nums)), 0, n-1))
 
         used = {}
         ret = 0
