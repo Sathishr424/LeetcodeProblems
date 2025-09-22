@@ -1,62 +1,53 @@
-# Last updated: 23/9/2025, 12:18:52 am
+# Last updated: 23/9/2025, 12:20:01 am
 class Solution:
     def buildMatrix(self, k: int, rowConditions: List[List[int]], colConditions: List[List[int]]) -> List[List[int]]:
-        row_graph = defaultdict(list)
+        def getOrder(conditions):
+            graph = defaultdict(list)
 
-        for x, y in rowConditions:
-            row_graph[y].append(x)
-
-        col_graph = defaultdict(list)
-
-        for x, y in colConditions:
-            col_graph[y].append(x)
-        
-        def doDfs(graph):
-            arr = []
+            for u, v in conditions:
+                graph[u].append(v)
+            
+            order = []
+            
+            visited = {}
             vis = {}
-            stack = {}
-            
-            def dfs(x, tmp_vis):
-                for y in graph[x]:
-                    if y in tmp_vis: return False
-                    elif y not in vis:
-                        tmp_vis[y] = 1
-                        if not dfs(y, tmp_vis): return False
-                        del tmp_vis[y]
-                
+            def dfs(x):
+                if x in vis: return False
+                if x in visited: return True
                 vis[x] = 1
-                arr.append(x)
+                visited[x] = 1
+                for y in graph[x]:
+                    if not dfs(y): return False
+                order.append(x)
+                del vis[x]
                 return True
-            
-            for i in range(1, k+1): 
-                if i in vis: continue
-                elif not dfs(i, {}): return -1
-            
-            return arr
+    
+            for i in range(1, k + 1):
+                if i not in visited:
+                    if not dfs(i): return []
 
-        # print(dict(col_graph))
-        # print(dict(row_graph))
+            return order[::-1]
 
-        row_arr = doDfs(row_graph)
-        if row_arr == -1: return []
-        col_arr = doDfs(col_graph)
-        if col_arr == -1: return []
+        row = getOrder(rowConditions)
+        if len(row) == 0: return []
+        col = getOrder(colConditions)
+        if len(col) == 0: return []
         
-        # print(row_arr)
-        # print(col_arr)
+        grid = [[0] * k for _ in range(k)]
 
-        ret = [[0 for _ in range(k)] for _ in range(k)]
-
-        col_hash = {}
-
-        for i, x in enumerate(col_arr):
-            col_hash[x] = i
-
-        for i in range(len(row_arr)):
-            if row_arr[i] in col_hash:
-                ret[i][col_hash[row_arr[i]]] = row_arr[i]
+        indexes = {}
+        for i, val in enumerate(row):
+            indexes[val] = i
+        
+        for i, val in enumerate(col):
+            if val in indexes:
+                grid[indexes[val]][i] = val
+                del indexes[val]
             else:
-                ret[i][0] = row_arr[i]
+                grid[0][i] = val
+
+        for val in indexes:
+            grid[indexes[val]][0] = val
         
-        return ret
+        return grid
         
