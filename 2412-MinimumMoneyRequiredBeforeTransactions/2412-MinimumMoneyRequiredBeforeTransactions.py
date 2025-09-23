@@ -1,4 +1,4 @@
-# Last updated: 24/9/2025, 2:52:44 am
+# Last updated: 24/9/2025, 2:53:15 am
 class Solution:
     def minimumMoney(self, transactions: List[List[int]]) -> int:
         n = len(transactions)
