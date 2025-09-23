@@ -1,17 +1,17 @@
-# Last updated: 24/9/2025, 12:15:22 am
+# Last updated: 24/9/2025, 12:16:14 am
 class Solution:
     def minGroups(self, intervals: List[List[int]]) -> int:
         n = len(intervals)
 
-        line = [0] * (max([y for _, y in intervals]) + 2)
+        line = defaultdict(int)
         for l, r in intervals:
             line[l] += 1
             line[r + 1] -= 1
         
         best = 0
         curr = 0
-        for i in range(len(line)):
-            curr += line[i]
+        for p in sorted(line.keys()):
+            curr += line[p]
             best = max(best, curr)
         
         return best
