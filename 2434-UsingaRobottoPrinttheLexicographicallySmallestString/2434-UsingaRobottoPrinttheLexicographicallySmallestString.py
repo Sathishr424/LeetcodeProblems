@@ -1,36 +1,34 @@
-# Last updated: 6/6/2025, 1:23:41 pm
+# Last updated: 25/9/2025, 12:19:51 am
 class Solution:
     def robotWithString(self, s: str) -> str:
         n = len(s)
-        ret = []
+
+        used = [0] * n
+
+        heap = []
+        for i, char in enumerate(s):
+            heapq.heappush(heap, (char, i))
+
         t = []
-        index = 0
-        
-        freq = [0] * 26
+        p = []
+        right = 0
+        while heap:
+            if used[heap[0][1]]:
+                heapq.heappop(heap)
+                continue
+            # print(heap, t, p)
+            if t and t[-1] <= heap[0][0]:
+                p.append(t.pop())
+                continue
+            
+            char, index = heapq.heappop(heap)
+            while right <= index:
+                t.append(s[right])
+                used[right] = 1
+                right += 1
+            p.append(t.pop())
 
-        for i in range(n):
-            a = ord(s[i]) - 97
-            freq[a] += 1
-        
-        def addItToT(to_find):
-            nonlocal index, ret
-            for i in range(index, n):
-                a = ord(s[i]) - 97
-                freq[a] -= 1
-                if a == to_find:
-                    ret.append(s[i])
-                    index = i + 1
-                    break
-                t.append(s[i])
-        
-        while index < n:
-            i = 0
-            while i < 26 and freq[i] == 0: 
-                i += 1
+        while t:
+            p.append(t.pop())
 
-            if not t or ord(t[-1]) - 97 > i:
-                addItToT(i)
-            else:
-                ret.append(t.pop())
-        
-        return ''.join(ret + t[::-1])
+        return ''.join(p)
