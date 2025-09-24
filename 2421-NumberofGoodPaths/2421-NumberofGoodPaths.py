@@ -1,4 +1,4 @@
-# Last updated: 24/9/2025, 8:18:45 pm
+# Last updated: 24/9/2025, 8:19:20 pm
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -40,7 +40,6 @@ class Solution:
         for i in range(n):
             val_set[vals[i]].append(i)
 
-        # print(new_edges)
         total = 0
         prev = -1
         there = {}
