@@ -1,4 +1,4 @@
-# Last updated: 24/9/2025, 11:28:34 pm
+# Last updated: 24/9/2025, 11:29:45 pm
 class Solution:
     def deleteString(self, s: str) -> int:
         n = len(s)
@@ -13,16 +13,17 @@ class Solution:
                 if curr == prev:
                     dp[window][i-window] = 1
 
-        @cache
+        cache = [-1] * n
         def rec(index):
             if index == n: return 0
+            if cache[index] != -1: return cache[index]
             dis = n - index
             ans = 1
             for j in range(index, index + dis // 2):
                 window = j - index + 1
                 if dp[window][index]:
                     ans = max(ans, rec(j+1) + 1)
-
+            cache[index] = ans
             return ans
 
         return rec(0)
