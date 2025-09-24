@@ -1,20 +1,30 @@
-# Last updated: 26/7/2025, 2:23:21 am
-mod = 10**9 + 7
-
+# Last updated: 25/9/2025, 12:21:32 am
 class Solution:
     def numberOfPaths(self, grid: List[List[int]], k: int) -> int:
         m = len(grid)
         n = len(grid[0])
 
-        dp = [[[0] * k for _ in range(n + 1)] for _ in range(m + 1)]
-        dp[0][0][0] = 1
+        mod = 10**9 + 7
 
-        for i in range(m):
-            for j in range(n):
-                val = grid[i][j]
-                for d in range(k):
-                    new_d = (d + val) % k
-                    dp[i + 1][j][new_d] = (dp[i + 1][j][new_d] + dp[i][j][d]) % mod
-                    dp[i][j + 1][new_d] = (dp[i][j + 1][new_d] + dp[i][j][d]) % mod
-        
-        return dp[m][n-1][0]
+        dp = [[[-1] * k for _ in range(n)] for _ in range(m)]
+
+        def rec(i, j, rem):
+            rem = (rem + grid[i][j]) % k
+            
+            if i == m-1 and j == n-1:
+                return 1 if rem == 0 else 0
+            
+            if dp[i][j][rem] != -1:
+                return dp[i][j][rem]
+
+            ans = 0
+            if i + 1 < m:
+                ans += rec(i + 1, j, rem)
+            if j + 1 < n:
+                ans += rec(i, j + 1, rem)
+
+            ans %= mod
+            dp[i][j][rem] = ans
+            return ans
+
+        return rec(0, 0, 0)
