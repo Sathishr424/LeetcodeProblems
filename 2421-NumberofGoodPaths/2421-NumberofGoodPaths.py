@@ -1,4 +1,4 @@
-# Last updated: 24/9/2025, 8:19:20 pm
+# Last updated: 24/9/2025, 8:21:04 pm
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -31,7 +31,6 @@ class Solution:
         new_edges = []
         for u, v in edges:
             new_edges.append((max(vals[u], vals[v]), u, v))
-            new_edges.append((max(vals[u], vals[v]), v, u))
         
         new_edges.sort()
         un = Union(n)
