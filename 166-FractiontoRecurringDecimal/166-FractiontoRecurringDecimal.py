@@ -1,4 +1,4 @@
-# Last updated: 24/9/2025, 1:29:57 pm
+# Last updated: 24/9/2025, 1:30:27 pm
 class Solution:
     def fractionToDecimal(self, numerator: int, denominator: int) -> str:
         neg = 1
@@ -28,4 +28,4 @@ class Solution:
             numerator = (numerator % denominator) * 10
             index += 1
 
-        return '-' + ans if neg == -1 and ans != '0' else ans
+        return '-' + ans if neg == -1 else ans
