@@ -1,4 +1,4 @@
-# Last updated: 25/9/2025, 2:38:45 am
+# Last updated: 25/9/2025, 2:40:13 am
 class Solution:
     def componentValue(self, nums: List[int], edges: List[List[int]]) -> int:
         n = len(nums)
@@ -9,13 +9,10 @@ class Solution:
             graph[u].append(v)
             graph[v].append(u)
 
-        cnt = 0
         def isGood(mid):
-            nonlocal cnt
-            # print(mid)
-            cnt = 0
+            removed = 0
             def dfs(x, par):
-                nonlocal cnt
+                nonlocal removed
                 s = nums[x]
                 for y in graph[x]:
                     if y == par: continue
@@ -23,16 +20,16 @@ class Solution:
                     if curr < mid:
                         s += curr
                     elif curr == mid:
-                        cnt += 1
+                        removed += 1
                     else:
                         return inf
                 return s
-            return dfs(0, -1) == mid
+            return dfs(0, -1) == mid, removed
 
         arr = []
         for i in range(n, 0, -1):
             if total % i == 0:
-                if isGood(total // i):
-                    return cnt
+                can, removed = isGood(total // i)
+                if can: return removed
         
         return 0
