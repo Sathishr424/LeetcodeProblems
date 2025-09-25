@@ -1,4 +1,4 @@
-# Last updated: 26/9/2025, 12:14:42 am
+# Last updated: 26/9/2025, 12:15:21 am
 class Solution:
     def makeSimilar(self, nums: List[int], target: List[int]) -> int:
         n = len(nums)
@@ -39,6 +39,6 @@ class Solution:
                     op += need
                     add -= need
             
-            return op - add
+            return op
         
         return (solve(even, t_even) + solve(odd, t_odd)) // 2
