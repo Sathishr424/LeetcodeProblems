@@ -1,4 +1,4 @@
-# Last updated: 26/9/2025, 2:21:01 am
+# Last updated: 26/9/2025, 2:29:40 am
 class SegmentTree:
     def __init__(self, nums):
         self.nums = nums
@@ -35,14 +35,12 @@ class SegmentTree:
     
 class Solution:
     def secondGreaterElement(self, nums: List[int]) -> List[int]:
-        # nums[i] < nums[k] < nums[j]
         n = len(nums)
         segTree = SegmentTree(nums)
 
         ret = []
         for i in range(n):
             index = segTree.query(0, n-1, 0, i + 1, n-1, nums[i])
-            # print((i, nums[i]), index)
             if index != n:
                 index = segTree.query(0, n-1, 0, index + 1, n-1, nums[i])
 
