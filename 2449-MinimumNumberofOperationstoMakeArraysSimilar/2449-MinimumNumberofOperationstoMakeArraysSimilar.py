@@ -1,12 +1,11 @@
-# Last updated: 26/9/2025, 12:15:21 am
+# Last updated: 26/9/2025, 12:18:00 am
 class Solution:
     def makeSimilar(self, nums: List[int], target: List[int]) -> int:
-        n = len(nums)
-        even = []
-        odd = []
         nums.sort()
         target.sort()
 
+        even = []
+        odd = []
         for num in nums:
             if num % 2:
                 odd.append(num)
@@ -22,22 +21,17 @@ class Solution:
                 t_even.append(num)
         
         def solve(x, y):
-            n = len(x)
-
-            add = 0
             op = 0
-            for i in range(n):
+            for i in range(len(x)):
                 a = x[i]
                 b = y[i]
 
                 if a > b:
                     need = (a - b) // 2
                     op += need
-                    add += need
                 elif b > a:
                     need = (b - a) // 2
                     op += need
-                    add -= need
             
             return op
         
