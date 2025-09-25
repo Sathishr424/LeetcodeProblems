@@ -1,4 +1,4 @@
-# Last updated: 26/9/2025, 2:29:40 am
+# Last updated: 26/9/2025, 2:32:23 am
 class SegmentTree:
     def __init__(self, nums):
         self.nums = nums
@@ -19,8 +19,8 @@ class SegmentTree:
         self.tree[index] = max(left, right)
         return self.tree[index]
     
-    def query(self, l, r, index, left, right, val):
-        if l > right or r < left or self.tree[index] <= val:
+    def query(self, l, r, index, left, val):
+        if r < left or self.tree[index] <= val:
             return self.n
 
         if l == r:
@@ -28,9 +28,9 @@ class SegmentTree:
         
         mid = (l + r) // 2
 
-        ans = self.query(l, mid, index * 2 + 1, left, right, val)
+        ans = self.query(l, mid, index * 2 + 1, left, val)
         if ans == self.n:
-            return self.query(mid + 1, r, index * 2 + 2, left, right, val)
+            return self.query(mid + 1, r, index * 2 + 2, left, val)
         return ans
     
 class Solution:
@@ -40,9 +40,9 @@ class Solution:
 
         ret = []
         for i in range(n):
-            index = segTree.query(0, n-1, 0, i + 1, n-1, nums[i])
+            index = segTree.query(0, n-1, 0, i + 1, nums[i])
             if index != n:
-                index = segTree.query(0, n-1, 0, index + 1, n-1, nums[i])
+                index = segTree.query(0, n-1, 0, index + 1, nums[i])
 
             if index != n:
                 ret.append(nums[index])
@@ -50,4 +50,3 @@ class Solution:
                 ret.append(-1)
 
         return ret
-        
