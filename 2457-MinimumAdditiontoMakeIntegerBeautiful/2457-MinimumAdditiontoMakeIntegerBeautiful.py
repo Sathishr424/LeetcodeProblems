@@ -1,14 +1,12 @@
-# Last updated: 27/9/2025, 2:50:56 am
+# Last updated: 27/9/2025, 2:51:12 am
 class Solution:
     def makeIntegerBeautiful(self, n: int, target: int) -> int:
 
         st = [int(a) for a in str(n)]
         m = len(st)
-        # print(st)
 
         @cache
         def rec(index, strict, curr, spec):
-            # print(index, strict, curr, spec)
             if ((spec and index == m) or index > m) and curr <= target:
                 return 1, 0
             if curr > target: return 1, inf
@@ -35,12 +33,10 @@ class Solution:
         for i in range(1, 10):
             d, ans = rec(1, i == st[0], i, i >= st[0])
             ans = i * d + ans
-            # print(i, d, ans)
             if ans < min_ans:
                 min_ans = ans
             d, ans = rec(1, False, i, False)
             ans = i * d + ans
-            # print(i, d, ans)
             if ans < min_ans:
                 min_ans = ans
 
