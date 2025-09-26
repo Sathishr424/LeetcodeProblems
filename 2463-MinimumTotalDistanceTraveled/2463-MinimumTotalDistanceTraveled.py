@@ -1,4 +1,4 @@
-# Last updated: 27/9/2025, 4:23:41 am
+# Last updated: 27/9/2025, 4:25:17 am
 class Solution:
     def minimumTotalDistance(self, robot: List[int], factory: List[List[int]]) -> int:
         r = len(robot)
@@ -10,7 +10,6 @@ class Solution:
         for i in range(f):
             for _ in range(factory[i][1]):
                 fac.append(factory[i][0])
-        
         fac.sort()
 
         @cache
