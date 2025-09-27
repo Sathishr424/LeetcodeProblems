@@ -1,4 +1,4 @@
-# Last updated: 27/9/2025, 7:39:12 pm
+# Last updated: 27/9/2025, 7:43:37 pm
 class Solution:
     def splitMessage(self, message: str, limit: int) -> List[str]:
         n = len(message)
@@ -15,8 +15,8 @@ class Solution:
                 rem -= (limit - new_length) * elements
                 parts += elements
                 if parts > part: return False
-                if parts == part and next == part and rem <= -(limit - new_length): return False
                 if parts == part and next == part and rem > -(limit - new_length) and rem <= 0: return True
+                if rem <= 0: return False
             
             return False
 
