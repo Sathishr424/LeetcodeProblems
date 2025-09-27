@@ -1,4 +1,4 @@
-# Last updated: 27/9/2025, 1:42:56 pm
+# Last updated: 27/9/2025, 1:48:55 pm
 class Solution:
     def largestTriangleArea(self, points: List[List[int]]) -> float:
         n = len(points)
@@ -8,19 +8,14 @@ class Solution:
 
         max_area = 0
         for i in range(n):
-            x = points[i]
+            x1, y1 = points[i]
             for j in range(i+1, n):
-                y = points[j]
+                x2, y2 = points[j]
                 for k in range(j+1, n):
-                    z = points[k]
+                    x3, y3 = points[k]
 
 
-                    a = getDis(x, y)
-                    b = getDis(x, z)
-                    c = getDis(y, z)
-
-                    s = (a + b + c) / 2
-                    area = sqrt(abs(s * (s - a) * (s - b) * (s - c)))
+                    area = 0.5 * abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2))
 
                     max_area = max(max_area, area)
             
