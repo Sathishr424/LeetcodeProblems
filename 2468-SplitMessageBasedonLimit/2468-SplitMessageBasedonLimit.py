@@ -1,8 +1,8 @@
-# Last updated: 27/9/2025, 7:43:37 pm
+# Last updated: 27/9/2025, 7:44:11 pm
 class Solution:
     def splitMessage(self, message: str, limit: int) -> List[str]:
         n = len(message)
-        def getTheTotal(part):
+        def canPart(part):
             cnt = 3 + len(str(part))
             rem = n
             parts = 0
@@ -33,7 +33,7 @@ class Solution:
             return ret
         
         for part in range(1, n + 1):
-            if getTheTotal(part):
+            if canPart(part):
                 return getTheString(part)
         
         return []
