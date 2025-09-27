@@ -1,4 +1,4 @@
-# Last updated: 27/9/2025, 7:30:59 pm
+# Last updated: 27/9/2025, 7:39:12 pm
 class Solution:
     def splitMessage(self, message: str, limit: int) -> List[str]:
         n = len(message)
@@ -37,4 +37,3 @@ class Solution:
                 return getTheString(part)
         
         return []
-                
