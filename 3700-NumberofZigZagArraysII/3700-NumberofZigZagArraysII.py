@@ -1,4 +1,4 @@
-# Last updated: 28/9/2025, 8:36:37 pm
+# Last updated: 28/9/2025, 8:50:29 pm
 mod = 10**9 + 7
 
 def multiplyMatrix(x, y):
@@ -33,13 +33,11 @@ class Solution:
         matrix = [[0] * m2 for _ in range(m2)]
 
         for i in range(m):
-            if i > 0:
-                for j in range(i):
-                    matrix[m + i][j] = 1
+            for j in range(i):
+                matrix[m + i][j] = 1
             
-            if i + 1 < m:
-                for j in range(i+1, m):
-                    matrix[i][m + j] = 1
+            for j in range(i+1, m):
+                matrix[i][m + j] = 1
 
         matrix = matrixPow(matrix, n + 1)
         
