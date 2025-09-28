@@ -1,4 +1,4 @@
-# Last updated: 28/9/2025, 11:39:11 am
+# Last updated: 28/9/2025, 11:42:41 am
 class Solution:
     def splitArray(self, nums: List[int]) -> int:
         n = len(nums)
