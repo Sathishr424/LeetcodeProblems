@@ -1,4 +1,4 @@
-# Last updated: 28/9/2025, 8:32:18 pm
+# Last updated: 28/9/2025, 8:36:37 pm
 mod = 10**9 + 7
 
 def multiplyMatrix(x, y):
@@ -40,15 +40,10 @@ class Solution:
             if i + 1 < m:
                 for j in range(i+1, m):
                     matrix[i][m + j] = 1
-    
-        # [print(row) for row in matrix]
 
-        matrix = matrixPow(matrix, n - 1)
-        # print()
-        # [print(row) for row in matrix]
-        ans = 0
-        for i in range(m2):
-            for j in range(m2):
-                ans = (ans + matrix[i][j]) % mod
+        matrix = matrixPow(matrix, n + 1)
         
-        return ans % mod
+        if n % 2:
+            return (matrix[0][0] + matrix[-1][-1]) % mod
+        else:
+            return (matrix[0][-1] + matrix[-1][0]) % mod
