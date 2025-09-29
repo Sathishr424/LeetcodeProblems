@@ -1,4 +1,4 @@
-# Last updated: 27/9/2025, 9:34:55 pm
+# Last updated: 29/9/2025, 4:09:56 pm
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -41,15 +41,13 @@ class Solution:
             parents[i].sort()
 
         s = 0
-        for i in range(n):
-            if i % 2 == 0:
-                par = un.find(i)
-                num, index = parents[par].pop()
-                s += num
+        for i in range(0, n, 2):
+            par = un.find(i)
+            num, index = parents[par].pop()
+            s += num
 
-        for i in range(n):
-            if i % 2 == 1:
-                s -= parents[un.find(i)].pop()[0]
+        for i in range(1, n, 2):
+            s -= parents[un.find(i)].pop()[0]
 
         return s
 
