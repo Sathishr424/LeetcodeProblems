@@ -1,4 +1,4 @@
-# Last updated: 30/9/2025, 6:50:01 pm
+# Last updated: 30/9/2025, 6:51:25 pm
 class Solution:
     def minimumFuelCost(self, roads: List[List[int]], seats: int) -> int:
         n = len(roads) + 1
@@ -16,8 +16,7 @@ class Solution:
                 if y == par: continue
                 passengers += dfs(y, x)
                 
-            cars = ceil(passengers / seats)
-            cost += cars
+            cost += ceil(passengers / seats)
             return passengers
 
         for y in graph[0]:
