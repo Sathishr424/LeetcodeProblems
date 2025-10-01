@@ -1,4 +1,4 @@
-# Last updated: 28/9/2025, 7:18:11 pm
+# Last updated: 2/10/2025, 4:19:02 am
 class Solution:
     def zigZagArrays(self, n: int, l: int, r: int) -> int:
         mod = 10**9 + 7
