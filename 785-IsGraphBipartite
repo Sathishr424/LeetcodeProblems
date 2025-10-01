@@ -1,0 +1,55 @@
+# Last updated: 2/10/2025, 12:28:22 am
+class Union:
+    def __init__(self, n):
+        self.parents = [i for i in range(n)]
+        self.sizes = [1] * n
+
+    def find(self, x):
+        if x != self.parents[x]:
+            self.parents[x] = self.find(self.parents[x])
+
+        return self.parents[x]
+
+    def union(self, x, y):
+        x = self.find(x)
+        y = self.find(y)
+
+        if x == y: return True
+
+        if self.sizes[y] > self.sizes[x]:
+            x, y = y, x
+
+        self.sizes[x] += self.sizes[y]
+        self.parents[y] = x
+        
+        return False
+
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        n = len(graph)
+        un = Union(n)
+        for i in range(n):
+            for j in graph[i]:
+                un.union(i, j)
+        
+        vis = {}
+        def dfs(x, par, level):
+            vis[x] = level
+            for y in graph[x]:
+                if y == par: continue
+                if y in vis:
+                    if (level - vis[y] + 1) & 1:
+                        return False
+                elif not dfs(y, x, level + 1): return False
+
+            return True
+        
+        parents = {}
+        for i in range(n):
+            parents[un.find(i)] = 1
+        
+        for node in parents:
+            vis = {}
+            if not dfs(node, -1, 0): return False
+        
+        return True
