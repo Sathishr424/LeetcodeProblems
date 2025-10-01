@@ -1,9 +1,10 @@
-# Last updated: 28/9/2025, 8:50:29 pm
+# Last updated: 2/10/2025, 4:18:00 am
 mod = 10**9 + 7
 
 def multiplyMatrix(x, y):
     m = len(x)
-    ret = [[0] * m for _ in range(m)]
+    n = len(y[0])
+    ret = [[0] * n for _ in range(m)]
     
     for row in range(m):
         for j in range(m):
