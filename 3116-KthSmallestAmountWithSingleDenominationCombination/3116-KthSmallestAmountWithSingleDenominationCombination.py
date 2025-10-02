@@ -1,4 +1,4 @@
-# Last updated: 2/10/2025, 8:42:05 pm
+# Last updated: 3/10/2025, 2:36:02 am
 class Solution:
     def findKthSmallest(self, coins: List[int], k: int) -> int:
         n = len(coins)
@@ -13,6 +13,7 @@ class Solution:
                 for i in range(n):
                     if mask & (1 << i):
                         LCM = lcm(LCM, coins[i])
+                        if LCM > mid: break
                 
                 if bits % 2:
                     total += mid // LCM
