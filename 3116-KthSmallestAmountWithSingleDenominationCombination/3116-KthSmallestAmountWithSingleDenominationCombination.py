@@ -1,37 +1,29 @@
-# Last updated: 9/8/2025, 7:59:25 pm
+# Last updated: 2/10/2025, 8:34:34 pm
 class Solution:
     def findKthSmallest(self, coins: List[int], k: int) -> int:
-        coins.sort()
         n = len(coins)
-
-        odd_lcm = []
-        even_lcm = []
-
-        def rec(index, cnt, l):
-            if index == n:
-                if cnt == 0: return
-                if cnt % 2:
-                    odd_lcm.append(l)
-                else:
-                    even_lcm.append(l)
-                return
-            
-            rec(index + 1, cnt + 1, lcm(l, coins[index]))
-            rec(index + 1, cnt, l)
-
-        rec(0, 0, 1)
+        coins.sort()
 
         def isGood(mid):
             total = 0
+            def rec(index, rem, l, is_odd):
+                nonlocal total
+                if index == n:
+                    if rem == 0:
+                        if is_odd:
+                            total -= mid // l
+                        else:
+                            total += mid // l
+                    return
+                
+                rec(index + 1, rem, l, is_odd)
+                if rem: rec(index + 1, rem - 1, lcm(l, coins[index]), is_odd)
+
+            for group in range(1, n+1):
+                rec(0, group, 1, group % 2 == 0)
             
-            for l in odd_lcm:
-                total += mid // l
-            
-            for l in even_lcm:
-                total -= mid // l
-            
-            return total >= k    
-            
+            return total >= k
+
         l = 1
         r = coins[0] * k
 
