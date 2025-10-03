@@ -1,25 +1,20 @@
-# Last updated: 3/10/2025, 7:54:43 am
+# Last updated: 3/10/2025, 8:03:34 am
 class Solution:
     def trap(self, height: List[int]) -> int:
         n = len(height)
 
-        stack = []
+        left = [0] * n
+
+        for i in range(1, n):
+            left[i] = max(left[i - 1], height[i - 1])
+
+        right = [0] * n
+        for i in range(n-2, -1, -1):
+            right[i] = max(right[i + 1], height[i + 1])
+        
         area = 0
         for i in range(n):
-            prev = i
-            curr = 0
-            while stack and stack[-1][1] < height[i]:
-                index, h = stack.pop()
-                dis = prev - index
-                curr += (height[i] - h) * dis
-                prev = index
-
-            if len(stack) == 0 and prev != i:
-                dis = i - prev
-                curr -= (height[i] - height[prev]) * dis
-                prev = i
-            
-            area += curr
-            stack.append((prev, height[i]))
+            max_level = max(min(left[i], right[i]), height[i])
+            area += max_level - height[i]
         
         return area
