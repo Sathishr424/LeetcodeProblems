@@ -1,4 +1,4 @@
-# Last updated: 4/10/2025, 10:35:48 pm
+# Last updated: 4/10/2025, 10:37:17 pm
 class Solution:
     def isPossible(self, n: int, edges: List[List[int]]) -> bool:
         out_degree = [0] * n
@@ -19,14 +19,9 @@ class Solution:
         
         def connect(x, y, degree):
             if x not in graph[y]: 
-                degree[x] += 1
-                degree[y] += 1
                 return 1
             for i in range(n):
                 if degree[i] % 2 == 0 and i not in graph[x] and i not in graph[y]:
-                    degree[x] += 1
-                    degree[y] += 1
-                    degree[i] += 2
                     return 2
             return 5
         
@@ -46,8 +41,7 @@ class Solution:
                     nodes.append(i)
             for i in range(4):
                 for j in range(i+1, 4):
-                    degree = out_degree[:]
                     k, l = [m for m in range(4) if m != i and m != j]
-                    if connect(nodes[i], nodes[j], degree) + connect(nodes[k], nodes[l], degree) <= 2:
+                    if connect(nodes[i], nodes[j], out_degree) + connect(nodes[k], nodes[l], out_degree) <= 2:
                         return True
             return False
