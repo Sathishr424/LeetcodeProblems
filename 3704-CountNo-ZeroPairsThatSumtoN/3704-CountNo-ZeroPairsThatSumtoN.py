@@ -1,20 +1,10 @@
-# Last updated: 5/10/2025, 10:05:41 pm
+# Last updated: 5/10/2025, 10:06:34 pm
 class Solution:
     def countNoZeroPairs(self, n: int) -> int:
         nums = [int(num) for num in str(n)]
         m = len(nums)
-        # print(nums, m)
-        
-        zero = [0] * m
-        z = 0
-        for i in range(m):
-            if nums[i] == 0:
-                z = 1
-            zero[i] = z
-        valid = []
 
         def check(index, carry):
-            # print(index, carry, tmp)
             for j in range(index, -1, -1):
                 a = nums[j] - carry
                 if a < 0:
@@ -29,10 +19,7 @@ class Solution:
         @cache
         def rec(index, carry, last_zero):
             if index == -1:
-                if carry == 0:
-                    return 1
-                return 0
-            a = nums[index] - carry
+                return (carry + 1) & 1
             if last_zero:
                 return check(index, carry)
 
