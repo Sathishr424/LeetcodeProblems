@@ -1,4 +1,7 @@
-# Last updated: 5/10/2025, 7:24:08 am
+# Last updated: 5/10/2025, 7:25:10 am
+cmin = lambda x, y: x if x < y else y
+cmax = lambda x, y: x if x > y else y
+
 class Solution:
     def takeCharacters(self, s: str, k: int) -> int:
         if k == 0: return 0
@@ -26,11 +29,11 @@ class Solution:
             elif s[i] == 'c':
                 c += 1
 
-            p_a[a] = min(p_a[a], i + 1)
-            p_b[b] = min(p_b[b], i + 1)
-            p_c[c] = min(p_c[c], i + 1)
+            p_a[a] = cmin(p_a[a], i + 1)
+            p_b[b] = cmin(p_b[b], i + 1)
+            p_c[c] = cmin(p_c[c], i + 1)
             if a >= k and b >= k and c >= k:
-                best = min(best, i + 1)
+                best = cmin(best, i + 1)
 
         a = 0
         b = 0
@@ -43,12 +46,12 @@ class Solution:
             elif s[i] == 'c':
                 c += 1
 
-            a_need = max(0, k - a)
-            b_need = max(0, k - b)
-            c_need = max(0, k - c)
+            a_need = cmax(0, k - a)
+            b_need = cmax(0, k - b)
+            c_need = cmax(0, k - c)
 
-            index = max(p_a[a_need], p_b[b_need], p_c[c_need])
+            index = cmax(p_a[a_need], cmax(p_b[b_need], p_c[c_need]))
             if index < i:
-                best = min(best, index + (n - i))
+                best = cmin(best, index + (n - i))
 
         return -1 if best == inf else best
