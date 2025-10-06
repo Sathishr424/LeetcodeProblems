@@ -1,12 +1,9 @@
-# Last updated: 7/10/2025, 4:54:51 am
+# Last updated: 7/10/2025, 4:56:30 am
 class Solution:
     def findGoodStrings(self, n: int, s1: str, s2: str, evil: str) -> int:
         left = [ord(a) - ord('a') + 1 for a in s1]
         right = [ord(a) - ord('a') + 1 for a in s2]
         evil_arr = [ord(a) - ord('a') + 1 for a in evil]
-        # print(left)
-        # print(right)
-        # print(evil_arr)
         m = len(evil_arr)
         mod = 10 ** 9 + 7
 
@@ -19,7 +16,8 @@ class Solution:
             if evil_arr[j] == evil_arr[i]:
                 j += 1
                 lcp[i] = j
-        # print(lcp, "LCP")
+
+        @cache
         def getNewMatch(match, val):
             if evil_arr[match] == val:
                 return match + 1
@@ -29,8 +27,7 @@ class Solution:
                 if evil_arr[match] == val:
                     return match + 1
                 return match
-        # aabbaacc
-        # 010012
+
         cached = {}
         def rec(pos, leading, match, strict, s):
             if pos == n:
@@ -53,12 +50,9 @@ class Solution:
             return ans
         
         l = rec(0, 1, 0, 1, left)
-        # print("Left:", l)
         cached = {}
         r = rec(0, 1, 0, 1, right)
-        # print("Right:", r)
-        # print(s1.find(evil))
         if s1.find(evil) == -1:
             l = (l - 1) % mod
-        
+        getNewMatch.cache_clear()
         return (r - l) % mod
