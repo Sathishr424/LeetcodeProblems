@@ -1,25 +1,15 @@
-# Last updated: 6/10/2025, 11:28:01 pm
+# Last updated: 7/10/2025, 3:51:47 am
 class Solution:
     def maxPower(self, stations: List[int], r: int, k: int) -> int:
         n = len(stations)
         powers = [0] * n
-        left = 0
-        power = 0
+        prefix = [0]
         for i in range(n):
-            if i - left > r:
-                power -= stations[left]
-                left += 1
-            power += stations[i]
-            powers[i] += power
-
-        power = 0
-        right = n-1
-        for i in range(n-1, -1, -1):
-            if right - i > r:
-                power -= stations[right]
-                right -= 1
-            powers[i] += power
-            power += stations[i]
+            prefix.append(prefix[-1] + stations[i])
+        
+        for i in range(n):
+            powers[i] += prefix[i] - prefix[max(0, i - r)]
+            powers[i] += prefix[min(n, i + r + 1)] - prefix[i]
 
         def isGood(mid):
             need = [0] * n
