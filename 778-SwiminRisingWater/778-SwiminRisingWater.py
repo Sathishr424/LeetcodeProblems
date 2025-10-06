@@ -1,23 +1,26 @@
-# Last updated: 7/5/2025, 1:18:21 pm
-DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
-
+# Last updated: 6/10/2025, 10:05:54 am
 class Solution:
     def swimInWater(self, grid: List[List[int]]) -> int:
-        n = len(grid)
+        m = len(grid)
+        n = len(grid[0])
 
-        stack = [(grid[0][0], 0, 0)]
+        DIR = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        heap = [(grid[0][0], 0, 0)]
+        dis = [[inf] * n for _ in range(m)]
+
+        while heap:
+            t, i, j = heapq.heappop(heap)
+            if i == m-1 and j == n-1: return t
+
+            if dis[i][j] <= t: continue
+            dis[i][j] = t
+
+            for i2, j2 in DIR:
+                i2 += i
+                j2 += j
+                if 0 <= i2 < m and 0 <= j2 < n:
+                    new_t = max(grid[i2][j2], t)
+                    if dis[i2][j2] > new_t:
+                        heapq.heappush(heap, (new_t, i2, j2))
         
-        while stack:
-            depth, i, j = heapq.heappop(stack)
-            if i == n-1 and j == n-1: return depth
-
-            for ni, nj in DIR:
-                ni += i
-                nj += j
-
-                if 0 <= ni < n and 0 <= nj < n and grid[ni][nj] != -1:
-                    heapq.heappush(stack, (max(depth, grid[ni][nj]), ni, nj))
-                    grid[ni][nj] = -1
-        
-        return n*n - 1
-
+        return max([max(row) for row in grid])
