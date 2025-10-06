@@ -1,25 +1,33 @@
-# Last updated: 6/10/2025, 7:10:59 pm
+# Last updated: 6/10/2025, 7:11:35 pm
+from functools import cache
+
 class Solution:
     def numDupDigitsAtMostN(self, n: int) -> int:
-        nums = [int(d) for d in str(n)]
+        nums = list(map(int, str(n)))
         m = len(nums)
 
         @cache
-        def rec(pos, strict, leading, mask, done):
+        def rec(pos: int, mask: int, tight: bool, leading: bool) -> int:
             if pos == m:
-                if done and not leading:
-                    return 1
-                return 0
-            
-            ans = 0
-            limit = nums[pos] if strict else 9
-            for i in range(0, limit + 1):
-                new_done = done or (not leading and mask & (1 << i) > 0)
-                new_mask = mask if leading and i == 0 else mask | (1 << i)
+                # One valid number formed (including all-zero if leading=True)
+                return 0 if leading else 1
 
-                ans += rec(pos + 1, strict and i == nums[pos], leading and i == 0, new_mask, new_done)
+            ans = 0
+            limit = nums[pos] if tight else 9
+
+            for d in range(0, limit + 1):
+                new_tight = tight and (d == limit)
+
+                if leading and d == 0:
+                    # Still leading zeros, no digit used
+                    ans += rec(pos + 1, mask, new_tight, True)
+                else:
+                    if (mask >> d) & 1:
+                        # Repeated digit — skip
+                        continue
+                    ans += rec(pos + 1, mask | (1 << d), new_tight, False)
+
             return ans
-        
-        ans = rec(0, 1, 1, 0, 0)
-        rec.cache_clear()
-        return ans
+
+        unique_count = rec(0, 0, True, True)
+        return n - unique_count
