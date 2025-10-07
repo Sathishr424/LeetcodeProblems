@@ -1,4 +1,4 @@
-# Last updated: 7/10/2025, 5:55:32 am
+# Last updated: 7/10/2025, 5:56:32 am
 class Solution:
     def avoidFlood(self, rains: List[int]) -> List[int]:
         n = len(rains)
@@ -8,14 +8,14 @@ class Solution:
             nearest[rains[i]].append(i)
         
         ans = [1] * n
-        floods = {}
+        floods = set()
         heap = []
         for i in range(n):
             lake = rains[i]
             nearest[lake].pop()
             if lake > 0:
                 if lake in floods: return []
-                floods[lake] = i
+                floods.add(lake)
                 if nearest[lake]:
                     heapq.heappush(heap, (nearest[lake][-1], lake))
                 ans[i] = -1
@@ -25,7 +25,7 @@ class Solution:
                 
                 if heap:
                     _, lake_dry = heapq.heappop(heap)
-                    del floods[lake_dry]
+                    floods.remove(lake_dry)
                     ans[i] = lake_dry
         
         return ans
