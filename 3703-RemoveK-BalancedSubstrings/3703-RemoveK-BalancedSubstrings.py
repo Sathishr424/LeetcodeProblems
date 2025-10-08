@@ -1,4 +1,4 @@
-# Last updated: 5/10/2025, 11:30:49 am
+# Last updated: 8/10/2025, 10:10:02 pm
 class Solution:
     def removeSubstring(self, s: str, k: int) -> str:
         # rel = ['(', ')']
