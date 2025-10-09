@@ -1,4 +1,4 @@
-# Last updated: 9/10/2025, 8:36:04 pm
+# Last updated: 9/10/2025, 8:37:43 pm
 class Solution:
     def findCrossingTime(self, n: int, k: int, workers: List[List[int]]) -> int:
         # 5, 4, 3
@@ -20,7 +20,6 @@ class Solution:
                 t, c, index = heapq.heappop(left)
                 heapq.heappush(leftFree, (c, index))
             
-            # print(n, left, right, picked, leftFree, elapsed)
             if picked:
                 c, index = heapq.heappop(picked)
                 r, pick, l, put = workers[-index]
@@ -35,6 +34,13 @@ class Solution:
                 elapsed += r
                 n -= 1
             else:
-                elapsed += 1
+                if left:
+                    elapsed = max(elapsed, left[0][0])
+                    if right:
+                        elapsed = min(elapsed, right[0][0])
+                elif right:
+                    elapsed = max(elapsed, right[0][0])
+                    if left:
+                        elapsed = min(elapsed, left[0][0])
                 
         return elapsed
