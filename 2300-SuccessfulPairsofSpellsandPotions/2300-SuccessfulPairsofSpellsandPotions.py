@@ -1,4 +1,4 @@
-# Last updated: 9/10/2025, 9:36:20 am
+# Last updated: 9/10/2025, 9:36:33 am
 class Solution:
     def avoidFlood(self, rains: List[int]) -> List[int]:
         n = len(rains)
@@ -9,7 +9,7 @@ class Solution:
 
         full = set()
         heap = []
-        ans = [100] * n
+        ans = [7] * n
         for i in range(n):
             lake = rains[i]
             if lake > 0:
