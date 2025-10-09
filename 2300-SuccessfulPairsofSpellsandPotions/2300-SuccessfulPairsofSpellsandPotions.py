@@ -1,25 +1,31 @@
-# Last updated: 8/10/2025, 3:07:59 pm
+# Last updated: 9/10/2025, 9:36:20 am
 class Solution:
-    def successfulPairs(self, spells: List[int], potions: List[int], success: int) -> List[int]:
-        m = len(spells)
-        n = len(potions)
+    def avoidFlood(self, rains: List[int]) -> List[int]:
+        n = len(rains)
+        
+        nearest = defaultdict(list)
+        for i in range(n):
+            nearest[rains[i]].append(i)
 
-        potions.sort()
-
-        ans = [0] * m
-        for i in range(m):
-            spell = spells[i]
-            l = 0
-            r = n
-
-            while l < r:
-                mid = (l + r) // 2
-
-                if potions[mid] * spell >= success:
-                    r = mid
-                else:
-                    l = mid + 1
-            
-            ans[i] = n - l
+        full = set()
+        heap = []
+        ans = [100] * n
+        for i in range(n):
+            lake = rains[i]
+            if lake > 0:
+                if lake in full: return []
+                full.add(lake)
+                index = bisect_left(nearest[lake], i + 1)
+                if index != len(nearest[lake]):
+                    heapq.heappush(heap, (nearest[lake][index], lake))
+                ans[i] = -1
+            else:
+                while heap and heap[0][0] <= i:
+                    heapq.heappop(heap)
+                
+                if heap:
+                    _, dry_lake = heapq.heappop(heap)
+                    full.remove(dry_lake)
+                    ans[i] = dry_lake
         
         return ans
