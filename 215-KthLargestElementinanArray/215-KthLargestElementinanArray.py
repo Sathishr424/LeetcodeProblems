@@ -1,34 +1,32 @@
-# Last updated: 9/10/2025, 11:27:35 am
+# Last updated: 9/10/2025, 11:28:44 am
 class Solution:
-    def findKthLargest(self, nums: List[int], k: int) -> int:
-        n = len(nums)
-        small = nums[0]
-        large = nums[0]
+    def findKthLargest(self, nums, k):
+        def quick_select(nums, k):
+            pivot = random.choice(nums)
+            left, mid, right = [], [], []
 
-        for num in nums:
-            if num < small:
-                small = num
-            elif num > large:
-                large = num
+            for num in nums:
+                if num > pivot:
+                    left.append(num)
+                elif num < pivot:
+                    right.append(num)
+                else:
+                    mid.append(num)
+            
+            if k <= len(left):
+                return quick_select(left, k)
+            
+            if len(left) + len(mid) < k:
+                return quick_select(right, k - len(left) - len(mid))
+            
+            return pivot
         
-        l = small
-        r = large
+        return quick_select(nums, k)
         
-        while l < r:
-            mid = (l + r + 1) // 2
 
-            large = 0
-            equal = 0
-            for i in range(n):
-                if nums[i] > mid:
-                    large += 1
-                elif nums[i] == mid:
-                    equal += 1
 
-            if k - large <= equal:
-                l = mid
-            else:
-                r = mid - 1
+            
+
+
+
         
-        return l
-                
