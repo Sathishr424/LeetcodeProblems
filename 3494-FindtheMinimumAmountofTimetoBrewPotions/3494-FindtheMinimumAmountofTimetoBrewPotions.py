@@ -1,26 +1,25 @@
-# Last updated: 15/6/2025, 10:01:44 am
+# Last updated: 9/10/2025, 8:40:14 am
+cmin = lambda x, y: x if x < y else y
 class Solution:
     def minTime(self, skill: List[int], mana: List[int]) -> int:
         n = len(skill)
         m = len(mana)
-        
-        start = 0
-        dp = [start]
-        for j in range(n):
-            start += skill[j] * mana[0]
-            dp.append(start)
 
-        for i in range(1, m):
-            min_diff = start - dp[1]
-            prev = start
-            for j in range(n):
-                min_diff = min(min_diff, start - dp[j+1])
-                start += skill[j] * mana[i]
+        # 0,  5,  30, 40, 60
+        # 60, 61, 66, 68, 72
 
-            start = prev - min_diff
-            dp[0] = start
-            for j in range(n):
-                start += skill[j] * mana[i]
-                dp[j+1] = start
-        
+        dp = [0] * (n + 1)
+        for i in range(1, n + 1):
+            dp[i] = dp[i - 1] + skill[i - 1] * mana[0]
+
+        for j in range(1, m):
+            a = dp[-1]
+            min_diff = a - dp[1]
+            for i in range(1, n):
+                a += skill[i - 1] * mana[j]
+                min_diff = cmin(min_diff, a - dp[i + 1])
+            dp[0] = dp[-1] - min_diff
+            for i in range(1, n + 1):
+                dp[i] = dp[i - 1] + skill[i - 1] * mana[j]
+
         return dp[-1]
