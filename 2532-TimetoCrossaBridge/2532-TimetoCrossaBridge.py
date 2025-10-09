@@ -1,9 +1,8 @@
-# Last updated: 9/10/2025, 8:38:46 pm
+# Last updated: 9/10/2025, 8:39:16 pm
+cmin = lambda x, y: x if x < y else y
+
 class Solution:
     def findCrossingTime(self, n: int, k: int, workers: List[List[int]]) -> int:
-        # 5, 4, 3
-        # l -> r + 2
-
         left = []
         right = []
         picked = []
@@ -34,7 +33,7 @@ class Solution:
                 elapsed += r
                 n -= 1
             elif left and right:
-                elapsed = min(left[0][0], right[0][0])
+                elapsed = cmin(left[0][0], right[0][0])
             elif left:
                 elapsed = left[0][0]
             else:
