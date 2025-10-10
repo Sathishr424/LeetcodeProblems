@@ -1,14 +1,15 @@
-# Last updated: 10/10/2025, 1:27:30 pm
+# Last updated: 10/10/2025, 1:28:10 pm
 class Solution:
     def maximumEnergy(self, energy: List[int], k: int) -> int:
-        # energy = [random.randrange(-1000, 1001) for _ in range(10**5)]
         n = len(energy)
         
-        @cache
+        cache = [-inf] * n
         def rec(index):
             if index >= n: return 0
+            if cache[index] != -inf: return cache[index]
             
-            return rec(index + k) + energy[index]
+            cache[index] = rec(index + k) + energy[index]
+            return cache[index]
         
         best = -inf
         for i in range(n):
