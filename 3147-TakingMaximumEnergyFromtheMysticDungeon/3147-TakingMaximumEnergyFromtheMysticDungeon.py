@@ -1,4 +1,5 @@
-# Last updated: 10/10/2025, 1:30:46 pm
+# Last updated: 10/10/2025, 1:38:46 pm
+cmax = lambda x, y: x if x > y else y
 class Solution:
     def maximumEnergy(self, energy: List[int], k: int) -> int:
         n = len(energy)
@@ -8,6 +9,6 @@ class Solution:
             s = 0
             for j in range(i, -1, -k):
                 s += energy[j]
-                best = max(s, best)
+                best = cmax(s, best)
         
         return best
