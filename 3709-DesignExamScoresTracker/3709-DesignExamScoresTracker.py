@@ -1,4 +1,4 @@
-# Last updated: 12/10/2025, 10:36:53 pm
+# Last updated: 12/10/2025, 10:37:49 pm
 class Node:
     def __init__(self, l, r):
         self.score = 0
@@ -6,7 +6,6 @@ class Node:
         self.right = None
         self.l = l
         self.r = r
-        # self.lazy = -1
 
 class SegmentTree:
     def __init__(self, n):
@@ -17,13 +16,6 @@ class SegmentTree:
             node.left = Node(l, mid)
         if node.right == None:
             node.right = Node(mid +1, r)
-        
-        # if node.lazy != -1:
-        #     node.left.score += node.lazy
-        #     node.right.score += node.lazy
-        #     node.left.lazy = node.lazy
-        #     node.right.lazy = node.lazy
-        #     node.lazy = -1
         
     def update(self, node, l, r, index, score):
         if l == r:
@@ -60,7 +52,6 @@ class ExamTracker:
 
     def totalScore(self, startTime: int, endTime: int) -> int:
         return self.segTree.query(self.segTree.node, 1, self.n, startTime, endTime)
-
 
 # Your ExamTracker object will be instantiated and called as such:
 # obj = ExamTracker()
