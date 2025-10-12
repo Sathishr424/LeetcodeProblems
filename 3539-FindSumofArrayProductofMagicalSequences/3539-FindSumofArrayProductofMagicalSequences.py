@@ -1,5 +1,5 @@
-# Last updated: 12/10/2025, 8:06:47 pm
-N = 101
+# Last updated: 12/10/2025, 8:07:27 pm
+N = 31
 fact = [1] * N
 mod = 10**9 + 7
 
@@ -20,7 +20,6 @@ class Solution:
         @cache
         def rec(index, set_bits, next, rem):
             if rem == 0:
-                # print(set_bits, next)
                 while next:
                     set_bits += next % 2
                     next //= 2
