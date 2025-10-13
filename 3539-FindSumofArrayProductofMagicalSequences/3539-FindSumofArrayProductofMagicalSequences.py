@@ -1,4 +1,4 @@
-# Last updated: 12/10/2025, 8:07:27 pm
+# Last updated: 13/10/2025, 5:27:16 pm
 N = 31
 fact = [1] * N
 mod = 10**9 + 7
@@ -15,7 +15,6 @@ for i in range(N-2, -1, -1):
 class Solution:
     def magicalSum(self, m: int, k: int, nums: List[int]) -> int:
         n = len(nums)
-        mod = 10 ** 9 + 7
 
         @cache
         def rec(index, set_bits, next, rem):
