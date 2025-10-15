@@ -1,4 +1,4 @@
-# Last updated: 14/10/2025, 2:08:35 pm
+# Last updated: 15/10/2025, 8:54:37 am
 class Solution:
     def maxIncreasingSubarrays(self, nums: List[int]) -> int:
         n = len(nums)
