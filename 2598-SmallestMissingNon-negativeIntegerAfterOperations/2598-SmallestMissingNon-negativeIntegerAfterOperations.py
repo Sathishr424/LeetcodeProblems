@@ -1,7 +1,6 @@
-# Last updated: 16/10/2025, 4:24:45 pm
+# Last updated: 16/10/2025, 4:25:05 pm
 class Solution:
     def findSmallestInteger(self, nums: List[int], value: int) -> int:
-        n = len(nums)
         counter = [0 for _ in range(value)]
 
         for num in nums:
