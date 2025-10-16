@@ -1,4 +1,4 @@
-# Last updated: 17/10/2025, 2:24:06 am
+# Last updated: 17/10/2025, 2:24:21 am
 N = 10**5 + 1
 is_prime = [1] * N
 is_prime[0] = 0
@@ -18,6 +18,7 @@ for i in range(N):
 def strip(num):
     s = 1
     for p in primes:
+        if p > num: return s
         if num % p == 0:
             cnt = 0
             while num % p == 0:
