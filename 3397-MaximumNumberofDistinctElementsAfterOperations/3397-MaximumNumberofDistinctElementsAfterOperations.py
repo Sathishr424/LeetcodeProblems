@@ -1,13 +1,12 @@
-# Last updated: 18/10/2025, 2:08:13 pm
+# Last updated: 18/10/2025, 2:09:03 pm
 class Solution:
     def maxDistinctElements(self, nums: List[int], k: int) -> int:
         n = len(nums)
-        nums.sort()
-
         if k * 2 >= n: return n
 
         k_range = [i for i in range(-k, k+1)]
         used = {}
+        nums.sort()
 
         for num in nums:
             l = 0
@@ -23,5 +22,5 @@ class Solution:
             
             if (num + k_range[l]) not in used:
                 used[(num + k_range[l])] = 1
-        # print(used)
+
         return len(used)
