@@ -1,4 +1,7 @@
-# Last updated: 21/10/2025, 1:35:24 pm
+# Last updated: 21/10/2025, 1:40:47 pm
+cmin = lambda x, y: x if x < y else y
+cmax = lambda x, y: x if x > y else y
+
 class Solution:
     def maxFrequency(self, nums: List[int], k: int, numOperations: int) -> int:
         n = len(nums)
@@ -20,12 +23,12 @@ class Solution:
             left = bisect_left(nums, nums[i] - k)
             right = bisect_right(nums, nums[i] + k)
 
-            best = max(best, min(right - left, numOperations + cnts[i]))
-        
-        for i in range(n):
+            best = cmax(best, cmin(right - left, numOperations + cnts[i]))
+
             left = bisect_left(nums, nums[i] - (k * 2))
             right = bisect_right(nums, nums[i] + (k * 2))
 
-            best = max( best, min(numOperations, i - left + 1), min(numOperations, right - i) )
+            best = cmax( best, cmin(numOperations, i - left + 1) )
+            best = cmax( best, cmin(numOperations, right - i) )
         
         return best
