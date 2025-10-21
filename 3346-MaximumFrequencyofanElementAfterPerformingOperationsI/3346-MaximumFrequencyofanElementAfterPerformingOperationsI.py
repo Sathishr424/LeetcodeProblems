@@ -1,4 +1,4 @@
-# Last updated: 21/10/2025, 1:38:05 pm
+# Last updated: 21/10/2025, 1:39:36 pm
 class Solution:
     def maxFrequency(self, nums: List[int], k: int, numOperations: int) -> int:
         n = len(nums)
