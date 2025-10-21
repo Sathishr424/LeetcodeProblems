@@ -1,4 +1,4 @@
-# Last updated: 21/10/2025, 1:33:51 pm
+# Last updated: 21/10/2025, 1:38:05 pm
 class Solution:
     def maxFrequency(self, nums: List[int], k: int, numOperations: int) -> int:
         n = len(nums)
@@ -21,11 +21,11 @@ class Solution:
             right = bisect_right(nums, nums[i] + k)
 
             best = max(best, min(right - left, numOperations + cnts[i]))
-        
-        for i in range(n):
             left = bisect_left(nums, nums[i] - (k * 2))
             right = bisect_right(nums, nums[i] + (k * 2))
 
             best = max( best, min(numOperations, i - left + 1), min(numOperations, right - i) )
+        
+        # for i in range(n):
         
         return best
