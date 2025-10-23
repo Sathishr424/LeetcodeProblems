@@ -1,4 +1,4 @@
-# Last updated: 24/10/2025, 5:14:18 am
+# Last updated: 24/10/2025, 5:17:41 am
 fact = [1] * 10
 for i in range(1, 10):
     fact[i] = i * fact[i-1]
@@ -33,15 +33,12 @@ class Solution:
         row = n-2
 
         left = 0
-        for i in range(n-1):
-            left += ncr(row, i) * int(s[i])
-            left %= 10
-        
         right = 0
-        for i in range(1, n):
-            right += ncr(row, i - 1) * int(s[i])
+        for i in range(n-1):
+            coeff = ncr(row, i)
+            left += coeff * int(s[i]) % 10
+            right += coeff * int(s[i + 1]) % 10
+            left %= 10
             right %= 10
-        
-        # print(left, right)
         
         return left == right
