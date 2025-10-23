@@ -1,43 +1,47 @@
-# Last updated: 23/5/2025, 8:12:10 pm
-fact = [1] * 5
-for i in range(1, 5):
-    fact[i] = fact[i-1] * i
+# Last updated: 24/10/2025, 5:14:18 am
+fact = [1] * 10
+for i in range(1, 10):
+    fact[i] = i * fact[i-1]
 
-pre = [[0] * 10 for _ in range(10)]
-for i in range(10):
-    pre[i % 5][i % 2] = i
+def ncrC(n, k, p):
+    ans = 1
+    while n and k:
+        x = n % p
+        y = k % p
+
+        ans *= fact[x] // (fact[y] * fact[x - y])
+        ans %= p
+
+        n //= p
+        k //= p
+    
+    return ans
+
+def ncr(n, k):
+    coeff2 = ncrC(n, k, 2)
+    coeff5 = ncrC(n, k, 5)
+
+    for i in range(10):
+        if i % 2 == coeff2 and i % 5 == coeff5:
+            return i
 
 class Solution:
     def hasSameDigits(self, s: str) -> bool:
+        # 34789
+        # 14641
         n = len(s)
-
-        def lucas(row, col):
-            p_5 = getCoeff(row, col, 5)
-            p_2 = getCoeff(row, col, 2)
-
-            return pre[p_5][p_2]
-
-        def getCoeff(row, col, mod):
-            ans = 1
-            while row and col:
-                r = row % mod
-                c = col % mod
-                if r < c: return 0
-                ans *= fact[r] // (fact[c] * fact[r - c])
-     
-                ans %= mod
-                row //= mod
-                col //= mod
-            
-            return ans
-
         row = n-2
+
         left = 0
+        for i in range(n-1):
+            left += ncr(row, i) * int(s[i])
+            left %= 10
+        
         right = 0
-
-        for col in range(n-1):
-            e = lucas(row, col)
-            left = (left + int(s[col]) * e % 10) % 10
-            right = (right + int(s[col+1]) * e % 10) % 10
-
+        for i in range(1, n):
+            right += ncr(row, i - 1) * int(s[i])
+            right %= 10
+        
+        # print(left, right)
+        
         return left == right
