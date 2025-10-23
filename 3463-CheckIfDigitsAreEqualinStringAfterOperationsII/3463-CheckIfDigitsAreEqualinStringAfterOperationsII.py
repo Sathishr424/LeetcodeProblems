@@ -1,4 +1,4 @@
-# Last updated: 24/10/2025, 5:21:53 am
+# Last updated: 24/10/2025, 5:27:40 am
 fact = [1] * 5
 for i in range(1, 5):
     fact[i] = i * fact[i-1]
@@ -12,7 +12,7 @@ def getCoeffForPrime(n, k, p):
     while n and k:
         x = n % p
         y = k % p
-
+        if x < y: return 0
         ans *= ncr(x, y)
         ans %= p
 
