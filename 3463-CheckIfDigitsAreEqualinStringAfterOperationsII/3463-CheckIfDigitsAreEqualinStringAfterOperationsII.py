@@ -1,4 +1,4 @@
-# Last updated: 24/10/2025, 5:27:40 am
+# Last updated: 24/10/2025, 5:43:49 am
 fact = [1] * 5
 for i in range(1, 5):
     fact[i] = i * fact[i-1]
