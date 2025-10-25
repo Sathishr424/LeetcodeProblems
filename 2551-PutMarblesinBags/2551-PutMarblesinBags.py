@@ -1,4 +1,4 @@
-# Last updated: 25/10/2025, 6:51:07 am
+# Last updated: 25/10/2025, 6:52:20 am
 class Solution:
     def putMarbles(self, weights: List[int], k: int) -> int:
         n = len(weights)
@@ -10,4 +10,4 @@ class Solution:
         
         arr.sort()
 
-        return sum(arr[len(arr) - k:]) - sum(arr[:k])
+        return sum(arr[n - k - 1:]) - sum(arr[:k])
