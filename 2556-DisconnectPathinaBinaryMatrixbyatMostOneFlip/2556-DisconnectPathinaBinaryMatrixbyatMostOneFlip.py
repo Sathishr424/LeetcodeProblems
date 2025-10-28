@@ -1,7 +1,6 @@
-# Last updated: 28/10/2025, 4:50:28 pm
+# Last updated: 28/10/2025, 4:55:55 pm
 class Solution:
     def isPossibleToCutPath(self, grid: List[List[int]]) -> bool:
-        if grid[0][0] == 0 or grid[-1][-1] == 0: return true
         m = len(grid)
         n = len(grid[0])
 
@@ -12,7 +11,7 @@ class Solution:
                 dp[i][j][d] = 1
                 return 1
             if dp[i][j][d] != -1: return dp[i][j][d]
-            # print(i, j, d)
+
             can = 0
             if i + 1 < m and grid[i + 1][j] == 1:
                 can = dfs(i + 1, j, 0) or can
@@ -29,7 +28,7 @@ class Solution:
 
         if n > 1 and dp[0][1][1] != 1: return True
         if m > 1 and dp[1][0][0] != 1: return True
-        # [print(row) for row in dp]
+
         for i in range(1, m-1):
             cnt = 0
             for j in range(n):
@@ -41,5 +40,3 @@ class Solution:
         if dp[-1][-1][0] == -1 or dp[-1][-1][1] == -1: return True
 
         return False
-
-        
