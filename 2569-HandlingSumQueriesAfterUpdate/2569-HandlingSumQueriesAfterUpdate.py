@@ -1,11 +1,10 @@
-# Last updated: 30/10/2025, 9:54:14 pm
+# Last updated: 30/10/2025, 9:59:58 pm
 class SegmentTree:
     def __init__(self, nums):
         self.nums = nums
         self.n = len(nums)
         self.ones = [0] * (self.n * 4)
         self.lazy = [0] * (self.n * 4)
-        self.all_ones = sum(nums)
         self.build(0, self.n-1, 0)
     
     def build(self, l, r, index):
@@ -34,25 +33,18 @@ class SegmentTree:
     
     def update(self, l, r, index, left, right):
         if l > right or r < left:
-            return
+            return self.ones[index]
         
         if l >= left and r <= right:
-            old_ones = self.ones[index]
-            new_ones = (r - l + 1) - self.ones[index]
-            
-            self.all_ones += new_ones - old_ones
-            
-            self.ones[index] = new_ones
+            self.ones[index] = (r - l + 1) - self.ones[index]
             self.lazy[index] ^= 1
-            return
+            return self.ones[index]
         
         mid = (l + r) // 2
 
         self.extendLazy(index, l, mid, r)
-
-        self.update(l, mid, index * 2 + 1, left, right)
-        self.update(mid + 1, r, index * 2 + 2, left, right)
-        self.ones[index] = self.ones[index * 2 + 1] + self.ones[index * 2 + 2]
+        self.ones[index] = self.update(l, mid, index * 2 + 1, left, right) + self.update(mid + 1, r, index * 2 + 2, left, right)
+        return self.ones[index]
 
 class Solution:
     def handleQuery(self, nums1: List[int], nums2: List[int], queries: List[List[int]]) -> List[int]:
@@ -66,7 +58,7 @@ class Solution:
             if t == 1:
                 segTree.update(0, n-1, 0, l, r)
             elif t == 2:
-                totalSum += segTree.all_ones * l
+                totalSum += segTree.ones[0] * l
             else:
                 ret.append(totalSum)
 
