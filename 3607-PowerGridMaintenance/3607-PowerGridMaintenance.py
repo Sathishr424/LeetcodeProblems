@@ -1,4 +1,4 @@
-# Last updated: 6/11/2025, 2:01:34 pm
+# Last updated: 6/11/2025, 2:04:11 pm
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -31,11 +31,14 @@ class Solution:
         for u, v in connections:
             un.union(u-1, v-1)
         
-        parents = defaultdict(lambda: SortedList())
+        parents = defaultdict(list)
 
         for i in range(n):
-            parents[un.find(i)].add(i)
+            parents[un.find(i)].append(i)
         
+        for par in parents:
+            heapq.heapify(parents[par])
+
         ret = []
         online = [1] * n
         for t, node in queries:
@@ -44,11 +47,15 @@ class Solution:
                 if online[node]:
                     ret.append(node + 1)
                 else:
-                    par = un.find(node)
-                    ret.append(parents[par][0] + 1 if len(parents[par]) else -1)
+                    heap = parents[un.find(node)]
+                    while heap and online[heap[0]] == 0:
+                        heapq.heappop(heap)
+                    if heap:
+                        ret.append(heap[0] + 1)
+                    else:
+                        ret.append(-1)
             else:
                 par = un.find(node)
                 online[node] = 0
-                parents[par].discard(node)
         
         return ret
