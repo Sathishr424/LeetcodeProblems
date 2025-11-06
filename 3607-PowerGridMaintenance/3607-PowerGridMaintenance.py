@@ -1,4 +1,4 @@
-# Last updated: 6/11/2025, 2:04:11 pm
+# Last updated: 6/11/2025, 2:08:07 pm
 class Union:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
@@ -55,7 +55,6 @@ class Solution:
                     else:
                         ret.append(-1)
             else:
-                par = un.find(node)
                 online[node] = 0
         
         return ret
