@@ -1,39 +1,38 @@
-# Last updated: 7/10/2025, 3:51:47 am
+# Last updated: 7/11/2025, 2:44:39 pm
 class Solution:
     def maxPower(self, stations: List[int], r: int, k: int) -> int:
         n = len(stations)
-        powers = [0] * n
+
         prefix = [0]
+        for s in stations:
+            prefix.append(prefix[-1] + s)
+
+        powers = []
         for i in range(n):
-            prefix.append(prefix[-1] + stations[i])
-        
-        for i in range(n):
-            powers[i] += prefix[i] - prefix[max(0, i - r)]
-            powers[i] += prefix[min(n, i + r + 1)] - prefix[i]
+            power = prefix[i] - prefix[max(0, i-r)]
+            power += prefix[min(n, i+r+1)] - prefix[i]
+
+            powers.append(power)
 
         def isGood(mid):
-            need = [0] * n
-            for i in range(n):
-                need[i] = max(0, mid - powers[i])
-            line = [0] * n
-            curr = 0
+            stack = deque([])
             rem = k
+            extra = 0
             for i in range(n):
-                curr += line[i]
-                if need[i] > curr:
-                    want = need[i] - curr
-                    if want > rem: return False
-                        
-                    index = i + (r * 2) + 1
-                    if index < n:
-                        line[index] -= want
-                    
-                    rem -= want
-                    curr += want
-            return True
+                while stack and abs(i - stack[0][0]) > r: 
+                    extra -= stack.popleft()[1]
+                curr = powers[i] + extra
+                if curr < mid:
+                    need = mid - curr
+                    if need > rem: return False
+                    stack.append((min(n, i + r), need))
+                    rem -= need
+                    extra += need
 
+            return True
+        
         left = min(powers)
-        right = max(powers) + k
+        right = left + k
 
         while left < right:
             mid = (left + right + 1) // 2
@@ -42,5 +41,5 @@ class Solution:
                 left = mid
             else:
                 right = mid - 1
-
+        
         return left
