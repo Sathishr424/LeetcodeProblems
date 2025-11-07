@@ -1,4 +1,6 @@
-# Last updated: 7/11/2025, 2:53:36 pm
+# Last updated: 7/11/2025, 2:54:27 pm
+cmin = lambda x, y: x if x < y else y
+cmax = lambda x, y: x if x > y else y
 class Solution:
     def maxPower(self, stations: List[int], r: int, k: int) -> int:
         n = len(stations)
@@ -9,8 +11,8 @@ class Solution:
 
         powers = []
         for i in range(n):
-            power = prefix[i] - prefix[max(0, i-r)]
-            power += prefix[min(n, i+r+1)] - prefix[i]
+            power = prefix[i] - prefix[cmax(0, i-r)]
+            power += prefix[cmin(n, i+r+1)] - prefix[i]
 
             powers.append(power)
 
@@ -25,7 +27,7 @@ class Solution:
                     need = mid - p
                     if need > rem: return False
                     curr += need
-                    diff[min(n, i + (r * 2) + 1)] -= need
+                    diff[cmin(n, i + (r * 2) + 1)] -= need
                     rem -= need
 
             return True
