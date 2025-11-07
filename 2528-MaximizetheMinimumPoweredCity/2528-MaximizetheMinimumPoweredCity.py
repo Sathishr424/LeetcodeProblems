@@ -1,4 +1,4 @@
-# Last updated: 7/11/2025, 2:44:39 pm
+# Last updated: 7/11/2025, 2:53:36 pm
 class Solution:
     def maxPower(self, stations: List[int], r: int, k: int) -> int:
         n = len(stations)
@@ -15,19 +15,18 @@ class Solution:
             powers.append(power)
 
         def isGood(mid):
-            stack = deque([])
+            diff = [0] * (n + 1)
             rem = k
-            extra = 0
+            curr = 0
             for i in range(n):
-                while stack and abs(i - stack[0][0]) > r: 
-                    extra -= stack.popleft()[1]
-                curr = powers[i] + extra
-                if curr < mid:
-                    need = mid - curr
+                curr += diff[i]
+                p = curr + powers[i]
+                if p < mid:
+                    need = mid - p
                     if need > rem: return False
-                    stack.append((min(n, i + r), need))
+                    curr += need
+                    diff[min(n, i + (r * 2) + 1)] -= need
                     rem -= need
-                    extra += need
 
             return True
         
