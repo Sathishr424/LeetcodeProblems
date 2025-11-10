@@ -1,4 +1,4 @@
-// Last updated: 10/11/2025, 7:25:20 pm
+// Last updated: 10/11/2025, 7:25:48 pm
 #include <iostream>
 #include <ostream>
 #include <unordered_map>
@@ -13,9 +13,6 @@ public:
 
         int min_diff = INT_MAX;
         for (int index = 0; index < nums.size(); index++) {
-            if (indexes.find(nums[index]) == indexes.end()) {
-                indexes[nums[index]] = vector<int>();
-            }
             vector<int>& curr_nums = indexes[nums[index]];
             curr_nums.push_back(index);
             if (curr_nums.size() >= 3) {
