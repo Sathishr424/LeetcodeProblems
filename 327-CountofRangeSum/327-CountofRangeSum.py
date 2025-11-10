@@ -1,4 +1,4 @@
-# Last updated: 11/11/2025, 1:26:13 am
+# Last updated: 11/11/2025, 1:27:12 am
 class Solution:
     def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
         n = len(nums)
@@ -10,8 +10,7 @@ class Solution:
             s += nums[i]
             left = sl.bisect_left(s - upper)
             right = sl.bisect_right(s - lower)
-            # print(s, sl, (s - upper, s - lower), left, right)
-            ans += max(0, right - left)
+            ans += right - left
             sl.add(s)
         
         return ans
