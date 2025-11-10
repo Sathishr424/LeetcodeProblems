@@ -1,4 +1,4 @@
-# Last updated: 10/11/2025, 3:55:36 pm
+# Last updated: 10/11/2025, 3:57:06 pm
 from math import floor, log2
 
 class sparseTable:
@@ -35,7 +35,7 @@ class Solution:
         
         table = sparseTable(nums)
         op = 0
-        for num in sorted(indexes.keys()):
+        for num in indexes.keys():
             if num == 0: continue
             prev = indexes[num][0]
             for index in indexes[num]:
