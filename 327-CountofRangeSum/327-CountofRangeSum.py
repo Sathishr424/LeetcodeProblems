@@ -1,27 +1,17 @@
-# Last updated: 22/5/2025, 3:00:36 am
+# Last updated: 11/11/2025, 1:26:13 am
 class Solution:
     def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
         n = len(nums)
-
-        prefixes = [0] * n
-        s = 0
-        for i in range(n-1, -1, -1):
-            s += nums[i]
-            prefixes[i] = s
-
+        ans = 0
         sl = SortedList()
-        ret = 0
-
+        sl.add(0)
+        s = 0
         for i in range(n):
-            sl.add(prefixes[i])
-            curr = prefixes[i] - nums[i]
-
-            l = sl.bisect_left(curr+lower)
-            r = sl.bisect_right(curr+upper)
-
-            ret += r - l
+            s += nums[i]
+            left = sl.bisect_left(s - upper)
+            right = sl.bisect_right(s - lower)
+            # print(s, sl, (s - upper, s - lower), left, right)
+            ans += max(0, right - left)
+            sl.add(s)
         
-        return ret
-            
-
-        
+        return ans
