@@ -1,4 +1,4 @@
-// Last updated: 11/11/2025, 2:13:30 pm
+// Last updated: 11/11/2025, 2:15:37 pm
 #include <bits/stdc++.h>
 #include <iostream>
 #include <vector>
@@ -14,10 +14,10 @@ struct b_size{
     }
 };
 
+int dp[601][101][101];
+int neg_inf = INT_MIN;
 class Solution {
 public:
-    int dp[601][101][101];
-    int neg_inf = INT_MIN;
     int findMaxForm(vector<string>& strs, int m, int n) {
         int N = strs.size();
 
@@ -42,7 +42,7 @@ public:
                 }
             }
         }
-        
+
         dp[0][m][n] = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j <= m; j++) {
