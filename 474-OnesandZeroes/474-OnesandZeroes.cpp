@@ -1,4 +1,4 @@
-// Last updated: 11/11/2025, 2:10:18 pm
+// Last updated: 11/11/2025, 2:11:17 pm
 #include <bits/stdc++.h>
 #include <iostream>
 #include <vector>
@@ -33,7 +33,7 @@ public:
             sizes[i].zeroes = zero;
         }
         int neg_inf = INT_MIN;
-        // cout << neg_inf << endl;
+
         int dp[N + 1][m + 1][n + 1];
         for (int i = 0; i <= N; i++) {
             for (int j = 0; j <= m; j++) {
@@ -51,7 +51,6 @@ public:
 
                     dp[i + 1][j][k] = max(dp[i + 1][j][k], dp[i][j][k]);
                     if (j >= zeroes && k >= ones) {
-                        // cout << i << ", " << j << ", " << k << " " << dp[i][j][k] << endl;
                         dp[i + 1][j - zeroes][k - ones] = max(dp[i + 1][j - zeroes][k - ones], dp[i][j][k] + 1);
                     }
                 }
