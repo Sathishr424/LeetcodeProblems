@@ -1,4 +1,4 @@
-// Last updated: 13/11/2025, 6:15:57 pm
+// Last updated: 13/11/2025, 6:16:39 pm
 #include <cmath>
 #include <iostream>
 #include <queue>
@@ -9,7 +9,7 @@ using namespace std;
 class TextEditor {
 public:
     vector<char> left;
-    deque<char> right;
+    vector<char> right;
     TextEditor() {
     }
 
@@ -30,7 +30,7 @@ public:
 
     string cursorLeft(int k) {
         while (left.size() && k) {
-            right.push_front(left.back());
+            right.push_back(left.back());
             left.pop_back();
             k--;
         }
@@ -43,8 +43,8 @@ public:
 
     string cursorRight(int k) {
         while (right.size() && k) {
-            left.push_back(right.front());
-            right.pop_front();
+            left.push_back(right.back());
+            right.pop_back();
             k--;
         }
         string ret;
@@ -54,12 +54,3 @@ public:
         return ret;
     }
 };
-
-/**
- * Your TextEditor object will be instantiated and called as such:
- * TextEditor* obj = new TextEditor();
- * obj->addText(text);
- * int param_2 = obj->deleteText(k);
- * string param_3 = obj->cursorLeft(k);
- * string param_4 = obj->cursorRight(k);
- */
