@@ -1,4 +1,4 @@
-// Last updated: 14/11/2025, 4:24:05 pm
+// Last updated: 14/11/2025, 4:26:10 pm
 int diff[501][501];
 class Solution {
 public:
@@ -24,13 +24,6 @@ public:
             diff[i2 + 1][j2 + 1] += 1;
         }
 
-        // for (int i=0; i<n+1; i++) {
-        //     for (int j=0; j<n+1; j++) {
-        //         cout << diff[i][j] << ", ";
-        //     }
-        //     cout << endl;
-        // }
-
         for (int i=0; i<n; i++) {
             int curr=0;
             for (int j=0; j<n; j++) {
@@ -39,21 +32,11 @@ public:
             }
         }
 
-        // cout << endl;
-        
-        // for (int i=0; i<n; i++) {
-        //     for (int j=0; j<n; j++) {
-        //         cout << ret[i][j] << ", ";
-        //     }
-        //     cout << endl;
-        // }
-
         for (int j=0; j<n; j++) {
             int curr=0;
             for (int i=0; i<n; i++) {
-                int tmp = ret[i][j];
-                ret[i][j] += curr;
-                curr += tmp;
+                curr += ret[i][j];
+                ret[i][j] = curr;
             }
         }
 
