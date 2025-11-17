@@ -1,4 +1,4 @@
-# Last updated: 18/11/2025, 2:25:12 am
+# Last updated: 18/11/2025, 2:29:13 am
 N = 10**6 + 1
 is_prime = [1] * N
 is_prime[0] = 0
@@ -35,7 +35,6 @@ def getPrimeFactors(num):
 class Solution:
     def findValidSplit(self, nums: List[int]) -> int:
         n = len(nums)
-        if n == 1: return -1
         factors = [[] for _ in range(n)]
         left = defaultdict(int)
         right = defaultdict(int)
@@ -61,4 +60,3 @@ class Solution:
                 right[p] -= cnt
 
         return -1
-        
