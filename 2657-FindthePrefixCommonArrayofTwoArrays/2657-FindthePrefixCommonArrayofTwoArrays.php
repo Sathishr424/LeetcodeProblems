@@ -1,28 +1,15 @@
-// Last updated: 17/11/2025, 9:18:12 pm
+// Last updated: 17/11/2025, 9:29:54 pm
 class Solution {
+
     /**
-     * @param Integer[] $A
-     * @param Integer[] $B
-     * @return Integer[]
+     * @param String $word
+     * @return Integer
      */
-    function findThePrefixCommonArray($A, $B) {
-        $ret = [];
+    function minimumPushes($word) {
+        $n = strlen($word);
 
-        $n = count($A);
-        $a = [];
-        $b = [];
-
-        for ($i=0; $i<$n; $i++) {
-            $a[$A[$i]] = 1;
-            $b[$B[$i]] = 1;
-
-            $cnt = 0;
-            foreach ($a as $num => $_) {
-                if (isset($b[$num])) $cnt++;
-            }
-            $ret[] = $cnt;
-        }
-
-        return $ret;
+        $rem = $n % 8;
+        $cnt = floor($n / 8);
+        return floor($cnt * ($cnt + 1) / 2) * 8 + floor($rem * ($cnt + 1));
     }
 }
