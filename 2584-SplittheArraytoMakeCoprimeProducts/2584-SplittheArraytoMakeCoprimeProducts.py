@@ -1,4 +1,4 @@
-# Last updated: 18/11/2025, 2:29:13 am
+# Last updated: 18/11/2025, 2:38:15 am
 N = 10**6 + 1
 is_prime = [1] * N
 is_prime[0] = 0
@@ -39,11 +39,11 @@ class Solution:
         left = defaultdict(int)
         right = defaultdict(int)
 
-        for i in range(n):
+        factors[0] = getPrimeFactors(nums[0])
+        for i in range(1, n):
             factors[i] = getPrimeFactors(nums[i])
-            if i > 0:
-                for p, cnt in factors[i]:
-                    right[p] += cnt
+            for p, cnt in factors[i]:
+                right[p] += cnt
 
         for p, cnt in factors[0]:
             left[p] += cnt
