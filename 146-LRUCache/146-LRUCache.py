@@ -1,34 +1,65 @@
-# Last updated: 22/11/2025, 3:09:04 am
+# Last updated: 22/11/2025, 3:51:08 am
+class Node:
+    def __init__(self, key, val):
+        self.key = key
+        self.val = val
+        self.prev = None
+        self.next = None
+
 class LRUCache:
     def __init__(self, capacity: int):
-        self.time = 0
-        self.capacity = capacity
-        self.last_used = defaultdict(int)
-        self.heap = []
-        self.cache = {}
+        self.head = None
+        self.tail = None
+        self.size = 0
+        self.cap = capacity
+        self.keys = {}
+    
+    def removeNode(self, node):
+        if node.prev and node.next:
+            node.prev.next = node.next
+            node.next.prev = node.prev
+        elif node.prev:
+            node.prev.next = None
+            self.tail = node.prev
+        elif node.next:
+            node.next.prev = None
+            self.head = node.next
+        else:
+            self.head = None
+            self.tail = None
+        node.next = None
+        node.prev = None
+
+    def addToTop(self, new_node):
+        if self.head:
+            self.head.prev = new_node
+            new_node.next = self.head
+            self.head = new_node
+        else:
+            self.head = new_node
+            self.tail = new_node
 
     def get(self, key: int) -> int:
-        if key in self.cache:
-            self.last_used[key] = self.time
-            heapq.heappush(self.heap, (self.time, key))
-            self.time += 1
-            return self.cache[key]
+        if key in self.keys:
+            node = self.keys[key]
+            self.removeNode(node)
+            self.addToTop(node)
+            return self.keys[key].val
         return -1
 
     def put(self, key: int, value: int) -> None:
-        if key not in self.cache and len(self.cache) == self.capacity:
-            while self.heap and self.last_used[self.heap[0][1]] != self.heap[0][0]:
-                heapq.heappop(self.heap)
-            _, old_key = heapq.heappop(self.heap)
-            del self.cache[old_key]
-        
-        self.cache[key] = value
-        self.last_used[key] = self.time
-        heapq.heappush(self.heap, (self.time, key))
-
-        self.time += 1
-        # print(self.heap, self.cache, dict(self.last_used))
-
+        if key not in self.keys:
+            new_node = Node(key, value)
+            if self.size == self.cap:
+                del self.keys[self.tail.key]
+                self.removeNode(self.tail)
+                self.size -= 1
+            self.keys[key] = new_node
+            self.size += 1
+        else:
+            self.removeNode(self.keys[key])
+            self.keys[key].val = value
+        self.addToTop(self.keys[key])
 
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
