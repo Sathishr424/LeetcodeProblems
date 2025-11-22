@@ -1,4 +1,4 @@
-# Last updated: 23/11/2025, 12:35:28 am
+# Last updated: 23/11/2025, 12:36:26 am
 class Solution:
     def lexSmallestNegatedPerm(self, n: int, target: int) -> List[int]:
         total = n * (n + 1) / 2
@@ -18,12 +18,11 @@ class Solution:
                 other -= i
 
         if rem+other != target: return []
+        for num in used:
+            ret.append(-num)
+
         for i in range(1, n + 1):
             if i not in used:
                 ret.append(i)
 
-        for num in used:
-            ret.append(-num)
-
-        ret.sort()
         return ret
