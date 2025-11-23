@@ -1,4 +1,4 @@
-# Last updated: 23/11/2025, 6:06:29 am
+# Last updated: 24/11/2025, 1:45:17 am
 cmax = lambda x, y: x if x > y else y
 
 class Solution:
@@ -7,13 +7,14 @@ class Solution:
         total = sum(nums)
         if total % 3 == 0: return total
 
+        nums.sort()
         need = total % 3
         max_ans = 0
         for num in nums:
             if num % 3 == need:
                 max_ans = cmax(max_ans, total - num)
+                break
         
-        nums.sort()
         need = (3 - total) % 3
         for num in nums:
             if num % 3 == need:
