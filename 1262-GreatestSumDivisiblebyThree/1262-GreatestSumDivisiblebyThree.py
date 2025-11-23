@@ -1,17 +1,16 @@
-# Last updated: 23/11/2025, 5:40:06 am
+# Last updated: 23/11/2025, 5:56:11 am
 class Solution:
     def maxSumDivThree(self, nums: List[int]) -> int:
         n = len(nums)
 
-        @cache
-        def rec(index, rem):
-            if index == n:
-                if rem == 0: return 0
-                return -inf
+        dp = [[-inf] * (n + 1) for _ in range(3)]
+        dp[0][0] = 0
 
-            ans = max(rec(index + 1, rem), rec(index + 1, (nums[index] + rem) % 3) + nums[index])
-            return ans
+        for i in range(n):
+            for rem in range(3):
+                dp[rem][i + 1] = max(dp[rem][i + 1], dp[rem][i])
+
+                new_rem = (rem + nums[i]) % 3
+                dp[new_rem][i + 1] = max(dp[new_rem][i + 1], dp[rem][i] + nums[i])
         
-        ans = max(0, rec(0, 0))
-        rec.cache_clear()
-        return ans
+        return dp[0][n]
