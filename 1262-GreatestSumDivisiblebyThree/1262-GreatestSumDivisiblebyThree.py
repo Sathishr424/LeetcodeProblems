@@ -1,4 +1,4 @@
-# Last updated: 23/11/2025, 5:56:11 am
+# Last updated: 23/11/2025, 5:57:05 am
 class Solution:
     def maxSumDivThree(self, nums: List[int]) -> int:
         n = len(nums)
