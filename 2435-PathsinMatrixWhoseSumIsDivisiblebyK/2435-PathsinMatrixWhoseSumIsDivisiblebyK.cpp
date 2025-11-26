@@ -1,4 +1,4 @@
-// Last updated: 26/11/2025, 6:49:46 am
+// Last updated: 26/11/2025, 6:50:20 am
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -9,7 +9,7 @@
 
 using namespace std;
 
-int mod = 1000000007;
+const int mod = 1000000007;
 
 class Solution {
 public:
@@ -23,8 +23,6 @@ public:
         for (int i=0; i<m; i++) {
             for (int j=0; j<n; j++) {
                 for (int rem=0; rem<k; rem++) {
-                    // cout << i << ", " << j << ", " << rem << ", " << dp[i][j][rem] << endl;
-
                     int new_rem = (grid[i][j] + rem) % k;
                     dp[i + 1][j][new_rem] += dp[i][j][rem];
                     dp[i + 1][j][new_rem] %= mod;
