@@ -1,9 +1,9 @@
-// Last updated: 27/11/2025, 9:18:25 am
+// Last updated: 27/11/2025, 9:18:58 am
 1class Solution {
 2public:
 3    long long maxSubarraySum(vector<int>& nums, int k) {
 4        int n = nums.size();
-5        unordered_map<long, long long> seen;
+5        unordered_map<int, long long> seen;
 6
 7        long long best_sum = LLONG_MIN;
 8        long long sum = 0;
