@@ -1,4 +1,4 @@
-// Last updated: 27/11/2025, 9:30:50 am
+// Last updated: 27/11/2025, 9:31:16 am
 1class Solution {
 2public:
 3    int subarraysDivByK(vector<int>& nums, int k) {
@@ -13,9 +13,8 @@
 12            curr = ((curr + nums[i]) % k + k) % k;
 13            ans+=last_seen[curr];
 14            last_seen[curr]++;
-15            cout << curr << " " << ans << endl;
-16        }
-17
-18        return ans;
-19    }
-20};
+15        }
+16
+17        return ans;
+18    }
+19};
