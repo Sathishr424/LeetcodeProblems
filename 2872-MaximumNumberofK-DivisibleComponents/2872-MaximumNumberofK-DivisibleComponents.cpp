@@ -1,4 +1,4 @@
-// Last updated: 28/11/2025, 5:47:22 pm
+// Last updated: 28/11/2025, 5:48:30 pm
 1class Solution {
 2public:
 3    long long dfs(int x, int parent, vector<vector<int>>& graph, vector<int>& values, vector<long long>& sums) {
@@ -20,16 +20,15 @@
 19
 20        vector<long long> sums(n);
 21        dfs(0, -1, graph, values, sums);
-22        // print(sums);
-23        sort(sums.begin(), sums.end());
-24        int ans = 0;
-25        for (int i = 0; i < sums.size(); i++) {
-26            if (sums[i] % k == 0) {
-27                ans++;
-28            }
-29        }
-30
-31        return ans;
-32    }
-33};
-34
+22
+23        int ans = 0;
+24        for (int i = 0; i < sums.size(); i++) {
+25            if (sums[i] % k == 0) {
+26                ans++;
+27            }
+28        }
+29
+30        return ans;
+31    }
+32};
+33
