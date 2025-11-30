@@ -1,4 +1,4 @@
-// Last updated: 30/11/2025, 7:35:10 am
+// Last updated: 30/11/2025, 7:52:53 am
 1class Solution {
 2public:
 3    int minSubarray(vector<int>& nums, int p) {
@@ -29,6 +29,6 @@
 28            sum %= p;
 29        }
 30
-31        return best == INT_MAX || best == n ? -1 : best;
+31        return best >= n ? -1 : best;
 32    }
 33};
