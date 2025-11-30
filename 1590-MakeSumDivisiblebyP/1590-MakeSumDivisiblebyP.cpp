@@ -1,4 +1,4 @@
-// Last updated: 30/11/2025, 7:22:36 am
+// Last updated: 30/11/2025, 7:35:10 am
 1class Solution {
 2public:
 3    int minSubarray(vector<int>& nums, int p) {
