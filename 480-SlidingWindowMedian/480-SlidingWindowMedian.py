@@ -1,4 +1,4 @@
-# Last updated: 1/12/2025, 2:06:54 am
+# Last updated: 1/12/2025, 2:07:20 am
 1class Solution:
 2    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
 3        left = []
@@ -54,37 +54,34 @@
 53        else:
 54            ret.append((-1 * left[0] + right[0]) / 2)
 55
-56        # print(left, right)
-57
-58        for i in range(k, n):
-59            prev = nums[i - k]
-60            if not right or prev < right[0]:
-61                left_delete[prev] += 1
-62                left_delete_cnt += 1
-63            else:
-64                right_delete[prev] += 1
-65                right_delete_cnt += 1
-66            
-67            num = nums[i]
-68            heapq.heappush(left, -num)
-69            
-70            remove_deleted()
-71
-72            if left and right and -left[0] > right[0]:
-73                heapq.heappush(right, -heapq.heappop(left))
+56        for i in range(k, n):
+57            prev = nums[i - k]
+58            if not right or prev < right[0]:
+59                left_delete[prev] += 1
+60                left_delete_cnt += 1
+61            else:
+62                right_delete[prev] += 1
+63                right_delete_cnt += 1
+64            
+65            num = nums[i]
+66            heapq.heappush(left, -num)
+67            
+68            remove_deleted()
+69
+70            if left and right and -left[0] > right[0]:
+71                heapq.heappush(right, -heapq.heappop(left))
+72            
+73            remove_deleted()
 74            
-75            remove_deleted()
+75            adjust_left_right()
 76            
-77            adjust_left_right()
-78            
-79            remove_deleted()
+77            remove_deleted()
+78
+79            adjust_left_right()
 80
-81            adjust_left_right()
-82
-83            if k % 2:
-84                ret.append(-left[0])
-85            else:
-86                ret.append((-1 * left[0] + right[0]) / 2)
-87            
-88            # print(nums[i-k+1:i+1], "==", left, right, dict(left_delete), dict(right_delete), left_delete_cnt, right_delete_cnt)
-89        return ret
+81            if k % 2:
+82                ret.append(-left[0])
+83            else:
+84                ret.append((-1 * left[0] + right[0]) / 2)
+85
+86        return ret
