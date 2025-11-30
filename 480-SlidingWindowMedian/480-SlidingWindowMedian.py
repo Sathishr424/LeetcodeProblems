@@ -1,87 +1,88 @@
-# Last updated: 1/12/2025, 2:12:46 am
-1class Solution:
-2    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
-3        left = []
-4        right = []
-5        left_delete = defaultdict(int)
-6        right_delete = defaultdict(int)
-7        left_delete_cnt = 0
-8        right_delete_cnt = 0
-9        n = len(nums)
-10        ret = []
-11        
-12        def remove_deleted():
-13            nonlocal left_delete_cnt, right_delete_cnt
-14            while left and left_delete[-left[0]]:
-15                num = -heapq.heappop(left)
-16                left_delete[num] -= 1
-17                left_delete_cnt -= 1
+# Last updated: 1/12/2025, 2:21:46 am
+1class DynamicMedian:
+2    def __init__(self):
+3        self.left = []
+4        self.right = []
+5        self.left_delete = defaultdict(int)
+6        self.right_delete = defaultdict(int)
+7        self.left_delete_cnt = 0
+8        self.right_delete_cnt = 0
+9    
+10    def getSize(self):
+11        return len(self.left) + len(self.right) - (self.left_delete_cnt + self.right_delete_cnt)
+12    
+13    def remove_deleted(self):
+14        while self.left and self.left_delete[-self.left[0]]:
+15            num = -heapq.heappop(self.left)
+16            self.left_delete[num] -= 1
+17            self.left_delete_cnt -= 1
 18
-19            while right and right_delete[right[0]]:
-20                num = heapq.heappop(right)
-21                right_delete[num] -= 1
-22                right_delete_cnt -= 1
+19        while self.right and self.right_delete[self.right[0]]:
+20            num = heapq.heappop(self.right)
+21            self.right_delete[num] -= 1
+22            self.right_delete_cnt -= 1
 23
-24        def adjust_left_right():
-25            nonlocal left_delete_cnt, right_delete_cnt
-26
-27            left_cnt = len(left) - left_delete_cnt
-28            right_cnt = len(right) - right_delete_cnt
-29
-30            ceil_half = ceil(k / 2)
-31            half = k // 2
-32
-33            if left_cnt > ceil_half:
-34                heapq.heappush(right, -heapq.heappop(left))
-35            
-36            if right_cnt > half:
-37                heapq.heappush(left, -heapq.heappop(right))
-38        
-39        for i in range(k):
-40            heapq.heappush(left, -nums[i])
-41
-42            if left and right and -left[0] > right[0]:
-43                heapq.heappush(right, -heapq.heappop(left))
-44
-45            if len(left) > (i + 1 + 1) // 2:
-46                heapq.heappush(right, -heapq.heappop(left))
-47            
-48            if len(right) > (i + 1) // 2:
-49                heapq.heappush(left, -heapq.heappop(right))
+24    def adjust_left_right(self):
+25        self.left_cnt = len(self.left) - self.left_delete_cnt
+26        self.right_cnt = len(self.right) - self.right_delete_cnt
+27        
+28        n = self.getSize()
+29        ceil_half = ceil(n / 2)
+30        half = n // 2
+31
+32        if self.left_cnt > ceil_half:
+33            heapq.heappush(self.right, -heapq.heappop(self.left))
+34        
+35        if self.right_cnt > half:
+36            heapq.heappush(self.left, -heapq.heappop(self.right))
+37    
+38    def remove(self, num):
+39        if not self.right or num < self.right[0]:
+40            self.left_delete[num] += 1
+41            self.left_delete_cnt += 1
+42        else:
+43            self.right_delete[num] += 1
+44            self.right_delete_cnt += 1
+45
+46    def add(self, num):
+47        heapq.heappush(self.left, -num)
+48        
+49        self.remove_deleted()
 50
-51        if k % 2:
-52            ret.append(-left[0])
-53        else:
-54            ret.append((-1 * left[0] + right[0]) / 2)
-55
-56        for i in range(k, n):
-57            prev = nums[i - k]
-58            if not right or prev < right[0]:
-59                left_delete[prev] += 1
-60                left_delete_cnt += 1
-61            else:
-62                right_delete[prev] += 1
-63                right_delete_cnt += 1
-64            
-65            num = nums[i]
-66            heapq.heappush(left, -num)
-67            
-68            remove_deleted()
-69
-70            if left and right and -left[0] > right[0]:
-71                heapq.heappush(right, -heapq.heappop(left))
-72            
-73            remove_deleted()
-74            
-75            adjust_left_right()
-76            
-77            remove_deleted()
+51        if self.left and self.right and -self.left[0] > self.right[0]:
+52            heapq.heappush(self.right, -heapq.heappop(self.left))
+53        
+54        self.remove_deleted()
+55        
+56        self.adjust_left_right()
+57        
+58        self.remove_deleted()
+59
+60        self.adjust_left_right()
+61    
+62    def getMedian(self):
+63        n = self.getSize()
+64        if n % 2:
+65            return -self.left[0]
+66        else:
+67            return (-1 * self.left[0] + self.right[0]) / 2
+68
+69class Solution:
+70    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
+71        n = len(nums)
+72        ret = []
+73
+74        dm = DynamicMedian()
+75
+76        for i in range(k):
+77            dm.add(nums[i])
 78
-79            adjust_left_right()
+79        ret.append(dm.getMedian())
 80
-81            if k % 2:
-82                ret.append(-left[0])
-83            else:
-84                ret.append((-1 * left[0] + right[0]) / 2)
-85
-86        return ret
+81        for i in range(k, n):
+82            dm.remove(nums[i - k])
+83            dm.add(nums[i])
+84
+85            ret.append(dm.getMedian())
+86
+87        return ret
