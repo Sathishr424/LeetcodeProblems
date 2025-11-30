@@ -1,4 +1,4 @@
-# Last updated: 1/12/2025, 2:26:45 am
+# Last updated: 1/12/2025, 2:27:02 am
 1class DynamicMedian:
 2    def __init__(self):
 3        self.left = []
@@ -53,32 +53,30 @@
 52        self.adjust_left_right()
 53        
 54        self.remove_deleted()
-55
-56        self.adjust_left_right()
-57    
-58    def getMedian(self):
-59        n = self.getSize()
-60        if n % 2:
-61            return -self.left[0]
-62        else:
-63            return (-1 * self.left[0] + self.right[0]) / 2
-64
-65class Solution:
-66    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
-67        n = len(nums)
-68        ret = []
+55    
+56    def getMedian(self):
+57        n = self.getSize()
+58        if n % 2:
+59            return -self.left[0]
+60        else:
+61            return (-1 * self.left[0] + self.right[0]) / 2
+62
+63class Solution:
+64    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
+65        n = len(nums)
+66        ret = []
+67
+68        dm = DynamicMedian()
 69
-70        dm = DynamicMedian()
-71
-72        for i in range(k):
-73            dm.add(nums[i])
+70        for i in range(k):
+71            dm.add(nums[i])
+72
+73        ret.append(dm.getMedian())
 74
-75        ret.append(dm.getMedian())
-76
-77        for i in range(k, n):
-78            dm.remove(nums[i - k])
-79            dm.add(nums[i])
+75        for i in range(k, n):
+76            dm.remove(nums[i - k])
+77            dm.add(nums[i])
+78
+79            ret.append(dm.getMedian())
 80
-81            ret.append(dm.getMedian())
-82
-83        return ret
+81        return ret
