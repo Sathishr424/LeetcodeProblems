@@ -1,4 +1,4 @@
-# Last updated: 1/12/2025, 2:43:37 am
+# Last updated: 1/12/2025, 2:48:30 am
 1class DynamicMedian:
 2    def __init__(self):
 3        self.left = []
@@ -58,41 +58,43 @@
 57            self.right_delete_cnt += 1
 58            self.right_sum -= num
 59
-60    def add(self, num):
-61        self.left_sum += num
-62        heapq.heappush(self.left, -num)
-63        self.left_sum -= -self.left[0]
-64        self.right_sum += -self.left[0]
-65        heapq.heappush(self.right, -heapq.heappop(self.left))
-66        
-67        self.adjust_left_right()
-68        
-69        self.remove_deleted()
-70    
-71    def getMedian(self):
-72        n = self.getSize()
-73        # print(n, self.left, self.right)
-74        if n % 2:
-75            return -self.left[0]
-76        else:
-77            return (-1 * self.left[0] + self.right[0]) / 2
-78
-79class Solution:
-80    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
-81        n = len(nums)
-82        ret = []
-83
-84        dm = DynamicMedian()
+60        self.adjust_left_right()
+61        self.remove_deleted()
+62
+63    def add(self, num):
+64        self.left_sum += num
+65        heapq.heappush(self.left, -num)
+66        self.left_sum -= -self.left[0]
+67        self.right_sum += -self.left[0]
+68        heapq.heappush(self.right, -heapq.heappop(self.left))
+69        
+70        self.adjust_left_right()
+71        
+72        self.remove_deleted()
+73    
+74    def getMedian(self):
+75        n = self.getSize()
+76        if n % 2:
+77            return -self.left[0]
+78        else:
+79            return (-1 * self.left[0] + self.right[0]) / 2
+80
+81class Solution:
+82    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
+83        n = len(nums)
+84        ret = []
 85
-86        for i in range(k):
-87            dm.add(nums[i])
-88
-89        ret.append(dm.getMedian())
+86        dm = DynamicMedian()
+87
+88        for i in range(k):
+89            dm.add(nums[i])
 90
-91        for i in range(k, n):
-92            dm.remove(nums[i - k])
-93            dm.add(nums[i])
-94
-95            ret.append(dm.getMedian())
+91        ret.append(dm.getMedian())
+92
+93        for i in range(k, n):
+94            dm.remove(nums[i - k])
+95            dm.add(nums[i])
 96
-97        return ret
+97            ret.append(dm.getMedian())
+98
+99        return ret
