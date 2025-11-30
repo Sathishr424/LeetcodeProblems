@@ -1,4 +1,4 @@
-// Last updated: 30/11/2025, 6:59:52 am
+// Last updated: 30/11/2025, 7:22:36 am
 1class Solution {
 2public:
 3    int minSubarray(vector<int>& nums, int p) {
@@ -17,15 +17,18 @@
 16        sum = 0;
 17        for (int i=n-1; i>=0; i--) {
 18            int need = (p - sum) % p;
-19
-20            while (!left[need].empty() && left[need].back() > i) left[need].pop_back();
-21
-22            if (!left[need].empty()) best = min(best, i - left[need].back());
-23            
-24            sum += nums[i];
-25            sum %= p;
-26        }
-27
-28        return best == INT_MAX || best == n ? -1 : best;
-29    }
-30};
+19            if (left.find(need) != left.end()) {
+20                while (!left[need].empty() && left[need].back() > i) {
+21                    left[need].pop_back();
+22                }
+23                if (!left[need].empty()) {
+24                    best = min(best, i - left[need].back());
+25                }
+26            }
+27            sum += nums[i];
+28            sum %= p;
+29        }
+30
+31        return best == INT_MAX || best == n ? -1 : best;
+32    }
+33};
