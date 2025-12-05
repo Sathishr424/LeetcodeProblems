@@ -1,4 +1,4 @@
-// Last updated: 5/12/2025, 11:29:58 am
+// Last updated: 12/5/2025, 11:45:12 PM
 1class Solution {
 2public:
 3    int countPartitions(vector<int>& nums) {
