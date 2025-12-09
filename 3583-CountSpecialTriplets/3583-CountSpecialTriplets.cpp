@@ -1,28 +1,32 @@
-// Last updated: 12/9/2025, 6:17:23 AM
-1class Solution {
-2public:
-3    int specialTriplets(vector<int>& nums) {
-4        int n = nums.size();
-5        int mod = 1e9 + 7;
-6
-7        unordered_map<int, int> right;
-8        unordered_map<int, int> left;
-9
-10        for (int num: nums) {
-11            right[num]++;
-12        }
+// Last updated: 12/9/2025, 6:22:30 AM
+1const int N = 2e5 + 1;
+2int left_freq[N];
+3int right_freq[N];
+4
+5class Solution {
+6public:
+7    int specialTriplets(vector<int>& nums) {
+8        int n = nums.size();
+9        int mod = 1e9 + 7;
+10
+11        memset(left_freq, 0, sizeof(left_freq));
+12        memset(right_freq, 0, sizeof(right_freq));
 13
-14        int ans = 0;
-15        for (int num: nums) {
-16            right[num]--;
+14        for (int num: nums) {
+15            right_freq[num]++;
+16        }
 17
-18            int need = num * 2;
-19            ans += (left[need] * 1LL * right[need]) % mod;
-20            ans %= mod;
-21            
-22            left[num]++;
-23        }
-24
-25        return ans;
-26    }
-27};
+18        int ans = 0;
+19        for (int num: nums) {
+20            right_freq[num]--;
+21
+22            int need = num * 2;
+23            ans += (left_freq[need] * 1LL * right_freq[need]) % mod;
+24            ans %= mod;
+25
+26            left_freq[num]++;
+27        }
+28
+29        return ans;
+30    }
+31};
