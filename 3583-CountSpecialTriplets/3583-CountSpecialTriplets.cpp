@@ -1,13 +1,13 @@
-// Last updated: 12/9/2025, 6:22:30 AM
+// Last updated: 12/9/2025, 6:24:33 AM
 1const int N = 2e5 + 1;
 2int left_freq[N];
 3int right_freq[N];
-4
-5class Solution {
-6public:
-7    int specialTriplets(vector<int>& nums) {
-8        int n = nums.size();
-9        int mod = 1e9 + 7;
+4int mod = 1e9 + 7;
+5
+6class Solution {
+7public:
+8    int specialTriplets(vector<int>& nums) {
+9        int n = nums.size();
 10
 11        memset(left_freq, 0, sizeof(left_freq));
 12        memset(right_freq, 0, sizeof(right_freq));
