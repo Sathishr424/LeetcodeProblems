@@ -1,4 +1,4 @@
-// Last updated: 12/9/2025, 6:16:34 AM
+// Last updated: 12/9/2025, 6:17:23 AM
 1class Solution {
 2public:
 3    int specialTriplets(vector<int>& nums) {
@@ -19,9 +19,10 @@
 18            int need = num * 2;
 19            ans += (left[need] * 1LL * right[need]) % mod;
 20            ans %= mod;
-21            left[num]++;
-22        }
-23
-24        return ans;
-25    }
-26};
+21            
+22            left[num]++;
+23        }
+24
+25        return ans;
+26    }
+27};
