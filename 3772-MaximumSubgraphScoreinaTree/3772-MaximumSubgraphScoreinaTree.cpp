@@ -1,7 +1,7 @@
-// Last updated: 12/11/2025, 7:43:07 PM
+// Last updated: 12/11/2025, 7:47:54 PM
 1class Solution {
 2public:
-3    int dfs(unordered_map<int, vector<int>>& graph, vector<int>& good, vector<int>& costs, int x, int par) {
+3    int dfs(vector<vector<int>>& graph, vector<int>& good, vector<int>& costs, int x, int par) {
 4        int total_cost = good[x];
 5        for (int y: graph[x]) {
 6            if (y == par) continue;
@@ -12,7 +12,7 @@
 11        return total_cost;
 12    }
 13
-14    void dfs2(unordered_map<int, vector<int>>& graph, vector<int>& costs, vector<int>& ret, int x, int par, int cost_so_far) {
+14    void dfs2(vector<vector<int>>& graph, vector<int>& costs, vector<int>& ret, int x, int par, int cost_so_far) {
 15        int cost = costs[x];
 16            
 17        if (cost <= 0) {
@@ -29,7 +29,7 @@
 28    vector<int> maxSubgraphScore(int n, vector<vector<int>>& edges, vector<int>& good) {
 29        vector<int> ret(n, 0);
 30        vector<int> costs(n, 0);
-31        unordered_map<int, vector<int>> graph;
+31        vector<vector<int>> graph(n);
 32        for (int i=0; i<n; i++) {
 33            good[i] = good[i] == 0 ? -1 : 1;
 34        }
