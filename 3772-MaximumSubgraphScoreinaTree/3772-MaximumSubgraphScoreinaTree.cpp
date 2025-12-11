@@ -1,4 +1,4 @@
-// Last updated: 12/11/2025, 7:35:30 PM
+// Last updated: 12/11/2025, 7:43:07 PM
 1class Solution {
 2public:
 3    int dfs(unordered_map<int, vector<int>>& graph, vector<int>& good, vector<int>& costs, int x, int par) {
@@ -17,33 +17,31 @@
 16            
 17        if (cost <= 0) {
 18            cost_so_far += cost;
-19            ret[x] = max(cost, cost_so_far);
-20        } else {
-21            ret[x] = max(cost, cost_so_far);
-22        }
-23
-24        for (int y: graph[x]) {
-25            if (y == par) continue;
-26            dfs2(graph, costs, ret, y, x, max(cost_so_far, cost));
-27        }
-28    }
-29
-30    vector<int> maxSubgraphScore(int n, vector<vector<int>>& edges, vector<int>& good) {
-31        vector<int> ret(n, 0);
-32        vector<int> costs(n, 0);
-33        unordered_map<int, vector<int>> graph;
-34        for (int i=0; i<n; i++) {
-35            good[i] = good[i] == 0 ? -1 : 1;
-36        }
-37
-38        for (auto& edge: edges) {
-39            graph[edge[0]].push_back(edge[1]);
-40            graph[edge[1]].push_back(edge[0]);
-41        }
-42
-43        dfs(graph, good, costs, 0, -1);
-44        dfs2(graph, costs, ret, 0, -1, costs[0]);
-45        
-46        return ret;
-47    }
-48};
+19        }
+20        ret[x] = max(cost, cost_so_far);
+21
+22        for (int y: graph[x]) {
+23            if (y == par) continue;
+24            dfs2(graph, costs, ret, y, x, max(cost_so_far, cost));
+25        }
+26    }
+27
+28    vector<int> maxSubgraphScore(int n, vector<vector<int>>& edges, vector<int>& good) {
+29        vector<int> ret(n, 0);
+30        vector<int> costs(n, 0);
+31        unordered_map<int, vector<int>> graph;
+32        for (int i=0; i<n; i++) {
+33            good[i] = good[i] == 0 ? -1 : 1;
+34        }
+35
+36        for (auto& edge: edges) {
+37            graph[edge[0]].push_back(edge[1]);
+38            graph[edge[1]].push_back(edge[0]);
+39        }
+40
+41        dfs(graph, good, costs, 0, -1);
+42        dfs2(graph, costs, ret, 0, -1, costs[0]);
+43
+44        return ret;
+45    }
+46};
