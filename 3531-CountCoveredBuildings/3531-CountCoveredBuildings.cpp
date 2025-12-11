@@ -1,4 +1,4 @@
-// Last updated: 12/11/2025, 11:32:12 AM
+// Last updated: 12/11/2025, 11:32:47 AM
 1class Solution {
 2public:
 3    int countCoveredBuildings(int n, vector<vector<int>>& buildings) {
@@ -8,7 +8,7 @@
 7        vector<int> v_min(n, INT_MAX);
 8        vector<int> v_max(n, 0);
 9
-10        for (auto cord: buildings) {
+10        for (auto& cord: buildings) {
 11            int x = cord[0];
 12            int y = cord[1];
 13
@@ -21,7 +21,7 @@
 20        }
 21
 22        int count = 0;
-23        for (auto cord: buildings) {
+23        for (auto& cord: buildings) {
 24            int x = cord[0];
 25            int y = cord[1];
 26
