@@ -1,4 +1,4 @@
-// Last updated: 12/14/2025, 2:04:23 PM
+// Last updated: 12/14/2025, 2:05:42 PM
 1const int N = 1e5 + 1;
 2int dp[N][3];
 3
@@ -18,23 +18,19 @@
 17            for (int s=0; s<=2; s++) {
 18                if (corridor[i] == 'S') {
 19                    if (s == 2) {
-20                        dp[i + 1][1] += dp[i][s];
-21                        dp[i + 1][1] %= mod;
-22                    } else {
-23                        dp[i + 1][s + 1] += dp[i][s];
-24                        dp[i + 1][s + 1] %= mod;
-25                    }
-26                } else {
-27                    if (s == 2) {
-28                        dp[i + 1][0] += dp[i][s];
-29                        dp[i + 1][0] %= mod;
-30                    }
-31                    dp[i + 1][s] += dp[i][s];
-32                    dp[i + 1][s] %= mod;
-33                }
-34            }
-35        }
-36
-37        return dp[n][2];
-38    }
-39};
+20                        dp[i + 1][1] = (dp[i + 1][1] + dp[i][s]) % mod;
+21                    } else {
+22                        dp[i + 1][s + 1] = (dp[i + 1][s + 1] + dp[i][s]) % mod;
+23                    }
+24                } else {
+25                    if (s == 2) {
+26                        dp[i + 1][0] = (dp[i + 1][0] + dp[i][s]) % mod;
+27                    }
+28                    dp[i + 1][s] = (dp[i + 1][s] + dp[i][s]) % mod;
+29                }
+30            }
+31        }
+32
+33        return dp[n][2];
+34    }
+35};
