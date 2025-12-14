@@ -1,4 +1,4 @@
-// Last updated: 12/14/2025, 2:01:55 PM
+// Last updated: 12/14/2025, 2:04:23 PM
 1const int N = 1e5 + 1;
 2int dp[N][3];
 3
@@ -15,27 +15,26 @@
 14        dp[0][0] = 1;
 15
 16        for (int i=0; i<n; i++) {
-17            char c = corridor[i];
-18            for (int s=0; s<=2; s++) {
-19                if (c == 'S') {
-20                    if (s == 2) {
-21                        dp[i + 1][1] += dp[i][s];
-22                        dp[i + 1][1] %= mod;
-23                    } else {
-24                        dp[i + 1][s + 1] += dp[i][s];
-25                        dp[i + 1][s + 1] %= mod;
-26                    }
-27                } else {
-28                    if (s == 2) {
-29                        dp[i + 1][0] += dp[i][s];
-30                        dp[i + 1][0] %= mod;
-31                    }
-32                    dp[i + 1][s] += dp[i][s];
-33                    dp[i + 1][s] %= mod;
-34                }
-35            }
-36        }
-37
-38        return dp[n][2];
-39    }
-40};
+17            for (int s=0; s<=2; s++) {
+18                if (corridor[i] == 'S') {
+19                    if (s == 2) {
+20                        dp[i + 1][1] += dp[i][s];
+21                        dp[i + 1][1] %= mod;
+22                    } else {
+23                        dp[i + 1][s + 1] += dp[i][s];
+24                        dp[i + 1][s + 1] %= mod;
+25                    }
+26                } else {
+27                    if (s == 2) {
+28                        dp[i + 1][0] += dp[i][s];
+29                        dp[i + 1][0] %= mod;
+30                    }
+31                    dp[i + 1][s] += dp[i][s];
+32                    dp[i + 1][s] %= mod;
+33                }
+34            }
+35        }
+36
+37        return dp[n][2];
+38    }
+39};
