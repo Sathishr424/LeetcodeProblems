@@ -1,4 +1,4 @@
-// Last updated: 12/16/2025, 2:29:11 PM
+// Last updated: 12/16/2025, 2:33:07 PM
 1import java.util.ArrayList;
 2import java.util.List;
 3
@@ -7,114 +7,109 @@
 6    public char right;
 7    public int cnt;
 8
-9    public Node(char left, char right, int cnt) {
-10        this.left = left;
-11        this.right = right;
-12    }
-13
-14    public Node() {
-15        this.left = '-';
-16        this.right = '-';
-17        this.cnt = 0;
-18    }
-19}
+9    public Node() {
+10        this.left = '-';
+11        this.right = '-';
+12        this.cnt = 0;
+13    }
+14}
+15
+16class SegmentTree {
+17    private final int n;
+18    private final Node[] tree;
+19    private final String str;
 20
-21class SegmentTree {
-22    private final int n;
-23    private final Node[] tree;
-24    private final String str;
-25
-26    public SegmentTree(String str) {
-27        this.n = str.length();
-28        this.str = str;
-29        tree = new Node[n * 4];
-30        for (int i=0; i<n * 4; i++) {
-31            tree[i] = new Node();
-32        }
-33        build(0, 0, n-1);
-34    }
-35
-36    public Node build(int index, int l, int r) {
-37        if (l == r) {
-38            tree[index].left = tree[index].right = str.charAt(l);
-39            return tree[index];
-40        }
-41
-42        int mid = (l + r) / 2;
-43        Node left_node = build(index * 2 + 1, l, mid);
-44        Node right_node = build(index * 2 + 2, mid + 1, r);
-45
-46        tree[index].cnt = left_node.cnt + right_node.cnt;
-47        tree[index].left = left_node.left;
-48        tree[index].right = right_node.right;
-49        if (left_node.right == right_node.left) tree[index].cnt++;
-50        return tree[index];
-51    }
-52
-53    private void update(int index, int l, int r, int update_index) {
-54        if (l == r) {
-55            tree[index].left = tree[index].right = tree[index].left == 'A' ? 'B' : 'A';
-56            return;
-57        }
-58
-59        int mid = (l + r) / 2;
-60        if (update_index <= mid) {
-61            update(index * 2 + 1, l, mid, update_index);
-62        } else {
-63            update(index * 2 + 2, mid + 1, r, update_index);
-64        }
-65
-66        Node left_node = tree[index * 2 + 1];
-67        Node right_node = tree[index * 2 + 2];
-68
-69        tree[index].cnt = left_node.cnt + right_node.cnt;
-70        tree[index].left = left_node.left;
-71        tree[index].right = right_node.right;
-72        if (left_node.right == right_node.left) tree[index].cnt++;
-73    }
-74
-75    public void flip(int index) {
-76        update(0, 0, n-1, index);
-77    }
-78
-79    private Node query(int index, int l, int r, int left, int right) {
-80        if (l > right || r < left) return new Node();
-81
-82        if (l >= left && r <= right) return tree[index];
-83        int mid = (l + r) / 2;
-84
-85        Node left_node = query(index * 2 + 1, l, mid, left, right);
-86        Node right_node = query(index * 2 + 2, mid + 1, r, left, right);
-87
-88        if (left_node.left != '-' && right_node.left != '-') {
-89            Node new_node = new Node();
-90            new_node.cnt = left_node.cnt + right_node.cnt;
-91            new_node.left = left_node.left;
-92            new_node.right = right_node.right;
-93            if (left_node.right == right_node.left) new_node.cnt++;
-94            return new_node;
-95        }
-96        if (left_node.left != '-') return left_node;
-97        return right_node;
-98    }
+21    public SegmentTree(String str) {
+22        this.n = str.length();
+23        this.str = str;
+24        tree = new Node[n * 4];
+25        for (int i=0; i<n * 4; i++) {
+26            tree[i] = new Node();
+27        }
+28        build(0, 0, n-1);
+29    }
+30
+31    public Node build(int index, int l, int r) {
+32        if (l == r) {
+33            tree[index].left = tree[index].right = str.charAt(l);
+34            return tree[index];
+35        }
+36
+37        int mid = (l + r) / 2;
+38        Node left_node = build(index * 2 + 1, l, mid);
+39        Node right_node = build(index * 2 + 2, mid + 1, r);
+40
+41        tree[index].cnt = left_node.cnt + right_node.cnt;
+42        tree[index].left = left_node.left;
+43        tree[index].right = right_node.right;
+44        if (left_node.right == right_node.left) tree[index].cnt++;
+45        return tree[index];
+46    }
+47
+48    private void update(int index, int l, int r, int update_index) {
+49        if (l == r) {
+50            tree[index].left = tree[index].right = tree[index].left == 'A' ? 'B' : 'A';
+51            return;
+52        }
+53
+54        int mid = (l + r) / 2;
+55        if (update_index <= mid) {
+56            update(index * 2 + 1, l, mid, update_index);
+57        } else {
+58            update(index * 2 + 2, mid + 1, r, update_index);
+59        }
+60
+61        Node left_node = tree[index * 2 + 1];
+62        Node right_node = tree[index * 2 + 2];
+63
+64        tree[index].cnt = left_node.cnt + right_node.cnt;
+65        tree[index].left = left_node.left;
+66        tree[index].right = right_node.right;
+67        if (left_node.right == right_node.left) tree[index].cnt++;
+68    }
+69
+70    public void flip(int index) {
+71        update(0, 0, n-1, index);
+72    }
+73
+74    private Node query(int index, int l, int r, int left, int right) {
+75        if (l > right || r < left) return new Node();
+76
+77        if (l >= left && r <= right) return tree[index];
+78        int mid = (l + r) / 2;
+79
+80        Node left_node = query(index * 2 + 1, l, mid, left, right);
+81        Node right_node = query(index * 2 + 2, mid + 1, r, left, right);
+82
+83        if (left_node.left != '-' && right_node.left != '-') {
+84            Node new_node = new Node();
+85            new_node.cnt = left_node.cnt + right_node.cnt;
+86            new_node.left = left_node.left;
+87            new_node.right = right_node.right;
+88            if (left_node.right == right_node.left) new_node.cnt++;
+89            return new_node;
+90        }
+91        if (left_node.left != '-') return left_node;
+92        return right_node;
+93    }
+94
+95    public int minDeletions(int l, int r) {
+96        return query(0, 0, n-1, l, r).cnt;
+97    }
+98}
 99
-100    public int minDeletions(int l, int r) {
-101        return query(0, 0, n-1, l, r).cnt;
-102    }
-103}
-104
-105public class Solution {
-106    public int[] minDeletions(String s, int[][] queries) {
-107        SegmentTree segTree = new SegmentTree(s);
-108        List<Integer> res = new ArrayList<>();
-109        for (int[] query : queries) {
-110            if (query[0] == 1) {
-111                segTree.flip(query[1]);
-112            } else {
-113                res.add(segTree.minDeletions(query[1], query[2]));
-114            }
-115        }
-116
-117        return res.stream().mapToInt(Integer::intValue).toArray();
-118    }
-119}
+100public class Solution {
+101    public int[] minDeletions(String s, int[][] queries) {
+102        SegmentTree segTree = new SegmentTree(s);
+103        List<Integer> res = new ArrayList<>();
+104        for (int[] query : queries) {
+105            if (query[0] == 1) {
+106                segTree.flip(query[1]);
+107            } else {
+108                res.add(segTree.minDeletions(query[1], query[2]));
+109            }
+110        }
+111
+112        return res.stream().mapToInt(Integer::intValue).toArray();
+113    }
+114}
