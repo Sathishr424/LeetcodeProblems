@@ -1,4 +1,4 @@
-// Last updated: 12/18/2025, 1:38:37 PM
+// Last updated: 12/18/2025, 1:39:39 PM
 1class Solution {
 2public:
 3    long long maxProfit(vector<int>& prices, vector<int>& strategy, int k) {
@@ -17,12 +17,12 @@
 16            right += (strategy[i] * prices[i]);
 17        }
 18
-19        for (int i=0; i<n-k+1; i++) {
+19        for (int i=0; i<n-k; i++) {
 20            best = max(best, left + (prefix[i + k] - prefix[i + half]) + right);
 21            left += (strategy[i] * prices[i]);
-22            if (i + k < n)
-23                right -= (strategy[i + k] * prices[i + k]);
-24        }
+22            right -= (strategy[i + k] * prices[i + k]);
+23        }
+24        best = max(best, left + (prefix[n] - prefix[n - half]) + right);
 25        
 26        return best;
 27    }
