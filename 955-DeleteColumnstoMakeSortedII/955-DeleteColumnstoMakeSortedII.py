@@ -1,4 +1,4 @@
-# Last updated: 12/21/2025, 12:21:03 PM
+# Last updated: 12/21/2025, 12:24:22 PM
 1class Solution:
 2    def minDeletionSize(self, strs: List[str]) -> int:
 3        n = len(strs)
