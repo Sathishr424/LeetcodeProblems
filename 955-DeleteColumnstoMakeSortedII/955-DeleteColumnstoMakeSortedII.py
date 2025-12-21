@@ -1,28 +1,25 @@
-# Last updated: 12/21/2025, 12:14:08 PM
+# Last updated: 12/21/2025, 12:21:03 PM
 1class Solution:
 2    def minDeletionSize(self, strs: List[str]) -> int:
 3        n = len(strs)
 4        m = len(strs[0])
 5        op = 0
-6        pair = {}
-7        for i in range(n):
-8            for j in range(i+1, n):
-9                pair[(i, j)] = 0
-10
-11        for index in range(m):
-12            new_pair = {}
-13            for i in range(1, n):
-14                prev = strs[i - 1][index]
-15                curr = strs[i][index]
-16
-17                if pair[(i-1, i)] ==  1 or curr > prev:
-18                    new_pair[(i-1, i)] = 1
-19                elif curr == prev:
-20                    new_pair[(i-1, i)] = 0
-21                else:
-22                    op += 1
-23                    break
-24            else:
-25                pair = new_pair
-26
-27        return op
+6        ok = [[[0] * n for _ in range(n)] for _ in range(m + 1)]
+7
+8        prev_index = 0
+9        for index in range(m):
+10            for i in range(1, n):
+11                prev = strs[i - 1][index]
+12                curr = strs[i][index]
+13
+14                if ok[prev_index][i-1][i] ==  1 or curr > prev:
+15                    ok[index + 1][i-1][i] = 1
+16                elif curr == prev:
+17                    ok[index + 1][i-1][i] = 0
+18                else:
+19                    op += 1
+20                    break
+21            else:
+22                prev_index = index + 1
+23
+24        return op
