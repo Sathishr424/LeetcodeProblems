@@ -1,4 +1,4 @@
-# Last updated: 22/12/2025, 3:44:21 pm
+# Last updated: 22/12/2025, 3:45:59 pm
 1class Solution:
 2    def minDeletionSize(self, st: List[str]) -> int:
 3        n = len(st)
@@ -19,16 +19,6 @@
 18            
 19            return min(ans, rec(index + 1, index, prev_index))
 20        
-21        
-22        # ans = inf
-23        # for index in range(m):
-24        #     curr_smallest = '{'
-25        #     for i in range(n):
-26        #         if st[i][index] < curr_smallest:
-27        #             curr_smallest = st[i][index]
-28        #     curr = rec(index + 1, index, '`') + index
-29        #     print(index, curr)
-30        #     ans = min(ans, curr)
-31        
-32        # ["bbbbbaa","aaababb","aabbbbb"]
-33        return rec(1, 0, -1)
+21        ans = rec(1, 0, -1)
+22        rec.cache_clear()
+23        return ans
