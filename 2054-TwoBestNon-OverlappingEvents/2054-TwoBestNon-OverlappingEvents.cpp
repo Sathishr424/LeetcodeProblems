@@ -1,4 +1,4 @@
-// Last updated: 12/23/2025, 12:53:34 PM
+// Last updated: 12/23/2025, 12:54:45 PM
 1class Solution {
 2public:
 3    int maxTwoEvents(vector<vector<int>>& events) {
@@ -33,10 +33,9 @@
 32
 33            if (index < n) {
 34                best = max(best, ends[i].second + maxValues[index]);
-35                // cout << i << " " << index << " = " << events[index][0] << " " << events[index][1] << ", " << ends[i].first << endl;
-36            }
-37        }
-38
-39        return best;
-40    }
-41};
+35            }
+36        }
+37
+38        return best;
+39    }
+40};
