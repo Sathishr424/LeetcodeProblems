@@ -1,0 +1,41 @@
+# Last updated: 12/25/2025, 7:12:17 PM
+cmax = lambda x, y: x if x > y else y
+class Solution:
+    def maxProduct(self, nums: List[int], k: int, limit: int) -> int:
+        n = len(nums)
+        zero_index = -1
+        for i, num in enumerate(nums):
+            if num == 0:
+                zero_index = i
+        
+        @cache
+        def rec(index, is_odd, s, lim, zero_used):
+            if index == n: 
+                if s == k: 
+                    if lim == 0: 
+                        if zero_used: return 0
+                        return -1
+                    return lim
+                return -1
+            
+            ans = rec(index + 1, is_odd, s, lim, zero_used)
+
+            if is_odd:
+                s -= nums[index]
+            else:
+                s += nums[index]
+            zero_used = zero_used or nums[index] == 0
+
+            if lim * nums[index] <= limit:
+                ans = cmax(ans, rec(index + 1, not is_odd, s, lim * nums[index], zero_used))
+            elif index <= zero_index:
+                ans = cmax(ans, rec(index + 1, not is_odd, s, 0, zero_used))
+            
+            return ans
+        
+        ans = -1
+        for i in range(n):
+            if nums[i] <= limit:
+                ans = cmax(ans, rec(i + 1, True, nums[i], nums[i], nums[i] == 0))
+        rec.cache_clear()
+        return ans
