@@ -1,4 +1,4 @@
-// Last updated: 12/27/2025, 6:07:56 PM
+// Last updated: 12/27/2025, 6:09:30 PM
 1class Solution {
 2public:
 3    int mostBooked(int n, vector<vector<int>>& meetings) {
@@ -21,23 +21,25 @@
 20
 21            if (freeRooms.empty()) {
 22                long long delay = minHeap.top().first - curr[0];
-23                used[minHeap.top().second]++;
-24                minHeap.push({curr[1] + delay, minHeap.top().second});
-25                minHeap.pop();
-26            } else {
-27                used[freeRooms.top()]++;
-28                minHeap.push({curr[1], freeRooms.top()});
-29                freeRooms.pop();
-30            }
-31        }
-32
-33        int most_used = 0;
-34        for (int i=0; i<n; i++) {
-35            if (used[i] > used[most_used]) {
-36                most_used = i;
-37            }
-38        }
-39
-40        return most_used;
-41    }
-42};
+23                int room = minHeap.top().second;
+24                minHeap.pop();
+25                
+26                used[room]++;
+27                minHeap.push({curr[1] + delay, room});
+28            } else {
+29                used[freeRooms.top()]++;
+30                minHeap.push({curr[1], freeRooms.top()});
+31                freeRooms.pop();
+32            }
+33        }
+34
+35        int most_used = 0;
+36        for (int i=0; i<n; i++) {
+37            if (used[i] > used[most_used]) {
+38                most_used = i;
+39            }
+40        }
+41
+42        return most_used;
+43    }
+44};
