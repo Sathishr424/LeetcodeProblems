@@ -1,4 +1,4 @@
-// Last updated: 12/27/2025, 6:01:09 PM
+// Last updated: 12/27/2025, 6:06:40 PM
 1class Solution {
 2public:
 3    int mostBooked(int n, vector<vector<int>>& meetings) {
@@ -6,48 +6,41 @@
 5            return a[0] > b[0];
 6        });
 7
-8        vector<int> free(n, 0);
-9        vector<int> used(n, 0);
-10        int freeRooms = n;
-11        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> minHeap;
-12        
-13        while (!meetings.empty()) {
-14            auto curr = meetings.back();
-15
-16            while (!minHeap.empty() && minHeap.top().first <= curr[0]) {
-17                free[minHeap.top().second] = 0;
-18                minHeap.pop();
-19                freeRooms++;
-20            }
-21
-22            long long delay = 0;
-23            if (freeRooms == 0) {
-24                delay = minHeap.top().first - curr[0];
-25                free[minHeap.top().second] = 0;
-26                minHeap.pop();
-27                freeRooms++;
-28            }
-29
-30            for (int i=0; i<n; i++) {
-31                if (free[i] == 0) {
-32                    free[i] = 1;
-33                    used[i]++;
-34                    freeRooms--;
-35                    minHeap.push({curr[1] + delay, i});
-36                    break;
-37                }
-38            }
-39
-40            meetings.pop_back();
+8        vector<int> used(n, 0);
+9        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> minHeap;
+10        priority_queue<int, vector<int>, greater<int>> freeRooms;
+11        for (int i=0; i<n; i++) {
+12            freeRooms.push(i);
+13        }
+14        
+15        while (!meetings.empty()) {
+16            auto curr = meetings.back();
+17
+18            while (!minHeap.empty() && minHeap.top().first <= curr[0]) {
+19                freeRooms.push(minHeap.top().second);
+20                minHeap.pop();
+21            }
+22
+23            if (freeRooms.empty()) {
+24                long long delay = minHeap.top().first - curr[0];
+25                used[minHeap.top().second]++;
+26                minHeap.push({curr[1] + delay, minHeap.top().second});
+27                minHeap.pop();
+28            } else {
+29                used[freeRooms.top()]++;
+30                minHeap.push({curr[1], freeRooms.top()});
+31                freeRooms.pop();
+32            }
+33            meetings.pop_back();
+34        }
+35
+36        int most_used = 0;
+37        for (int i=0; i<n; i++) {
+38            if (used[i] > used[most_used]) {
+39                most_used = i;
+40            }
 41        }
 42
-43        int most_used = 0;
-44        for (int i=0; i<n; i++) {
-45            if (used[i] > used[most_used]) {
-46                most_used = i;
-47            }
-48        }
-49
-50        return most_used;
-51    }
-52};
+43        return most_used;
+44    }
+45};
