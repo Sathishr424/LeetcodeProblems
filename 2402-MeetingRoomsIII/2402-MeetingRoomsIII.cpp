@@ -1,9 +1,9 @@
-// Last updated: 12/27/2025, 6:06:40 PM
+// Last updated: 12/27/2025, 6:07:56 PM
 1class Solution {
 2public:
 3    int mostBooked(int n, vector<vector<int>>& meetings) {
 4        sort(meetings.begin(), meetings.end(), [](auto& a, auto& b) {
-5            return a[0] > b[0];
+5            return a[0] < b[0];
 6        });
 7
 8        vector<int> used(n, 0);
@@ -13,34 +13,31 @@
 12            freeRooms.push(i);
 13        }
 14        
-15        while (!meetings.empty()) {
-16            auto curr = meetings.back();
-17
-18            while (!minHeap.empty() && minHeap.top().first <= curr[0]) {
-19                freeRooms.push(minHeap.top().second);
-20                minHeap.pop();
-21            }
-22
-23            if (freeRooms.empty()) {
-24                long long delay = minHeap.top().first - curr[0];
-25                used[minHeap.top().second]++;
-26                minHeap.push({curr[1] + delay, minHeap.top().second});
-27                minHeap.pop();
-28            } else {
-29                used[freeRooms.top()]++;
-30                minHeap.push({curr[1], freeRooms.top()});
-31                freeRooms.pop();
-32            }
-33            meetings.pop_back();
-34        }
-35
-36        int most_used = 0;
-37        for (int i=0; i<n; i++) {
-38            if (used[i] > used[most_used]) {
-39                most_used = i;
-40            }
-41        }
-42
-43        return most_used;
-44    }
-45};
+15        for (auto& curr: meetings) {
+16            while (!minHeap.empty() && minHeap.top().first <= curr[0]) {
+17                freeRooms.push(minHeap.top().second);
+18                minHeap.pop();
+19            }
+20
+21            if (freeRooms.empty()) {
+22                long long delay = minHeap.top().first - curr[0];
+23                used[minHeap.top().second]++;
+24                minHeap.push({curr[1] + delay, minHeap.top().second});
+25                minHeap.pop();
+26            } else {
+27                used[freeRooms.top()]++;
+28                minHeap.push({curr[1], freeRooms.top()});
+29                freeRooms.pop();
+30            }
+31        }
+32
+33        int most_used = 0;
+34        for (int i=0; i<n; i++) {
+35            if (used[i] > used[most_used]) {
+36                most_used = i;
+37            }
+38        }
+39
+40        return most_used;
+41    }
+42};
