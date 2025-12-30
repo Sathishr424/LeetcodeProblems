@@ -1,4 +1,4 @@
-// Last updated: 12/30/2025, 2:40:29 PM
+// Last updated: 12/30/2025, 2:41:08 PM
 1class Solution {
 2public:
 3    vector<pair<int, int>> dirs = {{1, 0}, {0, 1}};
@@ -39,7 +39,7 @@
 38            j2 += 1;
 39        }
 40        if (sum != prev) return false;
-41        
+41
 42        i2 = i + 2;
 43        j2 = j;
 44        sum = 0;
@@ -59,18 +59,10 @@
 58        for (int i=0; i<m-2; i++) {
 59            for (int j=0; j<n-2; j++) {
 60                if (isMagicSquare(grid, i, j)) {
-61                    cout << i << " " << j << endl;
-62                    cnt++;
-63                }
-64            }
-65        }
-66        return cnt;
-67    }
-68};
-69
-70// [[4,3,8,4],
-71//  [9,5,1,9],
-72//  [2,7,6,2],
-73//  [4,3,8,4],
-74//  [9,5,1,9],
-75//  [2,7,6,2]]
+61                    cnt++;
+62                }
+63            }
+64        }
+65        return cnt;
+66    }
+67};
