@@ -1,4 +1,4 @@
-// Last updated: 12/31/2025, 1:24:12 PM
+// Last updated: 12/31/2025, 1:24:30 PM
 1class UnionFind {
 2public:
 3    vector<int> parents;
@@ -42,7 +42,7 @@
 41    vector<pair<int, int>> dirs = {{1, 0}, {0, 1}};
 42    bool isGood(int& n, int& day, int& row, int& col, vector<vector<int>>& cells) {
 43        UnionFind uf(n);
-44        int *grid = (int*)malloc(row * col * sizeof(int));
+44        vector<int> grid(n);
 45
 46        for (int i=0; i<day; i++) {
 47            int pos = (cells[i][0] - 1) * col + (cells[i][1] - 1);
@@ -62,31 +62,30 @@
 61                }
 62            }
 63        }
-64        free(grid);
-65
-66        int last = (row  - 1) * col;
-67        for (int i=1; i<col; i++) {
-68            uf.join(i, i-1);
-69            uf.join(last + i, last + i - 1);
-70        }
-71        return uf.find(0) == uf.find(n-1);
-72    }
-73
-74    int latestDayToCross(int row, int col, vector<vector<int>>& cells) {
-75        int l = 0;
-76        int r = cells.size();
-77        int n = row * col;
-78
-79        while (l < r) {
-80            int mid = (l + r + 1) / 2;
-81
-82            if (isGood(n, mid, row, col, cells)) {
-83                l = mid;
-84            } else {
-85                r = mid - 1;
-86            }
-87        }
-88
-89        return l;
-90    }
-91};
+64
+65        int last = (row  - 1) * col;
+66        for (int i=1; i<col; i++) {
+67            uf.join(i, i-1);
+68            uf.join(last + i, last + i - 1);
+69        }
+70        return uf.find(0) == uf.find(n-1);
+71    }
+72
+73    int latestDayToCross(int row, int col, vector<vector<int>>& cells) {
+74        int l = 0;
+75        int r = cells.size();
+76        int n = row * col;
+77
+78        while (l < r) {
+79            int mid = (l + r + 1) / 2;
+80
+81            if (isGood(n, mid, row, col, cells)) {
+82                l = mid;
+83            } else {
+84                r = mid - 1;
+85            }
+86        }
+87
+88        return l;
+89    }
+90};
