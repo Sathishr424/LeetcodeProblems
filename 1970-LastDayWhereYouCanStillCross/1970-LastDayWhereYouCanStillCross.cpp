@@ -1,4 +1,4 @@
-// Last updated: 12/31/2025, 1:13:02 PM
+// Last updated: 12/31/2025, 1:13:24 PM
 1class UnionFind {
 2public:
 3    vector<int> parents;
@@ -65,28 +65,26 @@
 64        int last = (row  - 1) * col;
 65        for (int i=1; i<col; i++) {
 66            uf.join(i, i-1);
-67        }
-68        for (int i=1; i<col; i++) {
-69            uf.join(last + i, last + i - 1);
-70        }
-71        return uf.find(0) == uf.find(n-1);
-72    }
-73
-74    int latestDayToCross(int row, int col, vector<vector<int>>& cells) {
-75        int l = 0;
-76        int r = cells.size();
-77        int n = row * col;
-78
-79        while (l < r) {
-80            int mid = (l + r + 1) / 2;
-81
-82            if (isGood(n, mid, row, col, cells)) {
-83                l = mid;
-84            } else {
-85                r = mid - 1;
-86            }
-87        }
-88
-89        return l;
-90    }
-91};
+67            uf.join(last + i, last + i - 1);
+68        }
+69        return uf.find(0) == uf.find(n-1);
+70    }
+71
+72    int latestDayToCross(int row, int col, vector<vector<int>>& cells) {
+73        int l = 0;
+74        int r = cells.size();
+75        int n = row * col;
+76
+77        while (l < r) {
+78            int mid = (l + r + 1) / 2;
+79
+80            if (isGood(n, mid, row, col, cells)) {
+81                l = mid;
+82            } else {
+83                r = mid - 1;
+84            }
+85        }
+86
+87        return l;
+88    }
+89};
