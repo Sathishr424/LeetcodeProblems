@@ -1,4 +1,4 @@
-// Last updated: 12/31/2025, 1:20:56 PM
+// Last updated: 12/31/2025, 1:24:12 PM
 1class UnionFind {
 2public:
 3    vector<int> parents;
@@ -42,27 +42,27 @@
 41    vector<pair<int, int>> dirs = {{1, 0}, {0, 1}};
 42    bool isGood(int& n, int& day, int& row, int& col, vector<vector<int>>& cells) {
 43        UnionFind uf(n);
-44        // int *grid = (int*)malloc(row * col * sizeof(int));
-45        vector<int> grid(n);
-46
-47        for (int i=0; i<day; i++) {
-48            int pos = (cells[i][0] - 1) * col + (cells[i][1] - 1);
-49            grid[pos] = 1;
-50        }
-51
-52        for (int i=0; i<row; i++) {
-53            for (int j=0; j<col; j++) {
-54                int pos = i * col + j;
-55                if (grid[pos] == 1) continue;
-56                for (auto& d: dirs) {
-57                    int i2 = i + d.first;
-58                    int j2 = j + d.second;
-59                    if (i2 >= 0 && i2 < row && j2 >= 0 && j2 < col && grid[i2 * col + j2] != 1) {
-60                        uf.join(pos, i2 * col + j2);
-61                    }
-62                }
-63            }
-64        }
+44        int *grid = (int*)malloc(row * col * sizeof(int));
+45
+46        for (int i=0; i<day; i++) {
+47            int pos = (cells[i][0] - 1) * col + (cells[i][1] - 1);
+48            grid[pos] = 1;
+49        }
+50
+51        for (int i=0; i<row; i++) {
+52            for (int j=0; j<col; j++) {
+53                int pos = i * col + j;
+54                if (grid[pos] == 1) continue;
+55                for (auto& d: dirs) {
+56                    int i2 = i + d.first;
+57                    int j2 = j + d.second;
+58                    if (i2 >= 0 && i2 < row && j2 >= 0 && j2 < col && grid[i2 * col + j2] != 1) {
+59                        uf.join(pos, i2 * col + j2);
+60                    }
+61                }
+62            }
+63        }
+64        free(grid);
 65
 66        int last = (row  - 1) * col;
 67        for (int i=1; i<col; i++) {
