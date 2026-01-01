@@ -1,4 +1,4 @@
-// Last updated: 1/1/2026, 12:28:05 PM
+// Last updated: 1/1/2026, 12:29:04 PM
 1class Solution {
 2public:
 3    vector<int> plusOne(vector<int>& digits) {
@@ -14,11 +14,11 @@
 13        }
 14
 15        if (cnt == n) {
-16            vector<int> ret(n + 1, 1);
-17            for (int i=0; i<n; i++) {
-18                ret[i + 1] = digits[i];
+16            digits.push_back(0);
+17            for (int i=n-1; i>=0; i--) {
+18                digits[i + 1] = digits[i];
 19            }
-20            return ret;
+20            digits[0] = 1;
 21        }
 22
 23        return digits;
