@@ -1,69 +1,42 @@
-# Last updated: 16/5/2025, 6:21:56 am
-mod = 10**9 + 7
-
-def matrixMulti(matrix_1, matrix_2):
-    m = len(matrix_1)
-    n = len(matrix_2[0])
-    p = len(matrix_2)
-    result = [[0] * n for _ in range(m)]
-
-    for i in range(m):
-        for j in range(n):
-            for k in range(p):
-                result[i][j] += matrix_1[i][k] * matrix_2[k][j]
-                result[i][j] %= mod
-    return result
-
-def matrixPow(matrix, power):
-    if power == 1: return matrix
-    
-    ans = matrixPow(matrix, power // 2)
-    ans = matrixMulti(ans, ans)
-    if power % 2:
-        ans = matrixMulti(ans, matrix)
-    return ans
-
-class Solution:
-    def numOfWays(self, n: int) -> int:
-        m = 3
-        size = 0
-        relation = [0] * 213
-
-        def findNeighbors(full_comb, comb, index, neighbor, prev):
-            if index == 0:
-                matrix[relation[full_comb]][relation[neighbor]] = 1
-                return
-            
-            rem = comb % 3
-            for color in range(3):
-                if color == rem or color == prev: continue
-                findNeighbors(full_comb, comb // 3, index-1, neighbor * 3 + color, color)
-
-        combs = []
-
-        def generate(comb, index):
-            nonlocal size
-            if index == m:
-                relation[comb] = size
-                size += 1
-                combs.append(comb)
-                return
-            
-            prev = comb % 3
-            for color in range(3):
-                if color == prev and index > 0: continue
-                generate(comb * 3 + color, index+1)
-        
-        generate(0, 0)
-        if n == 1: return len(combs)
-        
-        matrix = [[0] * size for _ in range(size)]
-        for comb in combs:
-            findNeighbors(comb, comb, m, 0, -1)
-
-        if n > 1:
-            matrix = matrixPow(matrix, n-1)
-
-        curr = [[1] * len(combs)]
-        ret = matrixMulti(curr, matrix)
-        return sum(ret[0]) % mod
+# Last updated: 1/3/2026, 2:04:15 PM
+1class Solution:
+2    def numOfWays(self, n: int) -> int:
+3        mod = 10**9 + 7
+4        vals = []
+5        stack = ["0", "1", "2"]
+6        while stack:
+7            prev = stack.pop()
+8            if len(prev) == 3:
+9                vals.append(prev)
+10                continue
+11            for i in range(3):
+12                if str(i) != prev[-1]:
+13                    stack.append(prev + str(i))
+14            
+15        graph = defaultdict(list)
+16        m = len(vals)
+17        for i in range(m):
+18            x = vals[i]
+19            for j in range(i+1, m):
+20                y = vals[j]
+21
+22                if x[0] != y[0] and x[1] != y[1] and x[2] != y[2]:
+23                    graph[x].append(y)
+24                    graph[y].append(x)
+25
+26
+27        @cache
+28        def rec(x, rem):
+29            if rem == 0: return 1
+30            ans = 0
+31            for y in graph[x]:
+32                ans += rec(y, rem - 1)
+33            return ans % mod
+34
+35        ans = 0
+36        for val in vals:
+37            ans += rec(val, n-1)
+38            ans %= mod
+39        
+40        rec.cache_clear()
+41        return ans
