@@ -1,4 +1,4 @@
-# Last updated: 1/3/2026, 2:04:50 PM
+# Last updated: 1/3/2026, 2:07:46 PM
 1mod = 10**9 + 7
 2vals = []
 3stack = ["0", "1", "2"]
@@ -30,11 +30,13 @@
 29        ans += rec(y, rem - 1)
 30    return ans % mod
 31
-32class Solution:
-33    def numOfWays(self, n: int) -> int:
-34        ans = 0
-35        for val in vals:
-36            ans += rec(val, n-1)
-37            ans %= mod
-38        
-39        return ans
+32for val in vals: rec(val, 4999)
+33
+34class Solution:
+35    def numOfWays(self, n: int) -> int:
+36        ans = 0
+37        for val in vals:
+38            ans += rec(val, n-1)
+39            ans %= mod
+40        
+41        return ans
