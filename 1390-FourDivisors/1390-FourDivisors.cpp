@@ -1,4 +1,4 @@
-// Last updated: 1/4/2026, 6:39:02 AM
+// Last updated: 1/4/2026, 6:43:49 AM
 1const int N = 1e5 + 1;
 2vector<int> primes;
 3bool is_prime[N];
@@ -23,16 +23,16 @@
 22
 23long long calcPF(int num) {
 24    if (is_prime[num]) return 0;
-25    unordered_set<int> uniq;
-26    uniq.insert(num);
-27    uniq.insert(1);
-28    
-29    for (int p: primes) {
-30        // if (p * 1LL * p > num) {
-31        //     cout << p << " " << num << " " << is_prime[num] << endl;
-32        //     // if (is_prime[num]) uniq.insert(num);
-33        //     // break;
-34        // }
+25    int o_num = num;
+26    unordered_set<int> uniq;
+27    uniq.insert(num);
+28    uniq.insert(1);
+29    
+30    for (int p: primes) {
+31        if (p * 1LL * p > num) {
+32            if (is_prime[num]) uniq.insert(num);
+33            break;
+34        }
 35        if (num % p == 0) {
 36            uniq.insert(p);
 37
@@ -45,7 +45,7 @@
 44        }   
 45    }
 46
-47    if (uniq.size() < 4) return 0;
+47    if (uniq.size() != 4) return 0;
 48    long long sum = 0;
 49    for (int num: uniq) sum += num;
 50    return sum;
