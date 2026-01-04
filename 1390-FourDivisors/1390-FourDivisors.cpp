@@ -1,4 +1,4 @@
-// Last updated: 1/4/2026, 6:54:12 AM
+// Last updated: 1/4/2026, 7:00:59 AM
 1const int N = 1e5 + 1;
 2vector<int> primes;
 3bool is_prime[N];
