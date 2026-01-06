@@ -1,4 +1,4 @@
-// Last updated: 1/6/2026, 9:53:16 PM
+// Last updated: 1/6/2026, 9:56:06 PM
 1class Solution {
 2public:
 3  ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
@@ -13,30 +13,28 @@
 12      node = node->next;
 13      n++;
 14    }
-15    // cout << m << " " << n << " " << diff << endl;
-16    // cout << m << " " << n << " " << endl;
-17
-18    if (n > m) {
-19      ListNode *tmp = headA;
-20      headA = headB;
-21      headB = tmp;
+15
+16    if (n > m) {
+17      ListNode *tmp = headA;
+18      headA = headB;
+19      headB = tmp;
+20      n ^= m;
+21      m ^= n;
 22      n ^= m;
-23      m ^= n;
-24      n ^= m;
-25    }
-26    int diff = m - n;
-27
-28    while (diff--) {
-29      headA = headA->next;
-30    }
-31
-32    while (headA) {
-33      if (headA == headB)
-34        return headA;
-35      headA = headA->next;
-36      headB = headB->next;
-37    }
-38
-39    return nullptr;
-40  }
-41};
+23    }
+24    int diff = m - n;
+25
+26    while (diff--) {
+27      headA = headA->next;
+28    }
+29
+30    while (headA) {
+31      if (headA == headB)
+32        return headA;
+33      headA = headA->next;
+34      headB = headB->next;
+35    }
+36
+37    return nullptr;
+38  }
+39};
