@@ -1,25 +1,18 @@
-# Last updated: 12/6/2025, 5:49:52 am
-class Solution:
-    def readBinaryWatch(self, turnedOn: int) -> List[str]:
-        ret = []
-        def add(st):
-            mins = 0
-            hour = 0
-            for i in range(len(st)):
-                if st[i] == '1':
-                    if i < 4: hour += 2**i
-                    else: mins += 2**(i-4)
-            if mins < 60 and hour < 12:
-                ret.append(f"{hour}:{mins if mins > 9 else f'0{mins}'}")
-
-        def rec(st, cnt):
-            if len(st) == 10:
-                if cnt == turnedOn: add(st)
-                return
-
-            rec(st+'0', cnt)
-            if cnt+1 <= turnedOn: rec(st+'1', cnt+1)
-
-        rec("", 0)
-        
-        return ret
+# Last updated: 2/19/2026, 1:52:43 PM
+1class Solution:
+2    def countBinarySubstrings(self, s: str) -> int:
+3        n = len(s)
+4
+5        ans = 0
+6        cnt = 1
+7        prev = 0
+8        for i in range(1, n):
+9            if s[i] == s[i - 1]:
+10                cnt += 1
+11            else:
+12                ans += min(cnt, prev)
+13                prev = cnt
+14                cnt = 1
+15            
+16        ans += min(prev, cnt)
+17        return ans
