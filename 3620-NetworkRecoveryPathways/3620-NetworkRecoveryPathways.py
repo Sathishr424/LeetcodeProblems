@@ -1,4 +1,4 @@
-# Last updated: 7/3/2026, 4:13:05 PM
+# Last updated: 7/3/2026, 4:13:24 PM
 1inf = 10**20
 2class Solution:
 3    def findMaxPathScore(self, edges: List[List[int]], online: List[bool], k: int) -> int:
@@ -25,23 +25,22 @@
 24                rem, x = heappop(stack)
 25                if x == n-1: return True
 26                rem = -rem
-27                if dis[x] > rem: continue
-28
-29                for y, c in graph[x]:
-30                    if c < target or c > rem: continue
-31                    new_rem = rem - c
-32                    if new_rem > dis[y]:
-33                        dis[y] = new_rem
-34                        heappush(stack, (-new_rem, y))
-35
-36            return False
-37            
-38        while l < r:
-39            mid = (l + r + 1) // 2
-40
-41            if isGood(mid):
-42                l = mid
-43            else:
-44                r = mid - 1
-45
-46        return l
+27
+28                for y, c in graph[x]:
+29                    if c < target or c > rem: continue
+30                    new_rem = rem - c
+31                    if new_rem > dis[y]:
+32                        dis[y] = new_rem
+33                        heappush(stack, (-new_rem, y))
+34
+35            return False
+36            
+37        while l < r:
+38            mid = (l + r + 1) // 2
+39
+40            if isGood(mid):
+41                l = mid
+42            else:
+43                r = mid - 1
+44
+45        return l
