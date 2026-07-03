@@ -1,4 +1,4 @@
-# Last updated: 7/3/2026, 4:10:20 PM
+# Last updated: 7/3/2026, 4:10:35 PM
 1inf = 10**20
 2class Solution:
 3    def findMaxPathScore(self, edges: List[List[int]], online: List[bool], k: int) -> int:
@@ -12,33 +12,30 @@
 11                graph[u].append((v, c))
 12                r = max(r, c)
 13        
-14        for x in range(n):
-15            graph[x].sort(key=lambda y: y[1])
-16
-17        def isGood(target):
-18            dis = [-inf] * n
-19            stack = [(-k, 0)]
-20
-21            while stack:
-22                rem, x = heappop(stack)
-23                if x == n-1: return True
-24                rem = -rem
-25                if dis[x] >= rem: continue
-26                dis[x] = rem
-27
-28                for y, c in graph[x]:
-29                    if c < target or c > rem: continue
-30                    heappush(stack, (-(rem - c), y))
-31
-32            return False
-33            
-34        while l < r:
-35            mid = (l + r + 1) // 2
-36
-37            if isGood(mid):
-38                l = mid
-39            else:
-40                r = mid - 1
-41
-42        return l
-43
+14        def isGood(target):
+15            dis = [-inf] * n
+16            stack = [(-k, 0)]
+17
+18            while stack:
+19                rem, x = heappop(stack)
+20                if x == n-1: return True
+21                rem = -rem
+22                if dis[x] >= rem: continue
+23                dis[x] = rem
+24
+25                for y, c in graph[x]:
+26                    if c < target or c > rem: continue
+27                    heappush(stack, (-(rem - c), y))
+28
+29            return False
+30            
+31        while l < r:
+32            mid = (l + r + 1) // 2
+33
+34            if isGood(mid):
+35                l = mid
+36            else:
+37                r = mid - 1
+38
+39        return l
+40
