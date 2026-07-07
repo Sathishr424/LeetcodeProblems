@@ -1,17 +1,16 @@
-# Last updated: 7/7/2026, 2:46:43 PM
+# Last updated: 7/7/2026, 2:46:58 PM
 1class Solution:
-2    def sumAndMultiply(self, n: int) -> int:
+2    def sumAndMultiply(self, num: int) -> int:
 3        sum = 0
 4        x = 0
 5        power = 0
-6        num = n
-7
-8        while num:
-9            d = num % 10
-10            if d > 0:
-11                x = d * (10 ** power) + x
-12                power += 1
-13                sum += d
-14            num //= 10
-15
-16        return x * sum
+6
+7        while num:
+8            d = num % 10
+9            if d > 0:
+10                x = d * (10 ** power) + x
+11                power += 1
+12                sum += d
+13            num //= 10
+14
+15        return x * sum
