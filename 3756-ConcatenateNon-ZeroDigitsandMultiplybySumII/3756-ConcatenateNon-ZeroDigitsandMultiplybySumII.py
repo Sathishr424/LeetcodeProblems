@@ -1,4 +1,4 @@
-# Last updated: 7/8/2026, 6:47:35 AM
+# Last updated: 7/8/2026, 6:55:47 AM
 1MOD = 10**9 + 7
 2N = 10**5 + 1
 3
@@ -6,7 +6,7 @@
 5for i in range(1, N):
 6    pows[i] = pows[i - 1] * 10 % MOD
 7
-8inv10 = pow(10, MOD - 2, MOD)   # inverse of 10
+8inv10 = pow(10, MOD - 2, MOD)
 9
 10inv_pows = [1] * N
 11for i in range(1, N):
@@ -35,11 +35,11 @@
 34        ret = []
 35        for l, r in queries:
 36            sum = sums[r + 1] - sums[l]
-37            val = vals[l]
-38            p = powers[r + 1]
-39
-40            curr = val - vals[r + 1]
-41
-42            ans = curr * inv_pows[p] % MOD * sum % MOD
-43            ret.append(ans)
-44        return ret
+37            p = powers[r + 1]
+38
+39            curr = vals[l] - vals[r + 1]
+40
+41            ans = curr * inv_pows[p] % MOD * sum % MOD
+42            ret.append(ans)
+43        return ret
+44
