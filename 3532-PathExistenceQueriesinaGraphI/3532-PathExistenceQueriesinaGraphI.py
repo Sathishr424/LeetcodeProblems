@@ -1,4 +1,4 @@
-# Last updated: 7/9/2026, 3:50:46 PM
+# Last updated: 7/9/2026, 3:51:18 PM
 1class Union:
 2    def __init__(self, n):
 3        self.parents = [i for i in range(n)]
@@ -16,10 +16,10 @@
 15
 16        if x == y: return True
 17
-18        if self.sizes[y] > self.sizes[x]:
-19            x, y = y, x
+18        # if self.sizes[y] > self.sizes[x]:
+19        #     x, y = y, x
 20
-21        self.sizes[x] += self.sizes[y]
+21        # self.sizes[x] += self.sizes[y]
 22        self.parents[y] = x
 23        
 24        return False
