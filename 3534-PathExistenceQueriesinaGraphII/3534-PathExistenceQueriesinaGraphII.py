@@ -1,4 +1,4 @@
-# Last updated: 7/11/2026, 6:06:55 AM
+# Last updated: 7/11/2026, 6:10:48 AM
 1class Solution:
 2    k = 32
 3    def pathExistenceQueries(self, n: int, nums: List[int], maxDiff: int, queries: List[List[int]]) -> List[int]:
@@ -12,41 +12,35 @@
 11        for i in range(n):
 12            indexes[new_nums[i][1]] = i
 13            arr.append(new_nums[i][0])
-14        # print(arr)
-15
-16        logs = [[-1] * n for _ in range(self.k)]
-17        for i in range(n):
-18            index = bisect_right(arr, arr[i] + maxDiff) - 1
-19            if index == i:
-20                index = -1
-21            logs[0][i] = index
-22
-23        for p in range(1, self.k):
-24            for i in range(n):
-25                if logs[p-1][i] != -1:
-26                    logs[p][i] = logs[p - 1][logs[p - 1][i]]
-27
-28            # print(p)
-29            # [print(row) for row in logs]
-30
-31        # print(logs[0])
-32        ret = []
-33        for l, r in queries:
-34            left = indexes[l]
-35            right = indexes[r]
-36
-37            if left > right:
-38                left, right = right, left
-39
-40            val = 0
-41            for p in range(self.k - 1, -1, -1):
-42                if logs[p][left] != -1 and logs[p][left] <= right:
-43                    val += 1 << p
-44                    left = logs[p][left]
-45
-46            if left < right and logs[0][left] < right: val = -1
-47            elif left != right: val += 1
-48            ret.append(val)
-49            # print((l, r), (left, right), val)
-50
-51        return ret
+14
+15        logs = [[-1] * n for _ in range(self.k)]
+16        for i in range(n):
+17            index = bisect_right(arr, arr[i] + maxDiff) - 1
+18            if index == i:
+19                index = -1
+20            logs[0][i] = index
+21
+22        for p in range(1, self.k):
+23            for i in range(n):
+24                if logs[p-1][i] != -1:
+25                    logs[p][i] = logs[p - 1][logs[p - 1][i]]
+26
+27        ret = []
+28        for l, r in queries:
+29            left = indexes[l]
+30            right = indexes[r]
+31
+32            if left > right:
+33                left, right = right, left
+34
+35            val = 0
+36            for p in range(self.k - 1, -1, -1):
+37                if logs[p][left] != -1 and logs[p][left] <= right:
+38                    val += 1 << p
+39                    left = logs[p][left]
+40
+41            if left < right and logs[0][left] < right: val = -1
+42            elif left != right: val += 1
+43            ret.append(val)
+44
+45        return ret
