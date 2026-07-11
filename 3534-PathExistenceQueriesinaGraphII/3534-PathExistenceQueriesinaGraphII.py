@@ -1,60 +1,52 @@
-# Last updated: 7/11/2026, 3:42:22 AM
-1m = 19
-2class Solution:
+# Last updated: 7/11/2026, 6:06:55 AM
+1class Solution:
+2    k = 32
 3    def pathExistenceQueries(self, n: int, nums: List[int], maxDiff: int, queries: List[List[int]]) -> List[int]:
-4        arr = []
-5        ret = []
-6
-7        relation = [0] * n
-8        for i, num in enumerate(nums):
-9            arr.append((num, i))
-10        
-11        arr.sort()
-12
-13        for i, (num, index) in enumerate(arr):
-14            relation[index] = i
+4        new_nums = []
+5        indexes = [0] * n
+6        for i in range(n):
+7            new_nums.append((nums[i], i))
+8        new_nums.sort()
+9
+10        arr = []
+11        for i in range(n):
+12            indexes[new_nums[i][1]] = i
+13            arr.append(new_nums[i][0])
+14        # print(arr)
 15
-16        furthest = [0] * n
+16        logs = [[-1] * n for _ in range(self.k)]
 17        for i in range(n):
-18            furthest[i] = bisect_right(arr, (arr[i][0]+maxDiff, float('inf'))) - 1
-19            if furthest[i] == i: furthest[i] = -1
-20
-21        logs = [[-1] * n for _ in range(m)]
+18            index = bisect_right(arr, arr[i] + maxDiff) - 1
+19            if index == i:
+20                index = -1
+21            logs[0][i] = index
 22
-23        for i in range(n):
-24            logs[0][i] = furthest[i]
-25
-26        for i in range(1, m):
-27            for j in range(n):
-28                if logs[i-1][j] == -1: continue
-29                logs[i][j] = logs[i-1][logs[i-1][j]]
+23        for p in range(1, self.k):
+24            for i in range(n):
+25                if logs[p-1][i] != -1:
+26                    logs[p][i] = logs[p - 1][logs[p - 1][i]]
+27
+28            # print(p)
+29            # [print(row) for row in logs]
 30
-31        @cache
-32        def getDistance(x, y):
-33            cnt = 0
-34            p = 0
-35            while True:
-36                if logs[p][x] >= y or logs[p][x] == -1:
-37                    if p == 0: break
-38                    else: p -= 1
-39                else:
-40                    x = logs[p][x]
-41                    cnt += 1 << p
-42                    p += 1
-43            
-44            return cnt+1 if logs[p][x] >= y else -1
+31        # print(logs[0])
+32        ret = []
+33        for l, r in queries:
+34            left = indexes[l]
+35            right = indexes[r]
+36
+37            if left > right:
+38                left, right = right, left
+39
+40            val = 0
+41            for p in range(self.k - 1, -1, -1):
+42                if logs[p][left] != -1 and logs[p][left] <= right:
+43                    val += 1 << p
+44                    left = logs[p][left]
 45
-46        for x, y in queries:
-47            if x == y: 
-48                ret.append(0)
-49                continue
+46            if left < right and logs[0][left] < right: val = -1
+47            elif left != right: val += 1
+48            ret.append(val)
+49            # print((l, r), (left, right), val)
 50
-51            x = relation[x]
-52            y = relation[y]
-53
-54            if x > y:
-55                x, y = y, x
-56               
-57            ret.append(getDistance(x, y))
-58
-59        return ret
+51        return ret
