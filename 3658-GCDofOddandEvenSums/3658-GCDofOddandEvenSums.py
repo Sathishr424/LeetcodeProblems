@@ -1,4 +1,4 @@
-# Last updated: 7/15/2026, 12:02:09 PM
+# Last updated: 7/15/2026, 12:02:24 PM
 1def gcd(a, b):
 2    rem = a % b
 3    if rem == 0: return b
@@ -6,7 +6,7 @@
 5
 6class Solution:
 7    def gcdOfOddEvenSums(self, n: int) -> int:
-8        return n
+8        # return n # one liner
 9        odd = 0
 10        even = 0
 11
