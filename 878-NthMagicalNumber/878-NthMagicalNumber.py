@@ -1,4 +1,4 @@
-# Last updated: 7/17/2026, 7:07:47 PM
+# Last updated: 7/17/2026, 7:17:46 PM
 1class Solution:
 2    def nthMagicalNumber(self, n: int, a: int, b: int) -> int:
 3        mod = 10**9 + 7
