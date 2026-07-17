@@ -1,4 +1,4 @@
-# Last updated: 7/17/2026, 4:06:46 PM
+# Last updated: 7/17/2026, 4:07:26 PM
 1class Solution:
 2    def smallestDistancePair(self, nums: List[int], k: int) -> int:
 3        n = len(nums)
@@ -17,11 +17,10 @@
 16            mid = (l + r) // 2
 17
 18            cnt = getCnt(mid)
-19            # print(l, r, mid, cnt)
-20
-21            if cnt >= k:
-22                r = mid
-23            else:
-24                l = mid + 1
-25
-26        return l
+19
+20            if cnt >= k:
+21                r = mid
+22            else:
+23                l = mid + 1
+24
+25        return l
