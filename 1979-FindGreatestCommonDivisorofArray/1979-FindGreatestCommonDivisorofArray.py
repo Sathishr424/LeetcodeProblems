@@ -1,4 +1,4 @@
-# Last updated: 7/18/2026, 7:20:00 PM
+# Last updated: 7/18/2026, 7:20:50 PM
 1class Solution:
 2    def gcdValues(self, nums: List[int], queries: List[int]) -> List[int]:
 3        n = len(nums)
@@ -14,42 +14,39 @@
 13        ans = defaultdict(int)
 14        for num in range(m, 0, -1):
 15            cnt = divs[num]
-16            if cnt == 0: continue
-17            pairs = cnt * (cnt - 1) // 2
-18
-19            add = 2
-20            while num * add <= m:
-21                if num * add in ans:
-22                    curr = ans[num * add]
-23                    pairs -= curr
-24                add += 1
-25            ans[num] = pairs
-26
-27        arr = []
-28        freq = []
-29        prefix = []
-30        cnt = 0
-31        for num in sorted(list(ans.keys())):
-32            cnt += ans[num]
-33            if ans[num] > 0:
-34                arr.append(num)
-35                freq.append(ans[num])
-36                prefix.append(cnt)
-37
-38        m = len(arr)
-39        ret = []
-40        for q in queries:
-41            q += 1
-42            l = 0
-43            r = m
+16            pairs = cnt * (cnt - 1) // 2
+17
+18            add = 2
+19            while num * add <= m:
+20                if num * add in ans:
+21                    curr = ans[num * add]
+22                    pairs -= curr
+23                add += 1
+24            ans[num] = pairs
+25
+26        arr = []
+27        prefix = []
+28        cnt = 0
+29        for num in sorted(list(ans.keys())):
+30            cnt += ans[num]
+31            if ans[num] > 0:
+32                arr.append(num)
+33                prefix.append(cnt)
+34
+35        m = len(arr)
+36        ret = []
+37        for q in queries:
+38            q += 1
+39            l = 0
+40            r = m
+41
+42            while l < r:
+43                mid = (l + r) // 2
 44
-45            while l < r:
-46                mid = (l + r) // 2
-47
-48                if prefix[mid] >= q:
-49                    r = mid
-50                else:
-51                    l = mid + 1
-52            ret.append(arr[l])
-53
-54        return ret
+45                if prefix[mid] >= q:
+46                    r = mid
+47                else:
+48                    l = mid + 1
+49            ret.append(arr[l])
+50
+51        return ret
