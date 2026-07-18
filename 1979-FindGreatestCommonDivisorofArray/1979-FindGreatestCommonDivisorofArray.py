@@ -1,4 +1,4 @@
-# Last updated: 7/18/2026, 7:20:50 PM
+# Last updated: 7/18/2026, 7:24:53 PM
 1class Solution:
 2    def gcdValues(self, nums: List[int], queries: List[int]) -> List[int]:
 3        n = len(nums)
@@ -18,35 +18,34 @@
 17
 18            add = 2
 19            while num * add <= m:
-20                if num * add in ans:
-21                    curr = ans[num * add]
-22                    pairs -= curr
-23                add += 1
-24            ans[num] = pairs
-25
-26        arr = []
-27        prefix = []
-28        cnt = 0
-29        for num in sorted(list(ans.keys())):
-30            cnt += ans[num]
-31            if ans[num] > 0:
-32                arr.append(num)
-33                prefix.append(cnt)
-34
-35        m = len(arr)
-36        ret = []
-37        for q in queries:
-38            q += 1
-39            l = 0
-40            r = m
-41
-42            while l < r:
-43                mid = (l + r) // 2
-44
-45                if prefix[mid] >= q:
-46                    r = mid
-47                else:
-48                    l = mid + 1
-49            ret.append(arr[l])
-50
-51        return ret
+20                curr = ans[num * add]
+21                pairs -= curr
+22                add += 1
+23            ans[num] = pairs
+24
+25        arr = []
+26        prefix = []
+27        cnt = 0
+28        for num in sorted(list(ans.keys())):
+29            cnt += ans[num]
+30            if ans[num] > 0:
+31                arr.append(num)
+32                prefix.append(cnt)
+33
+34        m = len(arr)
+35        ret = []
+36        for q in queries:
+37            q += 1
+38            l = 0
+39            r = m
+40
+41            while l < r:
+42                mid = (l + r) // 2
+43
+44                if prefix[mid] >= q:
+45                    r = mid
+46                else:
+47                    l = mid + 1
+48            ret.append(arr[l])
+49
+50        return ret
