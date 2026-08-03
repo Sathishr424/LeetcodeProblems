@@ -1,4 +1,4 @@
-# Last updated: 8/3/2026, 7:18:43 PM
+# Last updated: 8/3/2026, 7:21:14 PM
 1class Solution:
 2    def predictTheWinner(self, nums: List[int]) -> bool:
 3        n = len(nums)
