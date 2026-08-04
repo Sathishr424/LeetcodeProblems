@@ -1,4 +1,4 @@
-# Last updated: 8/4/2026, 9:06:06 PM
+# Last updated: 8/4/2026, 9:37:14 PM
 1mod = 10**9 + 7
 2N = 10**6 + 1
 3is_prime = [1] * N
@@ -11,46 +11,35 @@
 10        is_prime[j] = 0
 11
 12primes = []
-13factors = [[] for _ in range(N)]
-14for i in range(N):
-15    if is_prime[i]: primes.append(i)
-16
-17for num in range(1, N):
-18    r_num = num
-19    for p in primes:
-20        if p * p > num:
-21            if num > 1: factors[r_num].append(num)
-22            break
-23        if num % p == 0:
-24            factors[r_num].append(p)
-25            while num % p == 0:
-26                num //= p
-27
-28inf = 10**20
-29class Solution:
-30    def divisibleGame(self, nums: list[int]) -> int:
-31        n = len(nums)
-32
-33        best = -inf
-34        best_k = inf
-35        for i in range(n):
-36            tot = 0
-37            fac = defaultdict(int)
-38            for j in range(i, n):
-39                num = nums[j]
-40                tot += num
-41                mx = 2
-42                for d in factors[num]:
-43                    fac[d] += num
-44                    if fac[d] > fac[mx] or (fac[d] == fac[mx] and d < mx):
-45                        mx = d
-46
-47                curr = fac[mx] - (tot - fac[mx])
-48                k = mx
-49
-50                if curr > best or (curr == best and k < best_k):
-51                    best = curr
-52                    best_k = k
-53
-54        if best_k == inf: return -sum(nums) * 2 % mod
-55        return best * best_k % mod
+13for i in range(N):
+14    if is_prime[i]: primes.append(i)
+15
+16class Solution:
+17    def divisibleGame(self, nums: list[int]) -> int:
+18        n = len(nums)
+19
+20        facts = set()
+21        for num in set(nums):
+22            for p in primes:
+23                if p * p > num:
+24                    if num > 1: facts.add(num)
+25                    break
+26                while num % p == 0:
+27                    facts.add(p)
+28                    num //= p
+29        
+30        best = -inf
+31        best_k = inf
+32        for k in facts:
+33            curr = -inf
+34            for num in nums:
+35                add = num if num % k == 0 else -num
+36                curr = max(add, curr + add)
+37
+38                if curr > best or (curr == best and k < best_k):
+39                    best = curr
+40                    best_k = k
+41        
+42        if best_k == inf: return -min(nums) * 2 % mod
+43        # print(best_k, best)
+44        return best * best_k % mod
