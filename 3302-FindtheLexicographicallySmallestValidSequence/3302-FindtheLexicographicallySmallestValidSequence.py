@@ -1,4 +1,4 @@
-# Last updated: 8/8/2026, 2:48:08 PM
+# Last updated: 8/8/2026, 3:00:11 PM
 1class Solution:
 2    def validSequence(self, word1: str, word2: str) -> List[int]:
 3        m = len(word1)
@@ -36,4 +36,5 @@
 35                return left
 36        
 37        if len(left) == n: return left
-38        return []
+38        elif len(left) == n-1 and left and left[-1] != m-1: return left + [m-1]
+39        return []
