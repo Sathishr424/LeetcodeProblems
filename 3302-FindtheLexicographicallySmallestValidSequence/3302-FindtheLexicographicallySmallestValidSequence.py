@@ -1,4 +1,4 @@
-# Last updated: 8/8/2026, 3:00:11 PM
+# Last updated: 8/8/2026, 3:18:04 PM
 1class Solution:
 2    def validSequence(self, word1: str, word2: str) -> List[int]:
 3        m = len(word1)
@@ -22,19 +22,20 @@
 21
 22        index = 0
 23        left = []
-24        for i in range(m):
-25            if index < n and word1[i] == word2[index]:
-26                left.append(i)
-27                index += 1
-28            elif len(left) < n and suffix[i] <= index + 1 and i+1 < m and suffix[i+1] == suffix[i]:
-29                left.append(i)
-30                r_index = index + 1
-31                for j in range(i+1, m):
-32                    if r_index < n and word1[j] == word2[r_index]:
-33                        left.append(j)
-34                        r_index += 1
-35                return left
-36        
-37        if len(left) == n: return left
-38        elif len(left) == n-1 and left and left[-1] != m-1: return left + [m-1]
-39        return []
+24        # print(suffix)
+25        for i in range(m-1):
+26            if index < n and word1[i] == word2[index]:
+27                left.append(i)
+28                index += 1
+29            elif len(left) < n and suffix[i+1] <= index + 1:
+30                left.append(i)
+31                r_index = index + 1
+32                for j in range(i+1, m):
+33                    if r_index < n and word1[j] == word2[r_index]:
+34                        left.append(j)
+35                        r_index += 1
+36                return left
+37        
+38        if len(left) == n: return left
+39        elif len(left) == n-1 and left and left[-1] != m-1: return left + [m-1]
+40        return []
