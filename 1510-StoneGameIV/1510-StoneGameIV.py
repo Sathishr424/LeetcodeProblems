@@ -1,4 +1,4 @@
-# Last updated: 8/10/2026, 1:51:15 PM
+# Last updated: 8/10/2026, 1:52:14 PM
 1squares = []
 2num = 1
 3N = 10**5
@@ -14,16 +14,12 @@
 13
 14            for num in squares:
 15                if num > rem: break
-16                if alice:
-17                    if rec(rem - num, False): return True
-18                else:
-19                    if not rec(rem - num, True): return False
+16                if rec(rem - num, not alice) == alice: return alice
+17
+18            return not alice
+19
 20
-21            return not alice
-22
+21        ans = rec(n, True)
+22        rec.cache_clear()
 23
-24        ans = rec(n, True)
-25        rec.cache_clear()
-26
-27        return ans
-28
+24        return ans
