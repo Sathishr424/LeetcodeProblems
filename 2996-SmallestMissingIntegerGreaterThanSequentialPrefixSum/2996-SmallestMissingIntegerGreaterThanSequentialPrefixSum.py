@@ -1,4 +1,4 @@
-# Last updated: 8/11/2026, 6:17:22 PM
+# Last updated: 8/11/2026, 6:17:33 PM
 1class Solution:
 2    def missingInteger(self, nums: List[int]) -> int:
 3        n = len(nums)
