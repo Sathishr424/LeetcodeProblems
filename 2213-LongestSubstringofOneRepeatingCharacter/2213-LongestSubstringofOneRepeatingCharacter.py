@@ -1,4 +1,4 @@
-# Last updated: 8/13/2026, 1:36:30 PM
+# Last updated: 8/13/2026, 1:39:45 PM
 1class Node:
 2    __slots__ = ('left', 'right', 'best')
 3
@@ -41,34 +41,36 @@
 40        self.tree[index] = self.mergeNodes(left, right, l, mid, r)
 41        return self.tree[index]
 42
-43    def update(self, index, l, r, left, right):
-44        if r < left or l > right:
+43    def update(self, index, l, r, pos):
+44        if l == r:
 45            return self.tree[index]
 46
-47        if l >= left and r <= right:
-48            return self.tree[index]
-49
-50        mid = (l + r) // 2
-51        left_node = self.update(index * 2 + 1, l, mid, left, right)
-52        right_node = self.update(index * 2 + 2, mid + 1, r, left, right)
-53
-54        self.tree[index] = self.mergeNodes(left_node, right_node, l, mid, r)
-55        return self.tree[index]
-56
-57class Solution:
-58    def longestRepeating(self, s: str, queryCharacters: str, queryIndices: List[int]) -> List[int]:
-59        n = len(s)
-60        k = len(queryCharacters)
-61        s = list(s)
-62
-63        ans = []
-64        segTree = SegmentTree(s)
-65
-66        for i in range(k):
-67            index = queryIndices[i]
-68            s[index] = queryCharacters[i]
-69
-70            node = segTree.update(0, 0, n-1, index, index)
-71            ans.append(node.best)
-72
-73        return ans
+47        mid = (l + r) // 2
+48
+49        if pos <= mid:
+50            left = self.update(index * 2 + 1, l, mid, pos)
+51            right = self.tree[index * 2 + 2]
+52        else:
+53            left = self.tree[index * 2 + 1]
+54            right = self.update(index * 2 + 2, mid + 1, r, pos)
+55
+56        self.tree[index] = self.mergeNodes(left, right, l, mid, r)
+57        return self.tree[index]
+58
+59class Solution:
+60    def longestRepeating(self, s: str, queryCharacters: str, queryIndices: List[int]) -> List[int]:
+61        n = len(s)
+62        k = len(queryCharacters)
+63        s = list(s)
+64
+65        ans = []
+66        segTree = SegmentTree(s)
+67
+68        for i in range(k):
+69            index = queryIndices[i]
+70            s[index] = queryCharacters[i]
+71
+72            node = segTree.update(0, 0, n-1, index)
+73            ans.append(node.best)
+74
+75        return ans
