@@ -1,88 +1,76 @@
-# Last updated: 8/13/2026, 1:30:10 PM
-1from typing import *
-2from collections import defaultdict, deque, Counter
-3from functools import lru_cache, cache
-4from itertools import accumulate, combinations, permutations, product
-5from bisect import bisect_left, bisect_right, insort
-6from heapq import *
-7from math import *
-8from string import ascii_lowercase, ascii_uppercase
-9from sortedcontainers import SortedList
-10import random
-11import re
+# Last updated: 8/13/2026, 1:33:07 PM
+1class Node:
+2    def __init__(self, left=0, right=0, best=0):
+3        self.left = left
+4        self.right = right
+5        self.best = best
+6
+7class SegmentTree:
+8    def __init__(self, nums):
+9        self.nums = nums
+10        self.n = len(nums)
+11        self.m = self.n * 4
 12
-13class Node:
-14    def __init__(self, left=0, right=0, best=0):
-15        self.left = left
-16        self.right = right
-17        self.best = best
-18
-19class SegmentTree:
-20    def __init__(self, nums):
-21        self.nums = nums
-22        self.n = len(nums)
-23        self.m = self.n * 4
-24
-25        self.indexes = [-1 for _ in range(self.n)]
-26        self.tree = [None for _ in range(self.m)]
-27        self.build(0, 0, self.n-1)
-28
-29    def mergeNodes(self, left, right, l, mid, r):
-30        node = Node(left.left, right.right, max(left.best, right.best))
-31
-32        if self.nums[mid] == self.nums[mid + 1]:
-33            node.best = max(node.best, left.right + right.left)
-34
-35            if left.left == (mid - l + 1):
-36                node.left = left.left + right.left
-37            if right.left == (r - mid):
-38                node.right = right.left + left.right
-39
-40        return node
-41
-42    def build(self, index, l, r):
-43        if l == r:
-44            self.tree[index] = Node(1, 1, 1)
-45            self.indexes[l] = index
+13        self.indexes = [-1 for _ in range(self.n)]
+14        self.tree = [None for _ in range(self.m)]
+15        self.build(0, 0, self.n-1)
+16
+17    def mergeNodes(self, left, right, l, mid, r):
+18        node = Node(left.left, right.right, max(left.best, right.best))
+19
+20        if self.nums[mid] == self.nums[mid + 1]:
+21            node.best = max(node.best, left.right + right.left)
+22
+23            if left.left == (mid - l + 1):
+24                node.left = left.left + right.left
+25            if right.left == (r - mid):
+26                node.right = right.left + left.right
+27
+28        return node
+29
+30    def build(self, index, l, r):
+31        if l == r:
+32            self.tree[index] = Node(1, 1, 1)
+33            self.indexes[l] = index
+34            return self.tree[index]
+35
+36        mid = (l + r) // 2
+37
+38        left = self.build(index * 2 + 1, l, mid)
+39        right = self.build(index * 2 + 2, mid + 1, r)
+40
+41        self.tree[index] = self.mergeNodes(left, right, l, mid, r)
+42        return self.tree[index]
+43
+44    def update(self, index, l, r, left, right):
+45        if r < left or l > right:
 46            return self.tree[index]
 47
-48        mid = (l + r) // 2
-49
-50        left = self.build(index * 2 + 1, l, mid)
-51        right = self.build(index * 2 + 2, mid + 1, r)
-52
-53        self.tree[index] = self.mergeNodes(left, right, l, mid, r)
-54        return self.tree[index]
-55
-56    def update(self, index, l, r, left, right):
-57        if r < left or l > right:
-58            return self.tree[index]
-59
-60        if l >= left and r <= right:
-61            return self.tree[index]
-62
-63        mid = (l + r) // 2
-64        left_node = self.update(index * 2 + 1, l, mid, left, right)
-65        right_node = self.update(index * 2 + 2, mid + 1, r, left, right)
+48        if l >= left and r <= right:
+49            return self.tree[index]
+50
+51        mid = (l + r) // 2
+52        left_node = self.update(index * 2 + 1, l, mid, left, right)
+53        right_node = self.update(index * 2 + 2, mid + 1, r, left, right)
+54
+55        self.tree[index] = self.mergeNodes(left_node, right_node, l, mid, r)
+56        return self.tree[index]
+57
+58class Solution:
+59    def longestRepeating(self, s: str, queryCharacters: str, queryIndices: List[int]) -> List[int]:
+60        n = len(s)
+61        k = len(queryCharacters)
+62        s = list(s)
+63
+64        ans = []
+65        segTree = SegmentTree(s)
 66
-67        self.tree[index] = self.mergeNodes(left_node, right_node, l, mid, r)
-68        return self.tree[index]
-69
-70class Solution:
-71    def longestRepeating(self, s: str, queryCharacters: str, queryIndices: List[int]) -> List[int]:
-72        n = len(s)
-73        k = len(queryCharacters)
-74        s = list(s)
+67        for i in range(k):
+68            index = queryIndices[i]
+69            s[index] = queryCharacters[i]
+70
+71            node = segTree.update(0, 0, n-1, index, index)
+72            ans.append(node.best)
+73
+74        return ans
 75
-76        ans = []
-77        segTree = SegmentTree(s)
-78
-79        for i in range(k):
-80            index = queryIndices[i]
-81            s[index] = queryCharacters[i]
-82
-83            node = segTree.update(0, 0, n-1, index, index)
-84            ans.append(node.best)
-85
-86        return ans
-87
