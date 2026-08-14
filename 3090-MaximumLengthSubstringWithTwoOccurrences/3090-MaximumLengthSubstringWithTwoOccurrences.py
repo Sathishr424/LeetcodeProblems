@@ -1,4 +1,4 @@
-# Last updated: 8/14/2026, 9:21:44 AM
+# Last updated: 8/14/2026, 9:22:28 AM
 1class Solution:
 2    def maximumLengthSubstring(self, s: str) -> int:
 3        n = len(s)
@@ -19,7 +19,6 @@
 18                    cnt -= 1
 19                left += 1
 20
-21            window = (i - left + 1)
-22            best = max(best, window)
-23
-24        return best
+21            best = max(best, i - left + 1)
+22
+23        return best
