@@ -1,4 +1,4 @@
-# Last updated: 8/17/2026, 4:28:57 AM
+# Last updated: 8/17/2026, 4:33:53 AM
 1class Solution:
 2    def go(self, one, two, zero, curr):
 3        alice = False
@@ -27,28 +27,26 @@
 26            alice = not alice
 27
 28    def stoneGameIX(self, stones: List[int]) -> bool:
-29        n = len(stones)
-30
-31        zero = 0
-32        one = 0
-33        two = 0
-34
-35        for stone in stones:
-36            rem = stone % 3
-37            if rem == 0:
-38                zero += 1
-39            elif rem == 1:
-40                one += 1
-41            else:
-42                two += 1
+29        zero = 0
+30        one = 0
+31        two = 0
+32
+33        for stone in stones:
+34            rem = stone % 3
+35            if rem == 0:
+36                zero += 1
+37            elif rem == 1:
+38                one += 1
+39            else:
+40                two += 1
+41
+42        curr = 0
 43
-44        curr = 0
-45
-46        if one and two:
-47            return self.go(one - 1, two, zero, 1) or self.go(one, two - 1, zero, 2)
-48        elif one:
-49            return self.go(one - 1, two, zero, 1)
-50        elif two:
-51            return self.go(one, two - 1, zero, 2)
-52        else:
-53            return False
+44        if one and two:
+45            return self.go(one - 1, two, zero, 1) or self.go(one, two - 1, zero, 2)
+46        elif one:
+47            return self.go(one - 1, two, zero, 1)
+48        elif two:
+49            return self.go(one, two - 1, zero, 2)
+50        else:
+51            return False
