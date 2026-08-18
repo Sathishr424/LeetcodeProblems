@@ -1,4 +1,4 @@
-# Last updated: 8/18/2026, 2:06:51 PM
+# Last updated: 8/18/2026, 2:09:41 PM
 1class Solution:
 2    def largestInteger(self, nums: List[int], k: int) -> int:
 3        n = len(nums)
@@ -7,7 +7,7 @@
 6        freq =  Counter(nums)
 7
 8        if k == 1:
-9            for num in sorted(list(set(freq)), reverse=True):
+9            for num in sorted(list(freq), reverse=True):
 10                if freq[num] == 1: return num
 11            return -1
 12
