@@ -1,31 +1,22 @@
-# Last updated: 8/19/2026, 5:58:28 AM
-1choices = [[1, 2, 3, 4], [3, 4, 5, 6], [5, 6, 7, 8]]
-2class Solution:
-3    def maxNumberOfFamilies(self, n: int, reservedSeats: List[List[int]]) -> int:
-4        rows = defaultdict(lambda: [0] * 10)
+# Last updated: 8/19/2026, 6:35:17 AM
+1class Solution:
+2    def maxNumberOfFamilies(self, n: int, reservedSeats: List[List[int]]) -> int:
+3        left, middle, right = 0b0111100000, 0b0001111000, 0b0000011110
+4        rows = defaultdict(int)
 5        for row, seat in reservedSeats:
-6            rows[row][seat - 1] = 1
+6            rows[row] |= 1 << (seat - 1)
 7
-8        sorted_rows = sorted(rows.keys())
-9        prev = 0
-10        ans = 0
-11        for row in sorted_rows:
-12            diff = max(0, row - prev - 1)
-13            ans += diff * 2
-14            prev = row
-15
-16        diff = max(0, n - prev)
-17        ans += diff * 2
-18
-19        for row in sorted_rows:
-20            c = 0
-21            while c < 3:
-22                choice = choices[c]
-23                for seat in choice:
-24                    if rows[row][seat] == 1: break
-25                else:
-26                    ans += 1
-27                    c += 1
-28                c += 1
-29
-30        return ans
+8        ans = (n - len(rows)) * 2
+9        for row in rows.values():
+10            # print(format(row & left, '010b'), format(row & middle, '010b'), format(row & right, '010b'))
+11            if row & left == 0 and row & right == 0:
+12                ans += 2
+13            elif row & left == 0:
+14                ans += 1
+15            elif row & right == 0:
+16                ans += 1
+17            elif row & middle == 0:
+18                ans += 1
+19            # print(format(row, '010b'), ans)
+20
+21        return ans
