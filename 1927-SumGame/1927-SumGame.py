@@ -1,4 +1,4 @@
-# Last updated: 8/25/2026, 1:53:28 PM
+# Last updated: 8/25/2026, 2:01:03 PM
 1class Solution:
 2    def sumGame(self, num: str) -> bool:
 3        n = len(num)
@@ -28,46 +28,34 @@
 27        if rem % 2 == 0:
 28            alice = True
 29            while rem:
-30                if left > right:
-31                    if alice:
-32                        if left_q:
-33                            left += 9
-34                            left_q -= 1
-35                        else:
-36                            right_q -= 1
-37                    else:
-38                        if right_q:
-39                            right += 9
-40                            right_q -= 1
-41                        else:
-42                            left_q -= 1
-43                elif right > left:
-44                    if not alice:
-45                        if left_q:
-46                            left += 9
-47                            left_q -= 1
-48                        else:
-49                            right_q -= 1
-50                    else:
-51                        if right_q:
-52                            right += 9
-53                            right_q -= 1
-54                        else:
-55                            left_q -= 1
-56                else:
-57                    if alice:
-58                        if left_q:
-59                            left += 9
-60                            left_q -= 1
-61                        else:
-62                            right += 9
-63                            right_q -= 1
-64                    else:
-65                        if left_q: left_q -= 1
-66                        else: right_q -= 1
-67                rem -= 1
-68                alice = not alice
-69
-70            return left != right
-71
-72        return True
+30                if left != right:
+31                    condition = (left > right and alice) or (not alice and right > left)
+32                    if condition:
+33                        if left_q:
+34                            left += 9
+35                            left_q -= 1
+36                        else:
+37                            right_q -= 1
+38                    else:
+39                        if right_q:
+40                            right += 9
+41                            right_q -= 1
+42                        else:
+43                            left_q -= 1
+44                else:
+45                    if alice:
+46                        if left_q:
+47                            left += 9
+48                            left_q -= 1
+49                        else:
+50                            right += 9
+51                            right_q -= 1
+52                    else:
+53                        if left_q: left_q -= 1
+54                        else: right_q -= 1
+55                rem -= 1
+56                alice = not alice
+57
+58            return left != right
+59
+60        return True
