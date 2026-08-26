@@ -1,4 +1,4 @@
-# Last updated: 8/26/2026, 3:51:18 PM
+# Last updated: 8/26/2026, 9:01:16 PM
 1class Solution:
 2    def shortestBeautifulSubstring(self, s: str, k: int) -> str:
 3        n = len(s)
