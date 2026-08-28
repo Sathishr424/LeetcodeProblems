@@ -1,4 +1,4 @@
-# Last updated: 8/28/2026, 3:40:40 PM
+# Last updated: 8/28/2026, 3:42:48 PM
 1class Solution:
 2    def lexPalindromicPermutation(self, s: str, target: str) -> str:
 3        n = len(s)
@@ -25,13 +25,13 @@
 24
 25            return False
 26
-27        def buildRem(index, curr):
-28            odd = ""
-29            for c in range(26):
-30                if freq[c] % 2:
-31                    odd = chr(c + ord('a'))
-32                    break
-33
+27        odd = ""
+28        for c in range(26):
+29            if freq[c] % 2:
+30                odd = chr(c + ord('a'))
+31                break
+32
+33        def buildRem(index, curr):
 34            while index < n // 2:
 35                for c in range(26):
 36                    if freq[c] > 1:
@@ -40,49 +40,43 @@
 39                        break
 40                index += 1
 41
-42            if n % 2:
-43                curr += odd
-44
-45            return curr
-46
-47        def rec(index, curr):
-48            if n % 2:
-49                if index == half - 1:
-50                    orig = ord(target[index]) - ord('a')
-51                    c = orig
-52
-53                    if freq[c] == 1:
-54                        curr += target[index]
-55                        if isLargerRightHalf(curr): return curr
-56                    else:
-57                        c += 1
-58                        while c < 26 and freq[c] != 1:
-59                            c += 1
-60
-61                        if c < 26: return curr + chr(c + ord('a'))
-62                    return ""
-63            elif index == half:
-64                if isLargerRightHalf(curr): return curr
-65                return ""
-66
-67            orig = ord(target[index]) - ord('a')
-68            c = orig
-69
-70            if freq[c] > 1:
-71                freq[c] -= 2
-72                best = rec(index + 1, curr + target[index])
-73                if best != "": return best
-74                freq[c] += 2
-75
-76            c += 1
-77            while c < 26 and freq[c] <= 1:
-78                c += 1
+42            return curr + odd
+43
+44        def rec(index, curr):
+45            if n % 2:
+46                if index == half - 1:
+47                    c = ord(target[index]) - ord('a')
+48
+49                    if freq[c] == 1:
+50                        curr += target[index]
+51                        if isLargerRightHalf(curr): return curr
+52                    else:
+53                        c += 1
+54                        while c < 26 and freq[c] != 1:
+55                            c += 1
+56
+57                        if c < 26: return curr + chr(c + ord('a'))
+58                    return ""
+59            elif index == half:
+60                if isLargerRightHalf(curr): return curr
+61                return ""
+62
+63            c = ord(target[index]) - ord('a')
+64
+65            if freq[c] > 1:
+66                freq[c] -= 2
+67                best = rec(index + 1, curr + target[index])
+68                if best != "": return best
+69                freq[c] += 2
+70
+71            c += 1
+72            while c < 26 and freq[c] <= 1:
+73                c += 1
+74
+75            if c < 26: 
+76                freq[c] -= 2
+77                return buildRem(index + 1, curr + chr(c + ord('a')))
+78            return ""
 79
-80            if c < 26: 
-81                freq[c] -= 2
-82                return buildRem(index + 1, curr + chr(c + ord('a')))
-83            return ""
-84
-85        best = rec(0, "")
-86        # print('half', best)
-87        return best + best[:n//2][::-1]
+80        best = rec(0, "")
+81        return best + best[:n//2][::-1]
