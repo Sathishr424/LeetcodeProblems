@@ -1,53 +1,46 @@
-# Last updated: 9/1/2026, 7:12:27 PM
+# Last updated: 9/1/2026, 7:19:15 PM
 1class Solution:
-2    def minMoves(self, cr: List[str], energy: int) -> int:
-3        m = len(cr)
-4        n = len(cr[0])
+2    def minMoves(self, classroom: List[str], energy: int) -> int:
+3        m = len(classroom)
+4        n = len(classroom[0])
 5
-6        pos = [0, 0]
-7        litter = 0
-8        DIR = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-9        grid = [[0] * n for _ in range(m)]
-10
-11        for i in range(m):
-12            for j in range(n):
-13                if cr[i][j] == 'S':
-14                    pos = [i, j]
-15                elif cr[i][j] == 'L':
-16                    grid[i][j] = litter
-17                    litter += 1
-18        full_litter = (1 << litter) - 1
+6        index = 0
+7        litters = [[-1] * n for _ in range(m)]
+8        l_index = 0
+9        for i in range(m):
+10            for j in range(n):
+11                if classroom[i][j] == 'S':
+12                    index = i * n + j
+13                elif classroom[i][j] == 'L':
+14                    litters[i][j] = l_index
+15                    l_index += 1
+16
+17        DIR = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+18        full_mask = (1 << l_index) - 1
 19
-20        stack = deque([(pos[0], pos[1], 0, energy, 0)])
-21        visited = {}
+20        stack = [(0, index // n, index % n, energy, 0)]
+21        dis = [[[-1 for _ in range(full_mask + 1)] for _ in range(n)] for _ in range(m)]
 22
-23        # print(format(full_litter, '010b'))
-24        while stack:
-25            i, j, litters, e, move = stack.popleft()
-26            # print(i, j, format(litters, '010b'), e, move)
-27            # if move > ret: break
-28            if litters == full_litter:
-29                return move
-30                # ret = min(ret, move)
-31                # continue
-32            key = (i, j, litters)
-33            if key in visited and visited[key] >= e: continue
-34            if e == 0: continue
-35            visited[key] = e
-36        
-37            for i2, j2 in DIR:
-38                i2 += i
-39                j2 += j
-40            
-41                if 0 <= i2 < m and 0 <= j2 < n and cr[i2][j2] != 'X':
-42                    curr = cr[i2][j2]
-43                    new_e = e - 1
-44                    new_litters = litters
-45                    if curr == 'L':
-46                        new_litters |= 1 << grid[i2][j2]
-47                    elif curr == 'R':
-48                        new_e = energy
-49                    
-50                    stack.append((i2, j2, new_litters, new_e, move + 1))
-51        
-52        return -1
+23        while stack:
+24            new_stack = []
+25            for moves, i, j, rem, mask in stack:
+26                if mask == full_mask: return moves
+27                if rem == 0 or dis[i][j][mask] >= rem: continue
+28                dis[i][j][mask] = rem
+29
+30                for i2, j2 in DIR:
+31                    i2 += i
+32                    j2 += j
+33
+34                    if 0 <= i2 < m and 0 <= j2 < n and classroom[i2][j2] != 'X':
+35                        new_rem = rem - 1
+36                        new_mask = mask
+37                        if classroom[i2][j2] == 'R':
+38                            new_rem = energy
+39                        elif classroom[i2][j2] == 'L':
+40                            new_mask |= (1 << litters[i2][j2])
+41
+42                        new_stack.append((moves + 1, i2, j2, new_rem, new_mask))
+43            stack = new_stack
+44
+45        return -1
