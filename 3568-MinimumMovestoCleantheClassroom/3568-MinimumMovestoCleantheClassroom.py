@@ -1,4 +1,4 @@
-# Last updated: 9/1/2026, 7:19:15 PM
+# Last updated: 9/1/2026, 7:22:11 PM
 1class Solution:
 2    def minMoves(self, classroom: List[str], energy: int) -> int:
 3        m = len(classroom)
@@ -25,22 +25,23 @@
 24            new_stack = []
 25            for moves, i, j, rem, mask in stack:
 26                if mask == full_mask: return moves
-27                if rem == 0 or dis[i][j][mask] >= rem: continue
-28                dis[i][j][mask] = rem
-29
-30                for i2, j2 in DIR:
-31                    i2 += i
-32                    j2 += j
-33
-34                    if 0 <= i2 < m and 0 <= j2 < n and classroom[i2][j2] != 'X':
-35                        new_rem = rem - 1
-36                        new_mask = mask
-37                        if classroom[i2][j2] == 'R':
-38                            new_rem = energy
-39                        elif classroom[i2][j2] == 'L':
-40                            new_mask |= (1 << litters[i2][j2])
-41
-42                        new_stack.append((moves + 1, i2, j2, new_rem, new_mask))
-43            stack = new_stack
-44
-45        return -1
+27                if rem == 0: continue
+28
+29                for i2, j2 in DIR:
+30                    i2 += i
+31                    j2 += j
+32
+33                    if 0 <= i2 < m and 0 <= j2 < n and classroom[i2][j2] != 'X':
+34                        new_rem = rem - 1
+35                        new_mask = mask
+36                        if classroom[i2][j2] == 'R':
+37                            new_rem = energy
+38                        elif classroom[i2][j2] == 'L':
+39                            new_mask |= (1 << litters[i2][j2])
+40
+41                        if dis[i2][j2][new_mask] < new_rem:
+42                            dis[i2][j2][new_mask] = new_rem
+43                            new_stack.append((moves + 1, i2, j2, new_rem, new_mask))
+44            stack = new_stack
+45
+46        return -1
