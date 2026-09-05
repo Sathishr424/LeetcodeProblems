@@ -1,4 +1,4 @@
-# Last updated: 9/4/2026, 10:01:09 AM
+# Last updated: 9/5/2026, 3:49:37 PM
 1class Solution:
 2    def firstStableIndex(self, nums: list[int], k: int) -> int:
 3        n = len(nums)
