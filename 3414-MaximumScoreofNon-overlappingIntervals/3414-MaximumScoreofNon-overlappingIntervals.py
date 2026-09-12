@@ -1,4 +1,4 @@
-# Last updated: 9/12/2026, 10:06:32 AM
+# Last updated: 9/12/2026, 10:10:09 AM
 1class Solution:
 2    def maximumWeight(self, intervals: List[List[int]]) -> List[int]:
 3        n = len(intervals)
@@ -18,7 +18,7 @@
 17            if index == n or rem == 0: return 0, []
 18
 19            w, arr = rec(index + 1, rem)
-20            right = bisect_right(indexes, new_intervals[index][1], lo=index)
+20            right = bisect_right(indexes, new_intervals[index][1])
 21            w2, arr2 = rec(right, rem - 1)
 22            w2 += new_intervals[index][2]
 23            arr2 = sorted([new_intervals[index][3]] + arr2)
