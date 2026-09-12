@@ -1,29 +1,35 @@
-# Last updated: 9/12/2026, 11:01:24 PM
-1INF = 10**20
-2prefix = []
-3s = 1
-4N = 10**5
-5curr = 1
-6
-7while s <= N:
-8    prefix.append(s)
-9    curr += 1
-10    s += curr
+# Last updated: 9/12/2026, 11:01:45 PM
+1class Solution:
+2    def distantSubarrays(self, nums: list[int], goal: int, k: int) -> int:
+3        n = len(nums)
+4        if k == 0: return n * (n + 1) // 2
+5
+6        sl = SortedList()
+7        tot = 0
+8        for i in range(n):
+9            tot += nums[i]
+10            sl.add(tot)
 11
-12@cache
-13def rec(rem):
-14    if rem == 0: return 0
-15    index = bisect_right(prefix, rem)
-16    ans = rec(rem - prefix[index-1]) + index
-17    return ans + 1
-18
-19class Solution:
-20    def minDays(self, n: int) -> int:
-21        index = bisect_right(prefix, n)
-22
-23        best = INF
-24        for i in range(index):
-25            best = min(best, rec(n - prefix[i]) + i + 1)
-26
-27        return int(best)
-28
+12        # x - y >= k
+13        # x - 4 >= 2
+14        #
+15        # for i in range(n):
+16        #     tot = 0
+17        #     for j in range(i, n):
+18        #         tot += nums[j]
+19        #         print((i, j), nums[i:j+1], tot, abs(tot - goal) >= k)
+20        
+21        ans = 0
+22        tot = 0
+23        for i in range(n):
+24            index = sl.bisect_left(goal + k + tot)
+25            window = len(sl) - index
+26            ans += window
+27
+28            index = sl.bisect_left(goal - k + tot + 1)
+29            ans += index
+30
+31            tot += nums[i]
+32            sl.remove(tot)
+33
+34        return ans
