@@ -1,22 +1,29 @@
-# Last updated: 9/12/2026, 11:01:07 PM
-1class Solution:
-2    def countSpecialIntegers(self, nums: list[int]) -> int:
-3        indexes = defaultdict(list)
-4        ans = 0
-5
-6        for i, num in enumerate(nums):
-7            indexes[num].append(i)
-8
-9        for num in indexes:
-10            if len(indexes[num]) < 3: continue
+# Last updated: 9/12/2026, 11:01:24 PM
+1INF = 10**20
+2prefix = []
+3s = 1
+4N = 10**5
+5curr = 1
+6
+7while s <= N:
+8    prefix.append(s)
+9    curr += 1
+10    s += curr
 11
-12            m = len(indexes[num])
-13            ind = indexes[num]
-14            diff = ind[1] - ind[0]
-15
-16            for i in range(2, m):
-17                if ind[i] - ind[i - 1] != diff: break
-18            else:
-19                ans += 1
-20
-21        return ans
+12@cache
+13def rec(rem):
+14    if rem == 0: return 0
+15    index = bisect_right(prefix, rem)
+16    ans = rec(rem - prefix[index-1]) + index
+17    return ans + 1
+18
+19class Solution:
+20    def minDays(self, n: int) -> int:
+21        index = bisect_right(prefix, n)
+22
+23        best = INF
+24        for i in range(index):
+25            best = min(best, rec(n - prefix[i]) + i + 1)
+26
+27        return int(best)
+28
