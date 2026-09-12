@@ -1,4 +1,4 @@
-# Last updated: 9/12/2026, 10:10:09 AM
+# Last updated: 9/12/2026, 10:11:33 AM
 1class Solution:
 2    def maximumWeight(self, intervals: List[List[int]]) -> List[int]:
 3        n = len(intervals)
@@ -6,7 +6,7 @@
 5        new_intervals.sort()
 6        indexes = [x for x, _, _, _ in new_intervals]
 7
-8        def isSmallest(a1, a2):
+8        def isFirstSmallest(a1, a2):
 9            for i in range(min(len(a1), len(a2))):
 10                if a1[i] < a2[i]: return True
 11                elif a2[i] < a1[i]: return False
@@ -27,7 +27,7 @@
 26                return w, arr
 27            elif w2 > w:
 28                return w2, arr2
-29            elif isSmallest(arr, arr2):
+29            elif isFirstSmallest(arr, arr2):
 30                return w, arr
 31            else:
 32                return w2, arr2
