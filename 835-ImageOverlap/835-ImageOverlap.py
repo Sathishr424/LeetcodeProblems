@@ -1,4 +1,4 @@
-# Last updated: 9/13/2026, 7:27:03 PM
+# Last updated: 9/13/2026, 7:29:05 PM
 1class Solution:
 2    def largestOverlap(self, img1: List[List[int]], img2: List[List[int]]) -> int:
 3        n = len(img1)
