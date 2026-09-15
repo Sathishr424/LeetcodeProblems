@@ -1,28 +1,26 @@
-# Last updated: 9/15/2026, 4:54:53 PM
+# Last updated: 9/15/2026, 4:55:01 PM
 1class Solution:
-2    def maxPalindromes(self, s: str, k: int) -> int:
-3        def check(l: int, r: int) -> bool:
-4            while l < r:
-5                if s[l] != s[r]:
-6                    return False
-7                l += 1
-8                r -= 1
-9            return True
+2    def maxPalindromes(self, s: str, min_length: int) -> int:
+3        n = len(s)
+4        if min_length == 1: return n
+5
+6        dp = [[False] * n for _ in range(n + 1)]
+7        for k in range(2):
+8            for i in range(n):
+9                dp[k][i] = True
 10
-11        n = len(s)
-12        ans = 0
-13        start = 0
-14
-15        for r in range(k - 1, n):
-16            l = r - k + 1
-17            if l >= start and check(l, r):
-18                ans += 1
-19                start = r + 1
-20                continue
-21
-22            l = r - k
-23            if l >= start and check(l, r):
-24                ans += 1
-25                start = r + 1
-26
-27        return ans
+11        palindrome = [[] for _ in range(n)]
+12        for k in range(2, n + 1):
+13            for i in range(k-1, n):
+14                dp[k][i] = s[i] == s[i-k+1] and dp[k-2][i-1]
+15                if k >= min_length and dp[k][i]:
+16                    palindrome[i-k+1].append(i)
+17
+18
+19        dp_two = [0] * (n+1)
+20        for left in range(n):
+21            dp_two[left] = max(dp_two[left], dp_two[left - 1])
+22            for right in palindrome[left]:
+23                dp_two[right + 1] = max(dp_two[right + 1], dp_two[left] + 1)
+24
+25        return max(dp_two[-1], dp_two[-2])
