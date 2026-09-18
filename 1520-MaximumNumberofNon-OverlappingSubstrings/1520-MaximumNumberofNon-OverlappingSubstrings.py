@@ -1,4 +1,4 @@
-# Last updated: 9/18/2026, 2:58:07 PM
+# Last updated: 9/18/2026, 2:59:45 PM
 1class Solution:
 2    def maxNumOfSubstrings(self, s: str) -> list[str]:
 3        n = len(s)
@@ -10,56 +10,52 @@
 9            if indexes[a] == -1:
 10                indexes[a] = i
 11
-12        cannot_add = [0] * 26
-13        curr = [0] * 26
-14        ans = []
-15        last = 0
-16        for i in range(n):
-17            a = ord(s[i]) - ord('a')
-18            curr[a] += 1
-19
-20            for b in range(26):
-21                if curr[b]:
-22                    if curr[b] != freq[b]: break
-23            else:
-24                ans.append(s[last:i + 1])
-25                curr = [0] * 26
-26                last = i + 1
-27                continue
-28
-29            left = indexes[a]
-30            if curr[a] == freq[a] and (i - left + 1) == freq[a]:
-31                ans.append(s[left:i+1])
-32                for b in range(26):
-33                    if b == a: continue
-34                    cannot_add[b] = 1
-35                curr = [0] * 26
-36                last = i + 1
-37
-38        if last < n:
-39            for j in range(last, n):
-40                if cannot_add[ord(s[j]) - ord('a')]: break
-41            else:
-42                ans.append(s[last:])
-43
-44        new_ans = []
-45        for curr in ans:
-46            while len(curr) > 2 and curr[0] == curr[-1]:
-47                a = ord(curr[0]) - ord('a')
-48                l = 0 
-49                r = len(curr) - 1
-50
-51                while l < r and curr[l] == curr[0]:
-52                    l += 1
-53
-54                while r > l and curr[r] == curr[-1]:
-55                    r -= 1
-56
-57                cnt = l + (len(curr) - r - 1)
-58                if cnt == freq[a]:
-59                    curr = curr[l:r+1]
-60                else:
-61                    break
-62            new_ans.append(curr)
-63
-64        return new_ans
+12        curr = [0] * 26
+13        ans = []
+14        last = 0
+15        for i in range(n):
+16            a = ord(s[i]) - ord('a')
+17            curr[a] += 1
+18
+19            for b in range(26):
+20                if curr[b]:
+21                    if curr[b] != freq[b]: break
+22            else:
+23                ans.append(s[last:i + 1])
+24                curr = [0] * 26
+25                last = i + 1
+26                continue
+27
+28            left = indexes[a]
+29            if curr[a] == freq[a] and (i - left + 1) == freq[a]:
+30                ans.append(s[left:i+1])
+31                curr = [0] * 26
+32                last = i + 1
+33
+34        if last < n:
+35            for j in range(last, n):
+36                if indexes[ord(s[j]) - ord('a')] < last: break
+37            else:
+38                ans.append(s[last:])
+39
+40        new_ans = []
+41        for curr in ans:
+42            while len(curr) > 2 and curr[0] == curr[-1]:
+43                a = ord(curr[0]) - ord('a')
+44                l = 0 
+45                r = len(curr) - 1
+46
+47                while l < r and curr[l] == curr[0]:
+48                    l += 1
+49
+50                while r > l and curr[r] == curr[-1]:
+51                    r -= 1
+52
+53                cnt = l + (len(curr) - r - 1)
+54                if cnt == freq[a]:
+55                    curr = curr[l:r+1]
+56                else:
+57                    break
+58            new_ans.append(curr)
+59
+60        return new_ans
