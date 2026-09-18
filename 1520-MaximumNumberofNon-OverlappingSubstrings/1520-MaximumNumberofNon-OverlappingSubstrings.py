@@ -1,4 +1,4 @@
-# Last updated: 9/18/2026, 2:59:45 PM
+# Last updated: 9/18/2026, 3:06:21 PM
 1class Solution:
 2    def maxNumOfSubstrings(self, s: str) -> list[str]:
 3        n = len(s)
@@ -11,7 +11,7 @@
 10                indexes[a] = i
 11
 12        curr = [0] * 26
-13        ans = []
+13        ranges = []
 14        last = 0
 15        for i in range(n):
 16            a = ord(s[i]) - ord('a')
@@ -21,14 +21,14 @@
 20                if curr[b]:
 21                    if curr[b] != freq[b]: break
 22            else:
-23                ans.append(s[last:i + 1])
+23                ranges.append((last, i))
 24                curr = [0] * 26
 25                last = i + 1
 26                continue
 27
 28            left = indexes[a]
 29            if curr[a] == freq[a] and (i - left + 1) == freq[a]:
-30                ans.append(s[left:i+1])
+30                ranges.append((left, i))
 31                curr = [0] * 26
 32                last = i + 1
 33
@@ -36,26 +36,27 @@
 35            for j in range(last, n):
 36                if indexes[ord(s[j]) - ord('a')] < last: break
 37            else:
-38                ans.append(s[last:])
+38                ranges.append((last, n-1))
 39
-40        new_ans = []
-41        for curr in ans:
-42            while len(curr) > 2 and curr[0] == curr[-1]:
-43                a = ord(curr[0]) - ord('a')
-44                l = 0 
-45                r = len(curr) - 1
-46
-47                while l < r and curr[l] == curr[0]:
-48                    l += 1
-49
-50                while r > l and curr[r] == curr[-1]:
-51                    r -= 1
-52
-53                cnt = l + (len(curr) - r - 1)
-54                if cnt == freq[a]:
-55                    curr = curr[l:r+1]
-56                else:
-57                    break
-58            new_ans.append(curr)
-59
-60        return new_ans
+40        ans = []
+41        for l, r in ranges:
+42            while r - l > 1 and s[l] == s[r]:
+43                match = s[l]
+44                L = l
+45                R = r
+46                a = ord(s[l]) - ord('a')
+47
+48                while l < r and s[l] == match:
+49                    l += 1
+50
+51                while r > l and s[r] == match:
+52                    r -= 1
+53
+54                cnt = (l - L) + (R - r)
+55                if cnt != freq[a]:
+56                    l = L
+57                    r = R
+58                    break
+59            ans.append(s[l:r+1])
+60
+61        return ans
