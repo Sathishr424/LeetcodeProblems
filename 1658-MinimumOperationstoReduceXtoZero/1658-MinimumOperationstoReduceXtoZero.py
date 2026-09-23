@@ -1,4 +1,4 @@
-# Last updated: 9/23/2026, 8:10:25 AM
+# Last updated: 9/23/2026, 8:11:20 AM
 1class Solution:
 2    def minOperations(self, nums: list[int], x: int) -> int:
 3        n = len(nums)
@@ -16,17 +16,16 @@
 15        prefix = 0
 16        for i in range(n):
 17            prefix += nums[i]
-18            if prefix > x: break
-19
-20            while right + 1 < n and prefix + suffix > x:
-21                right += 1
-22                suffix -= nums[right]
-23
-24            while right > i and prefix + suffix + nums[right] <= x:
-25                suffix += nums[right]
-26                right -= 1
-27
-28            if prefix + suffix == x:
-29                best = min(best, i + 1 + (n - right - 1))
-30
-31        return best if best <= n else -1
+18
+19            while right + 1 < n and prefix + suffix > x:
+20                right += 1
+21                suffix -= nums[right]
+22
+23            while right > i and prefix + suffix + nums[right] <= x:
+24                suffix += nums[right]
+25                right -= 1
+26
+27            if prefix + suffix == x:
+28                best = min(best, i + 1 + (n - right - 1))
+29
+30        return best if best <= n else -1
