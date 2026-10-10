@@ -1,9 +1,9 @@
-# Last updated: 10/9/2026, 7:01:23 PM
+# Last updated: 10/10/2026, 9:11:28 PM
 1class Solution:
 2    def minInsertions(self, s: str) -> int:
 3        opening = 0
 4        need = 0
-5        for i, char in enumerate(s):
+5        for char in s: 
 6            if char == '(':
 7                if opening % 2:
 8                    need += 1
