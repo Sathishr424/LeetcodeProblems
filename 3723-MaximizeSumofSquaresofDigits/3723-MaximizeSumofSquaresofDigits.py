@@ -1,4 +1,4 @@
-# Last updated: 10/14/2026, 2:56:40 PM
+# Last updated: 10/14/2026, 2:57:38 PM
 1class Solution:
 2    def maxSumOfSquares(self, num: int, sum: int) -> str:
 3        rem = num
@@ -11,4 +11,4 @@
 10            ret.append( str(can) )
 11            rem -= 1
 12
-13        return ''.join(ret) + '0' * rem if rem_sum == 0 else ""
+13        return ''.join(ret) + '0' * rem if rem_sum == 0 else ''
