@@ -1,47 +1,30 @@
-# Last updated: 10/17/2026, 9:49:13 PM
-1class Union:
-2    def __init__(self, n):
-3        self.parents = [i for i in range(n)]
-4        self.sizes = [1] * n
-5
-6    def find(self, x):
-7        if x != self.parents[x]:
-8            self.parents[x] = self.find(self.parents[x])
-9
-10        return self.parents[x]
-11
-12    def union(self, x, y):
-13        x = self.find(x)
-14        y = self.find(y)
-15
-16        if x == y: return True
+# Last updated: 10/17/2026, 10:26:14 PM
+1class Solution:
+2    def minSwaps(self, nums: List[int]) -> int:
+3        n = len(nums)
+4
+5        sorted_arr = []
+6        for i, num in enumerate(nums):
+7            s = 0
+8            while num:
+9                s += num % 10
+10                num //= 10
+11            sorted_arr.append((s, nums[i], i))
+12
+13        sorted_arr.sort()
+14        indexes = [0] * n
+15        for i in range(n):
+16            indexes[i] = sorted_arr[i][2]
 17
-18        if self.sizes[y] > self.sizes[x]:
-19            x, y = y, x
-20
-21        self.sizes[x] += self.sizes[y]
-22        self.parents[y] = x
-23        
-24        return False
-25
-26class Solution:
-27    def minSwaps(self, nums: List[int]) -> int:
-28        n = len(nums)
-29
-30        sorted_arr = []
-31        for i, num in enumerate(nums):
-32            s = 0
-33            while num:
-34                s += num % 10
-35                num //= 10
-36            sorted_arr.append((s, nums[i], i))
-37
-38        sorted_arr.sort()
-39        un = Union(n)
-40        ans = 0
-41        for i in range(n):
-42            if not un.union(i, sorted_arr[i][-1]):
-43                ans += 1
-44
-45        return ans
-46
+18        i = 0
+19        ans = 0
+20        while i < n:
+21            if indexes[i] != i:
+22                j = indexes[i]
+23                indexes[i] = indexes[j]
+24                indexes[j] = j
+25                ans += 1
+26            else:
+27                i += 1
+28
+29        return ans
