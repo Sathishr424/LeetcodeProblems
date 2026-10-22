@@ -1,4 +1,4 @@
-# Last updated: 10/22/2026, 4:31:43 PM
+# Last updated: 10/22/2026, 4:34:02 PM
 1class Solution:
 2    def minOperations(self, nums: List[int]) -> int:
 3        # [1, 0, 3, 4, 2]
