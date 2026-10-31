@@ -1,4 +1,4 @@
-# Last updated: 11/1/2026, 1:57:13 AM
+# Last updated: 11/1/2026, 1:58:35 AM
 1class Solution:
 2    def maximumGap(self, skill_: str, station_: str) -> int:
 3        m = len(skill_)
@@ -24,15 +24,13 @@
 23        for i, c in enumerate(station):
 24            indexes[c].append(i)
 25
-26        latest = [0] * m
-27        prev = n
-28        for i in range(m-1, -1, -1):
-29            c = skill[i]
-30            while indexes[c][-1] > prev:
-31                indexes[c].pop()
-32            latest[i] = indexes[c].pop()
-33            prev = latest[i]
-34            if i > 0: best = max(best, latest[i] - earliest[i-1])
-35        # print(earliest)
-36        # print(latest)
-37        return best
+26        prev = n
+27        for i in range(m-1, -1, -1):
+28            c = skill[i]
+29            while indexes[c][-1] > prev:
+30                indexes[c].pop()
+31            curr = indexes[c].pop()
+32            if i > 0: best = max(best, curr - earliest[i-1])
+33            prev = curr
+34            
+35        return best
