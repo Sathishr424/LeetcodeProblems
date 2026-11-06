@@ -1,4 +1,4 @@
-# Last updated: 11/6/2026, 2:42:25 PM
+# Last updated: 11/6/2026, 2:43:02 PM
 1class Solution:
 2    def countServers(self, n: int, logs: List[List[int]], x: int, queries: List[int]) -> List[int]:
 3        window = defaultdict(lambda: set())
@@ -11,7 +11,7 @@
 10        ans = []
 11        times = sorted(set(list(window.keys()) + queries))
 12
-13        freq = defaultdict(int)
+13        freq = [0] * (n + 1)
 14        sub = [defaultdict(int) for _ in range(len(times) + 1)]
 15        cnt = 0
 16        for i, t in enumerate(times):
