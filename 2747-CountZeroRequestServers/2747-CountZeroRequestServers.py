@@ -1,6 +1,6 @@
-# Last updated: 11/6/2026, 3:15:28 PM
+# Last updated: 11/6/2026, 3:15:47 PM
 1class Solution:
-2    def countServersSortedList(self, n: int, logs: List[List[int]], x: int, queries: List[int]) -> List[int]:
+2    def countServersHeap(self, n: int, logs: List[List[int]], x: int, queries: List[int]) -> List[int]:
 3        heap = [(t, s, 1) for s, t in logs]
 4        for t in queries: heap.append((t, n + 1, 0))
 5        heapq.heapify(heap)
