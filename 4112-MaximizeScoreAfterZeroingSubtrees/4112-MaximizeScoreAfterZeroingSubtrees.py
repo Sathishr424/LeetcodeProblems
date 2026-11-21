@@ -1,4 +1,4 @@
-# Last updated: 11/15/2026, 5:59:53 PM
+# Last updated: 11/21/2026, 10:25:06 PM
 1class Solution:
 2    def maxScore(self, parent: list[int], op: list[int], score: list[int]) -> int:
 3        n = len(parent)
