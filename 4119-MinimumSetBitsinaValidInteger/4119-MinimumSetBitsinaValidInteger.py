@@ -1,4 +1,4 @@
-# Last updated: 11/23/2026, 12:03:35 AM
+# Last updated: 11/23/2026, 12:05:28 AM
 1class Solution:
 2    def minSetBits(self, nums: list[int], k: int) -> int:
 3        m = 17
@@ -39,21 +39,15 @@
 38            vals.append(val)
 39
 40        def dfs(index, mask, bits):
-41            # print(index, mask, bits)
-42            if index == tot: return bits
-43            if mask & vals[index]: return dfs(index + 1, mask, bits)
-44            ans = inf
-45            change = False
-46            for b in range(m):
-47                bit = 1 << b
-48                if mask & bit == 0 and vals[index] & bit:
-49                    change = True
-50                    ans = min(ans, dfs(index + 1, mask | bit, bits + 1))
-51
-52            # if not change: 
-53            #     print("Not change:", bits, mask)
-54            #     ans = min(ans, bits)
-55            return ans
-56
-57        ans = dfs(0, 0, 0)
-58        return ans
+41            if index == tot: return bits
+42            if mask & vals[index]: return dfs(index + 1, mask, bits)
+43            ans = inf
+44            for b in range(m):
+45                bit = 1 << b
+46                if vals[index] & bit:
+47                    ans = min(ans, dfs(index + 1, mask | bit, bits + 1))
+48
+49            return ans
+50
+51        ans = dfs(0, 0, 0)
+52        return ans
