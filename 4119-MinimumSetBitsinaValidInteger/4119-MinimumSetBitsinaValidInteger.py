@@ -1,4 +1,4 @@
-# Last updated: 11/23/2026, 12:30:40 AM
+# Last updated: 11/23/2026, 12:31:51 AM
 1class Solution:
 2    def minSetBits(self, nums: list[int], k: int) -> int:
 3        m = 17
