@@ -1,4 +1,4 @@
-# Last updated: 11/27/2026, 12:56:03 PM
+# Last updated: 11/27/2026, 4:40:50 PM
 1class Solution:
 2    def maximumSaleItems(self, items: List[List[int]], budget: int) -> int:
 3        n = len(items)
@@ -19,6 +19,5 @@
 18                if b >= item[1]:
 19                    dp[i][b - item[1]][1] = max(dp[i][b - item[1]][1], dp[i][b][0] + free[i] + 1, dp[i][b][1] + 1)
 20                dp[i + 1][b][0] = max(dp[i + 1][b][0], dp[i][b][0], dp[i][b][1])
-21                ans = max(ans, dp[i][b][0], dp[i][b][1])
-22
-23        return ans
+21        
+22        return max(dp[n-1][0][0], dp[n-1][0][1])
