@@ -1,4 +1,4 @@
-# Last updated: 11/28/2026, 2:59:44 PM
+# Last updated: 11/28/2026, 3:02:04 PM
 1def count_divisibles(arr):
 2    mx = max(arr)
 3    freq = [0] * (mx + 1)
@@ -32,5 +32,4 @@
 31            ans += can * 2
 32            budget -= can * p
 33
-34        ans += budget // mn
-35        return ans
+34        return ans + budget // mn
